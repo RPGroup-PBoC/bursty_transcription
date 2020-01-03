@@ -1,0 +1,379 @@
+\documentclass[12pt]{article}%{amsart}
+\usepackage[top = 1.0in, bottom = 1.0in, left = 1.0in, right = 1.0in]{geometry}
+% See geometry.pdf to learn the layout options. There are lots.
+%\geometry{letterpaper}               % ... or a4paper or a5paper or ...
+%\geometry{landscape}             % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+%\usepackage{epstopdf}
+% \usepackage{caption}
+\usepackage{amsmath}
+% \usepackage{longtable}
+% \usepackage{tabu}
+% \usepackage{accents} %to get undertildes for vec & mat
+\usepackage{color} % for colored text
+% \usepackage[normalem]{ulem} % for editing: striking out text using 'sout' command
+
+% \newcommand\mytablefigwidth{0.35\textwidth}
+
+% allows to use .ai files directly w/o resaving as pdf
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{}
+
+% Handy math macros!
+\newcommand{\vect}[1]{\vec{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\rate}[3]{{#1}_{#2}^{#3}}
+\newcommand{\mmnote}[1]{\textcolor{cyan}{(MM:~#1)}}
+
+% derivative macros. these are sneaky. the [{}] is an empty default 1st arg
+% usage: provide 1 arg: \deriv{x} gives d/dx
+% provide 2 args like so: \deriv[f]{x} gives df/dx
+\newcommand{\deriv}[2][{}]{\frac{d #1}{d #2}}
+\newcommand{\pderiv}[2][{}]{\frac{\partial #1}{\partial #2}}
+
+%%%%% Referencing macros %%%%%
+\newcommand{\fref}[1]{Figure~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\eref}[1]{Eq.~(\ref{#1})}
+\newcommand{\erngref}[2]{Eq.~(\ref{#1}-\ref{#2})} % Equations
+% \newcommand{\test}[1][]{%
+% \ifthenelse{\isempty{#1}{}}{omitted}{#1}%
+% }
+
+%%%%%
+\begin{document}
+
+\title{Generating function solution for the bursty unregulated promoter}
+
+\maketitle
+
+\section{One-state promoter with bursts, mRNA only}
+
+\subsection{From master equation to generating function}
+Before tackling mRNA and protein together as in~\cite{Shahrezaei2008}, let's
+just do mRNA (replicating Charlotte's notes; she says it's worked out
+in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
+comprehend). The master equation of interest is
+\begin{align}
+\deriv{t}p(m,t) = (m+1)\gamma p(m+1,t) - m\gamma p(m,t) - r p(m,t)
+        + r \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
+\label{eq:1state_unreg_003}
+\end{align}
+where $G_{k}(\theta)$ is the geometric distribution defined as
+\begin{align}
+G_{k}(\theta) = \theta(1 - \theta)^k, \, k\in\{0,1,2,\dots\}.
+\end{align}
+With this convention, the mean burst size $\beta = (1-\theta)/\theta$.
+$\gamma$ and $r$ are mRNA degradation rates and transcription burst
+initiation rates, resp. The last term represents all ways the system could
+end up with $m$ mRNAs, having started the burst with $m^\prime$. Define
+$\lambda = r/\gamma$ and nondimensionalize time by $\gamma$, giving
+\begin{align}
+\deriv{t}p(m,t) = (m+1)p(m+1,t) - m p(m,t) - \lambda p(m,t)
+        + \lambda \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
+\end{align}
+The probability generating function is defined as
+\begin{align}
+F(z,t) = \sum_m z^m p(m,t).
+\end{align}
+Multiply both sides of the CME by $z^m$ and sum over all $m$ to get
+\begin{align}
+\pderiv[F]{t} = (1 - z) \pderiv[F]{z}
+        + \left(\frac{\theta}{1-z(1-\theta)}-1\right)\lambda F.
+\end{align}
+(This is just like in Charlotte's notes; the tricky bit is to
+recognize the need to reverse the double sum in the last term from
+$\sum_{m=0}^\infty\sum_{m^\prime=0}^m$ to
+$\sum_{m^\prime=0}^\infty\sum_{m=m^\prime}^\infty$.
+The sum on $m$ is then an easy geometric series. The rest of the procedure
+is just the standard reindexing tricks for sums over master equations.)
+Changing variables to $\xi=1-\theta$ and simplifying gives
+\begin{align}
+\pderiv[F]{t} + (z - 1) \pderiv[F]{z} = \frac{(z-1)\xi}{1-z\xi}\lambda F.
+\label{eq:1state_unreg_015}
+\end{align}
+\subsection{Stead-state}
+At steady-state, the PDE reduces to the ODE
+\begin{align}
+\deriv[F]{z} = \frac{\xi}{1-z\xi}\lambda F,
+\end{align}
+which we can integrate as
+\begin{align}
+\int \frac{dF}{F} = \int \frac{\lambda\xi dz}{1-\xi z}.
+\end{align}
+The initial conditions for generating functions always confuse me,
+especially since most authors play fast and loose and assume ``it's
+trivial.'' The key fact: from the definition
+$F(z,t) = \sum_m z^m p(m,t)$,
+normalization requires that
+$F(z=1^-,t) = \sum_m p(m,t) = 1$.\footnote{
+Sometimes the generating function may be undefined \textit{at} $z=1$ but the
+limit still holds. Also people tend to change variables from $z$ to other
+things, so don't lose track of how this condition transforms.
+}
+Doing the integrals (and producing constant $c$) gives
+\begin{align}
+\ln F &= -\lambda \ln(1-\xi z) + c
+\\
+F &= \frac{c}{(1-\xi z)^\lambda}.
+\end{align}
+Only one choice for $c$ can satisfy initial conditions, producing
+\begin{align}
+F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
+        = \left(\frac{\theta}{1 - z(1-\theta)}\right)^\lambda,
+\end{align}
+which is exactly the negative binomial's generating function, as expected.
+
+\subsection{Time-dependent case}
+Return to~\eref{eq:1state_unreg_015} and for convenience,
+change variables to $v=z-1$, producing
+\begin{align}
+\frac{1}{v}\pderiv[F]{t} + \pderiv[F]{v} = \frac{\lambda\xi}{1-(1+v)\xi} F.
+\end{align}
+This can be solved with the method of characteristics. Parametrize the
+characteristics by the new variable $s$. Initial conditions at $t=0$
+correspond to $s_0$, $v_0$, and $F(v_0,t=0)$, where $s_0$ and $v_0$ are
+constants to be found later. The characteristic equations are
+\begin{align}
+\deriv[t]{s} &= \frac{1}{v}
+\\
+\deriv[v]{s} &= 1
+\\
+\deriv[F]{s} &= \frac{\lambda\xi}{1-(1+v)\xi} F.
+\end{align}
+We could immediately write $v=s+c_v$ for some constant $c_v$ yet to be
+found. Most authors drop the constant without justification. This works
+because our set of ODEs only contains $ds$, not $s$ itself. So, in fact,
+we need not even solve for $v$ in terms of $s$, since the second ODE
+tells us $ds=dv$, we can immediately remove $s$ from the problem and we
+are left with the ODEs
+\begin{align}
+\deriv[t]{v} &= \frac{1}{v}
+\\
+\deriv[F]{v} &= \frac{\lambda\xi}{1-(1+v)\xi} F.
+\end{align}
+The first is trivial. Using our initial conditions it gives
+\begin{align}
+v = v_0 e^t.
+\end{align}
+Set this aside and tackle the second ODE.
+It still permits separation of variables which gives
+\begin{align}
+\int \frac{dF}{F} &= \int \frac{\lambda \xi dv}{1 - (1+v)\xi}
+\\
+\ln F &= -\lambda \ln(1-(1+v)\xi) + \text{constant}.
+\end{align}
+Initial conditions determine the constant, but this is subtle. It may be
+tempting to transform back to $z$ and $t$, for which initial conditions
+are more obvious, but $v$ is a more convenient variable since it is
+parametrizes the characteristics. In other words, we can view $F$ as a
+one variable function $F(v)$ or as a two variable function $F(z,t)$. It
+is much easier to deal with before changing variables back, rather than
+after. But, in terms of $v$, what are our initial conditions? We know
+$t=0$ corresponds to some $v_0$ we have yet to determine, and this
+corresponds to some $F(v_0)$ yet to be found. Any parametrization of the
+constant that enforces this is acceptable. A clever idea is to break up
+and reparametrize the constant as $c_1$ and $c_2$ and bury these in the
+logs as
+\begin{align}
+\ln \frac{F(v)}{c_1} &= -\lambda \ln\frac{1-(1+v)\xi}{c_2},
+\end{align}
+where we are now explicitly showing the $v$ dependence of $F$ for clarity.
+For this equality to remain true when $v=v_0$,
+the only choice of $c_1$ and $c_2$ that works is
+\begin{align}
+\ln \frac{F(v)}{F(v_0)} &= -\lambda \ln\frac{1-(1+v)\xi}{1-(1+v_0)\xi}
+\end{align}
+which leads immediately to
+\begin{align}
+F(v) &= F(v_0) \left(\frac{1-(1+v_0)\xi}{1-(1+v)\xi}\right)^{\lambda}
+\end{align}
+Now we may transform variables back to $z$ and $t$.
+Recall from earlier that $1+v=z$ and $v=v_0 e^t$, so $v_0 = (z-1)e^{-t}$.
+These substitutions handle the term in parentheses. $F(v_0)$ is more subtle.
+We must avoid the trap of thinking there exists some $z_0$ corresponding to $v_0$;
+$v_0$ corresponds only to $t=0$. This is the magic of characteristics.
+$F(v_0)$ corresponds to the initial condition on $F$, i.e., $F(z,t=0)$
+\textit{not} $F(z_0,t=0)$ since $z_0$ does not exist.
+But $F(z,t=0)$, and therefore $F(v_0)$, is by definition given by
+\begin{align}
+F(v_0) = F(z,t=0) = \sum_m z^m p(m, t=0),
+\end{align}
+where $p(m, t=0)$ is whatever initial probability distribution
+we specify for the problem. Finally then
+\begin{align}
+F(z, t) &=  \left(\frac{1-(1+(z-1)e^{-t})\xi}{1-z\xi}\right)^{\lambda}
+                \left(\sum_m z^m p(m, t=0)\right)
+\\
+F(z, t) &=  \left(\frac{1-(1+(z-1)e^{-t})(1-\theta)}{1-z(1-\theta)}\right)^{\lambda}
+                \left(\sum_m z^m p(m, t=0)\right).
+\end{align}
+If the initial condition is $p(0,0)=1$, then the second term in
+parentheses disappears and this clearly reduces to the usual negative
+binomial generating function as $t\rightarrow\infty$. For any other
+initial condition, this has to remain true but it's not obvious to me
+how the math will work out, even for the next-simplest initial condition
+like $p(m,0) = \delta_{mk}$.
+\mmnote{Still need to work out some algebra details here to see what happens.}
+
+\section{Adding translation}
+If we include transcription and translation, the master equation becomes
+very similar to Eq.~(1) in~\cite{Shahrezaei2008}, except with mRNA
+production terms borrowed from our~\eref{eq:1state_unreg_003}.
+As in~\cite{Shahrezaei2008}, it is more convenient to nondimensionalize
+time by the protein degradation rate $\gamma_p$ rather than the mRNA
+degradation rate $\gamma_m$.
+Then $\gamma\equiv\gamma_m/\gamma_p$ is the dimensionless mRNA lifetime,
+and $\lambda\equiv r_m/\gamma_p$ is the dimensionless rate at which
+transcription bursts initiate.
+The mean burst size $\beta = (1-\theta)/\theta$ as before.
+The new parameter we need is the translation rate $r_p$,
+which we immediately nondimensionalize as $r\equiv r_m/\gamma_p$.
+The authors of~\cite{Shahrezaei2008} have three dimensionless parameters
+$a$, $b$, and $\gamma$, which have a simple correspondence with ours:
+$a=\lambda$, $b=r/\gamma$, and $\gamma=\gamma$.
+
+With all this, the master equation takes the form
+\begin{align}
+\deriv{t}p(m,n,t) = 
+        & \lambda \left[\sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,n,t)
+        - p(m,n,t) \right]
+        \\
+        & + r m [ p(m,n-1,t) - p(m,n,t) ]
+        \\
+        & + \gamma [ (m+1) p(m+1,n,t) - m p(m,n,t) ]
+        \\
+        & + (n+1) p(m,n+1,t) - n p(m,n,t).
+\end{align}
+The first line covers transcription, the second translation, the third
+mRNA degradation, and the fourth protein degradation. Conceptually, this
+is identical to Eq.~(1) in~\cite{Shahrezaei2008} except for the very
+first term.\footnote{The equations also differ by nondimensionalization
+and relabeling of parameters, but these are ``bookkeeping'' operations,
+not physical/conceptual ones.}
+The probability generating function is now defined as
+\begin{align}
+F(z,w,t) = \sum_{m,n=0}^\infty z^m w^n p(m,n,t),
+\end{align}
+and similarly to before, we transform the master equation by multiplying
+both sides by $z^m w^n$ and summing over $m$ and $n$.
+The first term is unaffected by summing over $n$ and proceeds exactly as
+in the mRNA-only case. All other terms proceed exactly as
+in~\cite{Shahrezaei2008}, so the PDE for the generating function is
+\begin{align}
+\pderiv[F]{t} = \left(\frac{\theta}{1-z(1-\theta)}-1\right)\lambda F
+        + rz(w - 1) \pderiv[F]{z} + \gamma(1 - z) \pderiv[F]{z}
+        + (1 - w) \pderiv[F]{w}.
+\end{align}
+For convenience, and analogously to the mRNA-only case, changing variables to
+$u=z-1$, $v=w-1$, and $\xi=1-\theta$ and simplifying gives
+\begin{align}
+\pderiv[F]{t} = \frac{\lambda\xi u}{1-\xi(u+1)} F
+        + \left[ rv(1+u) - \gamma u \right] \pderiv[F]{u}
+        - v \pderiv[F]{v},
+\end{align}
+or, rearranging terms to emphasize the analogy with
+Eq.~(2) in~\cite{Shahrezaei2008},
+\begin{align}
+\pderiv[F]{v} - \left[ r(1+u) - \gamma \frac{u}{v} \right] \pderiv[F]{u} 
+        + \frac{1}{v}\pderiv[F]{t} = \frac{\lambda\xi}{1-\xi(u+1)} \frac{u}{v} F.
+\end{align}
+Again, the left-hand side is functionally identical to Eq.~(2)
+in~\cite{Shahrezaei2008}, and only the right-hand side has new content.
+Despite the more complicated right-hand side, this is still solvable
+with the method of characteristics; parametrizing the characteristics by
+$s$ leads to a set of four equations, namely
+\begin{align}
+\deriv[v]{s}=1
+\\
+\deriv[t]{s}=\frac{1}{v}
+\\
+\deriv[u]{s} = \gamma \frac{u}{v} - r(1+u)
+\\
+\deriv[F]{s} = \frac{\lambda\xi}{1-\xi(u+1)} \frac{u}{v} F.
+\end{align}
+The equations for $t$ and $v$ are identical to the mRNA-only case,
+allowing us to immediately eliminate $s$ from the problem and replace it
+with $v$. We also have
+\begin{align}
+v = v_0 e^t
+\end{align}
+as before, for some initial $v_0$ yet to be found corresponding to $t=0$.
+The remaining two ODEs to be solved are
+\begin{align}
+\deriv[u]{v} = \gamma \frac{u}{v} - r(1+u)
+\\
+\deriv[F]{v} = \frac{\lambda\xi}{1-\xi(u+1)} \frac{u}{v} F.
+\end{align}
+Shahrezaei and Swain approximately solve the first for $\gamma \gg 1$.
+\mmnote{Now I see why they defined $b$ as they did, so they could get
+$\gamma$ alone on one side. That's a bit cleaner than the way I've
+parametrized, but it shouldn't change the conclusion.} In fact, this
+approximation should serve us even better than it did them: their yeast
+genes of interest feature $\gamma\sim 2-6$, whereas for \textit{E. coli}
+with protein ``degradation'' dominated by dilution we expect $\gamma\sim
+5-15$. They find $u(v) \approx bv/(1-bv)$, which, translated to our
+variables, reads
+\begin{align}
+u(v) \approx \frac{rv}{\gamma-rv}.
+\end{align}
+Plugging this into the ODE for $F$ gives
+\begin{align}
+\deriv[F]{v} \approx
+        \frac{\lambda\xi}{1-\xi\frac{\gamma}{\gamma-rv}} \frac{r}{\gamma-rv} F
+        = \frac{\lambda r \xi}{(1-\xi)\gamma - rv} F
+        = \frac{\lambda r (1-\theta)}{\theta\gamma - rv} F,
+\end{align}
+where in the last step we changed variables back to $\theta=1-\xi$.
+This is still solvable with separation of variables, as
+\begin{align}
+\int\frac{dF}{F} &\approx \int \frac{\lambda r (1-\theta) dv}{\theta\gamma - rv} F
+\\
+\ln \frac{F(v)}{F(v_0)} &\approx -\lambda (1-\theta)
+                \ln\left(\frac{\theta\gamma - rv}{\theta\gamma - rv_0}\right),
+\end{align}
+where we handled initial conditions in close analogy to the mRNA-only case.
+With some algebra, and recalling that $v=w-1$ and $v_0=(w-1)e^{-t}$, we have
+\begin{align}
+F(w,t) \approx \left(\frac{1-\frac{r}{\theta\gamma}(w-1)e^{-t}}
+                {1-\frac{r}{\theta\gamma}(w-1)}\right)^{\lambda(1-\theta)}
+                \left(\sum_n w^n p(n,t=0)\right).
+\label{eq:1state_unreg_030}
+\end{align}
+Note that $z$, which corresponded to mRNA copy number, dropped out when
+we substituted our approximate solution for $u$ as a function of $v$.
+This gave us a generating function for the protein distribution alone,
+with all stochasticity and burstiness of the mRNA (approximately)
+incorporated. The second term is simply the initial condition set by our
+initially specified probability distribution on protein.
+The first term is exactly, up to relabeling parameters, Eq.~(7)
+in~\cite{Shahrezaei2008}, which leads to a probability distribution that
+resembles a negative binomial, but with time dependence, multiplied by a
+hypergeometric funtion.
+
+Is this result of use to us? As with Eq.~(8) in~\cite{Shahrezaei2008},
+it is valid only for $\gamma \gg 1$ and $t\gg \gamma^{-1}$.
+The former is easily satisfied for our system. The latter means the result
+is only valid for times longer than the mRNA lifetime,
+which is also satisfied in our problem.
+
+But the time scale to approach steady state is set by the protein
+lifetime itself, which, if dominated by dilution, means $F(w,t)$ will
+never reach steady-state, not even to a crude approximation.
+So~\eref{eq:1state_unreg_030} applies, but we \textit{cannot} take its
+steady-state limit. For very special initial conditions, Shahrezaei and
+Swain work out the full time-dependent probability distribution, Eq.~(8)
+in~\cite{Shahrezaei2008}. But it is not clear if we can do this for the
+binomially partitioned initial distribution that we would like to use.
+\mmnote{Needs more thought.}
+
+%%%%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+
+% \bibliographystyle{nature}
+\bibliographystyle{abbrv}
+\bibliography{../library}
+
+\end{document}
