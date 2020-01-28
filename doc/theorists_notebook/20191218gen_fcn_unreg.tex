@@ -206,7 +206,8 @@ we specify for the problem. Finally then
 F(z, t) &=  \left(\frac{1-(1+(z-1)e^{-t})\xi}{1-z\xi}\right)^{\lambda}
                 \left(\sum_m z^m p(m, t=0)\right)
 \\
-F(z, t) &=  \left(\frac{1-(1+(z-1)e^{-t})(1-\theta)}{1-z(1-\theta)}\right)^{\lambda}
+F(z, t) &=  \left(\frac{1-(1-\theta)(1+(z-1)e^{-t})}
+                        {1-(1-\theta)z}\right)^{\lambda}
                 \left(\sum_m z^m p(m, t=0)\right).
 \end{align}
 If the initial condition is $p(0,0)=1$, then the second term in
@@ -216,6 +217,13 @@ initial condition, this has to remain true but it's not obvious to me
 how the math will work out, even for the next-simplest initial condition
 like $p(m,0) = \delta_{mk}$.
 \mmnote{Still need to work out some algebra details here to see what happens.}
+\mmnote{Our t-dependence is already different than theirs, even though
+the steady state is the same. For trivial $k=0$ IC, everything will work
+out similarly, I think. For anything else, I think the direct approach
+of differentiating will produce an impossible mess. But we might be able
+to use their idea of a ``propagator'' probability and do a convolution
+over that; in principle, getting to the same place, but that might be
+tidier??}
 
 \section{Adding translation}
 If we include transcription and translation, the master equation becomes
