@@ -5,6 +5,10 @@
 
 # Ignore specific folders. 
 data/images/
+# Ignore stan exe, .hpp, .o, etc...
+**/stan/*
+# ...but don't ignore the actual stan files
+!**/stan/*.stan
 
 #Ignore trash dotfiles.
 *.DS_store
