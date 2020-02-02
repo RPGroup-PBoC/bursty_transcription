@@ -14,9 +14,9 @@ data {
   real bohr_scale;
   
   // Size of data set
-  int<lower=1> N;
+  int<lower=1> N_cells_uv5;
+  int<lower=1> N_cells_rep;
 }
-
 
 generated quantities {
   // Draw model params from priors: burst rate alpha & burst size b
@@ -26,12 +26,17 @@ generated quantities {
 
   // Stan parametrizes negbinom w/ beta, not b
   real beta = 1.0 / b;
+  real alpha_rep = alpha * fold_change(bohr);
 
   // Generated data
-  real mRNA_counts[N];
+  int mRNA_counts_uv5[N_cells_uv5];
+  int mRNA_counts_rep[N_cells_rep];
 
   // Draw samples
-  for (i in 1:N) {
-    mRNA_counts[i] = neg_binomial_rng(alpha*fold_change(bohr), beta);
+  for (i in 1:N_cells_uv5) {
+    mRNA_counts_uv5[i] = neg_binomial_rng(alpha, beta);
+  }
+  for (i in 1:N_cells_rep) {
+    mRNA_counts_rep[i] = neg_binomial_rng(alpha_rep, beta);
   }
 }

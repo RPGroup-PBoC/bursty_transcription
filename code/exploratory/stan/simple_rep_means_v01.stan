@@ -31,6 +31,7 @@ parameters {
 
 transformed parameters{
   real beta_ = 1.0 / b;
+  real alpha_rep = alpha * fold_change(bohr)
 }
 
 model {
@@ -41,7 +42,7 @@ model {
 
   // Likelihood
   mRNA_counts_uv5 ~ neg_binomial(alpha, beta_);
-  mRNA_counts_rep ~ neg_binomial(alpha*fold_change(bohr), beta_);
+  mRNA_counts_rep ~ neg_binomial(alpha_rep, beta_);
 }
 
 generated quantities {
@@ -54,7 +55,7 @@ generated quantities {
       mRNA_counts_uv5_ppc[i] = neg_binomial_rng(alpha, beta_);
     }
     for (i in 1:N_cells_rep) {
-      mRNA_counts_rep_ppc[i] = neg_binomial_rng(alpha*fold_change(bohr), beta_);
+      mRNA_counts_rep_ppc[i] = neg_binomial_rng(alpha_rep, beta_);
     }
   }
 }
