@@ -31,7 +31,7 @@ parameters {
 
 transformed parameters{
   real beta_ = 1.0 / b;
-  real alpha_rep = alpha * fold_change(bohr)
+  real alpha_rep = alpha * fold_change(bohr);
 }
 
 model {
