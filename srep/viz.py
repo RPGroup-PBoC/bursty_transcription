@@ -8,6 +8,8 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib
 
+from bebi103.viz import predictive_ecdf
+
 def plotting_style(grid=True):
     """
     Sets the style to the publication style
@@ -73,3 +75,37 @@ def color_selector(style):
               'pale_red': '#F1D4C9', 'purple': '#AB85AC',
               'light_purple': '#D4C2D9', 'dark_green':'#7E9D90', 'dark_brown':'#905426'}
     return colors
+
+def ppc_ecdfs(posterior_samples, df):
+    """Plot posterior predictive ECDFs."""
+    n_samples = (
+        posterior_samples.posterior_predictive.dims["chain"]
+        * posterior_samples.posterior_predictive.dims["draw"]
+    )
+
+    p1 = predictive_ecdf(
+        posterior_samples.posterior_predictive["mRNA_counts_ppc"].values.reshape(
+            (n_samples, len(df))
+        ),
+        data=df["mRNA_cell"],
+        discrete=True,
+        x_axis_label="mRNA counts per cells",
+        frame_width=200,
+        frame_height=200
+    )
+
+    p2 = predictive_ecdf(
+        posterior_samples.posterior_predictive["mRNA_counts_ppc"].values.reshape(
+            (n_samples, len(df))
+        ),
+        data=df["mRNA_cell"],
+        percentiles=[95, 90, 80, 50],
+        diff=True,
+        discrete=True,
+        x_axis_label="mRNA counts per cells",
+        frame_width=200,
+        frame_height=200
+    )
+    p1.x_range = p2.x_range
+    
+    return [p1, p2]

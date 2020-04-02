@@ -60,6 +60,7 @@ __pycache__/
 # Also zips & pickles. Add manually if you really want, since they won't diff well.
 *.zip
 *.pkl
+*.nc
 
 # Ignore altair .json plotting outputs
 *altair*.json
