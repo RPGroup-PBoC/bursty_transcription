@@ -2,7 +2,6 @@ import re #regex
 import pickle
 from git import Repo #for directory convenience
 
-
 import numpy as np
 import pandas as pd
 
@@ -18,7 +17,7 @@ repo = Repo("./", search_parent_directories=True)
 repo_rootdir = repo.working_tree_dir
 
 # first load data using module util
-df_unreg, _ = load_FISH_by_promoter()
+df_unreg, = load_FISH_by_promoter(("unreg",))
 # pull out one specific promoter for convenience for prior pred check & SBC
 df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
 
@@ -35,7 +34,7 @@ for gene in df_unreg['experiment'].unique():
         ppc=0 # if you produce ppc samples, the InferenceData obj is HUGE
     )
     with be_quiet_stan():
-        posterior_samples = sm.sample(data=stan_data, cores=4)
+        posterior_samples = sm.sample(data=stan_data, chains=6)
     all_samples[gene] = az.from_cmdstanpy(
         posterior_samples, posterior_predictive=["mRNA_counts_ppc"]
     )

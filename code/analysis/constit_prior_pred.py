@@ -14,7 +14,7 @@ repo = Repo("./", search_parent_directories=True)
 repo_rootdir = repo.working_tree_dir
 
 # first load data using module util
-df_unreg, _ = load_FISH_by_promoter()
+df_unreg, = load_FISH_by_promoter(("unreg",))
 # pull out one specific promoter for convenience for prior pred check & SBC
 df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
 
