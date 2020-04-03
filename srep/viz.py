@@ -110,7 +110,16 @@ def color_selector(style):
     return colors
 
 def ppc_ecdfs(posterior_samples, df):
-    """Plot posterior predictive ECDFs."""
+    """Plot posterior predictive ECDFs.
+    Credit to JB for at least part of this function,
+    double check how much I wrote & which tutorial/year
+    I borrowed from, maybe the finch beak example??
+
+    predictive_ecdf only works for Bokeh. Will it be easier to hack
+    this for matplotlib, or just take the logic guts and write my own??
+    
+    Input: posterior samples is an arviz InferenceData object
+    w/ posterior and posterior predictive samples."""
     n_samples = (
         posterior_samples.posterior_predictive.dims["chain"]
         * posterior_samples.posterior_predictive.dims["draw"]
