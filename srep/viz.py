@@ -58,8 +58,10 @@ def color_selector(style):
 
     """
     # Ensure the provided style name makes sense.
-    if  style.lower() not in ['srep', 'pboc']:
-        raise ValueError("Provided style must be 'pboc' or 'srep'. {} provided.".format(style))
+    if  style.lower() not in ['srep', 'pboc', 'constit']:
+        raise ValueError(
+            "Style {} provided. I only know \
+            'srep', 'pboc', and 'constit'.".format(style))
 
     # Set the color styles and return.
     if  style.lower() == 'srep':
@@ -67,13 +69,44 @@ def color_selector(style):
                 'Oid': '#EE5A24', 'O1': '#1289A7'} 
 
     elif style.lower() == 'pboc':
-        colors = {'green': '#7AA974', 'light_green': '#BFD598',
-              'pale_green': '#DCECCB', 'yellow': '#EAC264',
-              'light_yellow': '#F3DAA9', 'pale_yellow': '#FFEDCE',
-              'blue': '#738FC1', 'light_blue': '#A9BFE3',
-              'pale_blue': '#C9D7EE', 'red': '#D56C55', 'light_red': '#E8B19D',
-              'pale_red': '#F1D4C9', 'purple': '#AB85AC',
-              'light_purple': '#D4C2D9', 'dark_green':'#7E9D90', 'dark_brown':'#905426'}
+        colors = {
+            'green': '#7AA974',
+            'light_green': '#BFD598',
+            'pale_green': '#DCECCB',
+            'yellow': '#EAC264',
+            'light_yellow': '#F3DAA9',
+            'pale_yellow': '#FFEDCE',
+            'blue': '#738FC1',
+            'light_blue': '#A9BFE3',
+            'pale_blue': '#C9D7EE',
+            'red': '#D56C55',
+            'light_red': '#E8B19D',
+            'pale_red': '#F1D4C9',
+            'purple': '#AB85AC',
+            'light_purple': '#D4C2D9',
+            'dark_green':'#7E9D90',
+            'dark_brown':'#905426'}
+
+    elif style.lower() == 'constit':
+        colors = {
+            'UV5': '#7AA974',
+            'WTDL20v2': '#BFD598',
+            'WT': '#DCECCB',
+            'WTDL10': '#EAC264',
+            'WTDL20': '#F3DAA9',
+            'WTDL30': '#FFEDCE',
+            'WTDR30': '#738FC1',
+            '5DL1': '#A9BFE3',
+            '5DL5': '#C9D7EE',
+            '5DL10': '#D56C55',
+            '5DL20': '#E8B19D',
+            '5DL30': '#F1D4C9',
+            '5DR1': '#AB85AC',
+            '5DR5': '#D4C2D9',
+            '5DR1v2':'#7E9D90',
+            '5DR10':'#905426',
+            '5DR20':'#a8a8a8',
+            '5DR30':'#0f0f0f'}
     return colors
 
 def ppc_ecdfs(posterior_samples, df):

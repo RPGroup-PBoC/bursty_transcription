@@ -25,19 +25,43 @@ pklfile.close()
 
 df_energies, = load_FISH_by_promoter(("energies",))
 
-fig, (ax, _) = plt.subplots(1, 2, figsize=(9,5))
-for gene in all_samples:
-    alpha_samples = all_samples[gene].posterior.alpha.values.flatten()
-    b_samples = all_samples[gene].posterior.b.values.flatten()
+fig, ax = plt.subplots(2, 2, figsize=(9,9))
+color_pal = srep.viz.color_selector('constit')
+
+# 95% HPD for all 18 constitutive promoters
+# loop thru df, not all_samples keys, so we get deterministic order!
+for promoter in df_energies.Name:
+    alpha_samples = all_samples[promoter].posterior.alpha.values.flatten()
+    b_samples = all_samples[promoter].posterior.b.values.flatten()
     x_contour, y_contour = bebi103.viz.contour_lines_from_samples(
-        alpha_samples, b_samples, levels=0.95, smooth=0.025
+        b_samples, alpha_samples, levels=0.95, smooth=0.025
     )
-    xy_path = list(zip(x_contour[0], y_contour[0]))
-    ax.loglog(x_contour[0], y_contour[0], label=gene, linewidth=0.6)
-ax.legend(loc='lower center', ncol=3, fontsize='small')
-ax.set_ylim(top=1.2e1)
-ax.set_xlim(right=1e1)
-ax.set_xlabel(r'$\alpha$ (bursts per mRNA lifetime)')
-ax.set_ylabel(r'$b$ (transcripts per burst)')
+    ax[1,0].loglog(x_contour[0],
+        y_contour[0],
+        label=promoter,
+        linewidth=0.6,
+        color=color_pal[promoter])
+ax[1,0].set_xlim(right=1.2e1)
+ax[1,0].set_ylim(top=1e1)
+ax[1,0].set_ylabel(r'$\alpha$ (bursts per mRNA lifetime)')
+ax[1,0].set_xlabel(r'$b$ (transcripts per burst)')
+
+# log(burst rate) vs energies from energy matrix
+for promoter in df_energies.Name:
+    samples = all_samples[promoter].posterior.alpha.values.flatten()
+    ptile_low, ptile_med, ptile_upr = np.percentile(samples, (2.5, 50, 97.5))
+    err_lower = ptile_med - ptile_low
+    err_upper = ptile_upr - ptile_med
+    ax[1,1].errorbar(
+        df_energies[df_energies.Name == promoter]["Energy (kT)"],
+        ptile_med,
+        yerr=np.array((err_lower, err_upper)).reshape((2,1)),
+        fmt='.',
+        label=promoter,
+        color=color_pal[promoter])
+ax[1,1].set_ylabel(r'$\alpha$ (bursts per mRNA lifetime)')
+ax[1,1].set_xlabel(r'Binding energy $(k_BT)$')
+ax[1,1].set_yscale("log")
+ax[1,1].legend(loc='upper right', ncol=2, fontsize='small')
 
 plt.savefig(f"{repo_rootdir}/figures/fig2/all_constit_post.pdf")
