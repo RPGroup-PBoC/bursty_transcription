@@ -8,7 +8,7 @@ functions {
     As expected seems to works well for 0 < z < 1/2, |a|,|b| < ~20 or 30,
     and |c| not too close to zero.
     */
-    real tol = 1e-10;
+    real tol = 1e-12;
     real running_total = 1.0;
     real term = 1.0;
     int n = 1;
@@ -27,6 +27,19 @@ functions {
     return running_total;
   }
 
+  real safe_lgamma(real z) {
+    /*
+    stan's gamma function doesn't handle negative values reasonably
+    so we have to do it manually...
+    */
+    if (z < 0) {
+      return log(pi()) - log(sin(z*pi())) - lgamma(1-z);
+    }
+    else {
+      return lgamma(z);
+    }
+  }
+
 real gauss2F1(real a, real b, real c, real z) {
   /*
   First transform z to the interval [0,1/2],
@@ -36,43 +49,24 @@ real gauss2F1(real a, real b, real c, real z) {
     return _simple_gauss2F1(a, b, c, z);
   }
   else if (z < -1) { // Pearson et al case 1
-    real prefac1 = (1-z)^(-a) * tgamma(c) * tgamma(b-a)
-                             / (tgamma(b) * tgamma(c-a));
-    real prefac2 = (1-z)^(-b) * tgamma(c) * tgamma(a-b)
-                             / (tgamma(a) * tgamma(c-b));
-    return prefac1 * _simple_gauss2F1(a, c-b, a-b+1, 1/(1-z))
-         + prefac2 * _simple_gauss2F1(b, c-a, b-a+1, 1/(1-z));
+    real prefac1 = -a*log(1-z) + safe_lgamma(c) + safe_lgamma(b-a)
+                               - safe_lgamma(b) - safe_lgamma(c-a);
+    real prefac2 = -b*log(1-z) + safe_lgamma(c) + safe_lgamma(a-b)
+                               - safe_lgamma(a) - safe_lgamma(c-b);
+    return exp(prefac1) * _simple_gauss2F1(a, c-b, a-b+1, 1/(1-z))
+         + exp(prefac2) * _simple_gauss2F1(b, c-a, b-a+1, 1/(1-z));
   }
   else if (z < 0) { //i.e. -1 < z < 0, Pearson et al case 2
     return (1-z)^(-a) * _simple_gauss2F1(a, c-b, c, z/(z-1));
   }
   else if (z <= 1) { //i.e. 1/2 < z <= 1, Pearson et al case 4
-    real prefac1 = tgamma(c) * tgamma(c-a-b) / (tgamma(c-a) * tgamma(c-b));
-    real prefac2 = (1-z)^(c-a-b) * tgamma(c) * tgamma(a+b-c)
-                                / (tgamma(a) * tgamma(b));
-    return prefac1 * _simple_gauss2F1(a, b, a+b-c+1, 1-z)
-         + prefac2 * _simple_gauss2F1(c-a,c-b,c-a-b+1, 1-z);
+    real prefac1 = safe_lgamma(c) + safe_lgamma(c-a-b)
+                 - safe_lgamma(c-a) - safe_lgamma(c-b);
+    real prefac2 = (c-a-b)*log(1-z) + safe_lgamma(c) + safe_lgamma(a+b-c)
+                                    - safe_lgamma(a) - safe_lgamma(b);
+    return exp(prefac1) * _simple_gauss2F1(a, b, a+b-c+1, 1-z)
+         + exp(prefac2) * _simple_gauss2F1(c-a,c-b,c-a-b+1, 1-z);
   }
-  /*
-  else if (z <= 2) { // 1 < z <= 2, Pearson et al case 5
-    
-    // I think this case always blows up or goes complex?
-    // - If c-a-b isn't an integer, then (1-z)^(c-a-b) is complex.
-    // - If c-a-b is integer, either gamma(c-a-b) or gamma(a+b-c) hits a pole.
-    // I'll leave it as a placeholder, but I don't think this is useful for me
-    
-    real prefac1 = z^(-a) * tgamma(c) * tgamma(c-a-b)
-                         / (tgamma(c-a) * tgamma(c-b));
-    real prefac2 = z^(a-c) * (1-z)^(c-a-b) * tgamma(c) * tgamma(a+b-c)
-                                          / (tgamma(a) * tgamma(b));
-    return prefac1 * _simple_gauss2F1(a, a-c+1, a+b-c+1, 1-1/z)
-         + prefac2 * _simple_gauss2F1(c-a, 1-a, c-a-b+1, 1-1/z);
-  }
-  else if (z > 2) { Pearson et al case 6
-    // If either a or b is non integer, (-z)^(-a) and/or (-z)^(-b)
-    // is complex, sim to case 5.
-  }
-  */
   /*
   If we haven't caught z yet, then z>1. It appears that if z > 1, then 2F1
   is real only at isolated points. Not worth coding, b/c I think that means
