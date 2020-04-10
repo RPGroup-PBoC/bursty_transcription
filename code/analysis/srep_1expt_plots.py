@@ -3,7 +3,7 @@
 # dataset (i.e., a single operator at a single aTc concentration).
 # Currently messy, needs reorg/refactor
 
-import pickle
+import dill
 from git import Repo #for directory convenience
 
 import numpy as np
@@ -64,7 +64,7 @@ data_rep = np.unique(df_rep['mRNA_cell'], return_counts=True)
 
 # load in the pickled samples
 pklfile = open(f"{repo_rootdir}/data/mcmc_samples/{op_aTc}_sampler.pkl", 'rb')
-sampler = pickle.load(pklfile)
+sampler = dill.load(pklfile)
 pklfile.close()
 
 n_dim = np.shape(sampler.get_chain())[-1]

@@ -5,7 +5,7 @@
 
 import re #regex
 import warnings
-import pickle
+import dill
 from multiprocessing import Pool, cpu_count
 from git import Repo #for directory convenience
 
@@ -133,7 +133,7 @@ del sampler.pool # otherwise unpickling fails, even though pickling is fine
 
 #%%
 outfile = open(f"{repo_rootdir}/data/mcmc_samples/{op_aTc}_sampler.pkl", 'wb')
-pickle.dump(sampler, outfile)
+dill.dump(sampler, outfile)
 outfile.close()
 
 print(f"Autocorr time: {sampler.get_autocorr_time()}")
