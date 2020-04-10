@@ -79,24 +79,6 @@ def log_posterior(params, data_uv5, data_rep):
             + log_like_repressed(params, data_rep))
 
 #%%
-def post_pred_bursty_rep(sampler, n_uv5, n_rep):
-    """
-    Takes as input an emcee EnsembleSampler instance (that has already sampled a posterior) and generates posterior predictive samples from it.
-    n_uv5 is how many predictive samples to draw for each posterior sample,
-    and similarly for n_rep.
-    """
-    draws = sampler.get_chain(flat=True)
-    if log_sampling == True:
-        draws = 10**draws
-
-    def draw_uv5_dataset(draw, n_uv5):
-        pp_samples = neg_binom.rvs(draw[0], (1+draw[1])**(-1), size=n_uv5)
-        return np.unique(pp_samples, return_counts=True)
-
-    ppc_uv5 = [draw_uv5_dataset(draw, n_uv5) for draw in draws]
-    ppc_rep = [srep.models.bursty_rep_rng(draw, n_rep) for draw in draws]
-    return ppc_uv5, ppc_rep
-#%%
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
 repo_rootdir = repo.working_tree_dir
@@ -147,6 +129,7 @@ with Pool(processes=7) as pool:
     )
     pos, prob, state = sampler.run_mcmc(p0, n_burn, store=False, progress=True)
     _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=20);
+del sampler.pool # otherwise unpickling fails, even though pickling is fine
 
 #%%
 outfile = open(f"{repo_rootdir}/data/mcmc_samples/{op_aTc}_sampler.pkl", 'wb')
@@ -154,3 +137,5 @@ pickle.dump(sampler, outfile)
 outfile.close()
 
 print(f"Autocorr time: {sampler.get_autocorr_time()}")
+
+# %%

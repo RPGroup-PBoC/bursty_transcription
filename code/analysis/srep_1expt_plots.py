@@ -30,7 +30,8 @@ srep.viz.plotting_style()
 #%%
 def post_pred_bursty_rep(sampler, n_uv5, n_rep):
     """
-    Takes as input an emcee EnsembleSampler instance (that has already sampled a posterior) and generates posterior predictive samples from it.
+    Takes as input an emcee EnsembleSampler instance (that has already
+    sampled a posterior) and generates posterior predictive samples from it.
     n_uv5 is how many predictive samples to draw for each posterior sample,
     and similarly for n_rep.
     """
@@ -63,7 +64,7 @@ data_rep = np.unique(df_rep['mRNA_cell'], return_counts=True)
 
 # load in the pickled samples
 pklfile = open(f"{repo_rootdir}/data/mcmc_samples/{op_aTc}_sampler.pkl", 'rb')
-all_samples = pickle.load(pklfile)
+sampler = pickle.load(pklfile)
 pklfile.close()
 
 n_dim = np.shape(sampler.get_chain())[-1]
@@ -72,11 +73,8 @@ log_sampling = True
 var_labels = ["k_burst", "b", "kR_on", "kR_off"]
 
 #%%
-srep.viz.traceplot(sampler, var_labels)
-
-#%%
-emcee_output = az.from_emcee(
-    sampler, var_names=['k_burst', 'b', 'kR_on', 'kR_off']
+emcee_output = az.convert_to_inference_data(
+    sampler, var_names=var_labels
     )
 bokeh.io.show(bebi103.viz.corner(emcee_output, plot_ecdf=True))
 #%%
@@ -93,3 +91,6 @@ for i in range(0, total_draws, int(total_draws/plotting_draws)):
     ax.plot(*srep.viz.ecdf(ppc_rep[i]), alpha=0.2, color='blue', lw=0.2)
 ax.plot(*srep.viz.ecdf(data_uv5), color='orange', lw=1)
 ax.plot(*srep.viz.ecdf(data_rep), color='red', lw=1)
+
+
+# %%
