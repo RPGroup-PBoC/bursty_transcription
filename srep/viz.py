@@ -151,3 +151,26 @@ def ppc_ecdfs(posterior_samples, df):
     p1.x_range = p2.x_range
     
     return [p1, p2]
+
+def ecdf(data):
+    """
+    data[0] should be a 1D array of observed values, and
+    data[1] should be a 1D array of the # of observations of each value.
+    e.g., the output of np.unique([0,1,0,3,3,2], return_counts=True).
+    Logic is credit to Justin Bois in the bebi103 module,
+    bebi103.viz.cdf_to_staircase.
+    """
+    yvals = np.asfarray(np.cumsum(data[1]))
+    yvals *= 1.0 / yvals[-1]
+
+    x_staircase = np.empty(2 * len(yvals))
+    y_staircase = np.empty(2 * len(yvals))
+
+    y_staircase[0] = 0
+    y_staircase[1::2] = yvals
+    y_staircase[2::2] = yvals[:-1]
+
+    x_staircase[::2] = data[0]
+    x_staircase[1::2] = data[0]
+
+    return x_staircase, y_staircase

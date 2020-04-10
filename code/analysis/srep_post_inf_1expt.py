@@ -1,9 +1,10 @@
-# This script is a test of the recursion computation of 2F1 in the
-# log likelihood for a single simple repression dataset (i.e., a single
-# operator at a single aTc concentration) to verify its correctness against
-# the slow version that uses mpmath for all 2F1 calculations.
+#%%
+# This script performs posterior inference for a single simple repression
+# dataset (i.e., a single operator at a single aTc concentration).
+# Currently messy, needs reorg/refactor
 
 import re #regex
+import warnings
 import pickle
 from multiprocessing import Pool, cpu_count
 from git import Repo #for directory convenience
@@ -24,6 +25,10 @@ import bokeh.io
 import bebi103.viz
 
 from srep.data_loader import load_FISH_by_promoter
+from srep.viz import ecdf
+from srep.viz import plotting_style
+
+plotting_style()
 
 def log_prob_m_bursty_rep(max_m, k_burst, mean_burst, kR_on, kR_off):
     """
@@ -119,12 +124,13 @@ def log_like_constitutive(params, data_uv5):
 def log_prior(params):
     k_burst, mean_burst, kR_on, kR_off = params
     # k_burst, mean_burst = params
-    if (0 < k_burst < 20 and 0 < mean_burst < 20 and
-        0 < kR_on < 40 and 0 < kR_off < 20):
+    # remember these params are log_10 of the actual values!!
+    if (2 < k_burst < 8 and 2 < mean_burst < 7 and
+        1e-2 < kR_on < 3e2 and 1e-2 < kR_off < 3e2):
         return 0.0
     return -np.inf
 
-def log_posterior(params, data_uv5, data_rep, log_sampling=False):
+def log_posterior(params, data_uv5, data_rep):
     """check prior and then farm out data to the respective likelihoods."""
     # Boolean logic to sample in linear or in log scale
     # Credit to Manuel for this
@@ -135,7 +141,60 @@ def log_posterior(params, data_uv5, data_rep, log_sampling=False):
         return -np.inf
     return (lp + log_like_constitutive(params, data_uv5)
             + log_like_repressed(params, data_rep))
+#%%
+def bursty_rep_rng(params, n_samp, max_m=100):
+    """
+    Generate random samples from the bursty rep model. Given a set
+    of model parameters, it computes the CDF and then generates rngs
+    using the inverse transform sampling method.
+    
+    Input:
+    params - the model params k_burst, mean_burst_size, kR_on, kR_off
+    n_samp - how many rng samples to generate
+    max_m - a guess of the maximum m the CDF needs to account for.
+        If P(m <= max_m) is not sufficiently close to 1, the algorithm will
+        multiply max_m by 2 and try again. "Sufficiently close" is computed
+        from the requested number of samples, but nevertheless don't put
+        excessive confidence in the tails of the generated samples
+        distribution. If you're generating more than 1e6 samples, then
+        (1) why? and (2) you'll need to think harder about this than I have;
+        for my purposes I don't need phenomenal coverage of the tails
+        nor very large numbers of samples.
+    """
+    cdf = np.cumsum(np.exp(log_prob_m_bursty_rep(max_m, *params)))
+    rtol = 1e-2 / n_samp
+    # check that the range of mRNA we've covered contains ~all the prob mass
+    while not np.isclose(cdf[-1], 1, rtol=rtol):
+        max_m *= 2
+        cdf = np.cumsum(np.exp(log_prob_m_bursty_rep(max_m, *params)))
+        if max_m > 3e2:
+            warnings.warn(
+                "mRNA count limit hit, treat generated rngs with caution"
+                )
+            break
+    # now draw the rngs by "inverting" the CDF
+    samples = np.searchsorted(cdf, np.random.rand(n_samp))
+    # and condense the data before returning
+    return np.unique(samples, return_counts=True)
+#%%
+def post_pred_bursty_rep(sampler, n_uv5, n_rep):
+    """
+    Takes as input an emcee EnsembleSampler instance (that has already sampled a posterior) and generates posterior predictive samples from it.
+    n_uv5 is how many predictive samples to draw for each posterior sample,
+    and similarly for n_rep.
+    """
+    draws = sampler.get_chain(flat=True)
+    if log_sampling == True:
+        draws = 10**draws
 
+    def draw_uv5_dataset(draw, n_uv5):
+        pp_samples = neg_binom.rvs(draw[0], (1+draw[1])**(-1), size=n_uv5)
+        return np.unique(pp_samples, return_counts=True)
+
+    ppc_uv5 = [draw_uv5_dataset(draw, n_uv5) for draw in draws]
+    ppc_rep = [bursty_rep_rng(draw, n_rep) for draw in draws]
+    return ppc_uv5, ppc_rep
+#%%
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
 repo_rootdir = repo.working_tree_dir
@@ -144,36 +203,49 @@ repo_rootdir = repo.working_tree_dir
 df_unreg, df_reg = load_FISH_by_promoter(("unreg", "reg"))
 # pull out one specific promoter for convenience for prior pred check & SBC
 df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
-df_O2_1ngml = df_reg[df_reg["experiment"] == "O2_1ngmL"]
+df_rep = df_reg[df_reg["experiment"] == "O2_1ngmL"]
 
 n_dim = 4
 n_walkers = 40
-n_burn = 10
+n_burn = 100
 n_steps = 100
 
 # slice data for the sampler
 data_uv5 = np.unique(df_UV5['mRNA_cell'], return_counts=True)
-data_rep = np.unique(df_O2_1ngml['mRNA_cell'], return_counts=True)
+data_rep = np.unique(df_rep['mRNA_cell'], return_counts=True)
+
+# for fake data testing
+# params = (0.73, 0.54, 1.1, .5)
+# params = np.power(10, params)
+# data_uv5 = np.unique(
+#     neg_binom.rvs(
+#         params[0], (1 + params[1])**(-1), size=2500
+#         ), return_counts=True
+#         )
+# data_rep = bursty_rep_rng(params, 1000)
+# params = np.log10(params)
+
 # init walkers
 p0 = np.zeros([n_walkers, n_dim])
-p0[:,0] = np.random.uniform(5,6, n_walkers) # k_burst
-p0[:,1] = np.random.uniform(3,4, n_walkers) # mean_burst
-p0[:,2] = np.random.uniform(0,10, n_walkers) # kR_on
-p0[:,3] = np.random.uniform(0,10, n_walkers) # kR_off
+# remember these are log_10 of actual params!!
+log_sampling = True
+p0[:,0] = np.random.uniform(0.65,0.75, n_walkers) # k_burst
+p0[:,1] = np.random.uniform(0.45,0.65, n_walkers) # mean_burst
+p0[:,2] = np.random.uniform(1,2, n_walkers) # kR_on
+p0[:,3] = np.random.uniform(-1,2, n_walkers) # kR_off
+#%%
 
 # run the sampler
-with Pool() as pool:
+with Pool(processes=7) as pool:
     # instantiate sampler
     sampler = emcee.EnsembleSampler(
         n_walkers, n_dim, log_posterior, pool=pool, args=(data_uv5, data_rep),
     )
-    print("starting burn-in...")
     pos, prob, state = sampler.run_mcmc(p0, n_burn, store=False, progress=True)
-    print("starting actual sampling...")
-    _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=40);
+    _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=20);
 
 # print(f"Autocorr time: {sampler.get_autocorr_time()}")
-
+#%%
 fig, axes = plt.subplots(4, figsize=(10, 7), sharex=True)
 samples = sampler.get_chain()
 labels = ["k_burst", "b", "kR_on", "kR_off"]
@@ -185,8 +257,26 @@ for i in range(n_dim):
     ax.yaxis.set_label_coords(-0.1, 0.5)
 axes[-1].set_xlabel("step number");
 plt.show()
-
+#%%
 emcee_output = az.from_emcee(
     sampler, var_names=['k_burst', 'b', 'kR_on', 'kR_off']
     )
 bokeh.io.show(bebi103.viz.corner(emcee_output, plot_ecdf=True))
+#%%
+# ppc plots
+ppc_uv5, ppc_rep = post_pred_bursty_rep(
+    sampler, sum(data_uv5[1]), sum(data_rep[1]))
+# how many post pred datasets should we plot?
+plotting_draws = 50
+total_draws = len(ppc_rep)
+
+fig, ax = plt.subplots(1,1)
+for i in range(0, total_draws*.7, int(total_draws/plotting_draws)):
+    ax.plot(*ecdf(ppc_uv5[i]), alpha=0.2, color='green', lw=0.2)
+    ax.plot(*ecdf(ppc_rep[i]), alpha=0.2, color='blue', lw=0.2)
+ax.plot(*ecdf(data_uv5), color='orange', lw=1)
+ax.plot(*ecdf(data_rep), color='red', lw=1)
+
+# why/how does the repressed fake data have higher counts than uv5?????
+
+# %%
