@@ -174,3 +174,18 @@ def ecdf(data):
     x_staircase[1::2] = data[0]
 
     return x_staircase, y_staircase
+
+def traceplot(sampler, labels=None):
+    samples = sampler.get_chain()
+    n_dim = np.shape(sampler.get_chain())[-1]
+    fig, axes = plt.subplots(n_dim, figsize=(10, 2*n_dim), sharex=True)
+    if labels == None:
+        labels = [f"foo#{i}" for i in range(n_dim)]
+    for i in range(n_dim):
+        ax = axes[i]
+        ax.plot(samples[:, :, i], "k", alpha=0.3)
+        ax.set_xlim(0, len(samples))
+        ax.set_ylabel(labels[i])
+        ax.yaxis.set_label_coords(-0.1, 0.5)
+    axes[-1].set_xlabel("step number");
+    return fig, axes

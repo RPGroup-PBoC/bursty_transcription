@@ -4,6 +4,7 @@
 
 from . import viz
 from . import data_loader
+from . import models
 
 __author__ = """Muir Morrison"""
 __email__ = """muir@caltech.edu"""
