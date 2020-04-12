@@ -3,7 +3,7 @@
 """Top level package for simple repression utilities"""
 
 from . import viz
-from . import data_loader
+from . import utils
 from . import models
 
 __author__ = """Muir Morrison"""

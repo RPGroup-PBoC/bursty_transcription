@@ -67,29 +67,14 @@ def log_prior(params):
 
 def log_posterior(params, data_uv5, data_rep):
     """check prior and then farm out data to the respective likelihoods."""
-    # Boolean logic to sample in linear or in log scale
-    # Credit to Manuel for this
     lp = log_prior(params)
     if lp == -np.inf:
         return -np.inf
-    if log_sampling:
-        params = 10**params
+    # we're sampling in log space but liklihoods are written in linear space
+    params = 10**params
     return (lp + log_like_constitutive(params, data_uv5)
             + log_like_repressed(params, data_rep))
 
-def condense_data(expts):
-    # first load data using module util
-    df_unreg, df_reg = srep.data_loader.load_FISH_by_promoter(("unreg", "reg"))
-    df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
-    data_uv5 = np.unique(df_UV5['mRNA_cell'], return_counts=True)
-    
-    rep_data = []
-    for expt in expts:
-        df = df_reg[df_reg["experiment"] == expt]
-        rep_data.append(
-            np.unique(df['mRNA_cell'], return_counts=True)
-            )
-    return data_uv5, rep_data
 
 #%%
 repo = Repo("./", search_parent_directories=True)
@@ -97,7 +82,7 @@ repo = Repo("./", search_parent_directories=True)
 repo_rootdir = repo.working_tree_dir
 
 expts = ("Oid_1ngmL", "O1_1ngmL", "O2_1ngmL")
-data_uv5, data_rep = condense_data(expts)
+data_uv5, data_rep = srep.utils.condense_data(expts)
 #%%
 n_dim = 6
 n_walkers = 18
@@ -107,7 +92,6 @@ n_steps = 100
 # init walkers
 p0 = np.zeros([n_walkers, n_dim])
 # remember these are log_10 of actual params!!
-log_sampling = True
 var_labels = ["k_burst", "b", "kR_on", "koff_Oid", "koff_O1", "koff_O2"]
 p0[:,0] = np.random.uniform(0.69,0.71, n_walkers) # k_burst
 p0[:,1] = np.random.uniform(0.54,0.55, n_walkers) # mean_burst

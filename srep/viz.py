@@ -85,7 +85,8 @@ def color_selector(style):
             'purple': '#AB85AC',
             'light_purple': '#D4C2D9',
             'dark_green':'#7E9D90',
-            'dark_brown':'#905426'}
+            'dark_brown':'#905426',
+            'black':'#060606'}
 
     elif style.lower() == 'constit':
         colors = {

@@ -102,3 +102,63 @@ def bursty_rep_rng(params, n_samp, max_m=100):
     # and condense the data before returning
     return np.unique(samples, return_counts=True)
 
+def draw_nbinom_dataset(draw, n_samples):
+    """
+    Generate random samples from a negative binomial model. Assumes that
+    draw is a sample from the model parameter space (probably posterior
+    but could be prior) and that the 1st element of the draw is
+    the burst rate and the 2nd element is the mean burst size.
+    """
+    pp_samples = neg_binom.rvs(draw[0], (1+draw[1])**(-1), size=n_samples)
+    return np.unique(pp_samples, return_counts=True)
+
+def post_pred_bursty_rep(
+    sampler,
+    n_pred,
+    n_post=None,
+    kon_ind=None,
+    koff_ind=None
+    ):
+    """
+    def post_pred_bursty_rep(
+        sampler,
+        n_rep,
+        kon_ind=None,
+        koff_ind=None,
+        n_post=None
+    )
+    Takes as input an emcee EnsembleSampler instance (that has already
+    sampled a posterior) and generates posterior predictive samples from it.
+    
+    - n_post is how many of the posterior draws to generate
+    datasets for (chosen evenly spaced along the posterior flatchain)
+    - n_pred is how many predictive samples to draw for
+    each posterior sample
+    - kon_ind & koff_ind flag which indices correspond to the
+    rates to use in generating samples (e.g., if the full model
+    contains several different rate parameters that we inferred from
+    multiple pooled datasets, which do we use here?). Can also generate
+    draws from constitutive nbinom dist by setting to 'nbinom'
+    """
+    if (kon_ind == None) or (koff_ind == None):
+        raise ValueError("Must specify which chain indices have kR rates!")
+    
+    # get posterior draws...
+    draws = sampler.get_chain(flat=True)
+    # ...but thin if requested
+    if n_post is not None:
+        draw_slice = np.linspace(0, len(draws)-1, n_post).astype(int)
+        draws = draws[draw_slice]
+
+    # sampler runs in log space, rng is in linear space so convert first
+    draws = 10**draws
+
+    if (kon_ind == 'nbinom') and (koff_ind == 'nbinom'):
+        return [draw_nbinom_dataset(draw, n_pred) for draw in draws]
+    else:
+        # generate draws from nbinom + simple repression model
+        # first slice out only the rates for this expt
+        # remember 0 is k_burst and 1 is mean_burst
+        var_slice = [0, 1, kon_ind, koff_ind]
+        draws = draws[:,var_slice]
+        return [bursty_rep_rng(draw, n_pred) for draw in draws]

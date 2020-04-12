@@ -59,3 +59,17 @@ def load_FISH_by_promoter(dfs_to_return):
         return_dfs.append(df_energies)
 
     return return_dfs
+
+def condense_data(expts):
+    # first load data using module util
+    df_unreg, df_reg = load_FISH_by_promoter(("unreg", "reg"))
+    df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
+    data_uv5 = np.unique(df_UV5['mRNA_cell'], return_counts=True)
+    
+    rep_data = []
+    for expt in expts:
+        df = df_reg[df_reg["experiment"] == expt]
+        rep_data.append(
+            np.unique(df['mRNA_cell'], return_counts=True)
+            )
+    return data_uv5, rep_data
