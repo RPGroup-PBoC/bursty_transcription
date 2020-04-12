@@ -31,6 +31,8 @@ data/images/
 *.svg
 *.bmp
 *.hdr
+# also html, e.g., bokeh output and converted .ipynbs
+*.html
 
 #Ignore movies and audio
 *.mp4
