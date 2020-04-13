@@ -2,6 +2,8 @@
 # This script performs posterior inference for multiple operators
 # at a single aTc conc (by default, Oid, O1, O2 at 1ng/mL).
 
+import os
+os.environ["OMP_NUM_THREADS"] = "1" # avoid probs w/ numpy autoparallel
 import re #regex
 import warnings
 import dill

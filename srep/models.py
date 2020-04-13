@@ -2,6 +2,7 @@ import warnings
 
 import numpy as np
 from scipy.stats import nbinom as neg_binom
+from scipy.stats import multivariate_normal as multinormal
 from mpmath import hyp2f1
 from scipy.special import gammaln
 
@@ -116,15 +117,15 @@ def post_pred_bursty_rep(
     sampler,
     n_pred,
     n_post=None,
-    kon_ind=None,
-    koff_ind=None
+    kon_idx=None,
+    koff_idx=None
     ):
     """
     def post_pred_bursty_rep(
         sampler,
         n_rep,
-        kon_ind=None,
-        koff_ind=None,
+        kon_idx=None,
+        koff_idx=None,
         n_post=None
     )
     Takes as input an emcee EnsembleSampler instance (that has already
@@ -134,13 +135,13 @@ def post_pred_bursty_rep(
     datasets for (chosen evenly spaced along the posterior flatchain)
     - n_pred is how many predictive samples to draw for
     each posterior sample
-    - kon_ind & koff_ind flag which indices correspond to the
+    - kon_idx & koff_idx flag which indices correspond to the
     rates to use in generating samples (e.g., if the full model
     contains several different rate parameters that we inferred from
     multiple pooled datasets, which do we use here?). Can also generate
     draws from constitutive nbinom dist by setting to 'nbinom'
     """
-    if (kon_ind == None) or (koff_ind == None):
+    if (kon_idx == None) or (koff_idx == None):
         raise ValueError("Must specify which chain indices have kR rates!")
     
     # get posterior draws...
@@ -153,12 +154,125 @@ def post_pred_bursty_rep(
     # sampler runs in log space, rng is in linear space so convert first
     draws = 10**draws
 
-    if (kon_ind == 'nbinom') and (koff_ind == 'nbinom'):
+    if (kon_idx == 'nbinom') and (koff_idx == 'nbinom'):
         return [draw_nbinom_dataset(draw, n_pred) for draw in draws]
     else:
         # generate draws from nbinom + simple repression model
         # first slice out only the rates for this expt
         # remember 0 is k_burst and 1 is mean_burst
-        var_slice = [0, 1, kon_ind, koff_ind]
+        var_slice = [0, 1, kon_idx, koff_idx]
         draws = draws[:,var_slice]
         return [bursty_rep_rng(draw, n_pred) for draw in draws]
+
+class pooledInferenceModel:
+    """
+    A convenience wrapper to organize metadata for an emcee sampler
+    object - e.g., what expt datasets were pooled, what parameters were
+    inferred, what are the priors on those parameters, etc?
+
+    Note that attaching the actual model posterior/prior/likelihood functions
+    might sound appealing, but results in a huge class the sampler pool must
+    pickle every iteration - a moderate slowdown. This way it avoids being
+    a god class, just the metadata & an index translator.
+    """
+    # TODO: prior handling, p0, ...??
+
+    def __init__(
+        self,
+        expts=None,
+        var_labels=None,
+        expt_rates=None,
+        prior_mu_sig=None
+        ):
+
+        self.expts = expts
+        self.var_labels = var_labels
+        self.expt_rates = expt_rates
+
+        # set up prior
+        if prior_mu_sig is not None: # leave door open for other prior choices
+            self.mu_prior = np.zeros(len(var_labels))
+            sig_prior = np.zeros_like(self.mu_prior)
+            for i, label in enumerate(var_labels):
+                self.mu_prior[i], sig_prior[i] = prior_mu_sig[label]
+            self.cov_prior = sig_prior**2
+        return None
+    
+    def expt_idx_to_rate_idx(self, idx):
+        """
+        Find & return the numerical indices (not the numerical values
+        themselves) for kRon and kRoff, in that order,
+        for the (idx)-th expt in self.expts.
+        """
+        # look up kR rate labels for this expt...
+        label_kRon, label_kRoff = self.expt_rates[self.expts[idx]]
+        # ...and convert those labels to indices...
+        kRon_idx  = self.var_labels.index(label_kRon)
+        kRoff_idx = self.var_labels.index(label_kRoff)
+        return kRon_idx, kRoff_idx
+
+def log_prior(params, model):
+    return multinormal.logpdf(params, model.mu_prior, np.diag(model.cov_prior))
+    # k_burst, mean_burst, kRon_0p5, kRon_1, kRon_2, kRon_10, kRoff = params
+    # # remember these params are log_10 of the actual values!!
+    # if (0.62 < k_burst < 0.8 and 0.4 < mean_burst < 0.64 and
+    #     -1.0 < kRon_0p5 < 0.1 and 0.2 < kRon_1 < 1.0
+    #     and 0.6 < kRon_2 < 1.7 and 1 < kRon_10 < 2.5
+    #     and -0.1 < kRoff < 1.0 ):
+    #     return 0.0
+    # return -np.inf
+
+def log_like_constitutive(params, data_constit):
+    k_burst, mean_burst = params[:2]
+    # change vars for scipy's goofy parametrization
+    p = (1 + mean_burst)**(-1)
+    return np.sum(data_constit[1] * neg_binom._logpmf(data_constit[0], k_burst, p))
+
+def log_like_repressed(params, data_rep, pooled_model=None):
+    """Conv wrapper for log likelihood for 2-state promoter w/
+    transcription bursts and repression.
+    
+    data_rep: a list of arrays, each of which is n x 2, of form
+        data[:, 0] = SORTED unique mRNA counts
+        data[:, 1] = frequency of each mRNA count
+
+    Note the data pre-processing here, credit to Manuel for this observation:
+    'The likelihood asks for unique mRNA entries and their corresponding 
+    counts to speed up the process of computing the probability distribution. 
+    Instead of computing the probability of 3 mRNAs n times, it computes it 
+    once and multiplies the value by n.'
+    This also reduces the size of the data arrays by ~10-fold,
+    which reduces the time penalty of emcee's pickling
+    to share the data within the multiprocessing Pool.
+    """
+    k_burst, mean_burst, *_ = params
+    target = 0
+    for i, expt in enumerate(data_rep):
+        max_m = expt[0].max()
+        if pooled_model is not None:
+            # look up kR rate indices for this expt...
+            kRon_idx, kRoff_idx = pooled_model.expt_idx_to_rate_idx(i)
+            # ...and look up the corresponding numerical values
+            kRon  = params[kRon_idx]
+            kRoff = params[kRoff_idx]
+            # finally, assemble the rates for this particular op/aTc pair
+            params_local = np.array([k_burst, mean_burst, kRon, kRoff])
+        else:
+            params_local = params
+
+        # note log_probs contains values for ALL m < max_m,
+        # not just those in the data set...
+        log_probs = log_prob_m_bursty_rep(max_m, *params_local)
+        # ...so extract just the ones we want & * by their occurence
+        target += np.sum(expt[1] * log_probs[expt[0]])
+    return target
+
+def log_posterior(params, data_constit, data_rep, pooled_model=None):
+    """check prior and then farm out data to the respective likelihoods."""
+    lp = log_prior(params, pooled_model)
+    if lp == -np.inf:
+        return -np.inf
+    # we're sampling in log space but liklihoods are written in linear space
+    params = 10**params
+    return (lp + log_like_constitutive(params, data_constit)
+            + log_like_repressed(params, data_rep, pooled_model))
