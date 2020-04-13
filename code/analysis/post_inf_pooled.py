@@ -24,7 +24,10 @@ repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
 repo_rootdir = repo.working_tree_dir
 
-expts = ("O2_0p5ngmL", "O2_1ngmL", "O2_2ngmL", "O2_10ngmL", "Oid_1ngmL", "O1_1ngmL")
+expts = (
+    "O2_0p5ngmL", "O2_1ngmL", "O2_2ngmL", "O2_10ngmL",
+    "Oid_1ngmL", "Oid_2ngmL", "O1_1ngmL", "O1_2ngmL", "O1_10ngmL"
+    )
 data_uv5, data_rep = srep.utils.condense_data(expts)
 var_labels = [
     "k_burst", "b",
@@ -34,13 +37,13 @@ prior_mu_sig = {
     # remember these are log_10 of actual params!!
     "k_burst":(0.725, 0.025),
     "b":(0.55, 0.025),
-    "kRon_0p5":(-0.45, 0.2),
-    "kRon_1":(0.6, 0.25),
-    "kRon_2":(1.15, 0.2),
-    "kRon_10":(1.5, 0.2),
-    "kRoff_Oid":(-0.25, 0.2),
-    "kRoff_O1":(0.1, 0.2),
-    "kRoff_O2":(0.45, 0.2)
+    "kRon_0p5":(-0.45, 0.3),
+    "kRon_1":(0.6, 0.3),
+    "kRon_2":(1.15, 0.3),
+    "kRon_10":(1.5, 0.3),
+    "kRoff_Oid":(-0.25, 0.3),
+    "kRoff_O1":(0.1, 0.3),
+    "kRoff_O2":(0.45, 0.3),
     }
 expt_rates = {
     "O2_0p5ngmL":("kRon_0p5", "kRoff_O2"),
@@ -48,7 +51,10 @@ expt_rates = {
     "O2_2ngmL":("kRon_2", "kRoff_O2"),
     "O2_10ngmL":("kRon_10", "kRoff_O2"),
     "Oid_1ngmL":("kRon_1", "kRoff_Oid"),
+    "Oid_2ngmL":("kRon_2", "kRoff_Oid"),
     "O1_1ngmL":("kRon_1", "kRoff_O1"),
+    "O1_2ngmL":("kRon_2", "kRoff_O1"),
+    "O1_10ngmL":("kRon_10", "kRoff_O1"),
     }
 model = srep.models.pooledInferenceModel(
     expts=expts,
@@ -59,18 +65,18 @@ model = srep.models.pooledInferenceModel(
 
 n_dim = len(var_labels)
 n_walkers = 35
-n_burn = 500
-n_steps = 150
+n_burn = 300
+n_steps = 200
 
-# init walkers
+# init walkers like prior but w/ narrower spread
 p0 = multinormal.rvs(
     mean=model.mu_prior,
-    cov=model.cov_prior,
+    cov=model.cov_prior/4,
     size=n_walkers)
 
 #%%
 # run the sampler
-with Pool(processes=35) as pool:
+with Pool(processes=37) as pool:
 # instantiate sampler
     sampler = emcee.EnsembleSampler(
         n_walkers,
@@ -80,11 +86,11 @@ with Pool(processes=35) as pool:
         pool=pool
     )
     pos, prob, state = sampler.run_mcmc(p0, n_burn, store=False, progress=True)
-    _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=35);
+    _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=40);
 del sampler.pool; # otherwise unpickling fails, even though pickling is fine
 
 #%%
-outfile = open(f"{repo_rootdir}/data/mcmc_samples/O2_cross_pooled_test.pkl", 'wb')
+outfile = open(f"{repo_rootdir}/data/mcmc_samples/many_pooled_test.pkl", 'wb')
 dill.dump((model, sampler), outfile)
 outfile.close()
 
