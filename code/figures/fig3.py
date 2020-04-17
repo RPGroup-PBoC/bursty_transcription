@@ -150,10 +150,10 @@ ax[1,1].errorbar(koff_Oid[1], ham_kOid[0], xerr=err_Oid, yerr=ham_kOid[1],
                 fmt='og', capsize=2, label=r"Oid, $\gamma^{-1} = $5 min")
 
 ax[1,1].plot((0, 0.3),(0, 0.3), 'k--')
-ax[1,1].set_xlabel(r'$k_R^-$ min$^{-1}$ (this study)')
-ax[1,1].set_ylabel(r'$k_R^-$ min$^{-1}$ (Hammar et al 2014)')
+ax[1,1].set_xlabel(r'$k_R^-$ (min$^{-1})$ (this study)')
+ax[1,1].set_ylabel(r'$k_R^-$ (min$^{-1})$ (Hammar et al 2014)')
 ax[1,1].legend(fontsize='small')
 
-plt.savefig(f"{repo_rootdir}/figures/fig3/fig3_v3.pdf")
+plt.savefig(f"{repo_rootdir}/figures/fig3/fig3_base.pdf")
 
 # %%

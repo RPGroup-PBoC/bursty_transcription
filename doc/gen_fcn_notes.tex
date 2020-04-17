@@ -1,0 +1,614 @@
+\documentclass[12pt]{article}%{amsart}
+\usepackage[top = 1.0in, bottom = 1.0in, left = 1.0in, right = 1.0in]{geometry}
+% See geometry.pdf to learn the layout options. There are lots.
+%\geometry{letterpaper}               % ... or a4paper or a5paper or ...
+%\geometry{landscape}             % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+%\usepackage{epstopdf}
+% \usepackage{caption}
+\usepackage{amsmath}
+% \usepackage{longtable}
+% \usepackage{tabu}
+% \usepackage{accents} %to get undertildes for vec & mat
+\usepackage{color} % for colored text
+% \usepackage[normalem]{ulem} % for editing: striking out text using 'sout' command
+
+% \newcommand\mytablefigwidth{0.35\textwidth}
+
+% allows to use .ai files directly w/o resaving as pdf
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{}
+
+% Handy math macros!
+\newcommand{\vect}[1]{\vec{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\rate}[3]{{#1}_{#2}^{#3}}
+\newcommand{\mmnote}[1]{\textcolor{cyan}{(MM:~#1)}}
+
+% derivative macros. these are sneaky. the [{}] is an empty default 1st arg
+% usage: provide 1 arg: \deriv{x} gives d/dx
+% provide 2 args like so: \deriv[f]{x} gives df/dx
+\newcommand{\deriv}[2][{}]{\frac{d #1}{d #2}}
+\newcommand{\pderiv}[2][{}]{\frac{\partial #1}{\partial #2}}
+\newcommand{\psecderiv}[2][{}]{\frac{\partial{^2} #1}{\partial #2{^2}}}
+
+%%%%% Referencing macros %%%%%
+\newcommand{\fref}[1]{Figure~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\eref}[1]{Eq.~(\ref{#1})}
+\newcommand{\erngref}[2]{Eq.~(\ref{#1}-\ref{#2})} % Equations
+% \newcommand{\test}[1][]{%
+% \ifthenelse{\isempty{#1}{}}{omitted}{#1}%
+% }
+
+%%%%%
+\begin{document}
+
+\title{Generating function solution for bursty promoters}
+
+\maketitle
+
+\section{Constitutive promoter with bursts}
+
+\subsection{From master equation to generating function}
+Before tackling mRNA and repression together, let us
+just consider mRNA \mmnote{replicating Charlotte's notes; she says it's worked out
+in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
+comprehend}. The master equation of interest is
+\begin{align}
+\deriv{t}p(m,t) = (m+1)\gamma p(m+1,t) - m\gamma p(m,t) - r p(m,t)
+        + r \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
+\label{eq:1state_unreg_003}
+\end{align}
+where $G_{k}(\theta)$ is the geometric distribution defined as
+\begin{align}
+G_{k}(\theta) = \theta(1 - \theta)^k, \, k\in\{0,1,2,\dots\}.
+\end{align}
+With this convention, the mean burst size $b = (1-\theta)/\theta$.
+$\gamma$ and $r$ are mRNA degradation rates and transcription burst
+initiation rates, resp. The last term represents all ways the system could
+end up with $m$ mRNAs, having started the burst with $m^\prime$. Define
+$\lambda = r/\gamma$ and nondimensionalize time by $\gamma$, giving
+\begin{align}
+\deriv{t}p(m,t) = (m+1)p(m+1,t) - m p(m,t) - \lambda p(m,t)
+        + \lambda \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
+\end{align}
+The probability generating function is defined as
+\begin{align}
+F(z,t) = \sum_{m=0}^\infty z^m p(m,t).
+\end{align}
+Multiply both sides of the CME by $z^m$ and sum over all $m$ to get
+\begin{align}
+\pderiv[F]{t} = \sum_{m=0}^\infty z^m
+\left(
+(m+1)p(m+1,t) - m p(m,t) - \lambda p(m,t)
++ \lambda \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t)
+\right).
+\end{align}
+The first two terms can be rewritten as derivatives of the
+generating function, i.e.,
+\begin{align}
+\sum_{m=0}^\infty z^m (m+1)p(m+1,t)
+=
+\pderiv{z} \sum_{m=0}^\infty z^{m+1} p(m+1,t)
+=
+\pderiv[F]{z}
+\end{align}
+and
+\begin{align}
+\sum_{m=0}^\infty z^m mp(m,t)
+=
+z\pderiv{z} \sum_{m=0}^\infty z^m p(m,t)
+=
+z\pderiv[F]{z}.
+\end{align}
+The final term is the most trouble. The trick is to reverse
+the default order of the sums, as in
+\begin{align}
+&\lambda \sum_{m=0}^\infty \sum_{m^\prime=0}^m
+        z^m \theta(1 - \theta)^{m-m^\prime} p(m^\prime,t)
+\\=
+&\lambda\theta \sum_{m^\prime=0}^\infty z^{m^\prime} p(m^\prime,t)
+        \sum_{m=m^\prime}^\infty
+        z^{m-m^\prime} (1 - \theta)^{m-m^\prime}
+\\=
+&\frac{\lambda\theta F}{1 - (1 - \theta)z}.
+\end{align}
+This works because after reordering the sums, the sum on $m$ is just
+a geometric series. Its result is independent of $m^\prime$, so the sum on
+$m^\prime$ reduces to the definition of the generating function.
+Putting these results together, the PDE for the generation function is
+\begin{align}
+\pderiv[F]{t} = \pderiv[F]{z} - z\pderiv[F]{z} - \lambda F
+        + \frac{\lambda\theta F}{1-z(1-\theta)}.
+\end{align}
+Changing variables to $\xi=1-\theta$ and simplifying gives
+\begin{align}
+\pderiv[F]{t} + (z - 1) \pderiv[F]{z} = \frac{(z-1)\xi}{1-z\xi}\lambda F.
+\label{eq:1state_unreg_015}
+\end{align}
+\subsection{Stead-state}
+At steady-state, the PDE reduces to the ODE
+\begin{align}
+\deriv[F]{z} = \frac{\xi}{1-z\xi}\lambda F,
+\end{align}
+which we can integrate as
+\begin{align}
+\int \frac{dF}{F} = \int \frac{\lambda\xi dz}{1-\xi z}.
+\end{align}
+The initial conditions for generating functions can be subtle and confusing.
+The key fact follows from the definition
+$F(z,t) = \sum_m z^m p(m,t)$,
+normalization requires that
+$F(z=1^-,t) = \sum_m p(m,t) = 1$.\footnote{
+Sometimes the generating function may be undefined \textit{at} $z=1$ but the
+limit still holds. Also many authors change variables from $z$ to other
+things, so one must keep track of how the normalization condition transforms.
+}
+Doing the integrals (and producing constant $c$) gives
+\begin{align}
+\ln F &= -\lambda \ln(1-\xi z) + c
+\\
+F &= \frac{c}{(1-\xi z)^\lambda}.
+\end{align}
+Only one choice for $c$ can satisfy initial conditions, producing
+\begin{align}
+F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
+        = \left(\frac{\theta}{1 - z(1-\theta)}\right)^\lambda,
+\end{align}
+which is exactly the negative binomial's generating function, as expected.
+
+\section{Adding repression}
+\subsection{Deriving the generating function for mRNA distribution}
+Let us move from a one-state promoter to a two-state promoter, where one state
+has repressor bound and the other produces transcriptional bursts as above.
+Although now we have an equation for each promoter state, otherwise
+the master equation reads similarly to the one-state case, except with
+additional terms corresponding to transitions between promoter states, namely
+\begin{align}
+\deriv{t}p_R(m,t) =& k_R^+ p_A(m,t) - k_R^- p_R(m,t)
+        + (m+1)\gamma p_R(m+1,t) - m\gamma p_R(m,t)
+\\
+\begin{split}
+\deriv{t}p_A(m,t) =& - k_R^+ p_A(m,t) + k_R^- p_R(m,t)
+        + (m+1)\gamma p_A(m+1,t) - m\gamma p_A(m,t) 
+\\
+&- k_i p_A(m,t) + k_i \sum_{m^\prime=0}^m \theta(1-\theta)^{m-m^\prime} p_A(m^\prime,t),
+\end{split}
+\end{align}
+where $p_R(m,t)$ is the probability of the system having $m$ mRNA copies
+and having repressor bound to the promoter at time $t$, and $p_A$ is an
+analogous probability to find the promoter without repressor bound.
+$k_R+$ and $k_R^-$ are, respectively, the rates at which repressors
+bind and unbind to and from the promoter, and
+$\gamma$ is the mRNA degradation rate.
+$k_i$ is the rate at which bursts initiate, and as before,
+the geometric distribution of burst sizes has mean $b=(1-\theta)/\theta$.\footnote{
+$\theta$ can be viewed as a Bernoulli trial probability: after each transcript
+in a burst is produced, $\theta$ is the probability that the burst
+terminates and $(1-\theta)$ is the probability that the burst continues.
+}
+
+Interestingly, it turns out that this problem maps exactly onto the
+three-stage promoter model considered by
+Shahrezaei and Swain in~\cite{Shahrezaei2008}, with relabelings.
+Their approximate solution for protein distributions amounts to
+the same approximation we make here in regarding the duration
+of mRNA synthesis bursts as instantaneous, so their solution
+for protein distributions also solves our problem of mRNA distributions.
+Let us examine the analogy more closely.
+They consider a two-state promoter, as we do here, but they model
+mRNA as being produced one at a time and degraded, with rates
+$v_0$ and $d_0$.
+Then they model translation as occuring with rate $v_1$,
+and protein degradation with rate $d_1$.
+Now consider the limit where $v_1, d_0\rightarrow\infty$ with
+their ratio $v_1/d_0$ held constant.
+$v_1/d_0$ resembles the average burst size of translation from a single
+mRNA: these are the rates of two Poisson processes that compete over a
+transcript, which matches the story of geometrically distributed burst sizes.
+So after taking this limit, on timescales slow compared to $v_1$ and $d_0$,
+it appears that transcription events fire at rate $v_0$ and produce a
+geometrically distributed burst of translation of mean size $v_1/d_0$,
+which intuitively matches the story we have told above for mRNA
+with variables relabeled.
+
+To verify this intuitively conjectured mapping between our problem and
+the solution in~\cite{Shahrezaei2008}, we continue with a careful
+solution for the mRNA distribution using probability generating functions,
+following the ideas sketched in~\cite{Shahrezaei2008}.
+It is natural to nondimensionalize rates in the problem by $\gamma$,
+or equivalently, this amounts to measuring time in units of $\gamma^{-1}$.
+We are also only interested in steady state, so we set the time
+derivatives to zero, giving
+\begin{align}
+0 =& k_R^+ p_A(m) - k_R^- p_R(m) + (m+1) p_R(m+1) - m p_R(m)
+\\
+\begin{split}
+0 =& - k_R^+ p_A(m) + k_R^- p_R(m) + (m+1) p_A(m+1) - m p_A(m) 
+\\
+&- k_i p_A(m) + k_i \sum_{m^\prime=0}^m \theta(1-\theta)^{m-m^\prime} p_A(m^\prime),
+\end{split}
+\end{align}
+        
+The probability generating function is defined as before in the
+constitutive case, except now we must introduce a generating function
+for each promoter state,
+\begin{align}
+f_A(z) = \sum_{m=0}^\infty z^m p_A(m),
+\;
+f_R(z) = \sum_{m=0}^\infty z^m p_R(m).
+\end{align}
+Our real objective is the generating function $f(z)$ that generates
+the mRNA distribution $p(m)$, independent of what state the promoter is in.
+But since $p(m) = p_A(m) + p_R(m)$, it follows too that $f(z) = f_A(z) + f_R(z)$.
+
+So as before we multiply both equations by $z^m$ and sum over all $m$.
+Each individual term transforms exactly as did an analogous term in
+the constitutive case, so the coupled ODEs for the generating functions read
+\begin{align}
+0 =& k_R^+ f_A(z) - k_R^- f_R(z) + \pderiv{z} f_R(z) - z \pderiv{z} f_R(z)
+\\
+\begin{split}
+0 =&  - k_R^+ f_A(z) + k_R^- f_R(z) + \pderiv{z} f_A(z) - z \pderiv{z} f_A(z)
+\\
+&- k_i f_A(z) + k_i \frac{\theta}{1-z(1-\theta)} f_A(z),
+\end{split}
+\end{align}
+and after changing variables $\xi = 1 - \theta$ as before
+and rearranging, we have
+\begin{align}
+0 &= k_R^+ f_A(z) - k_R^- f_R(z) + (1-z) \pderiv{z} f_R(z)
+\\
+0 &=  - k_R^+ f_A(z) + k_R^- f_R(z) + (1 - z) \pderiv{z} f_A(z)
++ k_i \frac{(z-1)\xi}{1-z\xi} f_A(z),
+\end{align}
+We can transform this problem from two coupled first-order ODEs to a
+single second-order ODE by solving for $f_A$ in the first and plugging
+into the second, giving
+\begin{align}
+\begin{split}
+0 = (1&-z) \pderiv[f_R]{z}
++ \frac{1-z}{k_R^+}
+        \left(k_R^- \pderiv[f_R]{z} + \pderiv[f_R]{z} +(z-1) \psecderiv[f_R]{z}\right)
+\\
+&+ \frac{k_i}{k_R^+} \frac{(z-1)\xi}{1-z\xi}
+        \left(k_R^- f_R + (z-1) \pderiv[f_R]{z}\right),
+\end{split}
+\end{align}
+where, to reduce notational clutter, we have dropped the explicit $z$
+dependence of $f_A$ and $f_R$. Simplifying we have
+\begin{align}
+0 = \psecderiv[f_R]{z}
+        - \left(\frac{k_i\xi}{1-z\xi}
+                + \frac{1 + k_R^- + k_R^+}{1-z}
+        \right)\pderiv[f_R]{z}
+        + \frac{k_i k_R^- \xi}{(1-z\xi)(1-z)}f_R.
+\end{align}
+This can be recognized as the hypergeometric differential equation,
+with singularities at $z=1$, $z=\xi^{-1}$, and $z=\infty$. The latter
+can be verified by a change of variables from $z$ to $x=1/z$,
+being careful with the chain rule, and noting that $z=\infty$ is a
+singular point if and only if $x=1/z=0$ is a singular point.
+
+The standard form of the hypergeometric differential equation has its
+singularities at 0, 1, and $\infty$, so to take advantage of the
+standard form solutions to this ODE, we first need to transform
+variables to put it into a standard form.
+However, this is subtle. While any such transformation should work in
+principle, the solutions are expressed most simply in the neighborhood
+of $z=0$, but the normalization condition that we need to enforce
+corresponds to $z=1$. The easiest path, therefore, is to find a change
+of variables that maps
+1 to 0, $\infty$ to $\infty$, and $\xi^{-1}$ to 1.
+This is most intuitively done in two steps.
+
+First map the $z=1$ singularity to 0 by the change of variables $v=z-1$, giving
+\begin{align}
+0 = \psecderiv[f_R]{v}
+        + \left(\frac{k_i\xi}{(1+v)\xi - 1}
+                + \frac{1 + k_R^- + k_R^+}{v}
+        \right)\pderiv[f_R]{v}
+        + \frac{k_i k_R^- \xi}{((1+v)\xi - 1)v}f_R.
+\end{align}
+Now two singularities are at $v=0$ and $v=\infty$.
+The third is determined by $(1+v)\xi -1 = 0$, or $v=\xi^{-1} - 1$.
+We want another variable change that maps this third singularity to 1
+(without moving 0 or infinity). Changing variables again to
+$w=\frac{v}{\xi^{-1} - 1} = \frac{\xi}{1-\xi} v$ fits the bill.
+In other words, the combined change of variables
+\begin{align}
+w = \frac{\xi}{1-\xi} (z-1)
+\end{align}
+maps $z = \{1, \xi^{-1}, \infty\}$ to $w =\{0, 1, \infty\}$ as desired.
+Plugging in, being mindful of the chain rule and noting
+$(1 + v)\xi - 1 = (1 - \xi)(w - 1)$ gives
+\begin{align}
+0 = \left(\frac{\xi}{1-\xi}\right)^2 \psecderiv[f_R]{w}
++ \left(
+        \frac{\xi k_i}{(1-\xi)(w-1)} + \frac{\xi(1 + k_R^- + k_R^+)}{(1-\xi)w}
+\right) \frac{\xi}{1-\xi} \pderiv[f_R]{w}
++ \frac{k_i k_R^- \xi^2}{(1-\xi)^2 w(w-1)}f_R.
+\end{align}
+This is close to the standard form of the hypergeometric differential
+equation, and some cancellation and rearrangement gives
+\begin{align}
+0 = w(w-1)\psecderiv[f_R]{w}
++ \left(k_i w + (1 + k_R^- + k_R^+)(w-1)\right) \pderiv[f_R]{w}
++ k_i k_R^- f_R.
+\end{align}
+and a little more algebra produces
+\begin{align}
+0 = w(1-w)\psecderiv[f_R]{w}
++ \left(1 + k_R^- + k_R^+
+        - (1 + k_i + k_R^- + k_R^+)w
+\right) \pderiv[f_R]{w}
+- k_i k_R^- f_R,
+\end{align}
+which is the standard form. From this we can read off the solution
+in terms of hypergeometric functions ${_2F_1}$ from
+any standard source, e.g.~\cite{Abramovitz}, and identify the
+conventional parameters in terms of our model parameters.
+We want the general solution in the neighborhood of $w=0$ ($z=1$),
+which for a homogeneous linear second order ODE must be a sum of two
+linearly independent solutions.
+More precisely,
+\begin{align}
+f_R(w) = C_1 {_2F_1}(\alpha, \beta, \gamma; w)
++ C_2 w^{1-\gamma}{_2F_1}(1+\alpha-\gamma, 1+\beta-\gamma, 2-\gamma; w)
+\end{align}
+with parameters determined by
+\begin{align}
+\begin{split}
+\alpha\beta &= k_i k_R^-
+\\
+1+\alpha+\beta &= 1+k_i+k_R^-+k_R^+
+\\
+\gamma &= 1 + k_R^- + k_R^+
+\end{split}
+\end{align}
+and constants $C_1$ and $C_2$ to be set by boundary conditions.
+Solving for $\alpha$ and $\beta$, we find\footnote{
+Note that $\alpha$ and $\beta$ are interchangeable in the definition of
+${_2F_1}$ and differ only in the sign preceeding the radical.
+}
+\begin{align}
+\begin{split}
+\alpha &= \frac{1}{2}
+\left(k_i+k_R^-+k_R^+ + \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right)
+\\
+\beta &= \frac{1}{2}
+\left(k_i+k_R^-+k_R^+ - \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right)
+\\
+\gamma &= 1 + k_R^- + k_R^+.
+\end{split}
+\end{align}
+Since the normalization condition requires that $f_R$ be finite at $w=0$,
+we can immediately set $C_2=0$ to discard the second solution.
+This is because all the rate constants are strictly positive,
+so $\gamma>1$ and therefore $w^{1-\gamma}$ blows up as $w\rightarrow0$.
+Now that we have $f_R$, we would like to find the generating function
+for the mRNA distribution, $f(z) = f_A(z) + f_R(z)$.
+We can recover $f_A$ from our solution for $f_R$, namely
+\begin{align}
+f_A(z) = \frac{1}{k_R^+}\left(k_R^- f_R(z) + (z-1) \pderiv[f_R]{z}\right)
+\end{align}
+or
+\begin{align}
+f_A(w) = \frac{1}{k_R^+}\left(k_R^- f_R(w) + w \pderiv[f_R]{w}\right),
+\end{align}
+where in the second line we transformed our original relation between
+$f_R$ and $f_A$ to our new, more convenient, variable $w$.
+Plugging our solution for $f_R(w) = C_1{_2F_1}(\alpha, \beta, \gamma; w)$
+into $f_A$, we will require the differentiation rule for ${_2F_1}$,
+which tells us
+\begin{align}
+\pderiv[f_R]{w} = C_1\frac{\alpha\beta}{\gamma}
+                {_2F_1}(\alpha+1, \beta+1, \gamma+1; w),
+\end{align}
+from which it follows that
+\begin{align}
+f_A(w) = \frac{C_1}{k_R^+}
+\left(
+k_R^- {_2F_1}(\alpha, \beta, \gamma; w)
++ w\frac{\alpha\beta}{\gamma} {_2F_1}(\alpha+1, \beta+1, \gamma+1; w)
+\right)
+\end{align}
+and therefore
+\begin{align}
+f(w) = C_1\left(1 + \frac{k_R^-}{k_R^+}\right)
+        {_2F_1}(\alpha, \beta, \gamma; w)
++ w \frac{C_1}{k_R^+} \frac{\alpha\beta}{\gamma}
+        {_2F_1}(\alpha+1, \beta+1, \gamma+1; w).
+\end{align}
+To proceed, we need one of the (many) useful identities known for
+hypergeometric functions, in particular
+\begin{align}
+w\frac{\alpha\beta}{\gamma} {_2F_1}(\alpha+1, \beta+1, \gamma+1; w)
+=
+(\gamma-1)\left(
+{_2F_1}(\alpha, \beta, \gamma-1; w) - {_2F_1}(\alpha, \beta, \gamma; w)
+\right).
+\end{align}
+Substituting this for the second term in $f(w)$, we find
+\begin{align}
+f(w) = \frac{C_1}{k_R^+}
+\left[
+        \left(k_R^+ + k_R^-\right)
+        {_2F_1}(\alpha, \beta, \gamma; w)
++ (\gamma-1)\left(
+        {_2F_1}(\alpha, \beta, \gamma-1; w) - {_2F_1}(\alpha, \beta, \gamma; w)
+        \right)
+\right],
+\end{align}
+and since $\gamma-1 = k_R^+ + k_R^-$, the first and third terms cancel,
+leaving only
+\begin{align}
+f(w) = C_1\frac{k_R^+ + k_R^-}{k_R^+} {_2F_1}(\alpha, \beta, \gamma-1; w).
+\end{align}
+Now we enforce normalization, demanding $f(w=0) = f(z=1) = 1$.
+${_2F_1}(\alpha, \beta, \gamma-1; 0) = 1$, so we must have
+$C_1 = k_R^+ / (k_R^+ + k_R^-)$ and consequently
+\begin{align}
+f(w) =  {_2F_1}(\alpha, \beta, k_R^+ + k_R^-; w).
+\end{align}
+Recalling that the mean burst size $b = (1-\theta)/\theta = \xi/(1-\xi)$
+and $w = \frac{\xi}{1-\xi} (z-1) = b (z-1)$,
+we can transform back to the original variable $z$ to find the tidy result
+\begin{align}
+f(z) =  {_2F_1}(\alpha, \beta, k_R^+ + k_R^-; b(z-1)),
+\end{align}
+with $\alpha$ and $\beta$ given above by
+\begin{align}
+\begin{split}
+\alpha &= \frac{1}{2}
+\left(k_i+k_R^-+k_R^+ + \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right)
+\\
+\beta &= \frac{1}{2}
+\left(k_i+k_R^-+k_R^+ - \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right).
+\end{split}
+\end{align}
+Finally we are in sight of the original goal. We can generate the
+steady-state probability distribution of interest by
+differentiating the generating function,
+\begin{align}
+p(m) = m! \left.\frac{\partial^m}{\partial z^m} f(z) \right|_{z=0},
+\end{align}
+which follows easily from its definition. Some contemplation reveals
+that repeated application of the derivative rule used above will produce
+products of the form $\alpha(\alpha+1)(\alpha+2)\cdots(\alpha+m-1)$ in
+the expression for $p(m)$ and similarly for $\beta$ and $\gamma$. These
+resemble ratios of factorials, but since $\alpha$, $\beta$, and $\gamma$
+are not necessarily integer, we should express the ratios using gamma
+functions instead. More precisely, one finds
+\begin{align}
+p(m) = \frac{
+        \Gamma(\alpha + m)\Gamma(\beta + m)\Gamma(k_R^+ + k_R^-)
+        }
+        {
+        \Gamma(\alpha)\Gamma(\beta)\Gamma(k_R^+ + k_R^- + m)
+        }
+\frac{b^m}{m!}{_2F_1}(\alpha+m, \beta+m, k_R^++k_R^-+m; -b)
+\label{eq:p_m_bursty+rep}
+\end{align}
+which is finally the probability distribution we sought to derive.
+
+\subsection{Moments}
+We can verify the correctness of~\eref{eq:p_m_bursty+rep}
+by comparison with Gillespie simulation.
+We can also easily compute moments of the distribution from
+the generating function, and check these against raw moments computed
+directly from the master equation.
+
+The $j$-th raw moment of the distribution can be computed from the
+generating function from the formula
+\begin{align}
+\langle m^j \rangle
+= \left. \left(z \frac{\partial}{\partial z}\right)^j f(z)\right|_{z=1}.
+\end{align}
+Note that \textit{probabilities} are generated by differentiating
+and evaluating at $z=0$, while \textit{moments} are generated by
+differentiating and evaluating at $z=1$. This also aligns with the
+normalization constraint, which can be thought of as the zeroth raw moment.
+        
+The mean mRNA is given by
+\begin{align}
+\langle m \rangle = \left.z \pderiv[f]{z} \right|_{z=1}
+= \frac{\alpha\beta b}{k_R^+ + k_R^-}
+= k_i b\frac{k_R^-}{k_R^+ + k_R^-},
+\end{align}
+which is intuitive and appealingly simple:
+the mean mRNA is just the mean mRNA in the absense of repression
+($k_i b$, the burst rate time mean burst size)
+times the fraction of time the repressor is bound, $k_R^-/(k_R^+ + k_R^-)$.
+
+To compute the variance, let us first compute
+\begin{align}
+\begin{split}
+\langle m^2\rangle
+&= \left .z\pderiv{z}\left(z\pderiv[f]{z}\right) \right|_{z=1}
+= \left. z\left(\pderiv[f]{z} + z\psecderiv[f]{z}\right)\right|_{z=1}
+\\
+&= \frac{\alpha\beta b}{k_R^+ + k_R^-}
+        + \frac{\alpha(\alpha+1)\beta(\beta+1) b^2}
+                {(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)}
+\\
+&= \frac{k_i b k_R^-}{k_R^+ + k_R^-}
+        + \frac{k_i k_R^- b^2 (1 + k_i + k_R^+ + k_R^- + k_i k_R^-)}
+                {(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)},
+\end{split}
+\end{align}
+from which the variance is
+\begin{align}
+\begin{split}
+var(m) = \langle m^2\rangle - \langle m\rangle^2
+&= \frac{k_i b k_R^-}{k_R^+ + k_R^-}
+\left(
+1 + \frac{b(1 + k_i + k_R^+ + k_R^- + k_i k_R^-)} {k_R^+ + k_R^- + 1}
+- \frac{k_i b k_R^-}{k_R^+ + k_R^-}
+\right)
+\\
+&= k_i b\frac{k_R^-}{k_R^+ + k_R^-}
+\left(
+1 + b + k_i b\frac{1 + k_R^-} {k_R^+ + k_R^- + 1}
+- \frac{k_i b k_R^-}{k_R^+ + k_R^-}
+\right)
+\\
+&= k_i b\frac{k_R^-}{k_R^+ + k_R^-}
+\left(
+1 + b + k_i b\frac{k_R^+}{(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)}
+\right).
+\end{split}
+\end{align}
+The Fano factor is the quantity in parentheses. This can be interpreted as
+the variability arising from the negative binomial distribution of the
+unregulated promoter $(1+b)$ plus additional noise arising from repression.
+
+\mmnote{Still to writeup: moment derivation direct from CME to compare}
+
+\subsection{Numerical considerations and recursion formulas}
+We would like to carry out Bayesian parameter inference on FISH data
+from~\cite{Jones2014}, using~\eref{eq:p_m_bursty+rep} as our
+likelihood. This requires accurate (and preferably fast)
+numerical evaluation of the hypergeometric function ${_2F_1}$,
+which is a notoriously hard problem~\cite{Pearson2016, Gil2007},
+and our particular needs here present an especial challenge as we show below.
+
+The hypergeometric function is defined by its Taylor series as
+\begin{align}
+{_2F_1}(a,b,c;z) 
+= \sum_{l=0}^\infty
+\frac{\Gamma(a + l)\Gamma(b + l)\Gamma(c)}
+        {\Gamma(a)\Gamma(b)\Gamma(c + l)}
+\frac{z^l}{l!}
+\end{align}
+for $|z|<1$, and by analytic continuation elsewhere.
+If $z\lesssim1/2$ and $\alpha$ and $\beta$ are not too large
+(absolute value below 20 or 30),
+then the series converges quickly and an accurate numerical representation is
+easily computed by truncating the series after a reasonable number of terms.
+Unfortunately, we need to evaluate ${_2F_1}$ over mRNA copy numbers fully out
+to the tail of the distribution, which can easily reach 50, possibly 100.
+From~\eref{eq:p_m_bursty+rep}, this means evaluating ${_2F_1}$
+repeatedly for values of $a$, $b$, and $c$ spanning the full range
+from $\mathcal{O}(1)$ to $\mathcal{O}(10^2)$,
+even if $\alpha$, $\beta$, and $\gamma$
+in~\eref{eq:p_m_bursty+rep} are small,
+with the situation even worse if they are not small.
+A naive numerical evaluation of the series definition will be
+prone to overflow and, if any of $a,b,c<0$, then some successive terms in the
+series have alternating signs which can lead to catastrophic cancellations.
+
+The solution involves recursion relations originally explored by Gauss,
+and studied extensively in~\cite{Pearson2016, Gil2007}.
+
+%%%%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+
+% \bibliographystyle{nature}
+\bibliographystyle{abbrv}
+\bibliography{../library}
+
+\end{document}
