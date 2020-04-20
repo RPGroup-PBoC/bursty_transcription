@@ -52,10 +52,26 @@
 \section{Constitutive promoter with bursts}
 
 \subsection{From master equation to generating function}
+
+\begin{figure}
+\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2.pdf}
+\caption{
+\mmnote{This figure wouldn't appear in this section, instead
+just a reference to the cartoon so the reader knows
+what cartoon model we're doing all this math for.}
+}
+\end{figure}
+We would like to derive the full probability distribution of
+mRNA copy number per cell for a model combining simple repression
+with a promoter featuring bursty transcription initiation.
 Before tackling mRNA and repression together, let us
-just consider mRNA \mmnote{replicating Charlotte's notes; she says it's worked out
+just consider the bursty consititutive promoter,
+model 4 in Fig.~1A.
+\mmnote{replicating Charlotte's notes; she says it's worked out
 in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
-comprehend}. The master equation of interest is
+comprehend. Need to find a cite for this,
+or maybe just cite Charlotte, personal comm, since that's where I actually got it\dots}.
+The master equation of interest is
 \begin{align}
 \deriv{t}p(m,t) = (m+1)\gamma p(m+1,t) - m\gamma p(m,t) - r p(m,t)
         + r \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
@@ -161,8 +177,18 @@ which is exactly the negative binomial's generating function, as expected.
 
 \section{Adding repression}
 \subsection{Deriving the generating function for mRNA distribution}
+
+\begin{figure}
+\includegraphics[width=0.9\textwidth]{../figures/fig3/fig3.ai}
+\caption{
+\mmnote{This figure wouldn't appear in this section, instead
+just a reference to the cartoon so the reader knows
+what cartoon model we're doing all this math for.}
+}
+\end{figure}
 Let us move from a one-state promoter to a two-state promoter, where one state
 has repressor bound and the other produces transcriptional bursts as above.
+A schematic of this model is shown in Fig.\ 2A.
 Although now we have an equation for each promoter state, otherwise
 the master equation reads similarly to the one-state case, except with
 additional terms corresponding to transitions between promoter states, namely
@@ -348,7 +374,7 @@ and a little more algebra produces
 \end{align}
 which is the standard form. From this we can read off the solution
 in terms of hypergeometric functions ${_2F_1}$ from
-any standard source, e.g.~\cite{Abramovitz}, and identify the
+any standard source, e.g.~\cite{Abramowitz1964}, and identify the
 conventional parameters in terms of our model parameters.
 We want the general solution in the neighborhood of $w=0$ ($z=1$),
 which for a homogeneous linear second order ODE must be a sum of two
@@ -568,11 +594,12 @@ unregulated promoter $(1+b)$ plus additional noise arising from repression.
 \mmnote{Still to writeup: moment derivation direct from CME to compare}
 
 \subsection{Numerical considerations and recursion formulas}
+\subsubsection{Generalities}
 We would like to carry out Bayesian parameter inference on FISH data
 from~\cite{Jones2014}, using~\eref{eq:p_m_bursty+rep} as our
 likelihood. This requires accurate (and preferably fast)
 numerical evaluation of the hypergeometric function ${_2F_1}$,
-which is a notoriously hard problem~\cite{Pearson2016, Gil2007},
+which is a notoriously hard problem~\cite{Pearson2017, Gil2007},
 and our particular needs here present an especial challenge as we show below.
 
 The hypergeometric function is defined by its Taylor series as
@@ -600,8 +627,205 @@ A naive numerical evaluation of the series definition will be
 prone to overflow and, if any of $a,b,c<0$, then some successive terms in the
 series have alternating signs which can lead to catastrophic cancellations.
 
+One solution is to evaluate ${_2F_1}$ using arbitrary precision arithmetic
+instead of floating point arithmetic,
+e.g., using the \texttt{mpmath} library in Python.
+This is accurate but incredibly slow computationally.
+To quantify how slow, we found that
+evaluating the likelihood defined by~\eref{eq:p_m_bursty+rep} $\sim50$ times
+(for a typical dataset of interest from~\cite{Jones2014},
+with $m$ values spanning 0 to $\sim50$)
+using arbitrary precision arithmetic is 100-1000 fold slower than
+evaluating a negative binomial likelihood for the corresponding
+constitutive promoter dataset.
+
+To claw back $\gtrsim30$ fold of that slowdown, we can exploit
+one of the many catalogued symmetries involving ${_2F_1}$.
 The solution involves recursion relations originally explored by Gauss,
-and studied extensively in~\cite{Pearson2016, Gil2007}.
+and studied extensively in~\cite{Pearson2017, Gil2007}.
+They are sometimes known as contiguous relations and relate the values
+of any set of 3 hypergeometric functions whose arguments differ by integers.
+To rephrase this symbolically, consider a set of hypergeometric functions
+indexed by an integer $n$,
+\begin{align}
+f_n = {_2F_1}(a+\epsilon_i n, b+\epsilon_j n, c+\epsilon_k n; z),
+\end{align}
+for a fixed choice of $\epsilon_i, \epsilon_j, \epsilon_k \in \{0,\pm 1\}$
+(at least one of $\epsilon_i, \epsilon_j, \epsilon_k$ must be nonzero,
+else the set of $f_n$ would contain only a single element).
+Then there exist known recurrence relations of the form
+\begin{align}
+A_n f_{n-1} + B_n f_{n} + C_n f_{n+1} = 0,
+\end{align}
+where $A_n, B_n$, and $C_n$ are some functions of $a,b,c$, and $z$.
+In other words, for fixed $\epsilon_i, \epsilon_j, \epsilon_k, a, b,$ and $c$,
+if we can merely evaluate ${_2F_1}$ twice, say for $n^\prime$ and $n^\prime-1$,
+then we can easily and rapidly generate values for arbitrary $n$.
+
+This provides a convenient solution for our problem: we need repeated
+evaluations of ${_2F_1}(a+m, b+m, c+m; z)$
+for fixed $a,b$, and $c$ and many integer values of $m$.
+They idea is that we can use arbitrary precision arithmetic to evaluate
+${_2F_1}$ for just two particular values of $m$ and then generate
+${_2F_1}$ for the other 50-100 values of $m$ using the recurrence
+relation.\footnote{
+There are even more sophisticated ways of utilizing the recurrence
+relations that might have netted another factor of 2 speed-up, and
+possibly as much as a factor of 10, but the method described here had
+already reduced the computation time to an acceptable
+$\mathcal{O}(\text{1 min})$, so these more sophisticated approaches did
+not seem worth the time to pursue.
+}
+
+However, there two further wrinkles.
+The first is that
+a naive application of the recurrence relation is numerically unstable.
+Roughly, this is because the three term recurrence relations,
+like second order ODEs, admit two linearly independent solutions.
+In a certain eigenbasis, one of these solutions dominates the other
+as $n\rightarrow\infty$, and as $n\rightarrow-\infty$,
+the dominance is reversed.
+If we fail to work in this eigenbasis, our solution of the recurrence relation
+will be a mixture of these solutions and rapidly accumulate numerical error.
+For our purposes, it suffices to know that the authors of~\cite{Gil2007}
+derived the numerically stable solutions (so-called \textit{minimal solutions})
+for several possible choices of $\epsilon_i, \epsilon_j, \epsilon_k$.
+Running the recurrence in the proper direction using a minimal solution
+is numerically robust and can be done entirely in floating point arithmetic, 
+so that we only need to evaluate ${_2F_1}$ with arbitrary precision arithmetic
+to generate the seed values for the recursion.
+
+The second wrinkle is a corollary to the first.
+The minimal solutions are only minimal for certain ranges of the argument $z$,
+and not all of the 26 possible recurrence relations
+have minimal solutions for all $z$.
+This can be solved by using one of the many transformation formulae for
+${_2F_1}$ to convert to a different recurrence relation that has
+a minimal solution over the required domain of $z$, although
+this can require some trial and error to find the right transformation,
+the right recurrence relation, and the right minimal solution.
+
+\subsubsection{Particulars}
+Let us now demonstrate these generalities for our problem of interest.
+In order to evaluate the probability distribution of our
+model,~\eref{eq:p_m_bursty+rep}, we need to evaluate hypergeometric functions
+of the form ${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$
+for values of $m$ ranging from $0$ to $\mathcal{O}(100)$.
+The authors of~\cite{Gil2007} did not derive a recursion relation
+for precisely this case. We could follow their methods and do so ourselves,
+but it is much easier to convert to a case that they did consider.
+The strategy is to look through the minimal solutions tabulated
+in~\cite{Gil2007} and search for a transformation we could apply to
+${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$ that would place the $m$'s
+(the variable being incremented by the recursion)
+in the same arguments of ${_2F_1}$ as the minimal solution.
+After some ``guess and check,'' we found that the transformation
+\begin{align}
+{_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)
+=
+(1+b)^{-\alpha-m}
+        {_2F_1}\left(\alpha+m, \gamma-\beta, \gamma+m; \frac{b}{1+b}\right),
+\label{eq:rec_euler_pretransform}
+\end{align}
+produces a ${_2F_1}$ on the right hand side that closely resembles
+the minimal solutions $y_{3,m}$ and $y_{4,m}$ in Eq.~4.3 in~\cite{Gil2007}.
+Explicitly, these solutions are
+\begin{align}
+y_{3,m}
+&\propto
+{_2F_1}\left(-\alpha^\prime + \gamma^\prime - m,
+                -\beta^\prime + \gamma^\prime,
+                1-\alpha^\prime-\beta^\prime+\gamma^\prime-m;
+                1-z\right)
+\\
+y_{4,m}
+&\propto
+{_2F_1}\left(\alpha^\prime + m,
+                \beta^\prime,
+                1+\alpha^\prime+\beta^\prime-\gamma^\prime+m;
+                1-z\right),
+\label{eq:minimal_soln_sans_prefac}
+\end{align}
+where we have omitted prefactors which are unimportant for now.
+Which of these two we should use depends on what values $z$ takes on.
+Equating $1-z=b/(1+b)$ gives $z=1/(1+b)$, and since $b$ is strictly positive,
+$z$ is bounded between 0 and 1.
+From Eq.~4.5 in~\cite{Gil2007}, $y_{4,m}$ is the minimal solution
+for real $z$ satisfying $0<z<2$, so this is the only minimal solution we need.
+
+Now that we have our minimal solution,
+what recurrence relation does it satisfy?
+Confusingly, the recurrence relation of which $y_{4,m}$ is a solution
+increments different arguments of ${_2F_1}$ that does $y_{4,m}$:
+it increments the first only, rather than first and third.
+This recurrence relation can be looked up, e.g., Eq.~15.2.10
+in~\cite{Abramowitz1964}, which is
+\begin{align}
+(\gamma^\prime - (\alpha^\prime + m)) f_{m-1}
++
+(2(\alpha^\prime+m) - \gamma^\prime + (\beta^\prime - \alpha^\prime)z)f_m
++ \alpha^\prime(z-1) f_{m+1} = 0.
+\label{eq:chosen_rec_rel}
+\end{align}
+Now we must solve for the parameters appearing in the recurrence relation
+in terms of our parameters, namely by setting
+\begin{align}
+\begin{split}
+\alpha^\prime &= \alpha
+\\
+\beta^\prime &= \gamma - \beta
+\\
+1 + \alpha^\prime + \beta^\prime - \gamma^\prime &= \gamma
+\\
+1 - z &= \frac{b}{1+b}
+\end{split}
+\end{align}
+and solving to find
+\begin{align}
+\begin{split}
+\alpha^\prime &= \alpha
+\\
+\beta^\prime &= \gamma - \beta
+\\
+\gamma^\prime &= 1 + \alpha - \beta
+\\
+z &= \frac{1}{1+b}
+.
+\end{split}
+\end{align}
+Finally we have everything we need. The minimal solution
+\begin{align}
+y_{4,m}
+=
+\frac{\Gamma(1+\alpha^\prime-\gamma^\prime+m)}
+        {\Gamma(1+\alpha^\prime+\beta^\prime-\gamma^\prime+m)}
+\times
+{_2F_1}\left(\alpha^\prime + m,
+                \beta^\prime,
+                1+\alpha^\prime+\beta^\prime-\gamma^\prime+m;
+                1-z\right),
+\end{align}
+where we have now included the necessary prefactors,
+is a numerically stable solution of the recurrence
+relation~\eref{eq:chosen_rec_rel} if the recursion is run
+from large $m$ to small $m$.
+So the procedure is to compute the value of ${_2F_1}$ for the two
+largest $m$ values of interest using arbitrary precision arithmetic,
+compute the prefactors to construct
+$y_{4,\text{max}(m)}$ and $y_{4,\text{max}(m)-1}$,
+recursively compute $y_{4,m}$ for all $m$ less than $\text{max}(m)$ down
+to $m=0$, then cancel off the prefactors of the resulting values of
+$y_{4,m}$ for all $m$ to produce ${_2F_1}$ for all desired $m$ values.
+\mmnote{Maybe I should reformat this paragraph into
+a pseudocode version of the algorithm?
+Instead of, or in addition to?}
+
+With ${_2F_1}$ computed, the only remaining numerical danger in computing
+$p(m)$ in~\eref{eq:p_m_bursty+rep} is overflow of the gamma functions.
+This is easily solved by taking the log of the entire expression
+and using standard routines to compute the log of the gamma functions,
+then exponentiating the entire expression at the end if $p(m)$
+is needed rather than $\log p(m)$.
 
 %%%%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
@@ -609,6 +833,6 @@ and studied extensively in~\cite{Pearson2016, Gil2007}.
 
 % \bibliographystyle{nature}
 \bibliographystyle{abbrv}
-\bibliography{../library}
+\bibliography{./library}
 
 \end{document}
