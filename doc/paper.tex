@@ -34,39 +34,544 @@
 \newcommand{\psecderiv}[2][{}]{\frac{\partial{^2} #1}{\partial #2{^2}}}
 
 %%%%% Referencing macros %%%%%
-\newcommand{\fref}[1]{Figure~\ref{#1}}
+\newcommand{\fig}[1]{Figure~\ref{#1}}
 \newcommand{\tref}[1]{Table~\ref{#1}}
-\newcommand{\eref}[1]{Eq.~(\ref{#1})}
-\newcommand{\erngref}[2]{Eq.~(\ref{#1}-\ref{#2})} % Equations
-% \newcommand{\test}[1][]{%
-% \ifthenelse{\isempty{#1}{}}{omitted}{#1}%
-% }
+\newcommand{\eq}[1]{Eq.~(\ref{#1})}
+\newcommand{\eqrange}[2]{Eq.~(\ref{#1}-\ref{#2})}
 
 %%%%%
 \begin{document}
 
-\title{Generating function solution for bursty promoters}
+\title{Simple repression draft}
 
 \maketitle
 
-\section{Constitutive promoter with bursts}
+\section{Introduction}
 
-\subsection{From master equation to generating function}
-
-\begin{figure}
-\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2.pdf}
-\caption{
-\mmnote{This figure wouldn't appear in this section, instead
-just a reference to the cartoon so the reader knows
-what cartoon model we're doing all this math for.}
-}
+\section{Means}
+\subsection{Fold-changes are indistinguishable across models}
+As shown in Figure~1.
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig1/fig1.pdf}
+\caption{\textbf{
+    An overview of the simple repression motif at the level of means.}
+    (A) depicts the qualitative biological picture of simple repression.
+    (B) shows the ``master curve'' to which all cartoons in (C) and (D) collapse.
+    (C) shows two possible equilibrium pictures of simple repression, while
+    (D) shows four possible coarse-graining in a nonequilibrium picture.
+    }
+\label{fig1:means_cartoons}
 \end{figure}
+
+\section{Beyond means}
+\subsection{A one-state promoter with bursting is the ``best'' model of constitutive promoters}
+Before we can tackle simple repression, we need an adequate
+phenomenological model of constitutive expression.
+The literature abounds with options from which we can choose,
+and we show several potential kinetic models for constitutive promoters
+in~\fig{fig:constit_cartoons}.
+Let us consider the suitability of each model for our purposes in turn.
+
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/fig1.5/fig1point5.ai}
+\caption{\textbf{Constitutive promoter cartoon comparison.}
+The left column depicts various plausible cartoons for constitutive promoters,
+along with literature references to their prior usage.
+In model (1), transcripts are produced in a Poisson process~\cite{Jones2014}.
+Model (2) features explicit modeling of RNAP binding/unbinding
+kinetics~\cite{Phillips2015a}.
+Model (3) is a more detailed generalization of model (2),
+treating transcription initiation as a multi-step process
+proceeding through closed and open complexes~\cite{Mitarai2015}.
+(4) a more coarse-grained version of (2) where the precise nature
+of active and inactive states are left ambiguous~\mmnote{Cite Manuel}, and
+(5) transcripts are produced in bursts,
+and initiation of bursts is a Poisson process.
+\mmnote{Haven't found model 5 formulated quite like this in the literature,
+usually burstiness is handled like model 4, but I should probably search a bit more.}
+The right column shows the Fano factor for each model.
+Note especially the crucial diagnostic: (2) and (3) have $\nu$
+strictly below 1, while only for (4) and (5) can $\nu$ exceed 1.
+Models with Fano factors $\le 1$ cannot produce the FISH data
+observed in~\cite{Jones2014} without introducing additional
+assumptions and model complexity.
+}
+\label{fig:constit_cartoons}
+\end{figure}
+
+\subsubsection{Model 1 - Poisson promoter.}
+This is the picture from Jones et.\ al.~\cite{Jones2014}, which
+assumes that transcripts are produced as a Poisson process from a
+single promoter state. This model insists that the ``true'' mRNA
+distribution is Poisson, implying the Fano factor $\nu$ must be 1.
+In~\cite{Jones2014}, the authors carefully attribute deviations
+from Fano = 1 to intensity variability in fluorescent spots, gene
+copy number variation, and copy number fluctuations of the
+transcription machinery, e.g., RNAP itself.
+In this picture, the master equation makes no appearance,
+and all the corrections to Poisson behavior are derived
+as additive corrections to the Fano factor.
+For disproving the ``universal noise curve'' from So et
+al~\cite{So2011}, this picture was excellent. It is appealing in
+its simplicity, with only two parameters, the initiation rate $r$
+and degradation rate $\gamma$. Since $\gamma$ is independently
+known from other experiments, and the mean mRNA copy number is
+$r/\gamma$, $r$ is easily inferred from data.
+In other words, the model is not excessively complex for the data at hand.
+But for many interesting questions, for instance in the recent
+work~\mmnote{cite Manuel's preprint once posted},
+knowledge of means and variances alone is insufficient, and a
+description of the full distribution of molecular counts is necessary.
+For this we need a( slightly) more complex model than model 1
+that would allow us to incorporate the non-Poissonian features of
+constitutive promoters directly into a master equation formulation.
+
+\subsubsection{Model 2 - Two-state promoter, RNAP bound or unbound.}
+This model was considered in, e.g.,~\cite{Phillips2015a} and ~\cite{Phillips2019}.
+Here transcription initiation proceeds from the bound to the unbound state,
+reflecting the microscopic reality that an RNAP that has begun to elongate
+a transcript is no longer available at the start site to begin another.
+The problem with this picture is that the Fano factor is
+\begin{align}
+    \nu = 1 -
+        \frac{r\rate{k}{P}{+}}
+            {\left(\rate{k}{P}{+} + \rate{k}{P}{-} + r\right)
+             \left(\gamma + \rate{k}{P}{+} + \rate{k}{P}{-} + r\right)},
+\end{align}
+which is always $<1$.
+To make contact with the experimental reality of $\nu>1$,
+we will have to do, at a minimum,
+the same corrections to Poisson behavior as in model 1 above.
+So while this model adds an appealing element of microscopic
+reality, we are forced to reject it as the additional complexity
+is unable to capture the phenomenology of interest.
+Obviously the promoter state does in fact proceed through cycles
+of RNAP binding, initiating, and elongating, but it seems that
+the super-Poissonian noise in mRNA copy number we want to
+model must be governed by other features of the system.
+
+\subsubsection{Model 3 - Three-state promoter, multistep
+transcription initiation and escape.}
+How might we remedy the deficits of model 2?
+It is known~\cite{DeHaseth1998} that once RNAP initially binds
+the promoter region, a multitude of distinct steps occur
+sequentially before RNAP finally escapes into the elongation
+phase. Perhaps adding some of this mechanistic detail might
+rescue model 2? The next simplest refinement of model 2 could
+consider open complex formation and promoter escape as separate
+steps rather than as a single effective step. In other words, we
+construct model 3 by adding a single extra state to model 2, and
+we will label the two RNAP-bound states as the closed and open
+complexes, despite the true biochemical details certainly being
+more complex. The authors of~\cite{Mitarai2015}, for instance,
+considered this model, although they added an additional
+repressor bound state and did not explicitly consider the limit
+with no repressor that we analyze here. Again, our goal here is
+not a complete accounting of all the relevant biochemical detail;
+this is an exploratory search for the important features our
+model needs to include.
+
+Unfortunately, as the authors of~\cite{Mitarai2015} hint, this
+model too has Fano factor $\nu<1$. This can be seen by starting
+with their Eq.~A1 for the Fano factor of the analogous model with
+repressor and taking the limit as repressor concentration goes to
+zero. After substantial algebra, the result is
+\begin{align}
+\nu = 1 - \frac{r k_O k_P^+}{\mathcal{Z}}
+\frac{k_P^+ + k_P^- + k_O + \gamma}
+        {\mathcal{Z} + \gamma(k_P^+ + k_P^- + k_O + \gamma) + \gamma^2},
+\end{align}
+where we defined $\mathcal{Z} = r(k_O + k_P^-) + k_P^+(k_O + r)$
+for notational tidiness. This is necessarily less than 1 for
+arbitrary rate constants.
+
+In fact, we suspect \textit{any} model in which transcription
+proceeds through a multistep cycle must necessarily have $\nu<1$.
+The intuitive argument compares the waiting time distribution to
+traverse the cycle with the waiting time for a Poisson promoter
+(model 1) with the same mean time. The latter is simply an
+exponential distribution. The former is a convolution of multiple
+exponentials, and intuitively should be more peaked with a
+smaller fractional width than an exponential with the same mean.\footnote{
+This can be made more precise with a result
+from~\cite{Stewart2007}, who showed that the convolution of
+multiple gamma distributions (of which the exponential
+distribution is a special case) is to a very good approximation
+also gamma distributed. Using their Eq.~2 for the distribution of
+the convolution, with shape parameters set to 1 to
+give exponential distributions, the total waiting time
+distribution has variance to squared mean ratio
+$\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i k_i\right)^2$,
+where the $k_i$ are the rates of the individual steps. Clearly
+this is less than 1 and therefore the total waiting time
+distribution is narrower than the corresponding exponential.} A
+less disperse waiting time distribution means transcription
+initations are more uniformly distributed in time relative to a
+Poisson process. Hence the distribution of mRNA over a population
+of cells should be less variable compared to Poisson, giving
+$\nu<1$.\footnote{
+This last step, while intuitive, can be argued by analogy to
+photon statistics where antibunching gives rise to sub-Poissonian
+noise~\cite{Paul1982, Zou1990}. Although loopholes exist, we do
+not expect they apply for our problem. Nevertheless we refrain
+from elevating to a ``theorem'' this cycle/sub-Poissonian equivalence.
+\mmnote{Antibunching is the ``obvious'' analogy for me but it'd
+be totally out of left field for most readers, any suggestions on
+a more comprehensible reference??}
+}
+
+Regardless of the merits of this model in describing the noise
+properties of constitutive transcription initation, it does not
+capture the dominant source of noise we want to include in our
+phenomenological model, so we must discard these details and
+search elsewhere.
+
+\subsubsection{Model 4 - Two-state promoter,
+``active'' and ``inactive'' states.}
+Inspired by~\cite{Razo-Mejia2020}, we revisit an analog of model
+2, but the interpretation of the two states is changed. Rather
+than explicitly viewing them as RNAP bound and unbound, we view
+them as ``active'' and ``inactive,'' which are able and unable to
+initiate transcripts, respectively. We are noncommittal as to the
+microscopic details of these states.
+
+One interpretation~\cite{Chong2014, Sevier2016} for the active
+and inactive states is that it represents the promoter's
+supercoiling state: transitions to the inactive state are caused
+by accumulation of positive supercoiling, which inhibits
+transcription, and transitions back to ``active'' are caused by
+gyrase or other topoisomerases relieving the supercoiling. This
+is an interesting possibility because it would mean the timescale
+for promoter state transitions is driven by topoisomerase
+kinetics, not by RNAP kinetics. From in vitro measurments, the
+former are suggested to be of order minutes~\cite{Chong2014}.
+Contrast this with model 2, where the state transitions are
+assumed to be governed by RNAP, which, assuming a copy number per
+cell of order $10^3$, has a diffusion-limited association rate
+$k_{on} \sim 10^2~\text{s}^{-1}$ to a target promoter. Combined
+with known $K_D$'s of order $\mu$M, this gives an RNAP
+dissociation rate $k_{off}$ of order $10^2$. As we will show
+below, however, there are some lingering puzzles with
+interpreting this supercoiling interpretation, so we leave it as
+a speculation and refrain from assigning definite physical
+meaning to the two states in this model.
+
+Intuitively one might expect that, since transcripts are produced
+as a Poisson process only when the promoter is in one of the two
+states in this model, transcription initiations should now be
+``bunched,'' in constrast to the ``anti-bunching'' of models 2
+and 3 above. One might further guess that this bunching would
+lead to super-Poissonian noise in the mRNA distribution over a
+population of cells. An honest calculation of the Fano factor produces
+\begin{align}
+\nu &= 1 + \frac{r k^-}{(k^+ + k^- + \gamma)(k^+ + k^-)},
+\end{align}
+which is strictly greater than 1, verifying the above intuition.
+Note we have dropped the $P$ label on the promoter switching rates to
+emphasize that these very likely do not represent kinetics of RNAP itself.
+This calculation can also be sidestepped by noting that the model
+is mathematically equivalent to the simple repression repression model
+from~\cite{Jones2014}, with states and rates relabeled and reinterpreted.
+
+How does this model compare to model 1 above?
+In model 1, all non-Poisson features of the mRNA
+distribution were handled as extrinsic corrections.
+By contrast, here the 3 parameter model is used to fit the full
+mRNA distribution as measured in mRNA FISH experiments.
+In essense, all variability in the mRNA distribution is regarded
+as ``intrinsic,'' arising either from stochastic initiation or
+from switching between the two coarse-grained promoter states.
+The advantage of this approach is that it fits neatly into the
+master equation picture, and the parameters thus inferred can be used as
+input for more complicated models with regulation by transcription factors.
+
+While this seems promising, there is a major drawback for our purposes
+which was already uncovered by the authors of~\cite{Razo-Mejia2020}:
+the statistical inference problem is nonidentifiable
+\mmnote{find a good cite for this usage},
+meaning it is impossible to infer the
+parameters $r$ and $k^-$ from the FISH data of~\cite{Jones2014}
+(as shown in Fig.~S2 of~\cite{Razo-Mejia2020}).
+Rather, only the ratio $r/k^-$ could be inferred. In that work,
+the problem was worked around with an informative prior on the
+ratio $k^-/k^+$. That approach is unlikely to work here, as,
+recall, our entire goal in modeling constitutive expression is to
+use it as the basis for a yet more complicated model, when we add
+on repression. But adding more complexity to a model that is
+already poorly identified is a fool's errand,
+so we will explore one more potential model.
+
+\subsubsection{Model 5 - One-state promoter with explicit bursts.}
+This model is inspired by the failure mode of model 4.
+The key observation above was that, as found
+in~\cite{Razo-Mejia2020}, only two parameters, $k^+$ and the
+ratio $r/k^-$, could be directly inferred from the FISH data
+from~\cite{Jones2014}.
+So let us take this seriously and imagine a model where these are
+the only two model parameters. What would this model look like?
+
+To develop some intuition, consider model 4 in the limit
+$k^+ \ll k^- \lesssim r$, which is roughly satisfied by the
+parameters inferred in~\cite{Razo-Mejia2020}.
+In this limit, the system spends the majority of its time in the inactive state, occasionally becoming active and making a burst of transcripts.
+This should call to mind the well-known phenomenon of transcriptional bursting, as reported in, e.g.,~\cite{Golding2005,Chong2014,Sevier2016}\mmnote{should probably add some more cites here}.
+Let us make this correspondence more precise.
+The mean dwell time in the active state is $1/k^-$.
+While in this state, transcripts are produced at a rate $r$ per
+unit time. So on average, $r/k^-$ transcripts are produced before
+the system switches to the inactive state. Once in the inactive
+state, the system dwells there for an average time $1/k^+$ before
+returning to the active state and repeating the process. $r/k^-$
+resembles an average burst size, and $1/k^+$ resembles the time
+interval between burst events. More precisely, $1/k^+$ is the
+mean time between the end of one burst and the start of the next,
+whereas $1/k^+ + 1/k^-$ would be the mean interval between the
+start of two successive burst events, but in the limit $k^+ \ll
+k^-$, $1/k^+ + 1/k^- \approx 1/k^+$. Note that this limit ensures
+that the waiting time between bursts is approximately
+exponentially distributed, with mean set by the only timescale
+left in the problem,
+$1/k^+$.\footnote{
+If instead it were the case that $k^+ \sim k^-$, then the waiting time
+$1/k^+ + 1/k^-$ would have a peaked distribution, but this does
+not appear to be the case for any of datasets
+from~\cite{Jones2014}.}
+
+Let us now verify this intuition with a precise derivation
+to check that $r/k^-$ is in fact the mean burst size
+and to obtain the full burst size distribution.
+Consider first a constant, known dwell time $T$ in the active state.
+Transcripts are produced at a rate $r$ per unit time, so the
+number of transcripts $n$ produced during $T$ fits exactly
+the ``story'' for the Poisson distribution, i.e.,
+\begin{equation}
+    P(n\mid T) = \frac{(rT)^n}{n!} \exp(-rT).
+\end{equation}
+Since the dwell time $T$ is unobservable, we actually want $P(n)$,
+the dwell time distribution with no conditioning on $T$.
+Basic rules of probability theory tell us we can write $P(n)$
+in terms of $P(n\mid T)$ as
+\begin{equation}
+    P(n) =\int_0^\infty P(n\mid T) P(T) dT.
+\end{equation}
+But we know the dwell time distribution $P(T)$,
+which is exponentially distributed according to
+\begin{equation}
+    P(T) = k^- \exp(-T k^-),
+\end{equation}
+so $P(n)$ can be written as
+\begin{equation}
+    P(n) = k^- \frac{r^n}{n!}
+            \int_0^\infty T^n\exp[-(r + k^-)T]\,dT.
+\end{equation}
+A standard integral table shows
+$\int_0^\infty x^n e^{-ax}\,dx = n!/a^{n+1}$, so
+\begin{equation}
+    P(n) = \frac{k^- r^n}{(k^- + r)^{n+1}}
+        = \frac{k^-}{k^- + r}
+            \left(\frac{r}{k^- + r}\right)^n
+        = \frac{k^-}{k^- + r}
+            \left(1 - \frac{k^-}{k^- + r}\right)^n,
+\end{equation}
+which is exactly the geometric distribution with standard parameter
+$\theta\equiv k^-/(k^- + r)$ and domain
+$n \in \{0, 1, 2, \dots\}$
+(this is one of two common conventions for the geometric distribution).
+The mean of the geometric distribution, with this convention, is
+\begin{align}
+\langle n\rangle = \frac{1 - \theta}{\theta}
+        = \left(1 - \frac{k^-}{k^- + r}\right)
+                    \frac{k^- + r}{k^-}
+        = \frac{r}{k^-},
+\end{align}
+exactly as we guessed intuitively above.
+
+So in taking the limit $r,k^-\rightarrow\infty$, $r/k^-\equiv b$,
+we obtain a model which effectively has only a single promoter state,
+which initiates bursts at rate $k^+$
+(transitions to the active state, in the model 4 picture).
+The master equation for mRNA copy number $m$ takes the form
+\begin{align}
+\begin{split}
+\deriv{t}{p(m,t)} = & (m+1)\gamma p(m+1,t) - m\gamma p(m,t) \\
+        &+ \sum_{j=0}^{m-1} k^+ p(j,t) Geom(m-j;b)
+         - \sum_{j=m+1}^\infty k^+ p(m,t) Geom(j-m;b),
+\end{split}
+\end{align}
+where $Geom(n;b)$ is the geometric distribution with mean~$b$, i.e.,
+$Geom(n;b) = \frac{1}{1+b}\left(\frac{b}{1+b}\right)^n$
+(with domain over nonnegative integers as above).
+The first two terms are the usual mRNA degradation terms.
+The third term enumerates all ways the system can produce
+a burst of transcripts and arrive at copy number $m$,
+given that it had copy number $j$ before the burst.
+The fourth term allows the system to start with copy number $m$,
+then produce a burst and end with copy number $j$.
+In fact this last sum has trivial $j$ dependence and
+simply enforces normalization of the geometric distribution.
+Carrying it out we have
+\begin{equation}
+\begin{split}
+\deriv{t}{p(m,t)} = & (m+1)\gamma p(m+1,t) - m\gamma p(m,t) \\
+        &+ \sum_{j=0}^{m-1} k^+ p(j,t) Geom(m-j;b)
+            - k^+ p(m,t),
+\end{split}
+\end{equation}
+This improves on model 4 in that now the parameters are easily inferred,
+as we will see later, and have clean interpretations.
+The non-Poissonian features are attributed to the emprically
+well-established phenomenological picture of bursty transcription.
+
+The big approximation in going from model 4 to 5 is that a burst
+is produced instantaneously rather than over a finite time.
+If the true burst duration is not short compared to transcription factor
+kinetic timescales, this could be a problem in that mean burst size
+in the presense and absence of repressors could change,
+rendering parameter inferences from the constitutive case inappropriate.
+Let us make some simple estimates of this.
+
+Consider the time delay between the first and final RNAPs
+in a burst initiating transcription
+(\textit{not} the time to complete transcripts,
+which potentially could be much longer.)
+If this timescale is short compared to the typical
+search timescale of transcription factors, then all is well.
+The estimates from deHaseth et.\ al.~\cite{DeHaseth1998}
+put RNAP's diffusion-limited on rate around
+$\sim\text{few}\times10^{-2}~\text{nM}^{-1}~\text{s}^{-1}$
+and polymerase loading as high as $1~\text{s}^{-1}$.
+Then for reasonable burst sizes of $<10$, it is reasonable to guess that
+bursts might finish initiating on a timescale of tens of seconds or less
+(with another 30-60 sec to finish elongation, but that does not matter here).
+A transcription factor with typical copy number of order 10 (or less)
+would have a diffusion-limited association rate of order
+$(10~\text{sec})^{-1}$.
+Higher copy number TFs tend to have many binding sites over the genome,
+which should serve to pull them out of circulation and keep their
+effective association rates from rising too large.
+Therefore, there is \textit{perhaps} a timescale separation
+possible between transcription factor association rates and burst
+durations, but this assumption could very well break down, so we
+will have to keep it in mind when we infer repressor rates from
+the Jones et.\ al.\ FISH data later.
+
+In reflecting on these 5 models, the reader may feel that
+exploring a multitude of potential models just to return to a
+very minimal phenomenological model of bursty transcription may
+seem highly pedantic. But the purpose of the exercise was to
+examine a host of models from the literature and understand why
+they are insufficient, one way or another, for our purposes.
+Along the way we have learned that the detailed kinetics of RNAP
+binding and initiating transcription are probably irrelevant for
+setting the population distribution of mRNA.
+The timescales are simply too fast, and as we will see later
+in~\fig{fig:constit_post}, the noise seems to be governed by
+slower timescales. Perhaps in hindsight this is not surprising:
+intuitively, the degradation rate $\gamma$ sets the fundamental
+timescale for mRNA dynamics, and any other processes that
+substantially modulate the mRNA distribution should not differ
+from $\gamma$ by orders of magnitude.
+
+\subsection{Parameter inference for constitutive promoters}
+Having established that a one-state bursty model achieves a
+Goldilocks level of complexity, we test it more thoroughly on all
+the data from constitutive promoters from~\cite{Jones2014}.
+\fig{fig:constit_post} shows the results.
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2.pdf}
+\caption{\textbf{Constitutive promoter model comparison.}
+    (A) ???
+    (B) shows the ECDF of the observed population distribution
+    of mRNA transcripts under the control of a constitutive lacUV5 promoter.
+    Fits of model (1), Poisson, and model (5), negative binomial, are shown.
+    \mmnote{Would like to add posterior predictive intervals,
+    to give sense of robustness of model.}
+    (C) 95\% highest posterior density regions for burst rate $k_i$ and
+    mean burst size $b$ for 18 promoters from Brewster 2012. Legend is
+    same as (d).
+    \mmnote{shared y axis??}
+    (D) Burst rate $k_i$ plotted vs.\ binding energy from energy
+    matrices from Brewster 2012.
+    \mmnote{Need to add fit line still. Also visibility of color palette is very bad, adjust.
+    There are 18 data points, maybe 6 colors and 3 glyphs/linestyles
+    cycled through? or 9 and 2?}
+    }
+\label{fig:constit_post}
+\end{figure}
+\mmnote{Discuss puzzling comparison w/ Chong2014: if supercoiling is the thing, why are my burst sizes all the same but burst rates vary? And why is the duty cycle of my promoter so low, ie., bursts so short? COmpare their fig 7E; their $\beta/\alpha$ is my $k^+/k^-$. They have one or two genes with very small $\beta/\alpha$, does the \textit{galK} locus just happen to be that, or is there a deeper disagreement? Hard to say w/o more data.}
+
+\subsection{Transcription factor kinetics can be inferred from FISH measurements}
+Figure~3 presents inferred transcription factor rates, compares
+them to single-molecule measurements, and compares their ratios
+to gold-standard binding energies.
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/fig3/fig3.ai}
+\caption{\textbf{Simple repression model comparison.}
+(A) depicts the cartoon of simple repression for which we infer parameters.
+(B) shows 50\% and 95\% contours of several 2D slices of the 9D posterior
+distribution, from fitting one unbinding rate for each operator (O1, O2, O3)
+and one binding rate for each aTc concentration (corresponding to an
+unknown mean repressor copy number).
+(C) compares ratios of our inferred unbinding rates with operator
+binding energy differences measured in Garcia \& Phillips 2011 (triangles)
+and Razo-Mejia et.\ al.\ 2018 (squares).
+(D) compares our inferred unbinding rates with single-molecule measurements
+of the same from Hammar et.\ at.\ 2014 \mmnote{Johan Elf's group}.
+Values are of similar order of magnitude,
+but a precise quantitative comparison unfortunately depends sensitively
+on the assumed mRNA lifetime, which was not measured.
+    }
+\label{fig3:kR_inferences}
+\end{figure}
+
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/figSIxx/ppc_many_pooled.pdf}
+\caption{\textbf{Posterior predictive checks.}
+(A) duplicates the posterior from~\fig{fig3:kR_inferences}B.
+(B), (C), and (D) show samples from the posterior predictive distribution
+for each of the datasets used in the inference.
+Samples are sorted by operator and plotted separately simply for visual clarity.
+The unrepressed promoter, UV5, is shown with each as a reference point.
+\mmnote{
+Obviously the PPC is not perfect,
+but considering the relative simplicity of the model, I'm pleasantly surprised
+how well it worked and that the model was even identifiable at all.
+Interestingly, and perhaps not surprisingly, only 3 of the 9 datasets
+were identifiable if fit in isolation: otherwise,
+it was only by making assumptions that certain rates are equal
+across datasets was identifiability achieved.
+}
+    }
+\label{fig4:ppc}
+\end{figure}
+
+\appendix
+
+\section{Derivations of constitutive promoter models}
+\subsection{Model 2}
+\mmnote{Obtain Fano factor from CME.}
+\subsection{Model 3}
+\mmnote{Obtain Fano factor by taking limit from Mitarai et al's expression.}
+\subsection{Model 4}
+\mmnote{Obtain Fano factor by relabeling cartoon from Jones2014.}
+
+\section{Generating function solution for bursty promoters}
+
+\subsection{Constitutive promoter with bursts}
+
+\subsubsection{From master equation to generating function}
+
 We would like to derive the full probability distribution of
 mRNA copy number per cell for a model combining simple repression
 with a promoter featuring bursty transcription initiation.
 Before tackling mRNA and repression together, let us
 just consider the bursty consititutive promoter,
-model 4 in Fig.~1A.
+model 4 in~\fig{fig:constit_post}
 \mmnote{replicating Charlotte's notes; she says it's worked out
 in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
 comprehend. Need to find a cite for this,
@@ -144,7 +649,7 @@ Changing variables to $\xi=1-\theta$ and simplifying gives
 \pderiv[F]{t} + (z - 1) \pderiv[F]{z} = \frac{(z-1)\xi}{1-z\xi}\lambda F.
 \label{eq:1state_unreg_015}
 \end{align}
-\subsection{Stead-state}
+\subsubsection{Stead-state}
 At steady-state, the PDE reduces to the ODE
 \begin{align}
 \deriv[F]{z} = \frac{\xi}{1-z\xi}\lambda F,
@@ -175,20 +680,12 @@ F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
 \end{align}
 which is exactly the negative binomial's generating function, as expected.
 
-\section{Adding repression}
-\subsection{Deriving the generating function for mRNA distribution}
+\subsection{Adding repression}
+\subsubsection{Deriving the generating function for mRNA distribution}
 
-\begin{figure}
-\includegraphics[width=0.9\textwidth]{../figures/fig3/fig3.ai}
-\caption{
-\mmnote{This figure wouldn't appear in this section, instead
-just a reference to the cartoon so the reader knows
-what cartoon model we're doing all this math for.}
-}
-\end{figure}
 Let us move from a one-state promoter to a two-state promoter, where one state
 has repressor bound and the other produces transcriptional bursts as above.
-A schematic of this model is shown in Fig.\ 2A.
+A schematic of this model is shown in~\fig{fig3:kR_inferences}.
 Although now we have an equation for each promoter state, otherwise
 the master equation reads similarly to the one-state case, except with
 additional terms corresponding to transitions between promoter states, namely
@@ -520,8 +1017,8 @@ p(m) = \frac{
 \end{align}
 which is finally the probability distribution we sought to derive.
 
-\subsection{Moments}
-We can verify the correctness of~\eref{eq:p_m_bursty+rep}
+\subsubsection{Moments}
+We can verify the correctness of~\eq{eq:p_m_bursty+rep}
 by comparison with Gillespie simulation.
 We can also easily compute moments of the distribution from
 the generating function, and check these against raw moments computed
@@ -596,7 +1093,7 @@ unregulated promoter $(1+b)$ plus additional noise arising from repression.
 \subsection{Numerical considerations and recursion formulas}
 \subsubsection{Generalities}
 We would like to carry out Bayesian parameter inference on FISH data
-from~\cite{Jones2014}, using~\eref{eq:p_m_bursty+rep} as our
+from~\cite{Jones2014}, using~\eq{eq:p_m_bursty+rep} as our
 likelihood. This requires accurate (and preferably fast)
 numerical evaluation of the hypergeometric function ${_2F_1}$,
 which is a notoriously hard problem~\cite{Pearson2017, Gil2007},
@@ -617,11 +1114,11 @@ then the series converges quickly and an accurate numerical representation is
 easily computed by truncating the series after a reasonable number of terms.
 Unfortunately, we need to evaluate ${_2F_1}$ over mRNA copy numbers fully out
 to the tail of the distribution, which can easily reach 50, possibly 100.
-From~\eref{eq:p_m_bursty+rep}, this means evaluating ${_2F_1}$
+From~\eq{eq:p_m_bursty+rep}, this means evaluating ${_2F_1}$
 repeatedly for values of $a$, $b$, and $c$ spanning the full range
 from $\mathcal{O}(1)$ to $\mathcal{O}(10^2)$,
 even if $\alpha$, $\beta$, and $\gamma$
-in~\eref{eq:p_m_bursty+rep} are small,
+in~\eq{eq:p_m_bursty+rep} are small,
 with the situation even worse if they are not small.
 A naive numerical evaluation of the series definition will be
 prone to overflow and, if any of $a,b,c<0$, then some successive terms in the
@@ -632,7 +1129,7 @@ instead of floating point arithmetic,
 e.g., using the \texttt{mpmath} library in Python.
 This is accurate but incredibly slow computationally.
 To quantify how slow, we found that
-evaluating the likelihood defined by~\eref{eq:p_m_bursty+rep} $\sim50$ times
+evaluating the likelihood defined by~\eq{eq:p_m_bursty+rep} $\sim50$ times
 (for a typical dataset of interest from~\cite{Jones2014},
 with $m$ values spanning 0 to $\sim50$)
 using arbitrary precision arithmetic is 100-1000 fold slower than
@@ -708,7 +1205,7 @@ the right recurrence relation, and the right minimal solution.
 \subsubsection{Particulars}
 Let us now demonstrate these generalities for our problem of interest.
 In order to evaluate the probability distribution of our
-model,~\eref{eq:p_m_bursty+rep}, we need to evaluate hypergeometric functions
+model,~\eq{eq:p_m_bursty+rep}, we need to evaluate hypergeometric functions
 of the form ${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$
 for values of $m$ ranging from $0$ to $\mathcal{O}(100)$.
 The authors of~\cite{Gil2007} did not derive a recursion relation
@@ -807,7 +1304,7 @@ y_{4,m}
 \end{align}
 where we have now included the necessary prefactors,
 is a numerically stable solution of the recurrence
-relation~\eref{eq:chosen_rec_rel} if the recursion is run
+relation~\eq{eq:chosen_rec_rel} if the recursion is run
 from large $m$ to small $m$.
 So the procedure is to compute the value of ${_2F_1}$ for the two
 largest $m$ values of interest using arbitrary precision arithmetic,
@@ -821,7 +1318,7 @@ a pseudocode version of the algorithm?
 Instead of, or in addition to?}
 
 With ${_2F_1}$ computed, the only remaining numerical danger in computing
-$p(m)$ in~\eref{eq:p_m_bursty+rep} is overflow of the gamma functions.
+$p(m)$ in~\eq{eq:p_m_bursty+rep} is overflow of the gamma functions.
 This is easily solved by taking the log of the entire expression
 and using standard routines to compute the log of the gamma functions,
 then exponentiating the entire expression at the end if $p(m)$
