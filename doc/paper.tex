@@ -47,10 +47,87 @@
 \maketitle
 
 \section{Introduction}
-
+\mmnote{Key ideas, no particular order, that I haven't written down before:
+\begin{itemize}
+\item Our goal is to build phenomenological models of input-output
+functions of genetic circuits. We want concepts, not mere facts.
+In particular a key question is: at this level of
+coarse graining, what microscopic details do I need to explicitly
+model, and how do we figure that out? For example, do I need to
+worry about all or even any of the steps that individual RNAPs go
+through each time they make a transcript? Turning the question
+around, can we see any imprint of those processes in the
+available data? If the answer is no, then those processes are
+irrelevant for our purposes. Forward modeling and inverse
+(statistical inferential) modeling can complement each other
+beautifully here.
+\end{itemize}}
 \section{Means}
 \subsection{Fold-changes are indistinguishable across models}
 As shown in Figure~1.
+\mmnote{Key ideas:
+\begin{itemize}
+\item Exclusive repression and occupancy hypothesis. Not
+necessarily steric hindrance, e.g., maybe kinked DNA, but it is
+key that there is zero transcription when repressor is bound.
+This is the key takeaway from the qualitative cartoon in Fig 1A.
+\item Change order in Fig~1 and order of presentation of noneq
+models to match my treatment of Fano factors. This doesn't do
+them in order of increasing math complexity, but it does do them
+in logical order: Poisson, RNAP bound/unbound states, RNAP
+unbound/closed/open states, ambiguous active/inactive, bursty
+Poisson. For each model, sketch the intuition for its
+construction and interpretation of the states/weights/rates,
+possibly calling ahead/deferring some arguments to the
+constitutive Fano section. Then quote the expression for mean
+mRNA (that will be derived more carefully in an appendix), then
+show the algebra to compute fold-change from mean mRNA and show
+how it fits into form of the master curve.
+\item Emphasize that tuning any of the parameters in $\rho$ is
+probably off-limits experimentally: it wrecks entire cell
+physiology and confounds everything. You can write down models of
+what you THINK the important steps are and aren't, and use in
+vitro data for the important steps, but without any way to
+experimentally perturb in vivo, you have no way to TEST whether
+your modeling assumptions are correct! Also point out
+supercoiling~\cite{Chong2014,Sevier2016} to emphasize that the
+potential features that are necessary to include are WAY more
+than just RNAP details. One possible tuning knob is maybe RNAP
+binding sites, but we don't have a terrific predictive
+understanding of how mutations there would influence any of the
+parameters inside $\rho$, so still not obvious how to make use of
+that. Brewster/Daniel2012 energy matrix is only good in one model
+framework and doesn't tell you anything about how model params in
+other pictures would respond.
+\item Weak promoter corresponds to $\rho\approx 1$. In principle,
+if repressor binding E or kinetics are known to high enough
+precision, deviations from $\rho=1$ become a matter of expt. In
+practice, I don't think it's at all realistic to measure
+repressor params or expression levels precisely enough to detect
+the expected tiny deviations from $\rho=1$. We can estimate: how
+good would determination of $\Delta F_R$ in Fig~1B have to be to
+get a given uncertainty in $\rho$? I think it's approx 1-to-1:
+e.g., an uncertainty of 0.1 (kT) in $\Delta F_R$ converts to a
+0.1 uncert in $\log\rho$, and since $\rho\approx 1$, that means
+$\log(1+\Delta\rho)\approx\Delta\rho\approx 0.1$.
+That's a really hard determination of $\Delta F_R$ for a very
+coarse determination of $\rho$. Doubtful that inference of
+kinetic rates would be any easier and probably a lot harder.Also,
+in vitro RNAP data says $\rho\approx 1$ should be true, and even
+if that's the wrong quantity to be talking about, Manuel's
+inference of $k^+$ and $k^-$ suggests that still $\rho$ is close
+to 1, and that inference is agnostic to the microscopics.
+\item Master curve exists b/c repressor is on its own leaf of
+graph. (But maybe don't use that language.) Arb noneq stuff can
+happen on rest of promoter state space, doesn't matter. Is this
+``one curve to rule them all'' a tautology? How do we probe the
+theory? Can't do it at level of means, there's no discriminatory
+power, need to go beyond. Test if free energy inferred from
+fold-change measurements agrees with TF rates inferred from
+single molec, and if those rates agree with rates inferred from
+mRNA population distributions.
+\end{itemize}
+}
 \begin{figure}%[h!]
 \centering
 \includegraphics[width=\textwidth]{../figures/fig1/fig1.pdf}
@@ -77,17 +154,18 @@ Let us consider the suitability of each model for our purposes in turn.
 \centering
 \includegraphics[width=0.9\textwidth]{../figures/fig1.5/fig1point5.ai}
 \caption{\textbf{Constitutive promoter cartoon comparison.}
-The left column depicts various plausible cartoons for constitutive promoters,
-along with literature references to their prior usage.
+The left column depicts various plausible cartoons for constitutive promoters.
+We also list literature references where models have been used previously.
 In model (1), transcripts are produced in a Poisson process~\cite{Jones2014}.
 Model (2) features explicit modeling of RNAP binding/unbinding
 kinetics~\cite{Phillips2015a}.
 Model (3) is a more detailed generalization of model (2),
 treating transcription initiation as a multi-step process
 proceeding through closed and open complexes~\cite{Mitarai2015}.
-(4) a more coarse-grained version of (2) where the precise nature
-of active and inactive states are left ambiguous~\mmnote{Cite Manuel}, and
-(5) transcripts are produced in bursts,
+Model (4) is somewhat analogous to (2) except with the precise nature
+of active and inactive states left ambiguous~\cite{Razo-Mejia2020}.
+Finally, model (5) can be viewed as a certain limit of model (4)
+in which transcripts are produced in bursts,
 and initiation of bursts is a Poisson process.
 \mmnote{Haven't found model 5 formulated quite like this in the literature,
 usually burstiness is handled like model 4, but I should probably search a bit more.}
@@ -202,7 +280,7 @@ distribution is a special case) is to a very good approximation
 also gamma distributed. Using their Eq.~2 for the distribution of
 the convolution, with shape parameters set to 1 to
 give exponential distributions, the total waiting time
-distribution has variance to squared mean ratio
+distribution has a ratio of variance to squared mean 
 $\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i k_i\right)^2$,
 where the $k_i$ are the rates of the individual steps. Clearly
 this is less than 1 and therefore the total waiting time
@@ -216,7 +294,7 @@ This last step, while intuitive, can be argued by analogy to
 photon statistics where antibunching gives rise to sub-Poissonian
 noise~\cite{Paul1982, Zou1990}. Although loopholes exist, we do
 not expect they apply for our problem. Nevertheless we refrain
-from elevating to a ``theorem'' this cycle/sub-Poissonian equivalence.
+from elevating this cycle/sub-Poissonian equivalence to a ``theorem.''
 \mmnote{Antibunching is the ``obvious'' analogy for me but it'd
 be totally out of left field for most readers, any suggestions on
 a more comprehensible reference??}
@@ -289,8 +367,8 @@ input for more complicated models with regulation by transcription factors.
 
 While this seems promising, there is a major drawback for our purposes
 which was already uncovered by the authors of~\cite{Razo-Mejia2020}:
-the statistical inference problem is nonidentifiable
-\mmnote{find a good cite for this usage},
+the statistical inference problem is nonidentifiable,
+in the sense described in Section 4.3 of~\cite{Gelman2013},
 meaning it is impossible to infer the
 parameters $r$ and $k^-$ from the FISH data of~\cite{Jones2014}
 (as shown in Fig.~S2 of~\cite{Razo-Mejia2020}).
