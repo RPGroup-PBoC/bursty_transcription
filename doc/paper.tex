@@ -109,11 +109,13 @@ measurements of fold-change in mean expression. The fold-change is defined as
 where angle brackets denote the averge over a population of cells
 and mean mRNA $\langle m\rangle$ is viewed as a function of
 repressor copy number $R$.
-Also note the implicit assumption in equating ratios of gene
-expression, i.e., protein levels, to mRNA levels. The second
-equality in~\ref{eq:fc_def} amounts to an assumption that the
+The second
+equality in~\ref{eq:fc_def} follows from assuming that the
 translation efficiency, i.e., the number of proteins translated
 per mRNA, is the same in both conditions.
+In other words, we assume that mean protein level is proportional
+to mean mRNA level, and that the proportionality constant is the
+same in both conditions and therefore cancels out in the ratio.
 This is reasonable since the cells in the two conditions are
 identical except for the presence of the transcription factor,
 and it is difficult to imagine the transcription factor having
@@ -124,16 +126,16 @@ work~\cite{Garcia2011a, Razo-Mejia2018, Chure2019}.
 Part of its utility in dissecting transcriptional regulation is
 its ratiometric nature, which is always easier than making an
 absolute measurement. Also, by measuring otherwise identical cells
-with an without a transcription factor present, any biological
+with and without a transcription factor present, any biological
 noise common to both conditions can be made to cancel away.
 
-Panels C and D of \fig{fig1:means_cartoons} depict a smorgasbord
+\fig{fig1:means_cartoons} depicts a smorgasbord
 of mathematized cartoons for simple repression that have appeared
 in previous literature. For each cartoon, we calculate the
 fold-change in mean gene expression as predicted by that model,
 deferring some algebraic details to the appendix.
 What we will find is that all cartoons collapse to a single
-master curve, shown in \fig{fig1:means_cartoons}B, which contains
+master curve, shown in \fig{fig1:means_cartoons}c, which contains
 just two parameters. We label the parameters $\Delta F_R$, an
 effective free energy parametrizing the repressor-DNA
 interaction, and $\rho$, which subsumes all details of
@@ -151,6 +153,7 @@ The rate of transcription, and therefore the level of gene
 expression, is assumed to be proportional to the fraction of time
 spent in the repressor unbound state.
 Mathematically, this amounts to the statement that the mean mRNA level is
+given by
 \begin{equation}
 \langle m \rangle = \frac{r}{\gamma}
         \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}\right)^{-1},
@@ -161,7 +164,7 @@ copy number, $N_{NS}$ is the number of nonspecific binding sites
 in the genome (where repressors spend most of their time when not
 bound to the operator, their specifc binding site),
 $\beta=1/k_BT$, and $\Delta\epsilon_R$ is the binding energy of a
-repressor to its operator site. The derivation of this is deferred
+repressor to its operator site. The derivation of this result is deferred
 to the appendix.
 
 The fold-change is easily found as the ratio of mean mRNA with
@@ -227,6 +230,22 @@ with $\Delta F_R = \beta\Delta\epsilon_R - \log(R/N_{NS})$
 and $\rho = 1 + \frac{P}{N_{NS}}\mathrm{e}^{-\beta\Delta\varepsilon_P}$
 as shown in~\fig{fig1:means_cartoons}.
 
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig1/fig1.ai}
+\caption{
+\textbf{
+An overview of the simple repression motif at the level of means.}
+(A) depicts the qualitative biological picture of simple repression.
+(B) shows a variety of possible mathematized cartoons of simple
+repression, along with the corresponding complexity $\rho$ of the
+architecture, an effective parameter which subsumes all details
+of the architecture excluding the repressor.
+(C) shows the ``master curve'' to which all cartoons in (B) collapse.
+}
+\label{fig1:means_cartoons}
+\end{figure}
+
 \subsubsection{Nonequilibrium model 1 - Poisson promoter}
 For our first kinetic model, we consider the simplest possible
 picture with only two states, repressor bound and unbound.
@@ -264,7 +283,7 @@ number by one.
 
 We can greatly simplify the notation, which will be especially
 useful for the more complicated models yet to come, by
-rexpressing the master equation in vector form. The promoter
+re-expressing the master equation in vector form. The promoter
 states are collected into a vector and the rate constants are
 collected into matrices as
 \begin{equation}
@@ -277,8 +296,9 @@ so that the master equation may be condensed as
 \begin{equation}
 \deriv{t}\vect{p}_m(t) =
 \left( \matr{K} - \matr{R} - \gamma m \matr{I} \right) \vect{p}_m(t)
-                + \matr{R} \vect{p}_{m-1}(t) +
-                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+                + \matr{R} \vect{p}_{m-1}(t)
+                + \gamma (m+1) \matr{I} \vect{p}_{m+1}(t)
+                - \gamma m \matr{I} \vect{p}_m(t),
 \label{eq:2state_rep_cme}
 \end{equation}
 where $\matr{I}$ is the identity matrix.
@@ -313,14 +333,22 @@ another transcript can be initiated.
 The master equation governing this model is analogous
 to~\eqrange{eq:2state_cme_matrices}{eq:2state_rep_cme} for model 1 above.
 The main subtlety arises since transcription initiation
-accompanies a promoter state change, but this matrix can be
-understood by analogy to the off-diagonal element of $\matr{K}$.
+accompanies a promoter state change.
+This can be understood by analogy to $\matr{K}$. The
+off-diagonals and diagonals of $\matr{K}$ correspond to
+transitions arriving at or departing from, respectively, the
+promoter state of interest. If transcription initiations are
+accompanied by promoter state changes, we must have separate
+matrices for arriving and departing transcription events since
+the arriving and departing transitions have different initial
+copy number of mRNA, unlike for $\matr{K}$ where they are the same.
 The master equation for this model is
 \begin{equation}
 \deriv{t}\vect{p}_m(t) =
-\left( \matr{K} - \matr{R_{out}} - \gamma m \matr{I} \right) \vect{p}_m(t)
-                + \matr{R_{in}} \vect{p}_{m-1}(t) +
-                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+\left( \matr{K} - \matr{R_D} - \gamma m \matr{I} \right) \vect{p}_m(t)
+                + \matr{R_A} \vect{p}_{m-1}(t) +
+                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t)
+                - \gamma m \matr{I} \vect{p}_m(t),
 \label{eq:3state_rep_cme}
 \end{equation}
 with the state vector and promoter transition matrix defined as
@@ -334,22 +362,22 @@ with the state vector and promoter transition matrix defined as
 \end{equation}
 and the initiation matrices given by
 \begin{equation}
-\matr{R_{in}} = \begin{pmatrix}
+\matr{R_A} = \begin{pmatrix}
                 0 & 0 & 0 \\ 0 & 0 & r \\ 0 & 0 & 0
                 \end{pmatrix},\
-\matr{R_{out}} = \begin{pmatrix}
+\matr{R_D} = \begin{pmatrix}
                 0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & r
-                \end{pmatrix}.
+                \end{pmatrix},
 \label{eq:3state_cme_matrices_pt2}
 \end{equation}
 The elements of $\vect{p}_m$ encode the probabilities of having
 $m$ mRNA present along with the promoter having repressor bound,
 being empty, or having RNAP bound, respectively.
-$\matr{R_{in}}$ describes probability flux into the state
+$\matr{R_A}$ describes probability flux \textit{arriving} at the state
 $\vect{p}_m$ from a state with one fewer mRNA, namely
-$\vect{p}_{m-1}$, and $\matr{R_{out}}$ describes probability flux
-out of the state $\vect{p}_m$ for a state with one more mRNA,
-namely $\vect{p}_{m+1}$.
+$\vect{p}_{m-1}$, and $\matr{R_D}$ describes probability flux
+\textit{departing} from the state $\vect{p}_m$
+for a state with one more mRNA, namely $\vect{p}_{m+1}$.
 $\matr{K}$ is closely analogous to model 1.
 
 Mean mRNA at steady state is found analogously to model 1, with the result
@@ -401,14 +429,16 @@ complexity is essential to properly account for the noise in the
 mRNA distribution. We will weigh in on both models later when we
 consider observables beyond fold-change.
 
-The master equation governing this model is identical to model 2 above,
+The master equation governing this model is
+identical in form to model 2 above, namely
 \begin{equation}
 \deriv{t}\vect{p}_m(t) =
-\left( \matr{K} - \matr{R_{out}} - \gamma m \matr{I} \right) \vect{p}_m(t)
-                + \matr{R_{in}} \vect{p}_{m-1}(t) +
-                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+\left( \matr{K} - \matr{R_D} - \gamma m \matr{I} \right) \vect{p}_m(t)
+                + \matr{R_A} \vect{p}_{m-1}(t) +
+                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t)
+                - \gamma m \matr{I} \vect{p}_m(t),
 \end{equation}
-but obviously with different matrices.
+but obviously with a higher-dimensional state space and different matrices.
 The state vector and promoter transition matrix are now
 \begin{equation}
 \vect{p}_m = \begin{pmatrix} p_{m,R} \\ p_{m,E} \\
@@ -426,10 +456,10 @@ $\matr{K}$ is the rate $k_O$, representing the (irreversible)
 rate of open complex formation from the closed complex.
 The initiation matrices are given by
 \begin{equation}
-\matr{R_{in}} = \begin{pmatrix}
+\matr{R_A} = \begin{pmatrix}
         0 & 0 & 0 & 0 \\ 0 & 0 & 0 & r \\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0
                 \end{pmatrix},\
-\matr{R_{out}} = \begin{pmatrix}
+\matr{R_D} = \begin{pmatrix}
         0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & r
                 \end{pmatrix},
 \end{equation}
@@ -437,15 +467,18 @@ again closely analogous to model 2.
 
 The expression for mean mRNA is substantially more complicated
 now, as worked out in the appendix where we find
-\begin{align}
-\langle m\rangle &= \frac{r}{\gamma}
+\begin{equation}
+\langle m\rangle = \frac{r}{\gamma}
         \frac{k_R^- k_P^+ k_O}
-        {k_R^- [(k_P^+ (k_O + r) + r(k_P^- + k_O)] + k_R^+ r(k_P^- + k_O)}
-\\
-&= \frac{r}{\gamma}
+        {k_R^- [(k_P^+ (k_O + r) + r(k_P^- + k_O)] + k_R^+ r(k_P^- + k_O)},
+\end{equation}
+which can be simplified to
+\begin{equation}
+\langle m\rangle
+= \frac{r}{\gamma}
 \frac{\frac{k_P^+ k_O}{r(k_O + k_P^-)}}
         {1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)} + \frac{k_R^+}{k_R^-}}.
-\end{align}
+\end{equation}
 The strategy is to isolate the terms involving the repressor, so that now the fold-change is seen to be simply
 \begin{align}
 \text{fold-change}
@@ -625,18 +658,6 @@ rates, i.e., binding energies.
 \item 
 \end{itemize}
 }
-\begin{figure}%[h!]
-\centering
-\includegraphics[width=\textwidth]{../figures/fig1/fig1.ai}
-\caption{\textbf{
-    An overview of the simple repression motif at the level of means.}
-    (A) depicts the qualitative biological picture of simple repression.
-    (B) shows the ``master curve'' to which all cartoons in (C) and (D) collapse.
-    (C) shows two possible equilibrium pictures of simple repression, while
-    (D) shows five possible coarse-grainings in a nonequilibrium picture.
-    }
-\label{fig1:means_cartoons}
-\end{figure}
 
 \section{Beyond means}
 \subsection{A one-state promoter with bursting is the ``best'' model of constitutive promoters}
