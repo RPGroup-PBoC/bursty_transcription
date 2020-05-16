@@ -144,8 +144,6 @@ We will offer some intuition for why this master curve exists and discuss
 why it is likely impossible to discriminate ``right'' from ``wrong''
 cartoons given only measurements of fold-changes in expression.
 
-\mmnote{Snappy names for all these cartoons would really help the reader. Also naming them by number of promoter states is confusing to the reader because analogous models have different number of states when we're talking about constitutive version vs version with repressor. Thoughts??}
-
 \subsubsection{Equilibrium, 2-state}
 In this simplest model, the promoter is idealized as existing in
 one of two states, either repressor bound or repressor unbound.
@@ -183,7 +181,7 @@ transcription factor bound. Put differently, there is no overlap
 between TF bound states and transcriptionally active states. We
 will see this explicitly in the 3-state equilibrium model below,
 but perhaps surprising is that something analogous carries over
-even to the nonequilbrium models we consider later.
+even to the nonequilibrium models we consider later.
 
 \subsubsection{Equilibrium, 3-state}
 Compared to the previous model, here we fine-grain the repressor
@@ -238,8 +236,8 @@ as shown in~\fig{fig1:means_cartoons}.
 An overview of the simple repression motif at the level of means.}
 (A) depicts the qualitative biological picture of simple repression.
 (B) shows a variety of possible mathematized cartoons of simple
-repression, along with the corresponding complexity $\rho$ of the
-architecture, an effective parameter which subsumes all details
+repression, along with the effective parameter $\rho$
+which subsumes all regulatory details
 of the architecture excluding the repressor.
 (C) shows the ``master curve'' to which all cartoons in (B) collapse.
 }
@@ -320,7 +318,7 @@ again matching the master curve of~\fig{fig1:means_cartoons} with $\rho=1$.
 
 \subsubsection{Nonequilibrium model 2 - RNAP bound/unbound states}
 Analogous to the three-state equilibrium model, this model
-fine-grains the repressor unbound state of nonequilbrium model 1,
+fine-grains the repressor unbound state of nonequilibrium model 1,
 resolving it into an empty promoter state and an RNAP-bound state.
 Note in this picture, in contrast with model 4 below,
 transcription initiation is accompanied by a promoter state
@@ -408,7 +406,7 @@ $\rho = 1 + k_P^+/(k_P^- + r)$ as claimed.
 \subsubsection{Nonequilibrium model 3
 - Multistep transcription initiation and escape}
 One might reasonably complain that the first two
-``nonequilbrium'' models we have considered are straw men. Their
+``nonequilibrium'' models we have considered are straw men. Their
 steady states necessarily satisfy detailed balance which is
 equivalent to thermodynamic equilibrium. Why is this the case? At
 steady state there is by definition no net probability flux in or
@@ -580,84 +578,258 @@ with $\rho=1$ also like model 1.
 We will also see later how this model emerges as a natural limit of model 4.
 
 \subsubsection{Summary and discussion of results across models for fold-changes in mean expression}
-\mmnote{Key ideas:
-\begin{itemize}
-\item Exclusive repression and occupancy hypothesis. Not
-necessarily steric hindrance, e.g., maybe kinked DNA, but it is
-key that there is zero transcription when repressor is bound.
-This is the key takeaway from the qualitative cartoon in Fig 1A.
-\item Key assumption: expression is proportional to occupation
-probability of whatever the ``active'' state is for a given
-model, whatever we mean by active.
-\item Also emphasize that parameters/rates are \textit{not}
-apples-to-apples between cartoons, especially the initiation rate $r$.
-Indeed, this is the entire point! Except for repressor
-energies/rates, the other parameters are not independently
-measurable or inferrable b/c we're not even sure what
-steps/states we should be writing in the model!
-(simple RNAP kinetics as inferred in vitro, or supercoiling, or
-RNAP cluster kinetics a la Ibrahim, or maybe
-gene-copy/RNAP-copy/other-copy number is really the key, or...)
-So all you get are coarse-grained combos like $\rho$, and even
-$\rho$ would be hard to infer, much less trying to infer its innards.
-\item Emphasize that tuning any of the parameters in $\rho$ is
-probably off-limits experimentally: it wrecks entire cell
-physiology and confounds everything. You can write down models of
-what you THINK the important steps are and aren't, and use in
-vitro data for the important steps, but without any way to
-experimentally perturb in vivo, you have no way to TEST whether
-your modeling assumptions are correct! Also point out
-supercoiling~\cite{Chong2014,Sevier2016} to emphasize that the
-potential features that are necessary to include are WAY more
-than just RNAP details. One possible tuning knob is maybe RNAP
-binding sites, but we don't have a terrific predictive
-understanding of how mutations there would influence any of the
-parameters inside $\rho$, so still not obvious how to make use of
-that. Brewster/Daniel2012 energy matrix is only good in one model
-framework and doesn't tell you anything about how model params in
-other pictures would respond.
-In theory you could refit their raw data to different models, but
-as we see later, even having data of full mRNA distributions is
-insufficient to identify parameters in all but the simplest of
-the models in Figs.\ 1 and 2, so it seems doubtful that only
-measurements of means would fare better.
-??Double check, what did they actually measure in 2012 paper??
-\item Weak promoter corresponds to $\rho\approx 1$. In principle,
-if repressor binding E or kinetics are known to high enough
-precision, deviations from $\rho=1$ become a matter of expt. In
-practice, I don't think it's at all realistic to measure
-repressor params or expression levels precisely enough to detect
-the expected tiny deviations from $\rho=1$. We can estimate: how
-good would determination of $\Delta F_R$ in Fig~1B have to be to
-get a given uncertainty in $\rho$? I think it's approx 1-to-1:
-e.g., an uncertainty of 0.1 (kT) in $\Delta F_R$ converts to a
-0.1 uncert in $\log\rho$, and since $\rho\approx 1$, that means
-$\log(1+\Delta\rho)\approx\Delta\rho\approx 0.1$.
-That's a really hard determination of $\Delta F_R$ for a very
-coarse determination of $\rho$. Doubtful that inference of
-kinetic rates would be any easier and probably a lot harder.Also,
-in vitro RNAP data says $\rho\approx 1$ should be true, and even
-if that's the wrong quantity to be talking about, Manuel's
-inference of $k^+$ and $k^-$ suggests that still $\rho$ is close
-to 1, and that inference is agnostic to the microscopics.
-\item Master curve exists b/c repressor is on its own leaf of
-graph. (But maybe don't use that language.) Arb noneq stuff can
-happen on rest of promoter state space, doesn't matter. Is this
-``one curve to rule them all'' a tautology? How do we probe the
-theory? Can't do it at level of means, there's no discriminatory
-power, need to go beyond. Test if free energy inferred from
-fold-change measurements agrees with TF rates inferred from
-single molec, and if those rates agree with rates inferred from
-mRNA population distributions.
-\item Here's a fun puzzle: 2-state equilibrium model gets details
-of transcription so wrong, how can it be useful? Because
-fold-change is a ratio! Since details all collapse into $\rho$,
-fitting this 2-state model to fold-change measurements can
-\textit{still} give you a not-bad estimate of ratio of repressor
-rates, i.e., binding energies.
-\item 
-\end{itemize}
+What have we learned from our exploration of the models
+in~\fig{fig1:means_cartoons} and their predictions of
+fold-changes in mean expression levels? The takeaway is the
+existence of a master curve (\fig{fig1:means_cartoons}C) to which
+the fold-change predictions of all the models collapse. This
+master curve is parametrized by only two effective parameters:
+$\Delta F_R$, which characterizes the repressor, and $\rho$,
+which characterizes all other features of the promoter
+architecture. The key assumption underpinning this result is that
+zero transcription occurs when a repressor is bound to its
+operator, though note we are agnostic about the molecular
+mechanism which achieves this.\footnote{
+Steric effects are the obvious mechanism, but, for instance,
+``action-at-a-distance'' mediated by kinked DNA due to
+repressors bound tens or hundreds of nucleotides upstream of a
+promoter is plausible as well.}
+
+Why does the master curve of~\fig{fig1:means_cartoons}C exist at all?
+This brings to mind the deep questions posed in,
+e.g.,~\cite{Frank2013} and~\cite{Frank2014a}, asking us to search
+for general ``symmetries'' of the problem instead of specifying
+generative models of the known microscopics of a system.
+In our case, the key feature seems to be the exclusive nature of
+repressor and RNAP binding, which allows the parameter describing
+the repressor, $\Delta F_R$, to cleanly separate from all other
+details of the promoter architecture, which are encapsulated in $\rho$.
+In the graph-theoretic language which was applied to similar
+problems in~\cite{Gunawardena2012} and~\cite{Ahsendorf2014}, the
+repressor-bound state is a leaf of the graph describing
+transitions between promoter states. Arbitrary nonequilibrium
+behavior can occur on the rest of the promoter state space, but
+it may all be swept up in the effective parameter $\rho$, to
+which the repressor makes no contribution.
+
+As suggested in~\cite{Chure2019}, we believe this master curve
+should generalize to architectures with multiple repressor
+binding sites, as long as the exclusivity of transcription factor
+binding and transcription initation is maintained. The
+interpretation of $\Delta F_R$ is then of an effective free
+energy of all repressor bound states.
+In an equilibrium picture this is simply given by the log of the
+sum of Boltzmann weights of all repressor bound states, which
+looks like the log of a partition function of a subsystem.
+In a nonequilibrium picture, while we can still mathematically gather
+terms and give the resulting collection the label $\Delta F_R$,
+it is unclear if the physical interpretation as an effective free energy
+makes sense, and we leave this an open problem for future work.\footnote{
+As is well known, free energies cannot be assigned unambiguously
+to states out of equilibrium because the free energy change along
+a generic path traversing the state space is path dependent,
+unlike at equilibrium.
+A consequence of this is that, out of equilibrium, $\Delta F_R$
+is no longer a simple sum of Boltzmann weights. Instead it
+resembles a restricted sum of King-Altman
+diagrams~\cite{King1956, Hill1966}. Following the work of
+Hill~\cite{Hill1989}, it may yet be possible to interpret this expression
+as an effective free energy, but this remains unclear to us.
 }
+
+If we relax the requirement of exclusive repressor-RNAP binding,
+one could imagine models in which repressor and RNAP doubly-bound
+states are allowed, where the repressor's effect is to
+\text{reduce} the transcription rate rather than setting it to zero.
+Our results do not strictly apply to such a model, although we
+note that if the repressor's reduction of the transcription rate
+is substantial, such a model might still be well-approximated by
+one of the models in~\fig{fig1:means_cartoons}.
+
+One may worry that our ``one curve to rule them all'' is a
+mathematical tautology. In fact we \textit{agree} with this
+criticism if $\Delta F_R$ is ``just a fitting parameter'' and cannot
+be meaningfully interpreted as a real, physical free energy.
+We believe our theory deserves to be scrapped unless it can be
+demonstrated that $\Delta F_R$ \textit{is} a physically
+meaningful and interpretable free energy.
+
+How do we test this and probe the theory with fold-change
+measurements? There is a fundamental limitation in that the
+master curve is essentially a one-parameter function of $\Delta
+F_R + \log\rho$. Worse, there are many \textit{a priori}
+plausible microscopic mechanisms that could contribute to the
+value of $\rho$, such as RNAP binding and escape
+kinetics~\cite{DeHaseth1998, Mitarai2015}, and/or supercoiling
+accumulation and release~\cite{Chong2014, Sevier2016}, and/or,
+more speculatively, RNAP clusters analogous to those obvserved in
+eukaryotes~\cite{Cisse2013}. Even if $\Delta F_R$ is measured to
+high precision, inferring the potential microscopic contributions
+to $\rho$, buried inside a log no less, from fold-change
+measurements seems hopeless. As a statistical inference problem
+it is entirely nonidentifiable, in the language
+of~\cite{Gelman2013}, Section 4.3.
+
+If we cannot simply infer values of $\rho$ from measurements of
+fold-change, can we perturb some of the parameters that make up
+$\rho$ and measure the change? Unfortunately this is probably
+off-limits experimentally: most of the potential contributors to
+$\rho$ are global processes that affect many or all genes. For
+instance, changing RNAP association rates by changing RNAP copy
+numbers, or changing supercoiling kinetics by changing
+topoisomerase copy numbers, would massively perturb the entire
+cell's physiology and confound any determination of $\rho$.
+
+One might instead imagine a bottom-up modeling approach, where we
+mathematize a model of what we hypothesize the important steps
+are and are not, use in vitro data for the steps deemed
+important, and \textit{predict} what $\rho$ should be.
+But again, because of the one-parameter nature of the master
+curve, many different models will likely make indistinguishable
+predictions, and without any way to experimentally perturb in
+vivo, there is no clear way to test whether the modeling
+assumptions are correct.
+
+In light of this, we prefer the view that parameters and rates
+are not directly comparable between cartoons
+in~\fig{fig1:means_cartoons}. Rather, parameters in the
+simpler cartoons represent coarse-grained combinations of
+parameters in the finer-grained models. For instance, by equating
+$\rho$ between any two models, one can derive various possible
+correspondences between the two models' parameters. Note that
+these correspondences are clearly not unique, since many possible
+associations could be made. It then is a choice as to what microscopic
+interpretations the model-builder prefers for the parameters in a
+particular cartoon, and as to which coarse-grainings lend
+intuition and which seem nonsensical. Indeed, since it remains an open question what microscopic features dominate $\rho$ (as suggested above, perhaps RNAP binding and escape
+kinetics~\cite{DeHaseth1998, Mitarai2015}, or supercoiling
+accumulation and release~\cite{Chong2014, Sevier2016}, or,
+something more exotic like RNAP clusters~\cite{Cisse2013}), we are hesitant to put too much weight on any one microscopic interpretation of model parameters that make up $\rho$.
+
+One possible tuning knob to probe $\rho$ that would not globally
+perturb the cell's physiology is to manipulate RNAP binding sites.
+Work such as~\cite{Kinney2010} has shown that models of
+sequence-dependent RNAP can be inferred from data, and the
+authors of~\cite{Brewster2012} showed that the model
+of~\cite{Kinney2010} has predictive power by using the model to
+\textit{design} binding sites of a desired affinity.
+But for our purposes, this begs the question: the authors
+of~\cite{Kinney2010} \textit{assumed} a particular model
+(essentially our 3-state equilibrium model but without the
+repressor), so it is unclear how or if such methods can be turned
+around to \textit{compare} different models of promoter function.
+
+We have already pointed out that the master curve
+of~\fig{fig1:means_cartoons} is essentially a one-parameter model,
+the one parameter being $\Delta F_R + \log\rho$.
+By now the reader may be alarmed as to how can we even determine
+$\Delta F_R$ and $\rho$ independently of each other, never mind
+shedding a lens on the internal structure of $\rho$ itself.
+A hint is provided by the weak promoter approximation, invoked
+repeatedly in prior studies~\cite{Bintu2005c, Garcia2011a,
+Razo-Mejia2018} of simple repression using the 3-state
+equilibrium model in~\fig{fig1:means_cartoons}.
+In that picture, the weak promoter approximation means
+$\frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P) \ll 1$,
+meaning therefore $\rho\approx1$.
+This is suggestive, but how can we be sure that $\rho$ is not,
+for instance, actually $10^2$ and that $\Delta F_R$ hides a
+compensatory factor?
+A resolution is offered by an independent inference of $\rho$ in
+the absence of repressors. This was done in~\cite{Razo-Mejia2020}
+by fitting nonequilibrium model 4  in~\fig{fig1:means_cartoons},
+with zero repressor (looking ahead, this is equivalent to model 4
+in~\fig{fig:constit_cartoons}), to FISH data
+from~\cite{Brewster2014}. This provided a determination of $k^+$
+and $k^-$, from which their ratio is estimated to be no more than
+a few $10^{-1}$ and possibly as small as $10^{-2}$.
+
+The realization that $\rho\approx1$ to an excellent
+approximation, \textit{independent} of which model
+in~\ref{fig1:means_cartoons} one prefers, goes a long way towards
+explaining the surprising success of equilibrium models of simple
+repression. Even though our 2- and 3-state models get so many
+details of transcription wrong, it does not matter because
+fold-change is a cleverly designed ratio. Since $\rho$ subsumes
+all details except the repressor, and $\log\rho\approx0$, fitting
+these simple models to fold-change measurements can still give a
+surprisingly good estimate of repressor binding energies. So the
+ratiometric construction of fold-change fulfills its intended
+purpose of canceling out all features of the promoter
+architecture except the repressor itself. Nevertheless it is
+perhaps surprising how effectively it does so: \textit{a priori},
+one might not have expected $\rho$ to be quite so close to 1.
+
+We would also like to highlight the relevance
+of~\cite{Landman2019} here. Landman et.\ al.\ reanalyzed and
+compared in vivo and in vitro data on the lacI repressor's
+binding affinity to its various operator sequences. (The in vivo
+data was from, essentially, fitting our master curve to
+expression measurements.) They find broad agreement between the
+in vitro and in vivo values. This reinforces the suspicion that
+the equilibrium $\Delta\epsilon_R$ repressor binding energies do
+in fact represent real physical free energies.
+Again, \textit{a priori} this did not have to be the case, even
+knowing that $\rho\approx1$.
+
+In principle, if $\Delta F_R$ can be measured to sufficient
+precision, then deviations from $\rho=1$ become a
+testable matter of experiment.
+In practice, it is probably unrealistic to measure repressor
+rates $k_R^+$ or $k_R^-$ or fold-changes in expression levels
+(and hence $\Delta\epsilon_R$) precisely enough to detect the
+expected tiny deviations from $\rho=1$.
+We can estimate the
+requisite precision in $\Delta F_R$ to resolve a given
+$\Delta\rho$ by noting, since $\rho\approx1$, that
+$\log(1+\Delta\rho)\approx \Delta\rho$, so
+$\Delta(\Delta F_R) \approx \Delta\rho$.
+Suppose we are lucky and $\Delta\rho$ happens to be $\sim0.1$, on
+the high end of our range estimated above.
+A determination of $\Delta\epsilon_R/k_BT$ with an uncertainty of
+barely 0.1 was achieved in the excellent measurements
+of~\cite{Razo-Mejia2018}, so this requires a very difficult
+determination of $\Delta F_R$ for a very crude determination of $\rho$,
+which suggests, to put it lightly, this is not a
+promising path to pursue experimentally.
+It is doubtful that inference of repressor kinetic rates
+would be any easier.\footnote{
+\mmnote{
+In fact the uncertainties quoted in Hammar et.\
+al.~\cite{Hammar2014} from Elf's group are small enough to do
+this calculation, but HJ \& I think their error bars are insanely
+optimistic. Not sure I want to blatantly call them out on it though??}
+}
+
+Moving forward, we have weak evidence supporting the
+interpretation of $\Delta F_R$ as a physically real free
+energy~\cite{Landman2019} and other work casting
+doubt~\cite{Hammar2014}.
+How might we resolve the confusion?
+If there is no discriminatory power to test the theory and
+distinguish the various models with measurements of fold-changes
+in means, how do we probe the theory? Clearly to discriminate
+between the nonequilibrium models in~\fig{fig1:means_cartoons},
+we need to go beyond means to ask questions about kinetics, noise and even
+full distributions of mRNA copy numbers over a population of cells.
+If the ``one-curve-to-rule-them-all'' is more than a
+mathematical tautology, then the free energy of repressor binding
+inferred from fold-change measurements should agree with
+repressor binding and unbinding rates.
+In other words, the equilbrium and nonequilibrium definitions of
+$\Delta F_R$ must agree, meaning
+\begin{equation}
+\Delta F_R = \beta\Delta\epsilon_R - \log(R/N_{NS})
+        = - \log(k_R^+/k_R^-),
+\end{equation}
+must hold, where $\beta\Delta\epsilon_R$ is inferred from the
+master curve fit to fold-change measurements, and $k_R^+$ and
+$k_R^-$ are inferred in some orthogonal manner.
+Single molecule measurements such as from~\cite{Hammar2014} have
+directly observed these rates, and in the remainder of this work
+we explore a complementary approach: inferring repressor binding
+and unbinding rates $k_R^+$ and $k_R^-$ from FISH measurements of
+mRNA population distributions.
 
 \section{Beyond means}
 \subsection{A one-state promoter with bursting is the ``best'' model of constitutive promoters}
