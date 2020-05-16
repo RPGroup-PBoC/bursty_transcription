@@ -128,6 +128,10 @@ its ratiometric nature, which is always easier than making an
 absolute measurement. Also, by measuring otherwise identical cells
 with and without a transcription factor present, any biological
 noise common to both conditions can be made to cancel away.
+In addition, the presence of different operator sites is known to
+change the basal expression level in the absence of
+repressor~\mmnote{look up cite}.
+Computing fold-changes neatly cancels this effect as well.
 
 \fig{fig1:means_cartoons} depicts a smorgasbord
 of mathematized cartoons for simple repression that have appeared
@@ -588,12 +592,12 @@ $\Delta F_R$, which characterizes the repressor, and $\rho$,
 which characterizes all other features of the promoter
 architecture. The key assumption underpinning this result is that
 zero transcription occurs when a repressor is bound to its
-operator, though note we are agnostic about the molecular
-mechanism which achieves this.\footnote{
-Steric effects are the obvious mechanism, but, for instance,
+operator. Note, however, that we are agnostic about the molecular
+mechanism which achieves this;
+steric effects are the obvious mechanism, but, for instance,
 ``action-at-a-distance'' mediated by kinked DNA due to
 repressors bound tens or hundreds of nucleotides upstream of a
-promoter is plausible as well.}
+promoter is plausible as well.
 
 Why does the master curve of~\fig{fig1:means_cartoons}C exist at all?
 This brings to mind the deep questions posed in,
@@ -624,7 +628,7 @@ looks like the log of a partition function of a subsystem.
 In a nonequilibrium picture, while we can still mathematically gather
 terms and give the resulting collection the label $\Delta F_R$,
 it is unclear if the physical interpretation as an effective free energy
-makes sense, and we leave this an open problem for future work.\footnote{
+makes sense.
 As is well known, free energies cannot be assigned unambiguously
 to states out of equilibrium because the free energy change along
 a generic path traversing the state space is path dependent,
@@ -635,7 +639,7 @@ resembles a restricted sum of King-Altman
 diagrams~\cite{King1956, Hill1966}. Following the work of
 Hill~\cite{Hill1989}, it may yet be possible to interpret this expression
 as an effective free energy, but this remains unclear to us.
-}
+We leave this an open problem for future work.
 
 If we relax the requirement of exclusive repressor-RNAP binding,
 one could imagine models in which repressor and RNAP doubly-bound
@@ -650,9 +654,18 @@ One may worry that our ``one curve to rule them all'' is a
 mathematical tautology. In fact we \textit{agree} with this
 criticism if $\Delta F_R$ is ``just a fitting parameter'' and cannot
 be meaningfully interpreted as a real, physical free energy.
-We believe our theory deserves to be scrapped unless it can be
-demonstrated that $\Delta F_R$ \textit{is} a physically
+An analogy to Hill functions is appropriate here. One of their
+great strengths and weaknesses, depending on the use they are put
+to, is that their parameters coarse-grain many details and are
+generally not interpretable in terms of microscopic models, for
+deep reasons discussed at length in~\cite{Frank2013}.
+By contrast, our master curve claims to have the best of both worlds:
+a coarse-graining of all details besides the repressor into
+a single effective parameter $\rho$,
+while simultaneously retaining an interpretation of
+$\Delta F_R$ as a physically
 meaningful and interpretable free energy.
+Our task, then, is to prove or disprove this claim.
 
 How do we test this and probe the theory with fold-change
 measurements? There is a fundamental limitation in that the
@@ -662,8 +675,10 @@ plausible microscopic mechanisms that could contribute to the
 value of $\rho$, such as RNAP binding and escape
 kinetics~\cite{DeHaseth1998, Mitarai2015}, and/or supercoiling
 accumulation and release~\cite{Chong2014, Sevier2016}, and/or,
-more speculatively, RNAP clusters analogous to those obvserved in
-eukaryotes~\cite{Cisse2013}. Even if $\Delta F_R$ is measured to
+RNAP clusters analogous to those obvserved in
+eukaryotes~\cite{Cisse2013, Cho2016}
+and recently also observed in bacteria~\cite{Ladouceur2020}.
+Even if $\Delta F_R$ is measured to
 high precision, inferring the potential microscopic contributions
 to $\rho$, buried inside a log no less, from fold-change
 measurements seems hopeless. As a statistical inference problem
@@ -672,7 +687,7 @@ of~\cite{Gelman2013}, Section 4.3.
 
 If we cannot simply infer values of $\rho$ from measurements of
 fold-change, can we perturb some of the parameters that make up
-$\rho$ and measure the change? Unfortunately this is probably
+$\rho$ and measure the change? Unfortunately we suspect this is
 off-limits experimentally: most of the potential contributors to
 $\rho$ are global processes that affect many or all genes. For
 instance, changing RNAP association rates by changing RNAP copy
@@ -701,10 +716,15 @@ these correspondences are clearly not unique, since many possible
 associations could be made. It then is a choice as to what microscopic
 interpretations the model-builder prefers for the parameters in a
 particular cartoon, and as to which coarse-grainings lend
-intuition and which seem nonsensical. Indeed, since it remains an open question what microscopic features dominate $\rho$ (as suggested above, perhaps RNAP binding and escape
-kinetics~\cite{DeHaseth1998, Mitarai2015}, or supercoiling
-accumulation and release~\cite{Chong2014, Sevier2016}, or,
-something more exotic like RNAP clusters~\cite{Cisse2013}), we are hesitant to put too much weight on any one microscopic interpretation of model parameters that make up $\rho$.
+intuition and which seem nonsensical.
+Indeed, since it remains an open question what microscopic
+features dominate $\rho$ (as suggested above, perhaps RNAP
+binding and escape kinetics~\cite{DeHaseth1998, Mitarai2015}, or
+supercoiling accumulation and release~\cite{Chong2014, Sevier2016},
+or, something more exotic like
+RNAP clusters~\cite{Cisse2013, Cho2016, Ladouceur2020}),
+we are hesitant to put too much weight on any one microscopic
+interpretation of model parameters that make up $\rho$.
 
 One possible tuning knob to probe $\rho$ that would not globally
 perturb the cell's physiology is to manipulate RNAP binding sites.
@@ -746,7 +766,7 @@ a few $10^{-1}$ and possibly as small as $10^{-2}$.
 
 The realization that $\rho\approx1$ to an excellent
 approximation, \textit{independent} of which model
-in~\ref{fig1:means_cartoons} one prefers, goes a long way towards
+in~\fig{fig1:means_cartoons} one prefers, goes a long way towards
 explaining the surprising success of equilibrium models of simple
 repression. Even though our 2- and 3-state models get so many
 details of transcription wrong, it does not matter because
