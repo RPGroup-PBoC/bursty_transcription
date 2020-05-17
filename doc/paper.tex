@@ -1269,23 +1269,36 @@ the data from constitutive promoters from~\cite{Jones2014}.
 \fig{fig:constit_post} shows the results.
 \begin{figure}%[h!]
 \centering
-\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2.pdf}
+\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2pt1.pdf}
+\caption{\textbf{Constitutive promoter posterior
+        inference and predictive checks.}
+        (A) shows the joint posterior density from MCMC sampling of model 5,
+        bursty promoter with negative binomially-distributed steady state.
+        (B) shows the ECDF of the observed population distribution
+        of mRNA transcripts under the control of a constitutive lacUV5 promoter.
+        Posterior predictive percentiles are shown as colored bands for
+        model (1), Poisson, and model (5), negative binomial.
+        }
+\label{fig:uv5_post}
+\end{figure}
+
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/fig2/fig2pt2.pdf}
 \caption{\textbf{Constitutive promoter model comparison.}
-    (A) ???
-    (B) shows the ECDF of the observed population distribution
-    of mRNA transcripts under the control of a constitutive lacUV5 promoter.
-    Fits of model (1), Poisson, and model (5), negative binomial, are shown.
-    \mmnote{Would like to add posterior predictive intervals,
-    to give sense of robustness of model.}
-    (C) 95\% highest posterior density regions for burst rate $k_i$ and
-    mean burst size $b$ for 18 promoters from Brewster 2012. Legend is
-    same as (d).
-    \mmnote{shared y axis??}
-    (D) Burst rate $k_i$ plotted vs.\ binding energy from energy
+    (A) Joint posterior distributions for burst rate $k_i$ and
+    mean burst size $b$ for 18 promoters from Jones 2014.
+    Each contour indicates the 95\% highest posterior density
+    region for a particular promoter, i.e., on a plot analogous
+    to~\fig{fig:uv5_post}, the contour would enclose
+    approximately 95\% of the samples, and thus 95\% of the
+    probability mass.
+    Note that the vertical axis is shared with (B).
+    Panel (B) plots the burst rate $k_i$ vs.\ binding energy from energy
     matrices from Brewster 2012.
-    \mmnote{Need to add fit line still. Also visibility of color palette is very bad, adjust.
-    There are 18 data points, maybe 6 colors and 3 glyphs/linestyles
-    cycled through? or 9 and 2?}
+    The dotted line shows the predicted slope according to
+    $\ln k_i/\gamma \sim \text{constant} - \beta\Delta\epsilon_P$,
+    described in text.
     }
 \label{fig:constit_post}
 \end{figure}
@@ -1360,6 +1373,7 @@ measurements of $\beta/\alpha$ are correct. This would require an
 obnoxious amount of cloning, but once you did that, the
 measurements would be same old stuff that RP lab does.}
 
+%%%%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 
 \section{Derivations of constitutive promoter models}
@@ -1381,7 +1395,7 @@ mRNA copy number per cell for a model combining simple repression
 with a promoter featuring bursty transcription initiation.
 Before tackling mRNA and repression together, let us
 just consider the bursty consititutive promoter,
-model 4 in~\fig{fig:constit_post}
+model 5 in~\fig{fig:constit_cartoons}
 \mmnote{replicating Charlotte's notes; she says it's worked out
 in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
 comprehend. Need to find a cite for this,
@@ -2133,9 +2147,6 @@ This is easily solved by taking the log of the entire expression
 and using standard routines to compute the log of the gamma functions,
 then exponentiating the entire expression at the end if $p(m)$
 is needed rather than $\log p(m)$.
-
-%%%%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
 
 
 % \bibliographystyle{nature}

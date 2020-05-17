@@ -10,7 +10,7 @@ import arviz as az
 
 from bebi103.stan import disable_logging as be_quiet_stan
 from bebi103.stan import check_all_diagnostics
-from srep.data_loader import load_FISH_by_promoter
+from srep.utils import load_FISH_by_promoter
 
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
@@ -42,6 +42,6 @@ for gene in df_unreg['experiment'].unique():
     check_all_diagnostics(all_samples[gene])
 
 # pickle the samples. ~20 separate netcdfs, only for use together? No thanks
-outfile = open(f"{repo_rootdir}/data/stan_samples/constit_post_inf.pkl", 'wb')
+outfile = open(f"{repo_rootdir}/data/mcmc_samples/constit_post_inf.pkl", 'wb')
 pickle.dump(all_samples, outfile)
 outfile.close()
