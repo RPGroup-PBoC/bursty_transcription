@@ -69,7 +69,7 @@ for i, draw in enumerate(poiss_post_draws):
 # now plot PPC from Poisson samples
 srep.viz.predictive_ecdf(
     poiss_ppc_draws,
-    color='purple',
+    color='green',
     percentiles=ptiles,
     discrete=True,
     ax=ax[1],
@@ -88,7 +88,7 @@ srep.viz.predictive_ecdf(
     ax=ax[1],
     pred_label='Model 5 (N. Binom) PPC',
     data_label='UV5 data, Jones et. al.',
-    data_color='red',
+    data_color='orange',
     data_size=1 #linewidth
     )
 # first plot UV5 data
