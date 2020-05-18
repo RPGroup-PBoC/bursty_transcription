@@ -87,7 +87,7 @@ for i, promoter in enumerate(df_energies.Name):
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
 guide_x = np.linspace(-5.5,-2)
 guide_y = np.exp(-guide_x)/50
-ax[1].plot(guide_x, guide_y, 'k--')
+ax[1].plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
 
 ax[1].set_xlabel(r'Binding energy $(k_BT)$')
 ax[1].set_yscale("log")

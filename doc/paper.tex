@@ -1416,7 +1416,60 @@ our posterior is
 \end{equation}
 which suggests we have inferred our model's one parameter to a precision of order 1\%.
 
-This is not wrong, but it is not the full story. The model's posterior is tightly constrained, but is it a good generative model? In other words, does the model generate data that ``look like'' our actual data, and is it therefore plausible that the model captures the important features of the data generating process? This intuitive notion can be codified with \textit{posterior predictive checks}, or PPCs, and we will see that this simple Poisson model fails badly.
+This is not wrong, but it is not the full story. The model's
+posterior is tightly constrained, but is it a good generative
+model? In other words, does the model generate data that look similar
+to our actual data, and is it therefore plausible that the
+model captures the important features of the data generating
+process? This intuitive notion can be codified with
+\textit{posterior predictive checks}, or PPCs, and we will see
+that this simple Poisson model fails badly.
+
+The intuitive idea of posterior predictive checks is simple:
+\mmnote{Not sure if all this stuff is clearer by example,
+but then does it confuse the reader in generalizing to other models?}
+\begin{enumerate}
+\item Make a random draw of the model parameter $\lambda$
+from the posterior distribution.
+\item Plug that draw into the likelihood and generate
+a synthetic dataset $\{m_k\}$ conditioned on $\lambda$.
+\item Repeat many times.
+\end{enumerate}
+More formally, the posterior predictive distribution can be thought of
+as the distribution of future yet-to-be-observed data,
+conditioned on the data we have already observed.
+Clearly if those data appear quite different,
+the model has a problem. Put another way, if we suppose
+the generative model is true, then the synthetic datasets
+we generate should resemble the actual observed data, and if not,
+it suggests the model is missing important features.
+All the data we consider in this work are 1D (distributions of mRNA counts
+over a population) so ECDFs are an excellent visual means of comparing
+synthetic and observed datasets. In general for higher dimensional datasets,
+much of the challenge is in merely designed good visualizations
+that can actually show if synthetic and observed data are similar or not.
+
+For our example Poisson promoter model then, we merely draw many
+random numbers, say 1000, from the Gaussian posterior. For each one
+of those draws, we generate a dataset from the likelihood,
+i.e., we draw 2648 (the number of observed cells in the actual dataset)
+Poisson-distributed numbers for each of the 1000 posterior draws,
+for a total of 2648000 samples from the posterior predictive distribution.
+
+To compare so many samples with the actual observed data,
+one excellent visualization for 1D data is ECDFs of the quantiles,
+as shown for our Poisson model in~\fig{fig:uv5_post}.
+In this example, the median for each possible mRNA count is shown
+as a dark green line, while shaded bands of progressively lighter green
+contain 25\%, 50\%, 75\%, and 95\% of the posterior predictive samples.
+Plotting quantiles in this way gives us a sense of the range of data
+we might consider plausible, under the assumption that the model is true.
+In this case it is quite obvious that the observed data, plotted in orange,
+could not plausibly come from this Poisson generative model.
+The other model with a PPC plotted in~\fig{fig:uv5_post},
+bursty model 5 with a negative binomial steady-state mRNA distribution,
+looks like a good candidate by eye. We cover it in more detail later.
+
 \begin{figure}%[h!]
 \centering
 \includegraphics[width=0.9\textwidth]{../figures/fig2/fig2pt1.pdf}
@@ -1432,16 +1485,8 @@ This is not wrong, but it is not the full story. The model's posterior is tightl
 \label{fig:uv5_post}
 \end{figure}
         
-\mmnote{Outline:
+\mmnote{Outline, still to cover:
 \begin{itemize}
-\item Poisson model. Write Bayes, briefly explain conjugacy and it's
-convenience. immediately write down posterior, make Gaussian
-approx. Explain PPC sampling (actually PP dist is analytically
-known but you still have to draw RNGs from it. Also this obscures
-the intuitive meaning of PPC sampling from posterior and
-generating synthetic data, so I think it's more useful to just
-generate PP samples from posterior draws, this gives a more
-intuitive apples-to-apples comparison w/ model 5).
 \item Bursty model. Write Bayes, sketch story of NB likelihood, sketch choice
 of priors, show~\fig{fig:uv5_post}, see bursty $\gg$ Poisson model.
 \item All 18 promoters. Hey the model still works on things other than
@@ -2386,6 +2431,6 @@ is needed rather than $\log p(m)$.
 
 % \bibliographystyle{nature}
 \bibliographystyle{abbrv}
-\bibliography{./library}
+\bibliography{./simple_rep}
 
 \end{document}
