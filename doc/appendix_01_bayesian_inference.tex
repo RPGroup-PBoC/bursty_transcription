@@ -1,0 +1,34 @@
+% !TEX root = ./busty_transcription.tex
+\section{Bayesian inference}
+\mmnote{
+\begin{itemize}
+\item Bayes theorem.
+Elaborate on posterior as plausibility over
+space of model parameters.
+\item Choosing likelihoods.
+Easy here, just the steady-state distributions of our master
+equations, assuming iid single-cell measurements.
+\item Choosing priors.
+Not critical here because we are data-rich and nonhierarchical,
+as long as we don't exclude ground truth. In other applications,
+prior can matter a lot. This is a feature, not a bug: it's
+revealing hidden structure that was implied by your modeling
+assumptions and you just didn't realize it. Predictive checks to
+verify you're not excluding any plausible values.
+\item Marginalization/expectations.
+Analytically hard, trivial with sampling.
+\item MCMC.
+Lot's of fun here, and deep analogies to stat mech and
+Hamiltonian mechanics worth exploring. In a perfect world, you'd
+wave a magic wand and generate independent draws from target
+posterior. But we don't know how. Next best: generate a Markov
+chain of $N$ \textit{correlated} samples, estimate an
+autocorrelation time $\tau$, then you've got roughly $N/\tau$
+effective samples. Obviously with some assumptions.
+\item Posterior predictive checks.
+So the posterior is fine, but is the model actually not wrong?
+PPC is essential to verify that your model is a plausible
+generative process for the data.
+\item Discuss identifiability, degeneracy, and failed PPCs in main text. Better thru example anyway.
+\end{itemize}
+}

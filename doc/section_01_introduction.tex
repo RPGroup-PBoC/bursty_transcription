@@ -1,0 +1,42 @@
+% !TEX root = ./busty_transcription.tex
+\section{Introduction}
+\mmnote{Key ideas, no particular order, that I haven't written down before:
+\begin{itemize}
+\item Our goal is to build phenomenological models of input-output functions of
+genetic circuits. More precisely, we want phenomenology in the sense of
+coarse-graining away atomistic detail, but still retaining biophysical meaning,
+e.g., we don't want to coarse-grain as far as Hill functions. Why not? We are
+motivated by studies like~\cite{Razo-Mejia2020}, for which Hill functions are
+insufficient. Such work requires a quantitative theory of how biophysical
+changes at the molecular level propagate to input-output functions at the
+genetic circuit level. We want concepts, not mere facts. In particular a key
+question is: at this level of coarse graining, what microscopic details do I
+need to explicitly model, and how do we figure that out? For example, do I need
+to worry about all or even any of the steps that individual RNAPs go through
+each time they make a transcript? Turning the question around, can we see any
+imprint of those processes in the available data? If the answer is no, then
+those processes are irrelevant for our purposes. Forward modeling and inverse
+(statistical inferential) modeling can complement each other beautifully here.
+\end{itemize}}
+
+\fig{fig1:means_cartoons}A shows the qualitative picture of simple repression.
+An operator, the binding site on the DNA for a repressor protein, may be found
+occupied by a repressor, in which case transcription is blocked from occurring.
+Or it may be found unoccupied, in which case RNA polymerase (RNAP) may bind and
+transcription can proceed.
+
+The key assumption we make is that binding of repressor and RNAP in the promoter
+region of interest is exclusive, meaning that one or the other may bind, but
+never may both be simultaneously bound. It is often imagined that when the
+repressor is bound to its operator, RNAP is sterically blocked from binding to
+its promoter sequence. Current evidence suggests this is sometimes, but not
+always the case~\mmnote{Cite that fig, from ??Nathan or Bill or Rob??, showing
+locations of repressor binding sites far upstream of promoter}, and it remains
+an interesting open question precisely how a repressor bound far upstream is
+able to repress transription. Suggestions include ``action-at-a-distance''
+mediated by kinks in the DNA, formed when the repressor is bound, that prevent
+RNAP binding. Nevertheless, our modeling in this work is sufficiently
+coarse-grained that we simply assume exclusive binding and need not worry about
+such precise details.
+
+\mmnote{Add a notation aside somewhere that all association rates are written as zeroth-order rates. In other words, the concentration of the molecule is hidden inside, so for instance, $k_R^+$ is proportional to repressor copy number.}

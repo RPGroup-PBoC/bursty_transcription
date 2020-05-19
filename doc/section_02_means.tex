@@ -1,0 +1,654 @@
+% !TEX root = ./busty_transcription.tex
+\section{Means}
+\subsection{Fold-changes are indistinguishable across models}
+As a first stop on our search for the ``right'' model of simple repression, let
+us consider what we can learn from theory and measurements of fold-change in
+mean expression. The fold-change is defined as
+\begin{equation}
+\text{fold-change}
+= \frac{\langle \text{gene expression with repressor present} \rangle}
+        {\langle \text{gene expression with repressor absent} \rangle}
+= \frac{\langle m\rangle(R\ne 0)}{\langle m\rangle(R = 0)}
+\label{eq:fc_def}
+\end{equation}
+where angle brackets denote the averge over a population of cells and mean mRNA
+$\langle m\rangle$ is viewed as a function of repressor copy number $R$. The
+second equality in~\ref{eq:fc_def} follows from assuming that the translation
+efficiency, i.e., the number of proteins translated per mRNA, is the same in
+both conditions. In other words, we assume that mean protein level is
+proportional to mean mRNA level, and that the proportionality constant is the
+same in both conditions and therefore cancels out in the ratio. This is
+reasonable since the cells in the two conditions are identical except for the
+presence of the transcription factor, and it is difficult to imagine the
+transcription factor having any direct effect on translation.
+
+Fold-change has proven a very convenient observable in past
+work~\cite{Garcia2011a, Razo-Mejia2018, Chure2019}. Part of its utility in
+dissecting transcriptional regulation is its ratiometric nature, which is always
+easier than making an absolute measurement. Also, by measuring otherwise
+identical cells with and without a transcription factor present, any biological
+noise common to both conditions can be made to cancel away. In addition, the
+presence of different operator sites is known to change the basal expression
+level in the absence of repressor~\mmnote{look up cite}. Computing fold-changes
+neatly cancels this effect as well.
+
+\fig{fig1:means_cartoons} depicts a smorgasbord of mathematized cartoons for
+simple repression that have appeared in previous literature. For each cartoon,
+we calculate the fold-change in mean gene expression as predicted by that model,
+deferring some algebraic details to the appendix. What we will find is that all
+cartoons collapse to a single master curve, shown in \fig{fig1:means_cartoons}c,
+which contains just two parameters. We label the parameters $\Delta F_R$, an
+effective free energy parametrizing the repressor-DNA interaction, and $\rho$,
+which subsumes all details of transcription in the absence of repressors. We
+will offer some intuition for why this master curve exists and discuss why it is
+likely impossible to discriminate ``right'' from ``wrong'' cartoons given only
+measurements of fold-changes in expression.
+
+\subsubsection{Equilibrium, 2-state}
+In this simplest model, the promoter is idealized as existing in one of two
+states, either repressor bound or repressor unbound. The rate of transcription,
+and therefore the level of gene expression, is assumed to be proportional to the
+fraction of time spent in the repressor unbound state. Mathematically, this
+amounts to the statement that the mean mRNA level is given by
+\begin{equation}
+\langle m \rangle = \frac{r}{\gamma}
+        \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}\right)^{-1},
+\end{equation}
+where $r$ is the transcription rate from the repressor unbound state, $\gamma$
+is the mRNA degradation rate, $R$ is repressor copy number, $N_{NS}$ is the
+number of nonspecific binding sites in the genome (where repressors spend most
+of their time when not bound to the operator, their specifc binding site),
+$\beta=1/k_BT$, and $\Delta\epsilon_R$ is the binding energy of a repressor to
+its operator site. The derivation of this result is deferred to the appendix.
+
+The fold-change is easily found as the ratio of mean mRNA with and without
+repressor. This gives
+\begin{equation}
+\text{fold-change}
+= \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}\right)^{-1},
+\end{equation}
+which clearly matches the form of the master curve in~\eq{fig1:means_cartoons}
+with $\rho=1$.
+
+In fact it was noted in~\cite{Chure2019} that this two-state model can be viewed
+as the coarse-graining of any equilibrium promoter model in which no
+transcriptionally active states have transcription factor bound. Put
+differently, there is no overlap between TF bound states and transcriptionally
+active states. We will see this explicitly in the 3-state equilibrium model
+below, but perhaps surprising is that something analogous carries over even to
+the nonequilibrium models we consider later.
+
+\subsubsection{Equilibrium, 3-state}
+Compared to the previous model, here we fine-grain the repressor unbound state
+into two separate states: empty, and RNAP bound. This picture was used
+in~\cite{Garcia2011a} as we use it here, and in~\cite{Razo-Mejia2018}
+and~\cite{Chure2019} it was generalized to incorporate small-molecule inducers
+that bind the repressor. Interestingly, the effect of this is simply to
+renormalize $R$ from the total number of repressors to a smaller effective
+number, roughly (though not exactly) the number which are unbound by inducers.
+
+The mean mRNA, as derived in the appendix from a similar enumeration of states
+and weights as the previous model, is
+\begin{equation}
+\langle m \rangle = \frac{r}{\gamma}
+\frac{\frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}}
+        {
+        1 + \frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}
+        + \frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}
+        },
+\end{equation}
+where the new variables are $\Delta\epsilon_P$, the difference in RNAP binding
+energy to its specific site (the promoter) relative to an average nonspecific
+background site, and the RNAP copy number, $P$. The fold-change again follows
+immediately as
+\begin{align}
+\text{fold-change}
+&= \frac{\frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}}
+        {
+        1 + \frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}
+        + \frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}
+        }
+\frac{1 + \frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}}
+        {\frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}}
+\\
+&= \left(
+1 + \frac{\frac{R}{N_{NS}} e^{-\beta\Delta\epsilon_R}}
+        {1 + \frac{P}{N_{NS}} e^{-\beta\Delta\epsilon_P}}
+\right)^{-1}
+\\
+&= (1 + \exp(-\Delta F_R - \log\rho))^{-1},
+\end{align}
+with $\Delta F_R = \beta\Delta\epsilon_R - \log(R/N_{NS})$ and $\rho = 1 +
+\frac{P}{N_{NS}}\mathrm{e}^{-\beta\Delta\varepsilon_P}$ as shown
+in~\fig{fig1:means_cartoons}.
+
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig1/fig1.ai}
+\caption{\textbf{An overview of the simple repression motif at the level of
+means.} (A) depicts the qualitative biological picture of simple repression. (B)
+shows a variety of possible mathematized cartoons of simple repression, along
+with the effective parameter $\rho$ which subsumes all regulatory details of the
+architecture excluding the repressor. (C) shows the ``master curve'' to which
+all cartoons in (B) collapse.}
+\label{fig1:means_cartoons}
+\end{figure}
+
+\subsubsection{Nonequilibrium model 1 - Poisson promoter}
+For our first kinetic model, we consider the simplest possible picture with only
+two states, repressor bound and unbound. This is exactly the model used for the
+main results of~\cite{Jones2014}. In this picture, repressor association and
+dissociation rates from its operator site, $k_R^+$ and $k_R^-$, respectively,
+govern transitions between the two states. When the system is in the unbound
+state, transcriptions initiate at rate $r$, which represents a coarse-graining
+of all the downstream processes into a single effective rate. mRNA is again
+degraded at rate $\gamma$.
+
+Let $p_{m,R}(t)$ denote the joint probability of finding the system in the
+repressor bound state with $m$ mRNA molecules present at time $t$, and similarly
+define $p_{m,U}(t)$ for the repressor unbound state. This model is governed by a
+master equation giving the time evolution of $p_{m,R}(t)$ and $p_{m,U}(t)$,
+which is
+\begin{align}
+\begin{split}
+\deriv{t}p_{m,R}(t) =& - k_R^- p_{m,R}(t) + k_R^+ p_{m,U}(t)
+                + (m+1)\gamma p_{m+1,R}(t) - \gamma p_{m,R}(t)
+\\
+\deriv{t}p_{m,U}(t) =&\; k_R^- p_{m,R}(t) - k_R^+ p_{m,U}(t)
+                        + rp_{m-1,U}(t) - rp_{m,U}(t)
+                \\
+                &+ (m+1)\gamma p_{m+1,U}(t) - \gamma p_{m,U}(t).
+\label{eq:poisson_promoter_cme}
+\end{split}
+\end{align}
+In each equation, the first two terms describe transitions between promoter
+states due to repressors unbinding and binding, respectively. The final two
+terms describe degradation of mRNA, decreasing the copy number by one, and the
+terms with coefficient $r$ describe transcription initiation increasing the mRNA
+copy number by one.
+
+We can greatly simplify the notation, which will be especially useful for the
+more complicated models yet to come, by re-expressing the master equation in
+vector form. The promoter states are collected into a vector and the rate
+constants are collected into matrices as
+\begin{equation}
+\vect{p}_m = \begin{pmatrix} p_{m,R} \\ p_{m,U} \end{pmatrix},\
+\matr{K} = \begin{pmatrix} -k_R^- & k_R^+ \\ k_R^- & -k_R^+ \end{pmatrix},\
+\matr{R} = \begin{pmatrix} 0 & 0 \\ 0 & r \end{pmatrix},\
+\label{eq:2state_cme_matrices}
+\end{equation}
+so that the master equation may be condensed as
+\begin{equation}
+\deriv{t}\vect{p}_m(t) =
+\left( \matr{K} - \matr{R} - \gamma m \matr{I} \right) \vect{p}_m(t)
+                + \matr{R} \vect{p}_{m-1}(t)
+                + \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+\label{eq:2state_rep_cme}
+\end{equation}
+where $\matr{I}$ is the identity matrix. Taking steady state by setting time
+derivatives to zero, the mean mRNA can be found to be
+\begin{equation}
+\langle m \rangle = \frac{r}{\gamma}
+        \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
+\end{equation}
+with the algebra details again deferred to the appendix. Recall $k_R^+$ is
+proportional to the repressor copy number, so in computing fold-change, absence
+of repressor corresponds to $k_R^+\rightarrow0$. Therefore fold-change in this
+model is simply
+\begin{equation}
+\text{fold-change} = \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
+\end{equation}
+again matching the master curve of~\fig{fig1:means_cartoons} with $\rho=1$.
+
+\subsubsection{Nonequilibrium model 2 - RNAP bound/unbound states}
+Analogous to the three-state equilibrium model, this model fine-grains the
+repressor unbound state of nonequilibrium model 1, resolving it into an empty
+promoter state and an RNAP-bound state. Note in this picture, in contrast with
+model 4 below, transcription initiation is accompanied by a promoter state
+change, in keeping with the interpretation as RNAP-bound and empty states: if an
+RNAP successfully escapes the promoter and proceeds to elongation of a
+transcript, clearly it is no longer bound at the promoter! Therefore another
+RNAP must bind before another transcript can be initiated.
+
+The master equation governing this model is analogous
+to~\eqrange{eq:2state_cme_matrices}{eq:2state_rep_cme} for model 1 above. The
+main subtlety arises since transcription initiation accompanies a promoter state
+change. This can be understood by analogy to $\matr{K}$. The off-diagonals and
+diagonals of $\matr{K}$ correspond to transitions arriving at or departing from,
+respectively, the promoter state of interest. If transcription initiations are
+accompanied by promoter state changes, we must have separate matrices for
+arriving and departing transcription events since the arriving and departing
+transitions have different initial copy number of mRNA, unlike for $\matr{K}$
+where they are the same. The master equation for this model is
+\begin{equation}
+\deriv{t}\vect{p}_m(t) =
+\left( \matr{K} - \matr{R_D} - \gamma m \matr{I} \right) \vect{p}_m(t)
+                + \matr{R_A} \vect{p}_{m-1}(t) +
+                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+\label{eq:3state_rep_cme}
+\end{equation}
+with the state vector and promoter transition matrix defined as
+\begin{equation}
+\vect{p}_m = \begin{pmatrix} p_{m,R} \\ p_{m,E} \\ p_{m,P} \end{pmatrix},\
+\matr{K} = \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
+                        k_R^- & -k_R^+ -k_P^+ & k_P^- \\
+                        0 & k_P^+ & -k_P^- 
+                \end{pmatrix},
+\label{eq:3state_cme_matrices_pt1}
+\end{equation}
+and the initiation matrices given by
+\begin{equation}
+\matr{R_A} = \begin{pmatrix}
+                0 & 0 & 0 \\ 0 & 0 & r \\ 0 & 0 & 0
+                \end{pmatrix},\
+\matr{R_D} = \begin{pmatrix}
+                0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & r
+                \end{pmatrix},
+\label{eq:3state_cme_matrices_pt2}
+\end{equation}
+The elements of $\vect{p}_m$ encode the probabilities of having $m$ mRNA present
+along with the promoter having repressor bound, being empty, or having RNAP
+bound, respectively. $\matr{R_A}$ describes probability flux \textit{arriving}
+at the state $\vect{p}_m$ from a state with one fewer mRNA, namely
+$\vect{p}_{m-1}$, and $\matr{R_D}$ describes probability flux \textit{departing}
+from the state $\vect{p}_m$ for a state with one more mRNA, namely
+$\vect{p}_{m+1}$. $\matr{K}$ is closely analogous to model 1.
+
+Mean mRNA at steady state is found analogously to model 1, with the result
+\begin{equation}
+\langle m\rangle = \frac{r}{\gamma}
+        \frac{k_R^- k_P^+}
+        {k_R^- k_P^+ + k_R^- (k_P^- + r) + k_R^+ (k_P^- + r)}.
+\end{equation}
+Fold-change is again found from the ratio prescribed by~\eq{eq:fc_def}, from
+which we have
+\begin{align}
+\text{fold-change}
+&=      \frac{k_R^- k_P^+}
+        {k_R^- k_P^+ + k_R^- (k_P^- + r) + k_R^+ (k_P^- + r)}
+        \frac{k_P^+ + k_P^- + r}{k_P^+}
+\\
+&=      \left(1 + \frac{k_R^+}{k_R^-}
+                \frac{k_P^- + r}{k_P^+ + k_P^- + r}
+        \right)^{-1}
+\\
+&=      \left(1 + \frac{k_R^+}{k_R^-}
+        \left(1 + \frac{k_P^+}{k_P^- + r}\right)^{-1}
+        \right)^{-1},
+\end{align}
+which follows the master curve with $\rho = 1 + k_P^+/(k_P^- + r)$ as claimed.
+
+\subsubsection{Nonequilibrium model 3 - Multistep transcription initiation and
+escape} One might reasonably complain that the first two ``nonequilibrium''
+models we have considered are straw men. Their steady states necessarily satisfy
+detailed balance which is equivalent to thermodynamic equilibrium. Why is this
+the case? At steady state there is by definition no net probability flux in or
+out of each promoter state, but since the promoter states form a linear chain,
+there is only one way in or out of the repressor bound and RNAP bound states,
+implying each edge must actually have a net zero probability flux, which is the
+definition of detailed balance (usually phrased as equality of forward and
+reverse transition fluxes).
+
+Now we consider model 3 in~\eq{fig1:means_cartoons} which allows the possibility
+of true nonequilibrium steady-state fluxes through the promoter states. We point
+out that this model was considered previously in~\cite{Mitarai2015} where a
+comparison was made with model 1 as used in~\cite{Jones2014}. The authors
+of~\cite{Mitarai2015} argued that the additional complexity is essential to
+properly account for the noise in the mRNA distribution. We will weigh in on
+both models later when we consider observables beyond fold-change.
+
+The master equation governing this model is identical in form to model 2 above,
+namely
+\begin{equation}
+\deriv{t}\vect{p}_m(t) =
+\left( \matr{K} - \matr{R_D} - \gamma m \matr{I} \right) \vect{p}_m(t)
+                + \matr{R_A} \vect{p}_{m-1}(t) +
+                \gamma (m+1) \matr{I} \vect{p}_{m+1}(t),
+\end{equation}
+but obviously with a higher-dimensional state space and different matrices. The
+state vector and promoter transition matrix are now
+\begin{equation}
+\vect{p}_m = \begin{pmatrix} p_{m,R} \\ p_{m,E} \\
+                             p_{m,C} \\ p_{m,O}\end{pmatrix},\
+\matr{K} = \begin{pmatrix} -k_R^- & k_R^+ & 0 & 0\\
+                        k_R^- & -k_R^+ -k_P^+ & k_P^- & 0 \\
+                        0 & k_P^+ & -k_P^- - k_O & 0 \\
+                        0 & 0 & k_O & 0
+                \end{pmatrix},
+\end{equation}
+with the four promoter states, in order, being repressor bound, empty, RNAP
+closed complex, and RNAP open complex. Besides increasing dimension by one
+again, the only new feature in $\matr{K}$ is the rate $k_O$, representing the
+(irreversible) rate of open complex formation from the closed complex. The
+initiation matrices are given by
+\begin{equation}
+\matr{R_A} = \begin{pmatrix}
+        0 & 0 & 0 & 0 \\ 0 & 0 & 0 & r \\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0
+                \end{pmatrix},\
+\matr{R_D} = \begin{pmatrix}
+        0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & r
+                \end{pmatrix},
+\end{equation}
+again closely analogous to model 2.
+
+The expression for mean mRNA is substantially more complicated now, as worked
+out in the appendix where we find
+\begin{equation}
+\langle m\rangle = \frac{r}{\gamma}
+        \frac{k_R^- k_P^+ k_O}
+        {k_R^- [(k_P^+ (k_O + r) + r(k_P^- + k_O)] + k_R^+ r(k_P^- + k_O)},
+\end{equation}
+which can be simplified to
+\begin{equation}
+\langle m\rangle
+= \frac{r}{\gamma}
+\frac{\frac{k_P^+ k_O}{r(k_O + k_P^-)}}
+        {1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)} + \frac{k_R^+}{k_R^-}}.
+\end{equation}
+The strategy is to isolate the terms involving the repressor, so that now the
+fold-change is seen to be simply
+\begin{align}
+\text{fold-change}
+&= \frac{\frac{k_P^+ k_O}{r(k_O + k_P^-)}}
+        {1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)} + \frac{k_R^+}{k_R^-}}
+        \frac{1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)}}
+                {\frac{k_P^+ k_O}{r(k_O + k_P^-)}}
+\\
+&= \left(
+        1 + \frac{k_R^+}{k_R^-}
+        \left(1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)}\right)^{-1}
+\right)^{-1},
+\end{align}
+surprisingly reducing to the master curve once again, with $\rho = 1 +
+\frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)}$.
+
+This example hints that an arbitrarily fine-grained model of downstream
+transcription steps may still be collapsed to the form of the master curve
+in~\fig{fig1:means_cartoons}B so long as the repressor binding is exclusive with
+transcriptionally active states. We offer this as a conjecture, and we suspect
+that a careful argument using the King-Altman diagram method~\cite{King1956,
+Hill1966} might furnish a ``proof.'' Our focus here is not on full generality
+but rather to survey an assortment of plausible models that have been proposed
+in the literature for simple repression.
+
+\subsubsection{Nonequilibrium model 4 - ``Active'' and ``inactive'' states}
+This model is at the core of the theory in~\cite{Razo-Mejia2020}. At a glance
+the cartoon for this model may appear very similar to model 2, and
+mathematically it is, but the interpretation is rather different. In model 2, we
+interpreted the third state literally as an RNAP-bound promoter and modeled
+initiation of a transcript as triggering a promoter state change, making the
+hopefully uncontroversial assumption that an RNAP can only make one transcript
+at a time. In contrast, in the present model the promoter state does
+\textit{not} change when a transcript is initiated. So we no longer interpret
+these states as literally RNAP bound and unbound but instead as coarse-grained
+``active'' and ``inactive'' states, the details of which we leave unspecified
+for now. We will comment more on this model below when we discuss Fano factors
+of models.
+
+Mathematically this model is very similar to models 1 and 2. Like model 1, the
+matrix $R$ describing transcription initiation is diagonal, namely
+\begin{equation}
+\matr{R} = \begin{pmatrix}
+                0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & r
+        \end{pmatrix}.
+\end{equation}
+so the master equation takes verbatim the same form as it did for model
+1,~\eq{eq:2state_rep_cme}. Meanwhile the promoter transition matrix $K$ is the
+same as~\eq{eq:3state_cme_matrices_pt1} from model 2, although we relabel the
+rate constants from $k_P^\pm$ to $k^\pm$ to reiterate that these are not simply
+RNAP binding and unbinding rates.
+
+Carrying out the algebra, the mean mRNA can be found to be
+\begin{equation}
+\langle m\rangle = \frac{r}{\gamma}
+\frac{k_R^- k^+}
+{k_R^- k^+ + k_R^- k^- + k_R^+ k^-},
+\end{equation}
+and the fold-change readily follows,
+\begin{align}
+\text{fold-change}
+&=      \frac{k_R^- k^+}{k_R^- k^+ + k_R^- k^- + k_R^+ k^-}
+        \frac{k_R^- k^+ + k_R^- k^-}{k_R^- k^+}
+\\
+&=      \left(1 + \frac{k_R^+}{k_R^-}
+                \left(1 + \frac{k^+}{k^-}\right)^{-1}
+        \right)^{-1},
+\end{align}
+from which we see $\rho = 1 + k^+/k^-$ as shown in~\fig{fig1:means_cartoons}.
+
+\subsubsection{Nonequilibrium model 5 - Bursty promoter}
+We will have much more to say about this model in subsequent sections. For now
+we sketch it as an intuitive analog to model 1, with just two states, repressor
+bound or unbound, and transition rates between them of $k_R^+$ and $k_R^-$. In
+model 1, when in the unbound state, single mRNA transcripts are produced as a
+Poisson process with some characteristic rate $r$. This model by contrast
+produces, at some Poisson rate $k_i$, \textit{bursts} of transcripts with a
+geometrically distributed burst size and a mean burst size $b$.
+
+From this intuitive picture and by analogy to model 1, then, it should be
+plausible that the mean mRNA level is
+\begin{equation}
+\langle m\rangle = \frac{k_i b}{\gamma}
+        \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
+\end{equation}
+which will turn out to be correct from a careful calculation. For now, we simply
+note that just like model 1, the fold-change becomes
+\begin{equation}
+\text{fold-change} = \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1}
+\end{equation}
+with $\rho=1$ also like model 1.
+
+We will also see later how this model emerges as a natural limit of model 4.
+
+\subsubsection{Summary and discussion of results across models for fold-changes in mean expression}
+What have we learned from our exploration of the models
+in~\fig{fig1:means_cartoons} and their predictions of fold-changes in mean
+expression levels? The takeaway is the existence of a master curve
+(\fig{fig1:means_cartoons}C) to which the fold-change predictions of all the
+models collapse. This master curve is parametrized by only two effective
+parameters: $\Delta F_R$, which characterizes the repressor, and $\rho$, which
+characterizes all other features of the promoter architecture. The key
+assumption underpinning this result is that zero transcription occurs when a
+repressor is bound to its operator. Note, however, that we are agnostic about
+the molecular mechanism which achieves this; steric effects are the obvious
+mechanism, but, for instance, ``action-at-a-distance'' mediated by kinked DNA
+due to repressors bound tens or hundreds of nucleotides upstream of a promoter
+is plausible as well.
+
+Why does the master curve of~\fig{fig1:means_cartoons}C exist at all? This
+brings to mind the deep questions posed in, e.g.,~\cite{Frank2013}
+and~\cite{Frank2014a}, asking us to search for general ``symmetries'' of the
+problem instead of specifying generative models of the known microscopics of a
+system. In our case, the key feature seems to be the exclusive nature of
+repressor and RNAP binding, which allows the parameter describing the repressor,
+$\Delta F_R$, to cleanly separate from all other details of the promoter
+architecture, which are encapsulated in $\rho$. In the graph-theoretic language
+which was applied to similar problems in~\cite{Gunawardena2012}
+and~\cite{Ahsendorf2014}, the repressor-bound state is a leaf of the graph
+describing transitions between promoter states. Arbitrary nonequilibrium
+behavior can occur on the rest of the promoter state space, but it may all be
+swept up in the effective parameter $\rho$, to which the repressor makes no
+contribution.
+
+As suggested in~\cite{Chure2019}, we believe this master curve should generalize
+to architectures with multiple repressor binding sites, as long as the
+exclusivity of transcription factor binding and transcription initation is
+maintained. The interpretation of $\Delta F_R$ is then of an effective free
+energy of all repressor bound states. In an equilibrium picture this is simply
+given by the log of the sum of Boltzmann weights of all repressor bound states,
+which looks like the log of a partition function of a subsystem. In a
+nonequilibrium picture, while we can still mathematically gather terms and give
+the resulting collection the label $\Delta F_R$, it is unclear if the physical
+interpretation as an effective free energy makes sense. As is well known, free
+energies cannot be assigned unambiguously to states out of equilibrium because
+the free energy change along a generic path traversing the state space is path
+dependent, unlike at equilibrium. A consequence of this is that, out of
+equilibrium, $\Delta F_R$ is no longer a simple sum of Boltzmann weights.
+Instead it resembles a restricted sum of King-Altman diagrams~\cite{King1956,
+Hill1966}. Following the work of Hill~\cite{Hill1989}, it may yet be possible to
+interpret this expression as an effective free energy, but this remains unclear
+to us. We leave this an open problem for future work.
+
+If we relax the requirement of exclusive repressor-RNAP binding, one could
+imagine models in which repressor and RNAP doubly-bound states are allowed,
+where the repressor's effect is to \text{reduce} the transcription rate rather
+than setting it to zero. Our results do not strictly apply to such a model,
+although we note that if the repressor's reduction of the transcription rate is
+substantial, such a model might still be well-approximated by one of the models
+in~\fig{fig1:means_cartoons}.
+
+One may worry that our ``one curve to rule them all'' is a mathematical
+tautology. In fact we \textit{agree} with this criticism if $\Delta F_R$ is
+``just a fitting parameter'' and cannot be meaningfully interpreted as a real,
+physical free energy. An analogy to Hill functions is appropriate here. One of
+their great strengths and weaknesses, depending on the use they are put to, is
+that their parameters coarse-grain many details and are generally not
+interpretable in terms of microscopic models, for deep reasons discussed at
+length in~\cite{Frank2013}. By contrast, our master curve claims to have the
+best of both worlds: a coarse-graining of all details besides the repressor into
+a single effective parameter $\rho$, while simultaneously retaining an
+interpretation of $\Delta F_R$ as a physically meaningful and interpretable free
+energy. Our task, then, is to prove or disprove this claim.
+
+How do we test this and probe the theory with fold-change measurements? There is
+a fundamental limitation in that the master curve is essentially a one-parameter
+function of $\Delta F_R + \log\rho$. Worse, there are many \textit{a priori}
+plausible microscopic mechanisms that could contribute to the value of $\rho$,
+such as RNAP binding and escape kinetics~\cite{DeHaseth1998, Mitarai2015},
+and/or supercoiling accumulation and release~\cite{Chong2014, Sevier2016},
+and/or, RNAP clusters analogous to those obvserved in
+eukaryotes~\cite{Cisse2013, Cho2016} and recently also observed in
+bacteria~\cite{Ladouceur2020}. Even if $\Delta F_R$ is measured to high
+precision, inferring the potential microscopic contributions to $\rho$, buried
+inside a log no less, from fold-change measurements seems hopeless. As a
+statistical inference problem it is entirely nonidentifiable, in the language
+of~\cite{Gelman2013}, Section 4.3.
+
+If we cannot simply infer values of $\rho$ from measurements of fold-change, can
+we perturb some of the parameters that make up $\rho$ and measure the change?
+Unfortunately we suspect this is off-limits experimentally: most of the
+potential contributors to $\rho$ are global processes that affect many or all
+genes. For instance, changing RNAP association rates by changing RNAP copy
+numbers, or changing supercoiling kinetics by changing topoisomerase copy
+numbers, would massively perturb the entire cell's physiology and confound any
+determination of $\rho$.
+
+One might instead imagine a bottom-up modeling approach, where we mathematize a
+model of what we hypothesize the important steps are and are not, use in vitro
+data for the steps deemed important, and \textit{predict} what $\rho$ should be.
+But again, because of the one-parameter nature of the master curve, many
+different models will likely make indistinguishable predictions, and without any
+way to experimentally perturb in vivo, there is no clear way to test whether the
+modeling assumptions are correct.
+
+In light of this, we prefer the view that parameters and rates are not directly
+comparable between cartoons in~\fig{fig1:means_cartoons}. Rather, parameters in
+the simpler cartoons represent coarse-grained combinations of parameters in the
+finer-grained models. For instance, by equating $\rho$ between any two models,
+one can derive various possible correspondences between the two models'
+parameters. Note that these correspondences are clearly not unique, since many
+possible associations could be made. It then is a choice as to what microscopic
+interpretations the model-builder prefers for the parameters in a particular
+cartoon, and as to which coarse-grainings lend intuition and which seem
+nonsensical. Indeed, since it remains an open question what microscopic features
+dominate $\rho$ (as suggested above, perhaps RNAP binding and escape
+kinetics~\cite{DeHaseth1998, Mitarai2015}, or supercoiling accumulation and
+release~\cite{Chong2014, Sevier2016}, or, something more exotic like RNAP
+clusters~\cite{Cisse2013, Cho2016, Ladouceur2020}), we are hesitant to put too
+much weight on any one microscopic interpretation of model parameters that make
+up $\rho$.
+
+One possible tuning knob to probe $\rho$ that would not globally perturb the
+cell's physiology is to manipulate RNAP binding sites. Work such
+as~\cite{Kinney2010} has shown that models of sequence-dependent RNAP can be
+inferred from data, and the authors of~\cite{Brewster2012} showed that the model
+of~\cite{Kinney2010} has predictive power by using the model to \textit{design}
+binding sites of a desired affinity. But for our purposes, this begs the
+question: the authors of~\cite{Kinney2010} \textit{assumed} a particular model
+(essentially our 3-state equilibrium model but without the repressor), so it is
+unclear how or if such methods can be turned around to \textit{compare}
+different models of promoter function.
+
+We have already pointed out that the master curve of~\fig{fig1:means_cartoons}
+is essentially a one-parameter model, the one parameter being $\Delta F_R +
+\log\rho$. By now the reader may be alarmed as to how can we even determine
+$\Delta F_R$ and $\rho$ independently of each other, never mind shedding a lens
+on the internal structure of $\rho$ itself. A hint is provided by the weak
+promoter approximation, invoked repeatedly in prior studies~\cite{Bintu2005c,
+Garcia2011a, Razo-Mejia2018} of simple repression using the 3-state equilibrium
+model in~\fig{fig1:means_cartoons}. In that picture, the weak promoter
+approximation means $\frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P) \ll 1$,
+meaning therefore $\rho\approx1$. This is suggestive, but how can we be sure
+that $\rho$ is not, for instance, actually $10^2$ and that $\Delta F_R$ hides a
+compensatory factor? A resolution is offered by an independent inference of
+$\rho$ in the absence of repressors. This was done in~\cite{Razo-Mejia2020} by
+fitting nonequilibrium model 4  in~\fig{fig1:means_cartoons}, with zero
+repressor (looking ahead, this is equivalent to model 4
+in~\fig{fig:constit_cartoons}), to FISH data from~\cite{Brewster2014}. This
+provided a determination of $k^+$ and $k^-$, from which their ratio is estimated
+to be no more than a few $10^{-1}$ and possibly as small as $10^{-2}$.
+
+The realization that $\rho\approx1$ to an excellent approximation,
+\textit{independent} of which model in~\fig{fig1:means_cartoons} one prefers,
+goes a long way towards explaining the surprising success of equilibrium models
+of simple repression. Even though our 2- and 3-state models get so many details
+of transcription wrong, it does not matter because fold-change is a cleverly
+designed ratio. Since $\rho$ subsumes all details except the repressor, and
+$\log\rho\approx0$, fitting these simple models to fold-change measurements can
+still give a surprisingly good estimate of repressor binding energies. So the
+ratiometric construction of fold-change fulfills its intended purpose of
+canceling out all features of the promoter architecture except the repressor
+itself. Nevertheless it is perhaps surprising how effectively it does so:
+\textit{a priori}, one might not have expected $\rho$ to be quite so close to 1.
+
+We would also like to highlight the relevance of~\cite{Landman2019} here.
+Landman et.\ al.\ reanalyzed and compared in vivo and in vitro data on the lacI
+repressor's binding affinity to its various operator sequences. (The in vivo
+data was from, essentially, fitting our master curve to expression
+measurements.) They find broad agreement between the in vitro and in vivo
+values. This reinforces the suspicion that the equilibrium $\Delta\epsilon_R$
+repressor binding energies do in fact represent real physical free energies.
+Again, \textit{a priori} this did not have to be the case, even knowing that
+$\rho\approx1$.
+
+In principle, if $\Delta F_R$ can be measured to sufficient precision, then
+deviations from $\rho=1$ become a testable matter of experiment. In practice, it
+is probably unrealistic to measure repressor rates $k_R^+$ or $k_R^-$ or
+fold-changes in expression levels (and hence $\Delta\epsilon_R$) precisely
+enough to detect the expected tiny deviations from $\rho=1$. We can estimate the
+requisite precision in $\Delta F_R$ to resolve a given $\Delta\rho$ by noting,
+since $\rho\approx1$, that $\log(1+\Delta\rho)\approx \Delta\rho$, so
+$\Delta(\Delta F_R) \approx \Delta\rho$. Suppose we are lucky and $\Delta\rho$
+happens to be $\sim0.1$, on the high end of our range estimated above. A
+determination of $\Delta\epsilon_R/k_BT$ with an uncertainty of barely 0.1 was
+achieved in the excellent measurements of~\cite{Razo-Mejia2018}, so this
+requires a very difficult determination of $\Delta F_R$ for a very crude
+determination of $\rho$, which suggests, to put it lightly, this is not a
+promising path to pursue experimentally. It is doubtful that inference of
+repressor kinetic rates would be any easier.\footnote{\mmnote{In fact the
+uncertainties quoted in Hammar et.\ al.~\cite{Hammar2014} from Elf's group are
+small enough to do this calculation, but HJ \& I think their error bars are
+insanely optimistic. Not sure I want to blatantly call them out on it though??}}
+
+Moving forward, we have weak evidence supporting the interpretation of $\Delta
+F_R$ as a physically real free energy~\cite{Landman2019} and other work casting
+doubt~\cite{Hammar2014}. How might we resolve the confusion? If there is no
+discriminatory power to test the theory and distinguish the various models with
+measurements of fold-changes in means, how do we probe the theory? Clearly to
+discriminate between the nonequilibrium models in~\fig{fig1:means_cartoons}, we
+need to go beyond means to ask questions about kinetics, noise and even full
+distributions of mRNA copy numbers over a population of cells. If the
+``one-curve-to-rule-them-all'' is more than a mathematical tautology, then the
+free energy of repressor binding inferred from fold-change measurements should
+agree with repressor binding and unbinding rates. In other words, the equilbrium
+and nonequilibrium definitions of $\Delta F_R$ must agree, meaning
+\begin{equation}
+\Delta F_R = \beta\Delta\epsilon_R - \log(R/N_{NS})
+        = - \log(k_R^+/k_R^-),
+\end{equation}
+must hold, where $\beta\Delta\epsilon_R$ is inferred from the master curve fit
+to fold-change measurements, and $k_R^+$ and $k_R^-$ are inferred in some
+orthogonal manner. Single molecule measurements such as from~\cite{Hammar2014}
+have directly observed these rates, and in the remainder of this work we explore
+a complementary approach: inferring repressor binding and unbinding rates
+$k_R^+$ and $k_R^-$ from FISH measurements of mRNA population distributions.
