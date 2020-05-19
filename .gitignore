@@ -16,10 +16,16 @@ data/images/
 #Ignore latex garbage.
 *.swp
 *.log
-*.blg
 *.aux
 *.bbl
+*.fls
 *.fdb_latexmk
+*.dvi
+*.bcf
+*.run.xml
+*.toc
+*blx.bib
+*.blg
 *.fls
 *.gz
 
