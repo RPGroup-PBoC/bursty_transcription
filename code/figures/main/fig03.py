@@ -8,6 +8,8 @@ import pandas as pd
 import arviz as az
 
 import matplotlib.pyplot as plt
+import matplotlib
+import seaborn as sns
 import bebi103.viz
 
 import srep.viz
@@ -149,8 +151,6 @@ ax_a3.hist(alpha_samples,
           color="black",
           orientation="horizontal",
 )
-# set_xticks([3.25, 3.5, 3.75], minor=True)
-# ax_a1.yaxis.grid(True, which='minor')
 
 # (B)
 df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
@@ -158,7 +158,7 @@ n_samples = (
     all_samples["UV5"].posterior_predictive.dims["chain"]
     * all_samples["UV5"].posterior_predictive.dims["draw"]
     )
-ptiles = (95, 75, 50, 25)
+ptiles = (95,)#, 75, 50, 25)
 
 # first compute params in analytical gamma-Poisson posterior.
 # ignore prior b/c data completely(!) overwhelms it.
@@ -201,17 +201,14 @@ ax_b.set_ylabel('ECDF')
 ax_b.set_xlim(right=60)
 
 # (C)
-cwheel_set = (
-    'red', 'blue', 'purple',
-    'green', 'brown', 'black',
-    'yellow', 'magenta', 'white'
-    )
-cwheel = 2 * colors
-# cwheel = 2 * cwheel_set
-lwheel_nested = (9*('-',), 9*('--',))
-lwheel = [item for sublist in lwheel_nested for item in sublist]
-mwheel_nested = (9*('o',), 9*('^',))
-mwheel = [item for sublist in mwheel_nested for item in sublist]
+# Set function to normalize colors to energy range
+
+col_norm = matplotlib.colors.Normalize(
+    vmin=df_energies["Energy (kT)"].min() - 2,
+    vmax=df_energies["Energy (kT)"].max() + 2,
+)
+# Chose colormap for energies
+cmap = matplotlib.cm.get_cmap('magma')
 
 # # loop thru df, not all_samples keys, so we get deterministic order!
 for i, promoter in enumerate(df_energies.Name):
@@ -223,22 +220,28 @@ for i, promoter in enumerate(df_energies.Name):
     ax_c.loglog(
         x_contour[0],
         y_contour[0],
-        lwheel[i], #linestyle
         label=promoter,
         linewidth=1.0,
-        color=cwheel[i],
-        )
+        c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
+    )
+    ax_c.annotate(
+        f"{i + 1}",
+        (np.mean(x_contour[0]),
+        np.mean(y_contour),),
+        fontsize=7,
+    )
 ax_c.set_xlim(right=1.2e1)
 ax_c.set_ylim(top=1e1)
 ax_c.set_ylabel(r'$k_i$ (bursts per mRNA lifetime)')
 ax_c.set_xlabel(r'$b$ (transcripts per burst)')
-
 
 # (D)
 # Add gridlines
 [ax_d.axhline(x, color="white", linewidth=0.5) 
 for x in [0.1, 1]]
 
+# initialize lsit to save y position
+y_pos = list()
 for i, promoter in enumerate(df_energies.Name):
     samples = all_samples[promoter].posterior.alpha.values.flatten()
     ptile_low, ptile_med, ptile_upr = np.percentile(samples, (2.5, 50, 97.5))
@@ -248,12 +251,37 @@ for i, promoter in enumerate(df_energies.Name):
         df_energies[df_energies.Name == promoter]["Energy (kT)"],
         ptile_med,
         yerr=np.array((err_lower, err_upper)).reshape((2,1)),
-        # fmt='None',
-        marker=mwheel[i],
+        fmt="o",
         markersize=4.0,
         label=promoter,
-        color=cwheel[i]
-        )
+        c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
+    )
+    # Append y position
+    y_pos.append(ptile_med)
+    
+    ax_d.annotate(
+        f"{i + 1}",
+        (df_energies[df_energies.Name == promoter]["Energy (kT)"],
+        ptile_med,),
+        fontsize=7,
+    )
+
+# Add colorbar
+im = ax_d.scatter(
+    df_energies["Energy (kT)"].values,
+    y_pos,
+    c=df_energies["Energy (kT)"].values, 
+    vmin=df_energies["Energy (kT)"].min() - 2,
+    vmax=df_energies["Energy (kT)"].max() + 2,
+    s=35,
+    cmap=cmap,
+    linewidth=0.2,
+)
+
+im.set_visible(False)
+cbar = fig.colorbar(im, ax=ax_d, pad=0.01)
+cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
+
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
 guide_x = np.linspace(-5.5,-2)
 guide_y = np.exp(-guide_x)/50
@@ -262,14 +290,14 @@ ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
 ax_d.text(
     0.6, 
     0.6, 
-    r"$\log(k_i) \sim \Delta\epsilon_r$",
+    r"$\log(k_i) \sim - \Delta\epsilon_r$",
     transform=ax_d.transAxes,
     rotation=-45,
 )
 
-ax_d.set_xlabel(r'Binding energy $(k_BT)$')
+ax_d.set_xlabel(r'binding energy $(k_BT)$')
 ax_d.set_yscale("log")
 
 plt.savefig(
     f"{repo_rootdir}/figures/main/fig03.pdf", bbox_inches='tight'
-    )
+)

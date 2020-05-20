@@ -8,7 +8,6 @@ import pandas as pd
 import arviz as az
 
 import matplotlib.pyplot as plt
-import seaborn as sns
 import bebi103.viz
 
 import srep.viz
@@ -214,8 +213,6 @@ lwheel = [item for sublist in lwheel_nested for item in sublist]
 mwheel_nested = (9*('o',), 9*('^',))
 mwheel = [item for sublist in mwheel_nested for item in sublist]
 
-colors = sns.color_palette("viridis", n_colors=len(df_energies))
-col_dict = dict(zip(df_energies["Name"], colors))
 # # loop thru df, not all_samples keys, so we get deterministic order!
 for i, promoter in enumerate(df_energies.Name):
     alpha_samples = all_samples[promoter].posterior.alpha.values.flatten()
@@ -229,14 +226,8 @@ for i, promoter in enumerate(df_energies.Name):
         lwheel[i], #linestyle
         label=promoter,
         linewidth=1.0,
-        color=col_dict[promoter],
-    )
-    ax_c.annotate(
-        f"{i + 1}",
-        (np.mean(x_contour[0]),
-        np.mean(y_contour),),
-        fontsize=7,
-    )
+        color=cwheel[i],
+        )
 ax_c.set_xlim(right=1.2e1)
 ax_c.set_ylim(top=1e1)
 ax_c.set_ylabel(r'$k_i$ (bursts per mRNA lifetime)')
@@ -261,28 +252,8 @@ for i, promoter in enumerate(df_energies.Name):
         marker=mwheel[i],
         markersize=4.0,
         label=promoter,
-        color=col_dict[promoter],
+        color=cwheel[i]
         )
-    ax_d.annotate(
-        f"{i + 1}",
-        (df_energies[df_energies.Name == promoter]["Energy (kT)"],
-        ptile_med,),
-        fontsize=7,
-    )
-# Add colorbar
-im = ax_d.scatter(
-    df_energies["Energy (kT)"].values,
-    range(0, 18),
-    c=df_energies["Energy (kT)"].values, 
-    vmin=df_energies["Energy (kT)"].min(),
-    vmax=df_energies["Energy (kT)"].max(),
-    s=35,
-    cmap=plt.cm.get_cmap('viridis')
-)
-im.set_visible(False)
-cbar = fig.colorbar(im, ax=ax_d, pad=0.01)
-cbar.set_label(r"$\Delta\epsilon_r \; k_BT$")
-
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
 guide_x = np.linspace(-5.5,-2)
 guide_y = np.exp(-guide_x)/50
@@ -300,7 +271,5 @@ ax_d.set_xlabel(r'Binding energy $(k_BT)$')
 ax_d.set_yscale("log")
 
 plt.savefig(
-    f"{repo_rootdir}/figures/main/fig03_v2.pdf", bbox_inches='tight'
+    f"{repo_rootdir}/figures/main/fig03.pdf", bbox_inches='tight'
     )
-
-# %%
