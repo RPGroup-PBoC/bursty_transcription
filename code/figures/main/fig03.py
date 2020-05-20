@@ -258,6 +258,14 @@ for i, promoter in enumerate(df_energies.Name):
 guide_x = np.linspace(-5.5,-2)
 guide_y = np.exp(-guide_x)/50
 ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
+# Add text for scaling
+ax_d.text(
+    0.6, 
+    0.6, 
+    r"$\log(k_i) \sim \Delta\epsilon_r$",
+    transform=ax_d.transAxes,
+    rotation=-45,
+)
 
 ax_d.set_xlabel(r'Binding energy $(k_BT)$')
 ax_d.set_yscale("log")
