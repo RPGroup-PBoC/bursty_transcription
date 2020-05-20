@@ -487,22 +487,23 @@ note that just like model 1, the fold-change becomes
 with $\rho=1$ also like model 1.
 We will also see later how this model emerges as a natural limit of model 4.
 
-\subsubsection{Summary and discussion of results across models for fold-changes in mean expression}
+\subsubsection{Summary of Results Ccross models for Fold-Changes in Mean Expression}
 What have we learned from our exploration of the models
 in~\fig{fig1:means_cartoons} and their predictions of fold-changes in mean
-expression levels? The takeaway is the existence of a master curve
-(\fig{fig1:means_cartoons}C) to which the fold-change predictions of all the
+expression levels? The key outcome of our analysis is the existence of a master curve
+ shown in \fig{fig1:means_cartoons}(C) to which the fold-change predictions of all the
 models collapse. This master curve is parametrized by only two effective
-parameters: $\Delta F_R$, which characterizes the repressor, and $\rho$, which
+parameters: $\Delta F_R$, which characterizes the number of repressors and
+their binding strength to the DNA, and $\rho$, which
 characterizes all other features of the promoter architecture. The key
-assumption underpinning this result is that zero transcription occurs when a
+assumption underpinning this result is that no transcription occurs when a
 repressor is bound to its operator. Note, however, that we are agnostic about
-the molecular mechanism which achieves this; steric effects are the obvious
+the molecular mechanism which achieves this; steric effects are one plausible
 mechanism, but, for instance, ``action-at-a-distance'' mediated by kinked DNA
 due to repressors bound tens or hundreds of nucleotides upstream of a promoter
 is plausible as well.
 
-Why does the master curve of~\fig{fig1:means_cartoons}C exist at all? This
+Why does the master curve of~\fig{fig1:means_cartoons}(C) exist at all? This
 brings to mind the deep questions posed in, e.g.,~\cite{Frank2013}
 and~\cite{Frank2014a}, asking us to search for general ``symmetries'' of the
 problem instead of specifying generative models of the known microscopics of a
@@ -567,7 +568,7 @@ and/or, RNAP clusters analogous to those obvserved in
 eukaryotes~\cite{Cisse2013, Cho2016} and recently also observed in
 bacteria~\cite{Ladouceur2020}. Even if $\Delta F_R$ is measured to high
 precision, inferring the potential microscopic contributions to $\rho$, buried
-inside a log no less, from fold-change measurements seems hopeless. As a
+inside a log no less, from fold-change measurements seems beyond reach. As a
 statistical inference problem it is entirely nonidentifiable, in the language
 of~\cite{Gelman2013}, Section 4.3.
 
@@ -580,7 +581,7 @@ numbers, or changing supercoiling kinetics by changing topoisomerase copy
 numbers, would massively perturb the entire cell's physiology and confound any
 determination of $\rho$.
 
-One might instead imagine a bottom-up modeling approach, where we mathematize a
+One might instead imagine a bottom-up modeling approach, where we mathematicize a
 model of what we hypothesize the important steps are and are not, use in vitro
 data for the steps deemed important, and \textit{predict} what $\rho$ should be.
 But again, because of the one-parameter nature of the master curve, many
@@ -625,7 +626,9 @@ promoter approximation, invoked repeatedly in prior studies~\cite{Bintu2005c,
 Garcia2011a, Razo-Mejia2018} of simple repression using the 3-state equilibrium
 model in~\fig{fig1:means_cartoons}. In that picture, the weak promoter
 approximation means $\frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P) \ll 1$,
-meaning therefore $\rho\approx1$. This is suggestive, but how can we be sure
+meaning therefore $\rho\approx1$.  This approximation can be well
+justified on the basis of the number of RNAP per cell and the strength of
+binding of RNAP to DNA at weak promoters.  This is suggestive, but how can we be sure
 that $\rho$ is not, for instance, actually $10^2$ and that $\Delta F_R$ hides a
 compensatory factor? A resolution is offered by an independent inference of
 $\rho$ in the absence of repressors. This was done in~\cite{Razo-Mejia2020} by
@@ -699,6 +702,4 @@ orthogonal manner. Single molecule measurements such as from~\cite{Hammar2014}
 have directly observed these rates, and in the remainder of this work we explore
 a complementary approach: inferring repressor binding and unbinding rates
 $k_R^+$ and $k_R^-$ from FISH measurements of mRNA population distributions.
-
-
-\mmnote{Add a notation aside somewhere that all association rates are written as zeroth-order rates. In other words, the concentration of the molecule is hidden inside, so for instance, $k_R^+$ is proportional to repressor copy number.}
+\marginpar{\it MM: Add a notation aside somewhere that all association rates are written as zeroth-order rates. In other words, the concentration of the molecule is hidden inside, so for instance, $k_R^+$ is proportional to repressor copy number.}
