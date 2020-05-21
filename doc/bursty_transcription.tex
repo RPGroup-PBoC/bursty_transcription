@@ -38,6 +38,19 @@
 % Add library
 \addbibresource{./simple_rep}
 
+% Bold the 'Figure #' in the caption and separate it from the title/caption
+% with a period
+% Captions will be left justified
+\usepackage[
+	aboveskip=1pt,
+	labelfont=bf,
+	labelsep=period,
+	justification=raggedright,
+	singlelinecheck=off
+]{caption}
+
+% Package to not have the full page figure at the end
+\usepackage{afterpage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Personalized functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,6 +63,7 @@
 \newcommand{\matr}[1]{\mathbf{#1}}
 \newcommand{\rate}[3]{{#1}_{#2}^{#3}}
 \newcommand{\mmnote}[1]{\textcolor{cyan}{(MM:~#1)}}
+\newcommand{\mrm}[1]{\textcolor{red}{(MRM:~#1)}}
 
 % derivative macros. these are sneaky. the [{}] is an empty default 1st arg
 % usage: provide 1 arg: \deriv{x} gives d/dx
@@ -112,7 +126,7 @@ of Technology, Pasadena, CA 91125, USA}
 	% Generate filter to not include references from main text in the
 	% supplemental references
     \defbibfilter{notother}{not segment=\therefsegment}
-        \input{abstract.tex}
+        % \input{abstract.tex}
         \input{section_01_introduction.tex}
          \input{section_02_means.tex}
          \input{section_03_beyond_means.tex}
@@ -139,9 +153,9 @@ of Technology, Pasadena, CA 91125, USA}
 		% Set equation, table and figure counters to begin with "S"
 		\beginsupplement
 		\tableofcontents
-        % \input{appendix_01_bayesian_inference.tex}
-        % \input{appendix_02_constitutive_promoters.tex}
-        % \input{appendix_03_regulated_promoters.tex}
+        \input{appendix_01_bayesian_inference.tex}
+        \input{appendix_02_constitutive_promoters.tex}
+        \input{appendix_03_regulated_promoters.tex}
         % \input{appendix_test.tex}
 		% Print supplemental references changing the title
 		\printbibliography[title={Supplemental References},
