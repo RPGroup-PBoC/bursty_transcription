@@ -1,5 +1,6 @@
 % !TEX root = ./busty_transcription.tex
-\section{Generating function solution for bursty promoters}
+\section{Bursty promoter models - generating function solutions and numerics}
+\label{sec:gen_fcn_appdx}
 
 \subsection{Constitutive promoter with bursts}
 
@@ -118,6 +119,25 @@ F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
         = \left(\frac{\theta}{1 - z(1-\theta)}\right)^\lambda,
 \end{align}
 which is exactly the negative binomial's generating function, as expected.
+Now we may recover the mRNA probability distribution of interest
+by differentiating the generating function, or by consulting a
+standard reference\mmnote{maybe van Kampen, check},
+from which we find that
+\begin{equation}
+p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
+        \theta^\lambda (1-\theta)^m.
+\end{equation}
+Note that the ratio of gamma functions is often expressed as a
+binomial coefficient, but since $\lambda$ may be non-integer,
+this would be ill-defined.
+Re-expressing this exclusively in our variables of interest,
+burst rate $\lambda$ and mean burst size $b$, we have
+\begin{equation}
+p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
+        \left(\frac{1}{1+b}\right)^\lambda
+        \left(\frac{b}{1+b}\right)^m.
+\label{eq:nbinom_deriv_final}
+\end{equation}
 
 \subsection{Adding repression}
 \subsubsection{Deriving the generating function for mRNA distribution}

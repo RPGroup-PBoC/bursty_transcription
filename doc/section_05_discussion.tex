@@ -17,3 +17,47 @@ and $k^-$ in Fig 2, model 4 should now be separately inferrable if Chong2014
 measurements of $\beta/\alpha$ are correct. This would require an obnoxious
 amount of cloning, but once you did that, the measurements would be same old
 stuff that RP lab does.}
+
+It is interesting to speculate what microscopic details are being
+coarse-grained by our burst rate and burst size in model 5.
+Chromosomal locus is one possible influence we have not addressed
+in this work, as all the FISH data from~\cite{Jones2014} that we
+considered was from a construct integrated at the \textit{galK} locus.
+The results of~\cite{Chong2014} indicate that
+transcription-induced supercoiling contributes substantially in
+driving transcriptional bursting, and furthermore, their Figure~7
+suggests that the parameters describing the rate, duration, and
+size of bursts vary substantially for transcription from
+different genomic loci.
+Although the authors of~\cite{Englaender2017} do not address
+noise, they note enormous differences in mean expression levels
+when an identical construct is integrated at different genomic loci.
+The authors of~\cite{Engl2020} attribute noise and burstiness in
+their FISH data to the influence of different sigma factors,
+which is a reasonable conclusion from their data.
+Could the difference also be due to the different chromosomal
+locations of the two operons?
+
+It seems clear therefore that chromosomal locus plays a major
+role in mean expression levels as well as noise. What features of
+different loci are and are not important? Sigma factors could
+certainly play a part, but it seems many other mechanisms are at
+play: supercoiling, and more generally 3D organization of the
+chromosome, read-through of neighboring genes, and surely some
+fascinating unknown unknowns.
+Could our preferred coarse-grained model capture the variability
+across different loci? If so, and we were to repeat the parameter
+inference as done in this work, is there a simple theoretical model
+we could build to understand the resulting parameters?
+
+A direct \mmnote{if cloning intensive} future experiment would be
+to design a payload with a promoter driving a FISH reporter,
+integrate that payload at a variety of loci scattered around the genome,
+and carry out FISH measurements of the resulting strains.
+\mmnote{
+Did Brewster already do this? I remember he integrated arrays of
+competitor binding sites all over the genome, but did he put
+lacUV5 + reporter scattered around?}
+Obviously integration loci would need to be carefully chosen so
+that one could plausibly hope the deletion and integration did
+not disturb the cell's physiology too badly.
