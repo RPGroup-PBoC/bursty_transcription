@@ -1,5 +1,13 @@
 % !TEX root = ./busty_transcription.tex
-\section{Beyond means}
+\section{Beyond Means in Gene Expression}
+ 
+In this section, our objective is to explore the same models considered in
+the previous section, but now with reference to the the question of
+how well they describe the distribution of gene expression levels, with
+special reference to the variance in these distributions.  To that end,
+we repeat the same pattern as in the previous section by examining
+the models one by one.
+
 \subsection{A one-state promoter with bursting is the ``best'' model of constitutive promoters}
 Before we can tackle simple repression, we need an adequate phenomenological
 model of constitutive expression. The literature abounds with options from which
@@ -32,9 +40,14 @@ complexity.}
 \label{fig:constit_cartoons}
 \end{figure}
 
-\subsubsection{Model 1 - Poisson promoter.}
-This is the picture from Jones et.\ al.~\cite{Jones2014}, which assumes that
-transcripts are produced as a Poisson process from a single promoter state. This
+\subsubsection{Noise in the Poisson Promoter Model}
+The simplest model of constitutive expression that we can imagine
+is shown as model 1 in Figure~\ref{fig:constit_cartoons} and
+assumes that
+transcripts are produced as a Poisson process from a single promoter state. 
+This is the picture from Jones et.\ al.~\cite{Jones2014} that was used to
+interpret a systematic study of gene expression noise over a series of
+promoters designed to have different strengths.   This
 model insists that the ``true'' mRNA distribution is Poisson, implying the Fano
 factor $\nu$ must be 1. In~\cite{Jones2014}, the authors carefully attribute
 deviations from Fano = 1 to intensity variability in fluorescent spots, gene
@@ -50,7 +63,7 @@ other words, the model is not excessively complex for the data at hand. But for
 many interesting questions, for instance in the recent work~\mmnote{cite
 Manuel's preprint once posted}, knowledge of means and variances alone is
 insufficient, and a description of the full distribution of molecular counts is
-necessary. For this we need a( slightly) more complex model than model 1 that
+necessary. For this we need a (slightly) more complex model than model 1 that
 would allow us to incorporate the non-Poissonian features of constitutive
 promoters directly into a master equation formulation.
 
