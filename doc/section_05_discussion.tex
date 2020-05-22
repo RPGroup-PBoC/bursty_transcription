@@ -1,5 +1,61 @@
 % !TEX root = ./busty_transcription.tex
 \section{Discussion and future work}
+
+The study of gene expression is one of the dominant themes of modern
+biology, made all the more urgent by the dizzying pace at which
+genomes are being sequenced.  But there is a troubling Achilles heel
+buried in all of that genomic data and that is our inability to find
+and interpret regulatory sequence.  In many cases, this is not
+possible even qualitatively, let alone the possibility of quantitative
+dissection of the regulatory parts of genomes in a predictive fashion.
+Other recent work has tackled the challenge of finding and
+annotating the regulatory part of genomes.  Once we have determined
+the regulatory part of the genome, we are then faced with the
+next class of questions which are sharpened by formulating
+them in mathematical terms, namely, what are the input-output
+properties of these regulatory circuits and what knobs control them?
+
+The present work has tackled that question in the context of
+the first regulatory architecture hypothesized in the molecular
+biology era, namely, the repressor-operator model of Jacob and
+Monod.  Regulation in that architecture is the result of a 
+competition between a repressor which inhibits transcription
+and RNAP polymerase which undertakes it.  Through
+the labors of generations of geneticists, molecular biologists
+and biochemists, an overwhelming amount of information
+and insight has been garnered into this simple regulatory
+motif, licensing it as what one might call the ``hydrogen atom''
+of regulatory biology.   It is from that perspective that the present
+paper explores the extent to which some of the different models
+that have been articulated to describe that motif allow
+us to understand both the average level of gene expression
+found in a population of cells as well as the noise in that
+expression found in that population as would be reported in
+a FISH experiment, for example.
+
+Our key insights can be summarized as follows.  First, as shown in Figure
+Figure~\ref{fig1:means_cartoons}, the mean expression in the
+simple repression architecture is captured by a master curve
+in which the action of repressor and the details of the polymerase
+interaction with the promoter appear separately and additively
+in an effective free energy.  Interestingly, as has been shown
+elsewhere in the context of the Monod-Wyman-Changeux model,
+these kinds of coarse-graining results are an exact mathematical
+result and do not constitute hopeful approximations or biological
+naivete.  To further dissect the relative merits of the different models,
+we must appeal to higher moments of the gene expression probability
+distribution.  To that end, our second set of insights focus on gene
+expression noise, where it is seen that a treatment of
+the constitutive promoter already reveals that some models have Fano
+factors that are less than one, at odds with any and all experimental
+data that we are aware of.   This refinement allows us to determine
+parameters for the constitutive promoter that can then be used
+to attack gene expression noise in the context of
+the simple repression architecture.
+
+
+
+
 \mmnote{Do all my approximations work simply because galK happens to have a low
 duty cycle of supercoiling, $\beta/\alpha$ in Chong2014 picture? A potentially
 interesting test: put in the dozen or so Hernan constructs at some other locus,
