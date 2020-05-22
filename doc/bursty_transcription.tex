@@ -127,19 +127,12 @@ of Technology, Pasadena, CA 91125, USA}
 	% Generate filter to not include references from main text in the
 	% supplemental references
     \defbibfilter{notother}{not segment=\therefsegment}
-<<<<<<< HEAD
-         \input{abstract.tex}
-        \input{section_01_introduction.tex}
-         \input{section_02_means.tex}
-         \input{section_03_beyond_means.tex}
-=======
-        % \input{abstract.tex}
-        % \input{section_01_introduction.tex}
-        %  \input{section_02_means.tex}
-        %  \input{section_03_beyond_means.tex}
->>>>>>> ca173830863fe6774628c380a15530bc03c226d4
-         \input{section_04_bayesian_inference.tex}
-        %  \input{section_05_discussion.tex}
+		\input{abstract.tex}
+		\input{section_01_introduction.tex}
+		\input{section_02_means.tex}
+		\input{section_03_beyond_means.tex}
+		\input{section_04_bayesian_inference.tex}
+		\input{section_05_discussion.tex}
 		% Print main text references
 		\printbibliography[segment=\therefsegment]
 		% Close reference segment
@@ -161,9 +154,9 @@ of Technology, Pasadena, CA 91125, USA}
 		% Set equation, table and figure counters to begin with "S"
 		\beginsupplement
 		\tableofcontents
-        % \input{appendix_01_bayesian_inference.tex}
-        % \input{appendix_02_constitutive_promoters.tex}
-        % \input{appendix_03_regulated_promoters.tex}
+        \input{appendix_01_bayesian_inference.tex}
+        \input{appendix_02_constitutive_promoters.tex}
+        \input{appendix_03_regulated_promoters.tex}
         % \input{appendix_test.tex}
 		% Print supplemental references changing the title
 		\printbibliography[title={Supplemental References},
