@@ -130,6 +130,9 @@ def predictive_ecdf(
     ----------
     samples : Numpy array or xarray, shape (n_samples, n) or xarray DataArray
         A Numpy array containing predictive samples.
+        n_samples is the number of posterior samples, and n is the number
+        of observed data points, i.e., n is the number of posterior
+        predictive samples for each of the posterior samples
     data : Numpy array, shape (n,) or xarray DataArray
         If not None, ECDF of measured data is overlaid with predictive
         ECDF.
@@ -265,15 +268,6 @@ def predictive_ecdf(
             x = df_ecdf["x"]
             y1 = df_ecdf[ptile]
             y2 = df_ecdf[ptiles_str[-i - 1]]
-        # fill_between(
-        #     x,
-        #     y1,
-        #     x,
-        #     y2,
-        #     p=p,
-        #     show_line=False,
-        #     patch_kwargs=dict(color=colors[color][i]),
-        # )
         ax.fill_between(x, y1, y2, color=colors[color][i],)
 
     # The median as a solid line

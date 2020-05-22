@@ -66,7 +66,7 @@ model = srep.models.pooledInferenceModel(
 n_dim = len(var_labels)
 n_walkers = 35
 n_burn = 300
-n_steps = 30
+n_steps = 200
 
 # init walkers like prior but w/ narrower spread
 p0 = multinormal.rvs(
@@ -76,7 +76,7 @@ p0 = multinormal.rvs(
 
 #%%
 # run the sampler
-with Pool(processes=6) as pool:
+with Pool(processes=36) as pool:
 # instantiate sampler
     sampler = emcee.EnsembleSampler(
         n_walkers,

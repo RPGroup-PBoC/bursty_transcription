@@ -165,10 +165,10 @@ ptiles = (95,)#, 75, 50, 25)
 alpha = df_UV5["mRNA_cell"].sum()
 beta = len(df_UV5)
 # approx gamma posterior as normal b/c alpha is so huge
-poiss_post_draws = st.norm.rvs(alpha/beta, np.sqrt(alpha)/beta, size=400)
-poiss_ppc_draws = np.empty((len(df_UV5), len(poiss_post_draws)))
+poiss_post_draws = st.norm.rvs(alpha/beta, np.sqrt(alpha)/beta, size=n_samples)
+poiss_ppc_draws = np.empty((len(poiss_post_draws), len(df_UV5)))
 for i, draw in enumerate(poiss_post_draws):
-    poiss_ppc_draws[:,i] = st.poisson.rvs(draw, size=len(df_UV5))
+    poiss_ppc_draws[i,:] = st.poisson.rvs(draw, size=len(df_UV5))
 # now plot PPC from Poisson samples
 srep.viz.predictive_ecdf(
     poiss_ppc_draws,

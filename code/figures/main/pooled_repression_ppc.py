@@ -48,23 +48,23 @@ fig, axes = plt.subplots(2,2, figsize=(9,9))
 # ##########################################################################
 
 # organize all the options upfront
-plotting_draws = 75
 all_expts = (
     ("_"), # a blank b/c 1st index is skipped
     ("Oid_2ngmL", "Oid_1ngmL"),
     ("O1_1ngmL", "O1_2ngmL", "O1_10ngmL"),
     ("O2_0p5ngmL", "O2_1ngmL", "O2_2ngmL", "O2_10ngmL")
     )
-ppc_colors = ('blue', 'purple', 'red', 'yellow')
+ppc_colors = ('blue', 'purple', 'betancourt', 'orange')
 data_colors = ('black', 'black', 'black', 'black')
 # ppc_labels = ('0.5 ng/mL aTc', '1 ng/mL aTc', '2 ng/mL aTc', '10 ng/mL aTc')
 uv5_colors = {'ppc':'green', 'data':'black'}
 # convert labels to hex colors
-ppc_colors = [pboc_colors[label] for label in ppc_colors]
-data_colors = [pboc_colors[label] for label in data_colors]
+# ppc_colors = [pboc_colors[label] for label in ppc_colors]
+# data_colors = [pboc_colors[label] for label in data_colors]
 ppc_alpha = 0.3
 ppc_lw = 0.2
 data_lw = 0.6
+ptiles = (95,)
 # then (nearly?) all the rest below will not need changing
 
 for k, ax in enumerate(fig.axes):
@@ -72,51 +72,33 @@ for k, ax in enumerate(fig.axes):
         continue # upper left panel is handled separately
     ppc_labels = all_expts[k]
 
-    # now we start plotting. UV5 1st
-    for i in range(plotting_draws):
-        ax.plot(
-            *srep.viz.ecdf(ppc_uv5[i]),
-            color=pboc_colors[uv5_colors['ppc']],
-            alpha=ppc_alpha,
-            lw=ppc_lw
-            )
     # plot UV5 data later below to fix legend order
 
     # now loop over repressed datasets & plot ppc + observed data
     for j, expt in enumerate(ppc_labels):
         expt_idx = model.expts.index(expt)
-        for i in range(plotting_draws):
-            ax.plot(
-                *srep.viz.ecdf(ppc_rep[expt_idx][i]),
-                color=ppc_colors[j],
-                alpha=ppc_alpha,
-                lw=ppc_lw
-                )
-    # separate loop to plot data so it won't get buried by any ppc's
-    for j, expt in enumerate(ppc_labels):
-        i = model.expts.index(expt)
-        ax.plot(*srep.viz.ecdf(data_rep[i]), color=data_colors[j], lw=data_lw)
+        srep.viz.predictive_ecdf(
+            srep.utils.uncondense_ppc(ppc_rep[expt_idx]),
+            data=srep.utils.uncondense_valuescounts(data_rep[expt_idx]),
+            color=ppc_colors[j],
+            data_color='black',
+            percentiles=ptiles,
+            discrete=True,
+            ax=ax,
+            pred_label=expt,
+            )
 
-    # plot UV5 last to get legend in order
-    ax.plot(
-        *srep.viz.ecdf(data_uv5),
-        color=pboc_colors[uv5_colors['data']],
-        lw=data_lw,
-        label='Jones et al FISH data')
-
-    # off-screen markers to trick legend into doing what I want
-    for i, _ in enumerate(ppc_labels):
-        ax.plot(
-            (-10,-15),(0,0), '-',
-            color=ppc_colors[i],
-            label=ppc_labels[i],
-            lw=data_lw
-        )
-    ax.plot(
-        (-10,-15),(0,0), '-',
-        color=pboc_colors[uv5_colors['ppc']],
-        label='UV5',
-        lw=data_lw
+    # finally add UV5
+    srep.viz.predictive_ecdf(
+        srep.utils.uncondense_ppc(ppc_uv5),
+        data=srep.utils.uncondense_valuescounts(data_uv5),
+        color='green',
+        data_color='black',
+        percentiles=ptiles,
+        discrete=True,
+        ax=ax,
+        pred_label='UV5',
+        data_label='Jones et al FISH data'
         )
 
     # finishing touches

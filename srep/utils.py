@@ -4,6 +4,7 @@ from git import Repo #for directory convenience
 
 import numpy as np
 import pandas as pd
+from numba import njit
 
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
@@ -73,3 +74,29 @@ def condense_data(expts):
             np.unique(df['mRNA_cell'], return_counts=True)
             )
     return data_uv5, rep_data
+
+@njit
+def uncondense_valuescounts(vc_tuple):
+    # assume vc_tuple is (values, counts) which are arrays of
+    # mRNA values and occurences in a dataset, respectively
+    values, counts = vc_tuple
+    list_of_lists = [values[i] * np.ones(counts[i]) for i,_ in enumerate(counts)]
+    # return np.array(list(itertools.chain(*list_of_lists)))
+    return np.array([cell for sublist in list_of_lists for cell in sublist])
+
+    # return np.array([ [ x * y for x in range(n) ] for y in range(n) ])
+
+@njit
+def uncondense_ppc(ppc_samples):
+    """
+    This function exists to solve the following problem:
+    My bursty_rep_rng generates samples, then returns
+    np.unique(samples, return_counts=True).
+    That's convenient mostly, and keeps .pkl size down, but
+    srep.viz.predictive_ecdf, borrowed from JB, needs raw samples as input.
+    This funtion regenerates the raw samples from the condensed form.
+    """
+    output_samples = np.empty((len(ppc_samples), ppc_samples[0][1].sum()))
+    for i in range(len(ppc_samples)):
+        output_samples[i,:] = uncondense_valuescounts(ppc_samples[i])
+    return output_samples
