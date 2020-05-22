@@ -66,7 +66,7 @@ model = srep.models.pooledInferenceModel(
 n_dim = len(var_labels)
 n_walkers = 35
 n_burn = 300
-n_steps = 200
+n_steps = 30
 
 # init walkers like prior but w/ narrower spread
 p0 = multinormal.rvs(
@@ -76,7 +76,7 @@ p0 = multinormal.rvs(
 
 #%%
 # run the sampler
-with Pool(processes=37) as pool:
+with Pool(processes=6) as pool:
 # instantiate sampler
     sampler = emcee.EnsembleSampler(
         n_walkers,
@@ -87,11 +87,26 @@ with Pool(processes=37) as pool:
     )
     pos, prob, state = sampler.run_mcmc(p0, n_burn, store=False, progress=True)
     _ = sampler.run_mcmc(pos, n_steps, progress=True, thin_by=40);
+
+# with posterior in hand, generate all the posterior predictive samples
+ppc_uv5 = srep.models.post_pred_bursty_rep(
+    sampler, n_pred=sum(data_uv5[1]),
+    kon_idx='nbinom', koff_idx='nbinom'
+    )
+ppc_rep = []
+for expt in expts:
+    # first look up indices
+    i = model.expts.index(expt)
+    kon_idx, koff_idx = model.expt_idx_to_rate_idx(i)
+    ppc_rep.append(
+        srep.models.post_pred_bursty_rep(
+            sampler, n_pred=sum(data_rep[i][1]),
+            kon_idx=kon_idx, koff_idx=koff_idx))
 del sampler.pool; # otherwise unpickling fails, even though pickling is fine
 
 #%%
-outfile = open(f"{repo_rootdir}/data/mcmc_samples/many_pooled_test.pkl", 'wb')
-dill.dump((model, sampler), outfile)
+outfile = open(f"{repo_rootdir}/data/mcmc_samples/repression_pooled_expts.pkl", 'wb')
+dill.dump((model, sampler, ppc_uv5, ppc_rep), outfile)
 outfile.close()
 
 print(f"Autocorr time: {sampler.get_autocorr_time()}")
