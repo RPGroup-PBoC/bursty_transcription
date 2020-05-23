@@ -253,7 +253,7 @@ for i, promoter in enumerate(df_energies.Name):
         yerr=np.array((err_lower, err_upper)).reshape((2,1)),
         fmt="o",
         markersize=4.0,
-        label=promoter,
+        # label=promoter,
         c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
     )
     # Append y position
@@ -283,14 +283,14 @@ cbar = fig.colorbar(im, ax=ax_d, pad=0.01)
 cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
 
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
-guide_x = np.linspace(-5.5,-2)
-guide_y = np.exp(-guide_x)/50
+guide_x = np.linspace(-7,-3.5)
+guide_y = np.exp(-guide_x)/9e2
 ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
 # Add text for scaling
 ax_d.text(
-    0.6, 
-    0.6, 
-    r"$\log(k_i) \sim - \Delta\epsilon_r$",
+    0.29, 
+    0.04, 
+    r"$\log k_i \sim - \Delta\epsilon_P$",
     transform=ax_d.transAxes,
     rotation=-45,
 )

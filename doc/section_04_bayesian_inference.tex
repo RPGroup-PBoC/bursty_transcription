@@ -241,15 +241,15 @@ shown in orange. The median posterior predictive ECDFs for models (1), Poisson,
 and (5), negative binomial, are plotted in dark green and dark blue,
 respectively. Lighter green and blue regions enclose 95\% of all posterior
 predictive samples from their respective models. Model (1) is in obvious
-contradiction with the data while model (5) is not. single-cell mRNA count data
+contradiction with the data while model (5) is not. Single-cell mRNA count data
 is again from~\cite{Jones2014}. (C) Joint posterior distributions for burst rate
 $k_i$ and mean burst size $b$ for 18 unregulated promoters
 from~\cite{Jones2014}. Each contour indicates the 95\% highest posterior
 probability density region for a particular promoter. Note that the vertical
 axis is shared with (D). (D) Plots of the burst rate $k_i$ vs.\ the binding
 energy for each promoter as predicted in~\cite{Brewster2012}. The dotted line
-shows the predicted slope according to $\ln k_i/\gamma \sim \text{constant} -
-\beta\Delta\varepsilon_P$, described in text. Each individual promoter is
+shows the predicted slope according to Eq.~\ref{eq:bursty_equil_corresp1},
+described in text. Each individual promoter is
 labeled with a unique number in both (C) and (D) for cross comparison.}
 \label{fig:constit_post_full}
 \end{figure}
@@ -296,55 +296,105 @@ By taking the weak promoter approximation for the equilibrium model ($P/N_{NS}
 \end{equation}
 valid for all the binding energies considered here.
 
-Given this result, how are the two coarse-grainings related? The only
+Given this result, how are the two coarse-grainings related?
+A quick estimate can shed some light.
+Consider for instance the \textit{lacUV5} promoter, which we see from
+Figure~\ref{fig:constit_post_full}(A) has $k_i/\gamma \sim b \sim \text{few}$,
+from Figure~\ref{fig:constit_post_full}(B) has $\langle m \rangle \sim 20$,
+and from~\cite{Brewster2012} has $\beta\Delta\epsilon_P \sim - 6.5$.
+Further we generally assume $P/N_{NS} \sim 10^{-3}$ since
+$N_{NS}\approx4.6\times10^6$ and $P\sim10^3$.
+After some guess-and-check with these values, one finds the only
 association that makes dimensional sense and produces the correct
 order-of-magnitude for the known parameters is to take
 \begin{equation}
-\frac{k_i}{\gamma} = \exp(-\beta\Delta\varepsilon_P)
+\frac{k_i}{\gamma} = \frac{P}{N_{NS}} \exp(-\beta\Delta\varepsilon_P)
 \label{eq:bursty_equil_corresp1}
 \end{equation}
 and
 \begin{equation}
-b = \frac{r}{\gamma}\frac{P}{N_{NS}}.
+b = \frac{r}{\gamma}.
 \label{eq:bursty_equil_corresp2}
 \end{equation}
 Figure~\ref{fig:constit_post_full}(D) shows that this linear scaling between
 $\ln k_i$ and $-\beta\Delta\varepsilon_P$ is approximately true for all 18
-constitutive promoters considered. The intercept is an uninteresting function of
-the unknown model parameters, so we only consider the slope of the scaling in
-\fig{fig:constit_post_full}(D).
-\mmnote{Wait, is that true or can we do something with the intercept, related to the burst size in some useful way? Needs more careful thought.}
+constitutive promoters considered. The plotted line is simply
+Eq.~\ref{eq:bursty_equil_corresp1} and assumes $P\approx 5000$.
 
 While the associations represented by
 Eq.~\ref{eq:bursty_equil_corresp1} and Eq.~\ref{eq:bursty_equil_corresp2}
-appear to be born out by the scaling $\ln k_i \sim -\beta\Delta\varepsilon_P$,
-we do not find the association of parameters encoded by
-\eqrange{eq:bursty_equil_corresp1}{eq:bursty_equil_corresp2}
-intuitive. If some deeper insight is waiting to be gleaned from it, we leave it
-as an open problem.
+appear to be born out by the data in Figure~\ref{fig:constit_post_full},
+we do not find the association of parameters they imply to be intuitive.
+We are also cautious to ascribe too much physical reality to the parameters.
+Indeed, part of our point in comparing the various constitutive
+promoter models is to demonstrate that these models each provide
+an internally self-consistent framework that adequately describes
+the data, but attempting to translate between models reveals
+the dubious physical interpretation of their parameters.
 
 \mmnote{Outline, still to cover:
 \begin{itemize}
-\item All 18 promoters. Hey the model still works on things other than UV5,
-cool. Interesting and somewhat counterintuitive scaling b/w burst rate and
-binding energy. Puzzle in comparing w/ Chong2014 supercoiling model. Are we
+\item There is a puzzle in comparing w/ Chong2014 supercoiling
+model: if supercoiling is the thing, why are my burst sizes all
+the same but burst rates vary? And why is the duty cycle of my
+promoter so low, ie., bursts so short? COmpare their fig 7E;
+their $\beta/\alpha$ is my $k^+/k^-$. They have one or two genes
+with very small $\beta/\alpha$, does the \textit{galK} locus just
+happen to be that, or is there a deeper disagreement? Hard to say
+w/o more data. Are we
 missing important things?? Unclear, we leave as open question. Good enough for
 our purposes: posterior is identifiable, PPC is great, and of the models we've
 thought of it is unique in satisfying both.
 \end{itemize}
 }
 
-\mmnote{Discuss puzzling comparison w/ Chong2014: if supercoiling is the thing, why are my burst sizes all the same but burst rates vary? And why is the duty cycle of my promoter so low, ie., bursts so short? COmpare their fig 7E; their $\beta/\alpha$ is my $k^+/k^-$. They have one or two genes with very small $\beta/\alpha$, does the \textit{galK} locus just happen to be that, or is there a deeper disagreement? Hard to say w/o more data.}
-
 \subsection{Transcription factor kinetics can be inferred from FISH measurements}
 \label{sec:rep_kinetics_inference}
+
+\begin{figure}%[h!]
+\centering
+\includegraphics[width=\textwidth]{../figures/main/fig04.pdf}
+\caption{\textbf{Simple repression parameter inference and comparison.}
+(A) Contours which enclose 50\% and 95\% of the posterior
+probability mass are shown for each of several 2D slices of
+the 9D posterior distribution. The model assumes one
+unbinding rate for each operator (O1, O2, O3) and one binding rate for each aTc
+concentration (corresponding to an unknown mean repressor copy number).
+(B, upper panel)
+Ratios of our inferred unbinding rates are compared with
+operator binding energy differences measured by
+Garcia and Phillips~\cite{Garcia2011a} (triangles) and
+Razo-Mejia et.\ al.~\cite{Razo-Mejia2018} (circles).
+Blue glyphs compare O2-O1, while orange compare O1-Oid.
+(B, lower panel)
+Unbinding rates for O1 (cyan) and Oid (red) inferred in this work are compared with
+single-molecule measurements of the same from Hammar et.\ at.\ 2014.
+The comparison requires an assumption about mRNA lifetime
+$\gamma^{-1}$, which was not measured, and we plot representative
+choices assuming $\gamma^{-1}=3$~min (triangles) or $\gamma^{-1}=5$~min (squares).
+(C) Posterior predictive checks are shown for each of the
+datasets used in the inference of the model in (A). Observed FISH
+data from~\cite{Jones2014} is plotted as black lines. The median
+posterior predictive ECDF for each condition is plotted as a dark
+colored line. Lighter colored bands enclose 95\% of all posterior
+predictive samples for a given operator/repressor copy number pair.
+Samples are sorted by operator and plotted separately for visual clarity.
+The unrepressed promoter, UV5, is shown with each as a reference point.
+}
+\label{fig4:repressed_post_full}
+\end{figure}
+
 \mmnote{Outline:
 \begin{itemize}
 \item Full model. Write Bayes, handwave 2F1 dist story in limits of weak,
 strong, and intermediate repression.
 \item Hey look it mostly works. With full model, 9D model is well identified,
-though most of the individual experiments unsurprisingly are not: only the ratio
-of repressor rates is identifiable. PPC is not perfect, it kinda misses some
+though most of the individual experiments unsurprisingly are not:
+only 3 of the 9 datasets were identifiable if fit in isolation
+and for the rest only the ratio of repressor rates is identifiable.
+Only by making assumptions that certain rates
+are equal across datasets was identifiability achieved.
+PPC is not perfect, it kinda misses some
 rep/op pairs but overall it's surprisingly predictive considering how strong
 were the assumptions that went into it.
 \item Do we chalk this up to experimental imperfections or is there interesting
@@ -369,47 +419,3 @@ quite reasonable.
 \end{itemize}
 }
 
-\fig{fig3:kR_inferences} presents inferred
-transcription factor rates, compares them to
-single-molecule measurements, and compares their ratios to gold-standard binding
-energies.
-\begin{figure}%[h!]
-\centering
-\includegraphics[width=0.9\textwidth]{../figures/fig3/fig3.ai}
-\caption{\textbf{Simple repression model comparison.}
-Panel (A) depicts the cartoon of simple repression for which we infer parameters.
-\mmnote{Not sure panel (A) is necessary, we've already shown it in at least 2
-other figs. We could instead show some alternative slices of 9D posterior as a
-companion to (B), or something totally different\dots??}
-(B) Contours which enclose 50\% and 95\% of the posterior
-probability mass are shown for of several 2D slices of
-the 9D posterior distribution, from fitting one
-unbinding rate for each operator (O1, O2, O3) and one binding rate for each aTc
-concentration (corresponding to an unknown mean repressor copy number). (C)
-Ratios of our inferred unbinding rates are compared with operator binding energy
-differences measured in Garcia \& Phillips 2011 (triangles) and Razo-Mejia et.\
-al.\ 2018 (squares). (D) Unbinding rates inferred in this work are compared with
-single-molecule measurements of the same from Hammar et.\ at.\ 2014
-\mmnote{Johan Elf's group}. Values are of similar order of magnitude, but a
-precise quantitative comparison unfortunately depends sensitively on the assumed
-mRNA lifetime, which was not measured.}
-\label{fig3:kR_inferences}
-\end{figure}
-
-\begin{figure}%[h!]
-\centering
-\includegraphics[width=0.9\textwidth]{../figures/figSIxx/ppc_many_pooled.pdf}
-\caption{\textbf{Posterior predictive checks.}
-(A) The posterior distribution from~\fig{fig3:kR_inferences}B is
-shown again for context. (B), (C), and (D) Samples from the
-posterior predictive distribution are shown for each of the datasets
-used in the inference. Samples are sorted by operator and plotted separately
-simply for visual clarity. The unrepressed promoter, UV5, is shown with each as
-a reference point. \mmnote{Obviously the PPC is not perfect, but considering the
-relative simplicity of the model, I'm pleasantly surprised how well it worked
-and that the model was even identifiable at all. Interestingly, and perhaps not
-surprisingly, only 3 of the 9 datasets were identifiable if fit in isolation:
-otherwise, it was only by making assumptions that certain rates are equal across
-datasets was identifiability achieved.}}
-\label{fig4:ppc}
-\end{figure}

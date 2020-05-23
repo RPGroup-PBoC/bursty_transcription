@@ -294,38 +294,6 @@ kinetics later in Section~\ref{sec:rep_kinetics_inference}.
 Conversely, were the model to fail on more than a couple of the
 other promoters, it would give us pause.
 
-\begin{figure}%[h!]
-\centering
-\includegraphics[width=\textwidth]{../figures/main/fig03.pdf}
-\caption{\textbf{Constitutive promoter posterior inference and model
-        comparison.}
-        (A) The joint posterior density of model 5, the
-        bursty promoter with negative binomially-distributed
-        steady state, is plotted with MCMC samples.
-        1D marginal densities are plotted as flanking histograms.
-        The model was fit on \textit{lacUV5} data from~\cite{Jones2014}.
-        (B) The ECDF of the observed population distribution of
-        mRNA transcripts under the control of a constitutive
-        lacUV5 promoter is shown in orange.
-        The median posterior predictive ECDFs for models (1),
-        Poisson, and (5), negative binomial, are plotted in
-        green and blue, respectively.
-        Lighter green and blue regions enclose 95\% of all
-        posterior predictive samples from their respective models.
-        Model (1) is in obvious contradiction with the data
-        while model (5) is not.
-        FISH data is again from~\cite{Jones2014}.
-    (C) Joint posterior distributions for burst rate $k_i$ and mean burst size
-    $b$ for 18 promoters from~\cite{Jones2014}. Each contour indicates the 95\%
-    highest posterior density region for a particular promoter. Note that the
-    vertical axis is shared with (D). Panel (D) plots the burst rate $k_i$ vs.\
-    the binding energy for each promoter from energy matrices
-    from~\cite{Brewster2012}.
-    The dotted line shows the predicted slope according to
-    $\ln k_i/\gamma \sim \text{constant} - \beta\Delta\epsilon_P$,
-    described in text.}
-\label{fig:constit_post_full}
-\end{figure}
 
 \fig{fig:constit_post_full}(C) shows the results, plotting the
 posterior distribution from individually MCMC sampling all 18
@@ -374,12 +342,12 @@ valid for all the binding energies considered here.
 How are the two coarse-grainings related? The only association that makes dimensional sense and produces the correct order-of-magnitude for the known parameters is to take
 \begin{equation}
 \frac{k_i}{\gamma} = \exp(-\beta\Delta\epsilon_P)
-\label{eq:bursty_equil_corresp1}
+\label{eq:bursty_equil_corresp1_appdx}
 \end{equation}
 and
 \begin{equation}
 b = \frac{r}{\gamma}\frac{P}{N_{NS}}.
-\label{eq:bursty_equil_corresp2}
+\label{eq:bursty_equil_corresp2_appdx}
 \end{equation}
 \fig{fig:constit_post_full}(D) shows that this linear scaling
 between $\ln k_i$ and $-\beta\Delta\epsilon_P$ is approximately
@@ -390,11 +358,11 @@ we only consider the slope of the scaling in
 \mmnote{Wait, is that true or can we do something with the intercept, related to the burst size in some useful way? Needs more careful thought.}
 
 While the associations represented by
-\eq{eq:bursty_equil_corresp1} and \eq{eq:bursty_equil_corresp2}
+\eq{eq:bursty_equil_corresp1_appdx} and \eq{eq:bursty_equil_corresp2_appdx}
 appear to be born out by the scaling $\ln k_i \sim
 -\beta\Delta\epsilon_P$, we do not find the association of
 parameters encoded by
-\eqrange{eq:bursty_equil_corresp1}{eq:bursty_equil_corresp2}
+\eqrange{eq:bursty_equil_corresp1_appdx}{eq:bursty_equil_corresp2_appdx}
 intuitive. If some deeper insight is waiting to be gleaned from it,
 we leave it as an open problem.
 
