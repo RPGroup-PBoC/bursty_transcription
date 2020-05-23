@@ -472,12 +472,12 @@ p(m) = \frac{
         \Gamma(\alpha)\Gamma(\beta)\Gamma(k_R^+ + k_R^- + m)
         }
 \frac{b^m}{m!}{_2F_1}(\alpha+m, \beta+m, k_R^++k_R^-+m; -b)
-\label{eq:p_m_bursty+rep}
+\label{eq:p_m_bursty+rep_appdx}
 \end{align}
 which is finally the probability distribution we sought to derive.
 
 \subsubsection{Moments}
-We can verify the correctness of~\eq{eq:p_m_bursty+rep}
+We can verify the correctness of~\eq{eq:p_m_bursty+rep_appdx}
 by comparison with Gillespie simulation.
 We can also easily compute moments of the distribution from
 the generating function, and check these against raw moments computed
@@ -552,7 +552,7 @@ unregulated promoter $(1+b)$ plus additional noise arising from repression.
 \subsection{Numerical considerations and recursion formulas}
 \subsubsection{Generalities}
 We would like to carry out Bayesian parameter inference on FISH data
-from~\cite{Jones2014}, using~\eq{eq:p_m_bursty+rep} as our
+from~\cite{Jones2014}, using~\eq{eq:p_m_bursty+rep_appdx} as our
 likelihood. This requires accurate (and preferably fast)
 numerical evaluation of the hypergeometric function ${_2F_1}$,
 which is a notoriously hard problem~\cite{Pearson2017, Gil2007},
@@ -573,11 +573,11 @@ then the series converges quickly and an accurate numerical representation is
 easily computed by truncating the series after a reasonable number of terms.
 Unfortunately, we need to evaluate ${_2F_1}$ over mRNA copy numbers fully out
 to the tail of the distribution, which can easily reach 50, possibly 100.
-From~\eq{eq:p_m_bursty+rep}, this means evaluating ${_2F_1}$
+From~\eq{eq:p_m_bursty+rep_appdx}, this means evaluating ${_2F_1}$
 repeatedly for values of $a$, $b$, and $c$ spanning the full range
 from $\mathcal{O}(1)$ to $\mathcal{O}(10^2)$,
 even if $\alpha$, $\beta$, and $\gamma$
-in~\eq{eq:p_m_bursty+rep} are small,
+in~\eq{eq:p_m_bursty+rep_appdx} are small,
 with the situation even worse if they are not small.
 A naive numerical evaluation of the series definition will be
 prone to overflow and, if any of $a,b,c<0$, then some successive terms in the
@@ -588,7 +588,7 @@ instead of floating point arithmetic,
 e.g., using the \texttt{mpmath} library in Python.
 This is accurate but incredibly slow computationally.
 To quantify how slow, we found that
-evaluating the likelihood defined by~\eq{eq:p_m_bursty+rep} $\sim50$ times
+evaluating the likelihood defined by~\eq{eq:p_m_bursty+rep_appdx} $\sim50$ times
 (for a typical dataset of interest from~\cite{Jones2014},
 with $m$ values spanning 0 to $\sim50$)
 using arbitrary precision arithmetic is 100-1000 fold slower than
@@ -664,7 +664,7 @@ the right recurrence relation, and the right minimal solution.
 \subsubsection{Particulars}
 Let us now demonstrate these generalities for our problem of interest.
 In order to evaluate the probability distribution of our
-model,~\eq{eq:p_m_bursty+rep}, we need to evaluate hypergeometric functions
+model,~\eq{eq:p_m_bursty+rep_appdx}, we need to evaluate hypergeometric functions
 of the form ${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$
 for values of $m$ ranging from $0$ to $\mathcal{O}(100)$.
 The authors of~\cite{Gil2007} did not derive a recursion relation
@@ -777,7 +777,7 @@ a pseudocode version of the algorithm?
 Instead of, or in addition to?}
 
 With ${_2F_1}$ computed, the only remaining numerical danger in computing
-$p(m)$ in~\eq{eq:p_m_bursty+rep} is overflow of the gamma functions.
+$p(m)$ in~\eq{eq:p_m_bursty+rep_appdx} is overflow of the gamma functions.
 This is easily solved by taking the log of the entire expression
 and using standard routines to compute the log of the gamma functions,
 then exponentiating the entire expression at the end if $p(m)$
