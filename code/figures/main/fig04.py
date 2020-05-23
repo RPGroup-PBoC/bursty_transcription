@@ -10,6 +10,7 @@ import emcee
 import arviz as az
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 import bebi103.viz
 
 import srep
@@ -69,6 +70,8 @@ for a in ax:
 # Set global colors for aTc concentrations
 aTc_colors = ('blue', 'betancourt', 'green', 'orange')
 aTc_col_dict = dict(zip(["0p5ngmL","1ngmL", "2ngmL", "10ngmL"], aTc_colors))
+
+
 # TOP ROW
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
@@ -156,6 +159,9 @@ ax[0].set_xlabel(r'$log_{10}(k_R^-/\gamma)$', fontsize=8)
 # ##########################################################################
 # COMPARING k_off RATIOS TO BINDING E DIFFERENCES
 # ##########################################################################
+# Define colors for markesr
+col_markers = sns.color_palette("colorblind", n_colors=4)
+
 hg_rp_ep = (-17., -15.3, -13.9) # Oid, O1, O2
 hg_rp_err = 0.2
 mwc_soc_ep = (-17.7, -15.2, -13.6)
@@ -176,20 +182,23 @@ o1_oid_err = np.mean(np.diff(o1_oid))
 o2_o1_err  = np.mean(np.diff(o2_o1))
 
 ax[1].errorbar(o2_o1[1], hg_diff_ep[1], xerr=o2_o1_err, yerr=hg_rp_err,
-                fmt='^b', capsize=0, label='O2-O1, HG & RP 2011')
+                fmt='^', capsize=0, label='O2-O1, HG & RP 2011', 
+                color=col_markers[0])
 ax[1].errorbar(o1_oid[1], hg_diff_ep[0], xerr=o1_oid_err, yerr=hg_rp_err,
-                fmt='^g', capsize=0, label='O1-Oid, HG & RP 2011')
+                fmt='^', capsize=0, label='O1-Oid, HG & RP 2011',
+                color=col_markers[1])
 ax[1].errorbar(o2_o1[1], soc_diff_ep[1], xerr=o2_o1_err, yerr=mwc_soc_err,
-                fmt='ob', capsize=0, label='O2-O1, MRM et al 2018')
+                fmt='o', capsize=0, label='O2-O1, MRM et al 2018',
+                color=col_markers[0])
 ax[1].errorbar(o1_oid[1], soc_diff_ep[0], xerr=o1_oid_err, yerr=mwc_soc_err,
-                fmt='og', capsize=0, label='O1-Oid, MRM et al 2018')
+                fmt='o', capsize=0, label='O1-Oid, MRM et al 2018',
+                color=col_markers[1])
 ax[1].plot((0, 2.5),(0, 2.5), 'k--')
 ax[1].set_xlabel(r'$\ln(k_1^-/k_2^-)$ (this study)', fontsize=8, labelpad=0)
 ax[1].set_ylabel(
     r'$\beta(\Delta\epsilon_1-\Delta\epsilon_2)$' + '\n(prev studies)',
     fontsize=8
     )
-# ax[1].legend(fontsize=6)
 
 # ##########################################################################
 # COMPARING INFERRED k_off RATES TO HAMMAR ET AL 2014
@@ -210,9 +219,11 @@ koff_Oid *= mRNA_deg
 err_O1 = np.diff(koff_O1).reshape(2,1)
 err_Oid = np.diff(koff_Oid).reshape(2,1)
 ax[2].errorbar(koff_O1[1], ham_kO1[0], xerr=err_O1, yerr=ham_kO1[1],
-                fmt='^b', capsize=0, label=r"O1, $\gamma^{-1} = $3 min")
+                fmt='v', capsize=0, label=r"O1, $\gamma^{-1} = $3 min",
+                color=col_markers[2])
 ax[2].errorbar(koff_Oid[1], ham_kOid[0], xerr=err_Oid, yerr=ham_kOid[1],
-                fmt='^g', capsize=0, label=r"Oid, $\gamma^{-1} = $3 min")
+                fmt='v', capsize=0, label=r"Oid, $\gamma^{-1} = $3 min",
+                color=col_markers[3])
 
 # repeat our calculation with a different mRNA lifetime
 mRNA_deg = 1/5 # min^(-1)
@@ -225,9 +236,11 @@ koff_Oid *= mRNA_deg
 err_O1 = np.diff(koff_O1).reshape(2,1)
 err_Oid = np.diff(koff_Oid).reshape(2,1)
 ax[2].errorbar(koff_O1[1], ham_kO1[0], xerr=err_O1, yerr=ham_kO1[1],
-                fmt='ob', capsize=0, label=r"O1, $\gamma^{-1} = $5 min")
+                fmt='s', capsize=0, label=r"O1, $\gamma^{-1} = $5 min",
+                color=col_markers[2])
 ax[2].errorbar(koff_Oid[1], ham_kOid[0], xerr=err_Oid, yerr=ham_kOid[1],
-                fmt='og', capsize=0, label=r"Oid, $\gamma^{-1} = $5 min")
+                fmt='s', capsize=0, label=r"Oid, $\gamma^{-1} = $5 min",
+                color=col_markers[3])
 
 ax[2].plot((0, 0.3),(0, 0.3), 'k--')
 ax[2].set_xlabel(r'$k_R^-$ (min$^{-1})$ (this study)', fontsize=8)
@@ -236,7 +249,7 @@ ax[2].set_ylabel(
     fontsize=8,
     multialignment='center',
 )
-# ax[2].legend(fontsize='small')
+
 
 # BOTTOM
 
