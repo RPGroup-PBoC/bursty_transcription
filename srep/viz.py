@@ -9,6 +9,10 @@ import xarray
 import os
 import matplotlib.pyplot as plt
 import matplotlib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from matplotlib.path import Path
+from matplotlib.patches import BoxStyle
+from matplotlib.offsetbox import AnchoredText
 
 import bebi103
 
@@ -39,8 +43,11 @@ def plotting_style(grid=True):
            'xtick.color': 'k',
            'ytick.color': 'k'}
     plt.rc('text.latex', preamble=r'\usepackage{sfmath}')
-    plt.rc('mathtext', fontset='stixsans', sf='sans')
+    plt.rc('mathtext', fontset='stixsans', sf='sansserif')
+    plt.rc('legend', title_fontsize='8', frameon=True,
+            facecolor='#E3DCD0', framealpha=1)
     sns.set_style('darkgrid', rc=rc)
+    sns.set_palette("colorblind", color_codes=True)
 
 def color_selector(style):
     """
@@ -130,6 +137,9 @@ def predictive_ecdf(
     ----------
     samples : Numpy array or xarray, shape (n_samples, n) or xarray DataArray
         A Numpy array containing predictive samples.
+        n_samples is the number of posterior samples, and n is the number
+        of observed data points, i.e., n is the number of posterior
+        predictive samples for each of the posterior samples
     data : Numpy array, shape (n,) or xarray DataArray
         If not None, ECDF of measured data is overlaid with predictive
         ECDF.
@@ -265,15 +275,6 @@ def predictive_ecdf(
             x = df_ecdf["x"]
             y1 = df_ecdf[ptile]
             y2 = df_ecdf[ptiles_str[-i - 1]]
-        # fill_between(
-        #     x,
-        #     y1,
-        #     x,
-        #     y2,
-        #     p=p,
-        #     show_line=False,
-        #     patch_kwargs=dict(color=colors[color][i]),
-        # )
         ax.fill_between(x, y1, y2, color=colors[color][i],)
 
     # The median as a solid line
@@ -378,3 +379,47 @@ def traceplot(sampler, labels=None):
         ax.yaxis.set_label_coords(-0.1, 0.5)
     axes[-1].set_xlabel("step number");
     return fig, axes
+
+def titlebox(
+    ax, text, color='black', bgcolor=None, size=8, boxsize=0.1, pad=0.05, loc=10, **kwargs
+):
+    """Sets a colored box about the title with the width of the plot.
+   To use, simply call `titlebox(ax, 'plot title', bgcolor='blue')
+   """
+    boxsize=str(boxsize * 100)  + '%'
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("top", size=boxsize, pad=pad)
+    cax.get_xaxis().set_visible(False)
+    cax.get_yaxis().set_visible(False)
+    cax.spines["top"].set_visible(False)
+    cax.spines["right"].set_visible(False)
+    cax.spines["bottom"].set_visible(False)
+    cax.spines["left"].set_visible(False)
+    plt.setp(cax.spines.values(), color=color)
+    if bgcolor != None:
+        cax.set_facecolor(bgcolor)
+    else:
+        cax.set_facecolor("white")
+    at = AnchoredText(text, loc=loc, frameon=False, prop=dict(size=size, color=color))
+    cax.add_artist(at)
+
+def bebi103_colors():
+    """
+    Function to return the list of colors used for the quantile PPC plots 
+    """
+    return {
+        "blue": ["#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#084594"],
+        "green": ["#a1d99b", "#74c476", "#41ab5d", "#238b45", "#005a32"],
+        "red": ["#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#99000d"],
+        "orange": ["#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"],
+        "purple": ["#bcbddc", "#9e9ac8", "#807dba", "#6a51a3", "#4a1486"],
+        "gray": ["#bdbdbd", "#969696", "#737373", "#525252", "#252525"],
+        "betancourt": [
+            "#DCBCBC",
+            "#C79999",
+            "#B97C7C",
+            "#A25050",
+            "#8F2727",
+            "#7C0000",
+        ],
+    }
