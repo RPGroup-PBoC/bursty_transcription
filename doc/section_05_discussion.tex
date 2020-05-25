@@ -1,62 +1,97 @@
 % !TEX root = ./busty_transcription.tex
 \section{Discussion and future work}
 
-The study of gene expression is one of the dominant themes of modern
-biology, made all the more urgent by the dizzying pace at which
-genomes are being sequenced.  But there is a troubling Achilles heel
-buried in all of that genomic data and that is our inability to find
-and interpret regulatory sequence.  In many cases, this is not
-possible even qualitatively, let alone the possibility of quantitative
-dissection of the regulatory parts of genomes in a predictive fashion.
-Other recent work has tackled the challenge of finding and
-annotating the regulatory part of genomes.  Once we have determined
-the regulatory part of the genome, we are then faced with the
-next class of questions which are sharpened by formulating
-them in mathematical terms, namely, what are the input-output
-properties of these regulatory circuits and what knobs control them?
+The study of gene expression is one of the dominant themes of modern biology,
+made all the more urgent by the dizzying pace at which genomes are being
+sequenced. But there is a troubling Achilles heel buried in all of that genomic
+data and that is our inability to find and interpret regulatory sequence. In
+many cases, this is not possible even qualitatively, let alone the possibility
+of quantitative dissection of the regulatory parts of genomes in a predictive
+fashion. Other recent work has tackled the challenge of finding and annotating
+the regulatory part of genomes \cite{Belliveau2018, Ireland2020} \mrm{add other
+non-self referential}. Once we have determined the architecture of the
+regulatory part of the genome, we are then faced with the next class of
+questions which are sharpened by formulating them in mathematical terms, namely,
+what are the input-output properties of these regulatory circuits and what knobs
+control them?
 
-The present work has tackled that question in the context of
-the first regulatory architecture hypothesized in the molecular
-biology era, namely, the repressor-operator model of Jacob and
-Monod.  Regulation in that architecture is the result of a 
-competition between a repressor which inhibits transcription
-and RNAP polymerase which undertakes it.  Through
-the labors of generations of geneticists, molecular biologists
-and biochemists, an overwhelming amount of information
-and insight has been garnered into this simple regulatory
-motif, licensing it as what one might call the ``hydrogen atom''
-of regulatory biology.   It is from that perspective that the present
-paper explores the extent to which some of the different models
-that have been articulated to describe that motif allow
-us to understand both the average level of gene expression
-found in a population of cells as well as the noise in that
-expression found in that population as would be reported in
-a FISH experiment, for example.
+The present work has tackled that question in the context of the first
+regulatory architecture hypothesized in the molecular biology era, namely, the
+repressor-operator model of Jacob and Monod. Regulation in that architecture is
+the result of a competition between a repressor which inhibits transcription and
+RNAP polymerase which undertakes it. Through the labors of generations of
+geneticists, molecular biologists and biochemists, an overwhelming amount of
+information and insight has been garnered into this simple regulatory motif,
+licensing it as what one might call the ``hydrogen atom'' of regulatory biology.
+It is from that perspective that the present paper explores the extent to which
+some of the different models that have been articulated to describe that motif
+allow us to understand both the average level of gene expression found in a
+population of cells, the intrinsic cell-to-cell variability, and the full gene
+expression distribution found in such population as would be reported in a FISH
+experiment, for example.
 
-Our key insights can be summarized as follows.  First, as shown in Figure
-Figure~\ref{fig1:means_cartoons}, the mean expression in the
-simple repression architecture is captured by a master curve
-in which the action of repressor and the details of the polymerase
-interaction with the promoter appear separately and additively
-in an effective free energy.  Interestingly, as has been shown
-elsewhere in the context of the Monod-Wyman-Changeux model,
-these kinds of coarse-graining results are an exact mathematical
-result and do not constitute hopeful approximations or biological
-naivete.  To further dissect the relative merits of the different models,
-we must appeal to higher moments of the gene expression probability
-distribution.  To that end, our second set of insights focus on gene
-expression noise, where it is seen that a treatment of
-the constitutive promoter already reveals that some models have Fano
-factors that are less than one, at odds with any and all experimental
-data that we are aware of.   This refinement allows us to determine
-parameters for the constitutive promoter that can then be used
-to attack gene expression noise in the context of
-the simple repression architecture.
+Our key insights can be summarized as follows. First, as shown in 
+Figure~\ref{fig1:means_cartoons}, the mean expression in the simple repression
+architecture is captured by a master curve in which the action of repressor and
+the details of the polymerase interaction with the promoter appear separately
+and additively in an effective free energy. Interestingly, as has been shown
+elsewhere in the context of the Monod-Wyman-Changeux model, these kinds of
+coarse-graining results are an exact mathematical result and do not constitute
+hopeful approximations or biological naivete \cite{Razo-Mejia2018, Chure2019}.
+To further dissect the relative merits of the different models, we must appeal
+to higher moments of the gene expression probability distribution. To that end,
+our second set of insights focus on gene expression noise, where it is seen that
+a treatment of the constitutive promoter already reveals that some models have
+Fano factors (standard deviation/mean) that are less than one, at odds with
+any and all experimental data that we are aware of.
+\mrm{
+This theoretical result allows us to directly discard a subset of the models
+(models 1-3 in Figure~\ref{fig2:fig2:constit_cartoons}) since they cannot be
+reconciled with experimental observations. The two models left (models 4 and 5
+in Figure~\ref{fig2:fig2:constit_cartoons}) seem to provide a rich enough
+phenomenology to be able to reproduce the data. A previous exploration of one 
+of these models demonstrated the sloppy nature of the model in which single-cell
+mRNA counts data alone cannot constrain the value of all parameters 
+simultaneously \cite{Razo-Mejia2020}. Here we demonstrate that the proposed
+one-state bursty promoter model (model 5 in 
+Figure~\ref{fig2:fig2:constit_cartoons}) is a limit of the commonly used
+two-state promoter model \cite{Peccoud1995}. We put at test the idea that this
+level of coarse-graining is descriptive enough to reproduce previous 
+experimental observations. In particular we perform Bayesian inference on the
+two parameters describing the full steady-state mRNA distribution, finding that
+the model is able to capture a plethora of promoter sequences with different
+mean levels of expression and noise.
+}
 
-RP stop here
+\mrm{
+Here we should include a discussion of the regulated case.
+}
 
+It is interesting to speculate what microscopic details are being coarse-grained
+by our burst rate and burst size in Figure~\ref{fig2:constit_cartoons} model 5.
+Chromosomal locus is one possible influence we have not addressed in this work,
+as all the FISH data from~\cite{Jones2014} that we considered was from a
+construct integrated at the \textit{galK} locus. The results of~\cite{Chong2014}
+indicate that transcription-induced supercoiling contributes substantially in
+driving transcriptional bursting, and furthermore, their Figure~7 suggests that
+the parameters describing the rate, duration, and size of bursts vary
+substantially for transcription from different genomic loci. Although the
+authors of~\cite{Englaender2017} do not address noise, they note enormous
+differences in mean expression levels when an identical construct is integrated
+at different genomic loci. The authors of~\cite{Engl2020} attribute noise and
+burstiness in their FISH data to the influence of different sigma factors, which
+is a reasonable conclusion from their data. Could the difference also be due to
+the different chromosomal locations of the two operons?
 
-
+It seems clear therefore that chromosomal locus plays a major role in mean
+expression levels as well as noise. What features of different loci are and are
+not important? Sigma factors could certainly play a part, but it seems many
+other mechanisms are at play: supercoiling, and more generally 3D organization
+of the chromosome, read-through of neighboring genes, and surely some
+fascinating unknown unknowns. Could our preferred coarse-grained model capture
+the variability across different loci? If so, and we were to repeat the
+parameter inference as done in this work, is there a simple theoretical model we
+could build to understand the resulting parameters?
 
 \mmnote{Do all my approximations work simply because galK happens to have a low
 duty cycle of supercoiling, $\beta/\alpha$ in Chong2014 picture? A potentially
@@ -76,37 +111,7 @@ measurements of $\beta/\alpha$ are correct. This would require an obnoxious
 amount of cloning, but once you did that, the measurements would be same old
 stuff that RP lab does.}
 
-It is interesting to speculate what microscopic details are being
-coarse-grained by our burst rate and burst size in model 5.
-Chromosomal locus is one possible influence we have not addressed
-in this work, as all the FISH data from~\cite{Jones2014} that we
-considered was from a construct integrated at the \textit{galK} locus.
-The results of~\cite{Chong2014} indicate that
-transcription-induced supercoiling contributes substantially in
-driving transcriptional bursting, and furthermore, their Figure~7
-suggests that the parameters describing the rate, duration, and
-size of bursts vary substantially for transcription from
-different genomic loci.
-Although the authors of~\cite{Englaender2017} do not address
-noise, they note enormous differences in mean expression levels
-when an identical construct is integrated at different genomic loci.
-The authors of~\cite{Engl2020} attribute noise and burstiness in
-their FISH data to the influence of different sigma factors,
-which is a reasonable conclusion from their data.
-Could the difference also be due to the different chromosomal
-locations of the two operons?
 
-It seems clear therefore that chromosomal locus plays a major
-role in mean expression levels as well as noise. What features of
-different loci are and are not important? Sigma factors could
-certainly play a part, but it seems many other mechanisms are at
-play: supercoiling, and more generally 3D organization of the
-chromosome, read-through of neighboring genes, and surely some
-fascinating unknown unknowns.
-Could our preferred coarse-grained model capture the variability
-across different loci? If so, and we were to repeat the parameter
-inference as done in this work, is there a simple theoretical model
-we could build to understand the resulting parameters?
 
 A direct \mmnote{if cloning intensive} future experiment would be
 to design a payload with a promoter driving a FISH reporter,
