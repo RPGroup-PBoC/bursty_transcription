@@ -4,7 +4,7 @@ selection}
 \subsection{Parameter inference for constitutive promoters}
 
 From consideration of Fano factors in the previous section, we suspect that
-model 5 in Figure~\ref{fig:constit_cartoons}, a one-state bursty model of
+model 5 in Figure~\ref{fig2:constit_cartoons}, a one-state bursty model of
 constitutive promoters, achieves a Goldilocks level of complexity. Does this
 stand up to closer scrutiny, namely, comparison to full mRNA distributions
 rather than simply their moments? We will test this thoroughly on
@@ -12,14 +12,14 @@ single-cell mRNA counts for different unregulated promoters from Jones et.\
 al.~\cite{Jones2014}.
 
 It will be instructive, however, to first consider the Poisson promoter, model 1
-in Figure~\ref{fig:constit_cartoons}. As we alluded to earlier, since the
+in Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the
 Poisson distribution has a Fano factor $\nu$ strictly equal to 1, and all of
 the observed data has Fano factor $\nu>1$, we might already suspect that this
 model is incapable of fitting the data. We will verify that this in fact the
 case. Using the same argument we can immediately rule out models 2 and 3 from 
-Figure~\ref{fig:constit_cartoons}. these models have Fano factors $\nu\le 1$
+Figure~\ref{fig2:constit_cartoons}. these models have Fano factors $\nu\le 1$
 meaning they are underdisperse relative to Poisson. We will also not explicitly
-consider model 4 from~\fig{fig:constit_cartoons} since it was already thoroughly
+consider model 4 from~\fig{fig2:constit_cartoons} since it was already thoroughly
 analyzed in~\cite{Razo-Mejia2020}, and since model 5 can be viewed as a special
 case of it.
 
@@ -196,7 +196,7 @@ We carried out MCMC sampling on the posterior of this model, starting with the
 constitutive \textit{lacUV5} dataset from~\cite{Jones2014}. The resulting MCMC
 samples are shown in~\fig{fig:constit_post_full}(A). In contrast to the
 active/inactive constitutive model considered in~\cite{Razo-Mejia2020}
-(nonequilibrium model 4 in~\ref{fig:constit_cartoons}), this model is
+(nonequilibrium model 4 in~\ref{fig2:constit_cartoons}), this model is
 well-identified with both parameters determined to a fractional uncertainty of
 5-10\%. The strong correlation reflects the fact that their product sets the
 mean of the mRNA distribution, which is tightly constrained by the data, but
@@ -398,7 +398,7 @@ The unrepressed promoter, UV5, is shown with each as a reference point.
 
 As we found in Section~\ref{sec:beyond_means}, for our purposes
 the ``right'' model of a constitutive promoter is the bursty
-picture, model five in Figure~\ref{fig:constit_cartoons}.
+picture, model five in Figure~\ref{fig2:constit_cartoons}.
 Therefore our starting point here is the analogous model with
 repressor added, model 5 in Figure~\ref{fig1:means_cartoons}.
 For a given repressor binding site and copy number,
