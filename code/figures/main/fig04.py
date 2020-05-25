@@ -334,8 +334,42 @@ for k, ax in enumerate([ax_3, ax_4, ax_5]):
     # ax.legend(loc='lower right', fontsize='small')
 # Set yaxis label for first plot
 ax_3.set_ylabel('ECDF')
+
+# Add UV5 to dictionary
+aTc_col_dict["UV5"] = "purple"
+# Generate legend with shaded region symbols
+# 1. Initialize list to save plots
+plot_list = list()
+# 2. Initialize lsit to save labels
+label_list = list()
+# 3. Loop through concentrations
+for key, item in aTc_col_dict.items():
+    # 4. Extract colors
+    colors = srep.viz.bebi103_colors()[item]
+    # 5. Generate plots
+    p1 = ax_5.plot([], [], color=colors[-1])
+    p2= ax_5.fill([], [], color=colors[0])
+    # 6. Fix label name
+    label = expt.split("_")[1]
+    label = label.replace("ngmL", " ng/mL")
+    label = label.replace("0p5", "0.5")
+    # 7. Append to lists
+    plot_list.append((p2[0], p1[0],))
+    label_list.append(label)
+# Append data plot
+p = ax_5.plot([], [], color="black")
+plot_list.append((p[0],))
+label_list.append("data")
+
 # Set legend for last plot
-ax_5.legend(loc="lower right", bbox_to_anchor=(1, -0.4), ncol=6, fontsize=8)
+ax_5.legend(
+    plot_list,
+    label_list,
+    loc="lower right",
+    bbox_to_anchor=(1, -0.4),
+    ncol=6,
+    fontsize=8
+)
 
 # Add plot labels
 plt.gcf().text(-0.03, 1, "(A)", fontsize=14)

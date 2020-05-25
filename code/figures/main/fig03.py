@@ -142,7 +142,7 @@ ax_a1.hist(b_samples,
 )
 # Add gridlines
 [ax_a3.axhline(x, color="white", linewidth=0.5) 
-for x in [5, 5.5, 6]]
+for x in [4.75, 5, 5.25, 5.5, 5.75, 6]]
 
 ax_a3.hist(alpha_samples,
           50,
@@ -176,7 +176,7 @@ srep.viz.predictive_ecdf(
     percentiles=ptiles,
     discrete=True,
     ax=ax_b,
-    pred_label='Model 1 (Poisson) PPC',
+    pred_label='Model 1 (Poisson)',
     )
 
 # next neg binom model + data overlaid
@@ -187,18 +187,35 @@ srep.viz.predictive_ecdf(
     data=df_UV5["mRNA_cell"],
     percentiles=ptiles,
     discrete=True,
-    # diff=True,
     ax=ax_b,
-    pred_label='Model 5 (N. Binom) PPC',
+    pred_label='Model 5 (N. Binom)',
     data_label='UV5 data, Jones et. al.',
-    data_color='orange',
-    data_size=1 #linewidth
+    data_color='black',
+    data_size=1, #linewidth
     )
+# Add plots for composite legend
+# 1. Extract colors
+blues = srep.viz.bebi103_colors()["blue"]
+greens = srep.viz.bebi103_colors()["green"]
+# 2. Declarre plots
+poisson_1 = ax_b.plot([], [], color=greens[-1])
+poisson_2= ax_b.fill([], [], color=greens[0])
+neg_binom_1 = ax_b.plot([], [], color=blues[-1])
+neg_binom_2= ax_b.fill([], [], color=blues[0])
+uv5 = ax_b.plot([], [], color="black")
 
-ax_b.legend(loc='lower right', fontsize='small')
+ax_b.legend(
+    [(poisson_2[0], poisson_1[0]), (neg_binom_2[0], neg_binom_1[0]), (uv5[0],),], 
+    ["Model 1 (Poisson)", "Model 5 (N. Binom)", "UV5 data, Jones et. al."],
+    fontsize=8,
+    loc="lower right",
+)
+
+# ax_b.legend(loc='lower right', fontsize='small')
 ax_b.set_xlabel('mRNA counts per cell')
 ax_b.set_ylabel('ECDF')
 ax_b.set_xlim(right=60)
+
 
 # (C)
 # Set function to normalize colors to energy range
@@ -287,9 +304,18 @@ guide_x = np.linspace(-7,-3.5)
 guide_y = np.exp(-guide_x)/9e2
 ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
 # Add text for scaling
+# Muir's location
+# ax_d.text(
+#     0.29, 
+#     0.04, 
+#     r"$\log k_i \sim - \Delta\epsilon_P$",
+#     transform=ax_d.transAxes,
+#     rotation=-45,
+# )
+# Manuel's location
 ax_d.text(
     0.29, 
-    0.04, 
+    0.25, 
     r"$\log k_i \sim - \Delta\epsilon_P$",
     transform=ax_d.transAxes,
     rotation=-45,
@@ -301,3 +327,5 @@ ax_d.set_yscale("log")
 plt.savefig(
     f"{repo_rootdir}/figures/main/fig03.pdf", bbox_inches='tight'
 )
+
+# %%
