@@ -1,4 +1,4 @@
-% !TEX root = ./busty_transcription.tex
+% !TEX root = ./bursty_transcription.tex
 \section{Bursty promoter models - generating function solutions and numerics}
 \label{sec:gen_fcn_appdx}
 
@@ -6,79 +6,207 @@
 
 \subsubsection{From master equation to generating function}
 
-We would like to derive the full probability distribution of
-mRNA copy number per cell for a model combining simple repression
-with a promoter featuring bursty transcription initiation.
-Before tackling mRNA and repression together, let us
-just consider the bursty consititutive promoter,
-model 5 in~\fig{fig2:constit_cartoons}
-\mmnote{replicating Charlotte's notes; she says it's worked out
-in~\cite{Paulsson2000}, but I don't see it, at least not in notation I can
-comprehend. Need to find a cite for this,
-or maybe just cite Charlotte, personal comm, since that's where I actually got it\dots}.
-The master equation of interest is
+The objective of this section is to write down the steady-state mRNA
+distribution for model 5 in Figure~\ref{fig2:constit_cartoons}. Our claim is
+that this model is rich enough that it can capture the expression pattern of
+bacteria unregulated promoters regulated by the $\sigma_{70}$ sigma factor.
+Figure~\ref{figS1:bursty_one_state} shows two different schematic
+representations of the model. Figure~\ref{figS1:bursty_one_state}(A) shows the
+promoter cartoon model with burst initiation rate $k_i$, mRNA degradation rate
+$\gamma$, and mean burst size $b$. For our derivation of the chemical master
+equation we will focus more on Figure~\ref{figS1:bursty_one_state}(B). This
+representation is intended to highlight that bursty gene expression allows
+transitions between mRNA count $m$ and $m'$ even with $m - m' > 1$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics{../figures/si/figS0X_bursty_states.pdf}
+\caption{
+\textbf{Bursty transcription for unregulated promoter.}
+(A) Schematic of the one-state bursty transcription model. Rate $k_i$ is the
+bursty initiation rate, $\gamma$ is the mRNA degradation rate, and $b$ is the
+mean burst size. (B) Schematic depiction of the mRNA count state transitions.
+The model in (A) allows for transitions of $> 1$ mRNA counts with probability
+$G_{m-m'}$.}
+\label{figS1:bursty_one_state}
+\end{figure}
+
+To derive the master equation we begin by thinking the possible state
+transitions to ``enter'' state $m$. There are two possible paths to jump from an
+mRNA count $m' \neq m$ to a state $m$ in a small time window $\Delta t$:
+\begin{enumerate}
+        \item By degradation of a single mRNA, jumping from $m+1$ to $m$.
+        \item By producing $m-m'$ mRNA for $m' \in \{0, 1, \ldots, m-1\}$.
+\end{enumerate}
+For the ``exit'' states from $m$ into $m' \neq m$ during a small time window
+$\Delta t$ we also have two possibilities:
+\begin{enumerate}
+        \item By degradation of a single mRNA, jumping from $m$ to $m-1$.
+        \item By producing $m'-m$ mRNA for $m'-m \in \{1, 2, \ldots\}$.
+\end{enumerate}
+This implies that the probability of having $m$ mRNA at time $t + \Delta t$ can
+be written as
+\begin{equation}
+\begin{split}
+p(m, t + \Delta t) = &p(m, t)
++ \overbrace{\gamma \Delta t (m + 1) p(m + 1, t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma \Delta t m p(m, t)}^{m \rightarrow m - 1} \\
+&+ \overbrace{k_i \Delta t \sum_{m'=0}^{m-1} G_{m-m'} p(m', t)}^
+{m'\in \{0, 1, \ldots m-1\} \rightarrow m}
+- \overbrace{k_i \Delta t \sum_{m'=m + 1}^{\infty} G_{m'-m} p(m, t)}^
+{m \rightarrow m'\in \{m+1, m+2, \ldots\}},
+\end{split}
+\label{eq:si_master_deltat}
+\end{equation}
+where we indicate $G_{m'-m}$ as the probability of having a burst of size
+$m'-m$. We suggestively use the letter $G$ as we will assume that these bursts
+sizes are geometrically distributed with parameter $\theta$. This is written as
+\begin{equation}
+G_{k} = \theta (1 - \theta)^k\; \text{for } k \in \{0, 1, 2, \ldots \}.
+\end{equation}
+What this implies is that for a geometrically distributed burst size we have a
+mean burst size $b$ of the form
+\begin{equation}
+b \equiv \left\langle m' - m \right\rangle 
+= \sum_{k=0}^\infty k \theta (1 - \theta)^k = {1 - \theta \over \theta}.
+\end{equation}
+
+To clean up Equation~\ref{eq:si_master_deltat} we can send the first term on the
+right hand side to the left, and divide both sides by $\Delta t$. Upon taking
+the limit where $\Delta t \rightarrow 0$ we can write
+\begin{equation}
+{d \over dt}p(m, t) = (m + 1) \gamma p(m + 1, t)
+- m \gamma p(m, t)
++ k_i \sum_{m'=0}^{m-1} G_{m-m'} p(m', t) 
+- k_i \sum_{m'=m + 1}^{\infty} G_{m'-m} p(m, t).
+\end{equation}
+Furthermore, given that the timescale for this equation is set by the mRNA
+degradation rate $\gamma$ we can divide both sides by this rate, obtaining
+\begin{equation}
+{d \over d\tau}p(m, \tau) = (m + 1) p(m + 1, \tau)
+- m p(m, \tau)
++ \lambda \sum_{m'=0}^{m-1} G_{m-m'} p(m', \tau) 
+- \lambda \sum_{m'=m + 1}^{\infty} G_{m'-m} p(m, \tau),
+\label{eq:si_master_ode}
+\end{equation}
+where we defined $\tau \equiv t \times \gamma$, and $\lambda \equiv k_i/\gamma$.
+The last term in Eq.~\ref{eq:si_master_ode} sums all burst sizes except for a 
+burst of size zero. We can re-index the sum to include this term, obtaining
+\begin{equation}
+\lambda \sum_{m'=m + 1}^{\infty} G_{m'-m} p(m, \tau) = \lambda p(m, t) \left[
+\underbrace{\sum_{m'=\textcolor{red}{m}}^{\infty}G_{m'-m}}
+_{\text{re-index sum to include burst size zero}} -
+\underbrace{G_0}_{\text{subtract extra added term}}\right].
+\end{equation}
+Given the normalization of the geometric distribution, adding the probability of
+all possible burst sizes -- including size zero since we re-indexed the sum --
+allows us to write
+\begin{equation}
+\sum_{m'=m}^{\infty}G_{m'-m} - G_0 = 1 - G_0.
+\end{equation}
+Substituting this into Eq.~\ref{eq:si_master_ode} results in
+\begin{equation}
+{d \over d\tau}p(m, \tau) = (m + 1) p(m + 1, \tau)
+- m p(m, \tau)
++ \lambda \sum_{m'=0}^{m-1} G_{m-m'} p(m', \tau) 
+- \lambda p(m, \tau) \left[ 1 - G_0 \right].
+\label{eq:si_master_ode_2}
+\end{equation}
+To finally get at a more compact version of the equation notice that the third
+term in Eq.~\ref{eq:si_master_ode_2} includes burst from size $m'-m = 1$ to size
+$m' - m = m$. We can include the term $p(m, t) G_0$ in the sum which allows
+bursts of size $m' - m = 0$. This results in our final form for the chemical
+master equation
 \begin{align}
-\deriv{t}p(m,t) = (m+1)\gamma p(m+1,t) - m\gamma p(m,t) - r p(m,t)
-        + r \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
-\label{eq:1state_unreg_003}
+{d \over d\tau}p(m, \tau) = 
+(m + 1) p(m+1, \tau)
+- m p(m, \tau) - 
+\lambda p(m, \tau)
++ \lambda \sum_{m^\prime=0}^m G_{m-m^\prime} p(m^\prime, \tau).
+\label{eq:si_master_unreg}
 \end{align}
-where $G_{k}(\theta)$ is the geometric distribution defined as
+
+In order to solve Eq.~\ref{eq:si_master_unreg} we will use the generating
+function method \mrm{reference?}. The probability generating function is defined
+as
 \begin{align}
-G_{k}(\theta) = \theta(1 - \theta)^k, \, k\in\{0,1,2,\dots\}.
+F(z,t) = \sum_{m=0}^\infty z^m p(m,t),
 \end{align}
-With this convention, the mean burst size $b = (1-\theta)/\theta$.
-$\gamma$ and $r$ are mRNA degradation rates and transcription burst
-initiation rates, resp. The last term represents all ways the system could
-end up with $m$ mRNAs, having started the burst with $m^\prime$. Define
-$\lambda = r/\gamma$ and nondimensionalize time by $\gamma$, giving
+where $z$ is just a dummy variable that will help us later on to obtain the
+moments of the distribution. Applying $F(z, t)$ on both sides of 
+Eq.~\ref{eq:si_master_unreg} results in
+\begin{equation}
+\sum_m z^m {d \over d\tau} p(m, \tau) = 
+\sum_m z^m \left[ 
+- m p(m, \tau) 
++ (m + 1) p(m + 1, \tau) 
++ \lambda \sum_{m' = 0}^m G_{m-m'} p(m', \tau) - \lambda p(m, \tau)
+\right],
+\end{equation}
+where we use $\sum_m \equiv \sum_{m=0}^\infty$. We can distribute the sum and
+use the definition of $F(z, t)$ to obtain
+\begin{equation}
+{d F(z, \tau) \over d\tau} =
+- \sum_m z^m m p(m, \tau) +
++ \sum_m z^m (m + 1) p(m + 1, \tau)
++ \lambda \sum_m z^m \sum_{m'=0}^m G_{m-m'} p(m', \tau)
+- \lambda F(z, \tau).
+\label{eq:si_generating_01}
+\end{equation}
+We can make use of properties of the generating function to write everything in
+terms of $F(z, \tau)$: the first term on the right hand side of
+Eq.~\ref{eq:si_generating_01} can be rewritten as
 \begin{align}
-\deriv{t}p(m,t) = (m+1)p(m+1,t) - m p(m,t) - \lambda p(m,t)
-        + \lambda \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t),
+\sum_{m} z^{m} \cdot m \cdot p(m, \tau) &=
+\sum_{m} z \frac{\partial z^{m}}{\partial z} p(m, \tau), \\
+&=\sum_{m} z \frac{\partial}{\partial z}\left(z^{m} p(m, \tau)\right), \\
+&=z \frac{\partial}{\partial z}\left(\sum_{m} z^{m} p(m, \tau)\right), \\
+&= z {\partial F(z, \tau) \over \partial z}.
 \end{align}
-The probability generating function is defined as
+For the second term on the right hand side of Eq.~\ref{eq:si_generating_01} we
+define $k \equiv m + 1$. This allows us to write
 \begin{align}
-F(z,t) = \sum_{m=0}^\infty z^m p(m,t).
+\sum_{m=0}^{\infty} z^{m} \cdot(m+1) \cdot p(m+1, \tau) &=
+\sum_{k=1}^{\infty} z^{k-1} \cdot k \cdot p(k, \tau), \\
+&=z^{-1} \sum_{k=1}^{\infty} z^{k} \cdot k \cdot p(k, \tau), \\
+&=z^{-1} \sum_{k=0}^{\infty} z^{k} \cdot k \cdot p(k, \tau), \\
+&=z^{-1} \left(z \frac{\partial F(z)}{\partial z}\right), \\
+&=\frac{\partial F(z)}{\partial z}.
 \end{align}
-Multiply both sides of the CME by $z^m$ and sum over all $m$ to get
+The third term in Eq.~\ref{eq:si_generating_01} is the most trouble. The trick
+is to reverse the default order of the sums as
+\begin{equation}
+\sum_{m=0}^{\infty} \sum_{m'=0}^{m} = \sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty}.
+\end{equation}
+This results in
 \begin{align}
-\pderiv[F]{t} = \sum_{m=0}^\infty z^m
-\left(
-(m+1)p(m+1,t) - m p(m,t) - \lambda p(m,t)
-+ \lambda \sum_{m^\prime=0}^m G_{m-m^\prime}(\theta) p(m^\prime,t)
-\right).
+\lambda \sum_m z^m \sum_{m'=0}^m G_{m-m'} p(m', \tau) =
+\lambda \sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty} z^m 
+\theta (1 - \theta)^{m-m'} p(m', \tau),
 \end{align}
-The first two terms can be rewritten as derivatives of the
-generating function, i.e.,
+where we also substituted the definition of the geometric distribution $G_{k} =
+\theta (1 - \theta)^k$. Redistributing the sums we can write
 \begin{align}
-\sum_{m=0}^\infty z^m (m+1)p(m+1,t)
-=
-\pderiv{z} \sum_{m=0}^\infty z^{m+1} p(m+1,t)
-=
-\pderiv[F]{z}
+\lambda \sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty} z^m 
+\theta (1 - \theta)^{m-m'} p(m', \tau) = 
+\lambda \theta \sum_{n=0}^{\infty}(1-\theta)^{m'} P(m', \tau) 
+\sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m}.
+\label{eq:si_generating_02}
 \end{align}
-and
+We know that $1 - \theta \in (0, 1)$, and that $z$ is a dummy variable that we
+usually evaluate as $z=1$. With these two facts we can safely state that
+$| z (1 - \theta) | < 1$. Defining $n \equiv m - m'$ we rewrite the last sum in 
+Eq.~\ref{eq:si_generating_02} as
 \begin{align}
-\sum_{m=0}^\infty z^m mp(m,t)
-=
-z\pderiv{z} \sum_{m=0}^\infty z^m p(m,t)
-=
-z\pderiv[F]{z}.
+\sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m} &= 
+\sum_{n=0}^{\infty} \left[z (1-\theta)\right]^{n + m'} \\
+&= \left[ z (1 - \theta) \right]^{m'} 
+\sum_{n=0}^{\infty} \left[ z (1 - \theta) \right]^{m'} \\
+&= \left[ z (1 - \theta) \right]^{m'} 
+\left( {1 \over 1 - z (1 - \theta)} \right),
 \end{align}
-The final term is the most trouble. The trick is to reverse
-the default order of the sums, as in
-\begin{align}
-&\lambda \sum_{m=0}^\infty \sum_{m^\prime=0}^m
-        z^m \theta(1 - \theta)^{m-m^\prime} p(m^\prime,t)
-\\=
-&\lambda\theta \sum_{m^\prime=0}^\infty z^{m^\prime} p(m^\prime,t)
-        \sum_{m=m^\prime}^\infty
-        z^{m-m^\prime} (1 - \theta)^{m-m^\prime}
-\\=
-&\frac{\lambda\theta F}{1 - (1 - \theta)z}.
-\end{align}
-This works because after reordering the sums, the sum on $m$ is just
-a geometric series. Its result is independent of $m^\prime$, so the sum on
-$m^\prime$ reduces to the definition of the generating function.
+where we use the geometric series since, as stated before,$| z (1 - \theta) | <
+1$
 Putting these results together, the PDE for the generation function is
 \begin{align}
 \pderiv[F]{t} = \pderiv[F]{z} - z\pderiv[F]{z} - \lambda F
