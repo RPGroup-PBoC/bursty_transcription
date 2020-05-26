@@ -206,19 +206,25 @@ Eq.~\ref{eq:si_generating_02} as
 \left( {1 \over 1 - z (1 - \theta)} \right),
 \end{align}
 where we use the geometric series since, as stated before,$| z (1 - \theta) | <
-1$
-Putting these results together, the PDE for the generation function is
-\begin{align}
-\pderiv[F]{t} = \pderiv[F]{z} - z\pderiv[F]{z} - \lambda F
-        + \frac{\lambda\theta F}{1-z(1-\theta)}.
-\end{align}
+1$. Putting these results together, the PDE for the generation function is
+\begin{equation}
+{\partial F \over \partial \tau} = 
+{\partial F \over\partial z}
+- z {\partial F \over \partial z} - \lambda F
++ \frac{\lambda\theta F}{1-z(1-\theta)}.
+\end{equation}
 Changing variables to $\xi=1-\theta$ and simplifying gives
 \begin{align}
-\pderiv[F]{t} + (z - 1) \pderiv[F]{z} = \frac{(z-1)\xi}{1-z\xi}\lambda F.
+{\partial F \over \partial \tau} + (z - 1) {\partial F \over \partial z} = 
+\frac{(z-1)\xi}{1-z\xi}\lambda F.
 \label{eq:1state_unreg_015}
 \end{align}
+
 \subsubsection{Stead-state}
-At steady-state, the PDE reduces to the ODE
+
+To get at the mRNA distribution at steady state we first must solve
+Eq.~\ref{eq:1state_unreg_015} setting the time derivative to zero. At
+steady-state, the PDE reduces to the ODE
 \begin{align}
 \deriv[F]{z} = \frac{\xi}{1-z\xi}\lambda F,
 \end{align}
@@ -226,11 +232,12 @@ which we can integrate as
 \begin{align}
 \int \frac{dF}{F} = \int \frac{\lambda\xi dz}{1-\xi z}.
 \end{align}
-The initial conditions for generating functions can be subtle and confusing.
-The key fact follows from the definition
+The initial conditions for generating functions can be subtle and confusing. The
+key fact follows from the definition
 $F(z,t) = \sum_m z^m p(m,t)$,
 normalization requires that
-$F(z=1^-,t) = \sum_m p(m,t) = 1$.\footnote{
+$F(z=1, t) = \sum_m p(m,t) = 1$.
+\footnote{
 Sometimes the generating function may be undefined \textit{at} $z=1$ but the
 limit still holds. Also many authors change variables from $z$ to other
 things, so one must keep track of how the normalization condition transforms.
@@ -246,20 +253,21 @@ Only one choice for $c$ can satisfy initial conditions, producing
 F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
         = \left(\frac{\theta}{1 - z(1-\theta)}\right)^\lambda,
 \end{align}
-which is exactly the negative binomial's generating function, as expected.
-Now we may recover the mRNA probability distribution of interest
-by differentiating the generating function, or by consulting a
-standard reference\mmnote{maybe van Kampen, check},
-from which we find that
+which is exactly the negative binomial's generating function. Now we may recover
+the mRNA probability distribution of interest by differentiating the generating
+function, or by consulting a standard reference\mmnote{maybe van Kampen, check},
+from which we find that\mrm{I have a series of notes where I go through some 
+of the derivatives to find the general pattern, arriving to this exact result 
+by ``scratch and sniff'' without the black magic. Should I add it to this 
+section?}
 \begin{equation}
 p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
         \theta^\lambda (1-\theta)^m.
 \end{equation}
-Note that the ratio of gamma functions is often expressed as a
-binomial coefficient, but since $\lambda$ may be non-integer,
-this would be ill-defined.
-Re-expressing this exclusively in our variables of interest,
-burst rate $\lambda$ and mean burst size $b$, we have
+Note that the ratio of gamma functions is often expressed as a binomial
+coefficient, but since $\lambda$ may be non-integer, this would be ill-defined.
+Re-expressing this exclusively in our variables of interest, burst rate
+$\lambda$ and mean burst size $b$, we have
 \begin{equation}
 p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
         \left(\frac{1}{1+b}\right)^\lambda
