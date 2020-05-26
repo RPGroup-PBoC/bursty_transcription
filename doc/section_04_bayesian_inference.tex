@@ -1,6 +1,7 @@
 % !TEX root = ./bursty_transcription.tex
 \section{Finding the ``right'' model: Bayesian parameter inference and model 
 selection}
+\label{section_04_bayesian_inference}
 \subsection{Parameter inference for constitutive promoters}
 
 From consideration of Fano factors in the previous section, we suspect that
@@ -547,36 +548,4 @@ corresponds to the $(k_R^+, k_R^-)$ pair of rates for one of the
 conditions from the dataset used to fit the model and gives a
 sense of the uncertainty and correlations in the posterior.
 
-\mmnote{Outline:
-\begin{itemize}
-\item Hey look it mostly works. With full model, 9D model is well identified,
-though most of the individual experiments unsurprisingly are not:
-only 3 of the 9 datasets were identifiable if fit in isolation
-and for the rest only the ratio of repressor rates is identifiable.
-Only by making assumptions that certain rates
-are equal across datasets was identifiability achieved.
-PPC is not perfect, it kinda misses some
-rep/op pairs but overall it's surprisingly predictive considering how strong
-were the assumptions that went into it.
-\item Do we chalk this up to experimental imperfections or is there interesting
-biology to be found in the disagreements? I'm inclined towards the former. Even
-just catching cells in truly apples-to-apples growth phases, or matching up
-parameters of imaging sessions weeks or months apart, is hardly trivial.
-\item The alternative is to refine our model and/or add on complexity, and it's
-not at all clear what additions to make to the model, especially how to produce
-the long tail of repressed strains over UV5. I see no way to get that without
-getting into complicated time-correlation/history effects, where
-transcription...rebounds?? After being repressed?? Sounds odd.
-\item Comparison between my inferred rates, equilibrium binding E, and
-single-molecule measurements. Not quite as slam-dunk as I'd hoped because of
-$\gamma$ dependence, but rates are w/in factor of 2 or better, seems quite good
-really! With exception of one Oid data data point, free energies are w/in about
-0.5 kT also. That's not massively larger than the repeatability threshold of
-fold-change measurements, at maybe 0.1 to 0.3 kT.
-\item Surprising that so many model parameters can be inferred from just a few
-distributions that, by eye, don't have strong features! Does require some
-assumptions, e.g., about equivalence of rates across experiments, but that seems
-quite reasonable.
-\end{itemize}
-}
 
