@@ -281,6 +281,7 @@ for i, promoter in enumerate(df_energies.Name):
         (df_energies[df_energies.Name == promoter]["Energy (kT)"],
         ptile_med,),
         fontsize=7,
+        color="gray",
     )
 
 # Add colorbar
@@ -303,16 +304,7 @@ cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
 guide_x = np.linspace(-7,-3.5)
 guide_y = np.exp(-guide_x)/9e2
 ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
-# Add text for scaling
-# Muir's location
-# ax_d.text(
-#     0.29, 
-#     0.04, 
-#     r"$\log k_i \sim - \Delta\epsilon_P$",
-#     transform=ax_d.transAxes,
-#     rotation=-45,
-# )
-# Manuel's location
+
 ax_d.text(
     0.29, 
     0.25, 
