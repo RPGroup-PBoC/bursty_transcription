@@ -16,10 +16,10 @@ It will be instructive, however, to first consider the Poisson promoter, model 1
 in Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the
 Poisson distribution has a Fano factor $\nu$ strictly equal to 1, and all of
 the observed data has Fano factor $\nu>1$, we might already suspect that this
-model is incapable of fitting the data. We will verify that this in fact the
+model is incapable of fitting the data. We will verify that this is in fact the
 case. Using the same argument we can immediately rule out models 2 and 3 from 
-Figure~\ref{fig2:constit_cartoons}. these models have Fano factors $\nu\le 1$
-meaning they are underdisperse relative to Poisson. We will also not explicitly
+Figure~\ref{fig2:constit_cartoons}.  These models have Fano factors $\nu\le 1$
+meaning they are underdispersed relative to the Poisson distribution. We will also not explicitly
 consider model 4 from~\fig{fig2:constit_cartoons} since it was already thoroughly
 analyzed in~\cite{Razo-Mejia2020}, and since model 5 can be viewed as a special
 case of it.
@@ -117,24 +117,22 @@ $\bar{m} \approx 18.7$. In this case then, our posterior is
 which suggests we have inferred our model's one parameter to a precision of
 order 1\%.
 
-\mrm{
 We alert the reader not to confuse a tightly constrained posterior distribution
 with a good generative model. In other words, not because the single parameter
 for our Poisson likelihood can only take a small range of values constrained by
 the data, this implies that such Poisson distribution characterizes the
 underlying cell-to-cell variability we observe in the data. To systematically
 check the validity of the generative model we can make use of \textit{posterior
-predictive checks}. These consists on generating synthetic data using our
+predictive checks}. This consists in generating synthetic data using our
 generative model for many plausible values of our parameter. For the case of our
 \textit{lacUV5} promoter this means that we sample a value for $\lambda$ out of
 the posterior distribution (Eq.~\ref{eq:posterior_poisson}), and generate 2648
-samples out of a Poisson distribution with such $\lambda$ value. We then repeat
+samples drawn from a Poisson distribution with  $\lambda$ chosen appropriately. We then repeat
 this procedure 1000 times. Clearly if those data appear quite different, the
 model has a problem. Put another way, if we suppose the generative model is
 true, then the synthetic datasets we generate should resemble the actual
-observed data, and if not, it suggests the model is missing important features.}
+observed data, and if not, it suggests the model is missing important features.
 
-\mrm{
 To compare so many samples with the actual observed data, we can use empirical
 cumulative distribution functions (ECDF) of the distribution quantiles. This 
 representation is shown in Figure~\ref{fig:constit_post_full}(B). In this 
@@ -146,7 +144,7 @@ the assumption that the model is true. In this case it is quite obvious that the
 observed data, plotted in orange, could not plausibly come from this Poisson
 generative model. We will cover the other model shown in
 Figure~\ref{fig:constit_post_full}(B) next.
-}
+
 
 \subsubsection{Model 5 - Bursty promoter}
 Let us now consider the problem of parameter inference from FISH data for model
@@ -178,7 +176,6 @@ For the datasets from~\cite{Jones2014} that we are analyzing, as for the Poisson
 promoter model above we are still data-rich so the prior's influence remains
 weak, but not nearly as weak because the dimensionality of our model has
 increased from one to two.
-\mrm{
 Details on the arguments behind our prior distribution selection are left for
 Appendix~\ref{sec:bayesian}. Our full generative model can be specified as
 \begin{equation}
@@ -191,7 +188,7 @@ m \sim \text{NBinom}(k_i, b).
 Note that we specify a distribution over the logarithm of our parameters $k_i$
 and $b$. This is commonly the case for parameters for which our previous 
 knowledge based on our domain expertise spans several orders of magnitude.
-}
+
 
 We carried out MCMC sampling on the posterior of this model, starting with the
 constitutive \textit{lacUV5} dataset from~\cite{Jones2014}. The resulting MCMC
