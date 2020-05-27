@@ -201,11 +201,11 @@ Eq.~\ref{eq:si_generating_02} as
 \sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m} &= 
 \sum_{n=0}^{\infty} \left[z (1-\theta)\right]^{n + m'} \\
 &= \left[ z (1 - \theta) \right]^{m'} 
-\sum_{n=0}^{\infty} \left[ z (1 - \theta) \right]^{m'} \\
+\sum_{n=0}^{\infty} \left[ z (1 - \theta) \right]^{n} \\
 &= \left[ z (1 - \theta) \right]^{m'} 
 \left( {1 \over 1 - z (1 - \theta)} \right),
 \end{align}
-where we use the geometric series since, as stated before,$| z (1 - \theta) | <
+where we use the geometric series since, as stated before, $| z (1 - \theta) | <
 1$. Putting these results together, the PDE for the generation function is
 \begin{equation}
 {\partial F \over \partial \tau} = 
@@ -280,66 +280,76 @@ p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
 
 Let us move from a one-state promoter to a two-state promoter, where one state
 has repressor bound and the other produces transcriptional bursts as above.
-A schematic of this model is shown in~\fig{fig3:kR_inferences}.
-Although now we have an equation for each promoter state, otherwise
-the master equation reads similarly to the one-state case, except with
-additional terms corresponding to transitions between promoter states, namely
+A schematic of this model is shown as model 5 in
+Figure~\ref{fig1:means_cartoons}(C). Although now we have an equation for each
+promoter state, otherwise the master equation reads similarly to the one-state
+case, except with additional terms corresponding to transitions between promoter
+states, namely
 \begin{align}
-\deriv{t}p_R(m,t) =& k_R^+ p_A(m,t) - k_R^- p_R(m,t)
+{d\over dt}p_R(m,t) =& 
+k_R^+ p_A(m,t) - k_R^- p_R(m,t)
         + (m+1)\gamma p_R(m+1,t) - m\gamma p_R(m,t)
 \\
 \begin{split}
-\deriv{t}p_A(m,t) =& - k_R^+ p_A(m,t) + k_R^- p_R(m,t)
+{d\over dt}p_A(m,t) =& - k_R^+ p_A(m,t) + k_R^- p_R(m,t)
         + (m+1)\gamma p_A(m+1,t) - m\gamma p_A(m,t) 
 \\
 &- k_i p_A(m,t) + k_i \sum_{m^\prime=0}^m \theta(1-\theta)^{m-m^\prime} p_A(m^\prime,t),
 \end{split}
 \end{align}
-where $p_R(m,t)$ is the probability of the system having $m$ mRNA copies
-and having repressor bound to the promoter at time $t$, and $p_A$ is an
-analogous probability to find the promoter without repressor bound.
-$k_R+$ and $k_R^-$ are, respectively, the rates at which repressors
-bind and unbind to and from the promoter, and
-$\gamma$ is the mRNA degradation rate.
-$k_i$ is the rate at which bursts initiate, and as before,
-the geometric distribution of burst sizes has mean $b=(1-\theta)/\theta$.\footnote{
+where $p_R(m,t)$ is the probability of the system having $m$ mRNA copies and
+having repressor bound to the promoter at time $t$, and $p_A$ is an analogous
+probability to find the promoter without repressor bound. $k_R+$ and $k_R^-$
+are, respectively, the rates at which repressors bind and unbind to and from the
+promoter, and $\gamma$ is the mRNA degradation rate. $k_i$ is the rate at which
+bursts initiate, and as before, the geometric distribution of burst sizes has
+mean $b=(1-\theta)/\theta$.
+\footnote{
 $\theta$ can be viewed as a Bernoulli trial probability: after each transcript
-in a burst is produced, $\theta$ is the probability that the burst
-terminates and $(1-\theta)$ is the probability that the burst continues.
+in a burst is produced, $\theta$ is the probability that the burst terminates
+and $(1-\theta)$ is the probability that the burst continues.
 }
 
-Interestingly, it turns out that this problem maps exactly onto the
-three-stage promoter model considered by
-Shahrezaei and Swain in~\cite{Shahrezaei2008}, with relabelings.
-Their approximate solution for protein distributions amounts to
-the same approximation we make here in regarding the duration
-of mRNA synthesis bursts as instantaneous, so their solution
-for protein distributions also solves our problem of mRNA distributions.
-Let us examine the analogy more closely.
-They consider a two-state promoter, as we do here, but they model
-mRNA as being produced one at a time and degraded, with rates
-$v_0$ and $d_0$.
-Then they model translation as occuring with rate $v_1$,
-and protein degradation with rate $d_1$.
-Now consider the limit where $v_1, d_0\rightarrow\infty$ with
-their ratio $v_1/d_0$ held constant.
-$v_1/d_0$ resembles the average burst size of translation from a single
-mRNA: these are the rates of two Poisson processes that compete over a
-transcript, which matches the story of geometrically distributed burst sizes.
-So after taking this limit, on timescales slow compared to $v_1$ and $d_0$,
-it appears that transcription events fire at rate $v_0$ and produce a
-geometrically distributed burst of translation of mean size $v_1/d_0$,
-which intuitively matches the story we have told above for mRNA
-with variables relabeled.
+Interestingly, it turns out that this problem maps exactly onto the three-stage
+promoter model considered by Shahrezaei and Swain in~\cite{Shahrezaei2008}, with
+relabelings. Their approximate solution for protein distributions amounts to the
+same approximation we make here in regarding the duration of mRNA synthesis
+bursts as instantaneous, so their solution for protein distributions also solves
+our problem of mRNA distributions. Let us examine the analogy more closely. They
+consider a two-state promoter, as we do here, but they model mRNA as being
+produced one at a time and degraded, with rates $v_0$ and $d_0$. Then they model
+translation as occurring with rate $v_1$, and protein degradation with rate
+$d_1$ as shown in Figure~\ref{fig:shahrezaei}. Now consider the limit where
+$v_1, d_0\rightarrow\infty$ with their ratio $v_1/d_0$ held constant. $v_1/d_0$
+resembles the average burst size of translation from a single mRNA: these are
+the rates of two Poisson processes that compete over a transcript, which matches
+the story of geometrically distributed burst sizes. In other words, in our 
+bursty promoter model we can think of the parameter $\theta$ as determining one
+competing process to end the burst and $(1 - \theta)$ as a process wanting to
+continue the burst. So after taking this limit, on timescales slow compared to
+$v_1$ and $d_0$, it appears that transcription events fire at rate $v_0$ and
+produce a geometrically distributed burst of translation of mean size $v_1/d_0$,
+which intuitively matches the story we have told above for mRNA with variables
+relabeled.
 
-To verify this intuitively conjectured mapping between our problem and
-the solution in~\cite{Shahrezaei2008}, we continue with a careful
-solution for the mRNA distribution using probability generating functions,
-following the ideas sketched in~\cite{Shahrezaei2008}.
-It is natural to nondimensionalize rates in the problem by $\gamma$,
-or equivalently, this amounts to measuring time in units of $\gamma^{-1}$.
-We are also only interested in steady state, so we set the time
-derivatives to zero, giving
+\begin{figure}
+\centering
+\includegraphics{../figures/si/figS0X_Shahrezaei_promoter.pdf}
+\caption{\textbf{Schematic of three-stage promoter from~\cite{Shahrezaei2008}.}
+Adapted from Shahrezaei \& Swain~\cite{Shahrezaei2008}. In their paper they
+derive a closed form solution for the protein distribution. Our two-state bursty
+promoter at the mRNA level can be mapped into their solution with some
+relabeling.}
+\label{fig:shahrezaei}
+\end{figure}
+
+To verify this intuitively conjectured mapping between our problem and the
+solution in~\cite{Shahrezaei2008}, we continue with a careful solution for the
+mRNA distribution using probability generating functions, following the ideas
+sketched in~\cite{Shahrezaei2008}. It is natural to nondimensionalize rates in
+the problem by $\gamma$, or equivalently, this amounts to measuring time in
+units of $\gamma^{-1}$. We are also only interested in steady state, so we set
+the time derivatives to zero, giving
 \begin{align}
 0 =& k_R^+ p_A(m) - k_R^- p_R(m) + (m+1) p_R(m+1) - m p_R(m)
 \\
@@ -349,22 +359,24 @@ derivatives to zero, giving
 &- k_i p_A(m) + k_i \sum_{m^\prime=0}^m \theta(1-\theta)^{m-m^\prime} p_A(m^\prime),
 \end{split}
 \end{align}
+where for convenience we kept the same notation for all rates, but these are
+now expressed in units of mean mRNA lifetime $\gamma^{-1}$.
         
-The probability generating function is defined as before in the
-constitutive case, except now we must introduce a generating function
-for each promoter state,
+The probability generating function is defined as before in the constitutive
+case, except now we must introduce a generating function for each promoter
+state,
 \begin{align}
 f_A(z) = \sum_{m=0}^\infty z^m p_A(m),
 \;
 f_R(z) = \sum_{m=0}^\infty z^m p_R(m).
 \end{align}
-Our real objective is the generating function $f(z)$ that generates
-the mRNA distribution $p(m)$, independent of what state the promoter is in.
-But since $p(m) = p_A(m) + p_R(m)$, it follows too that $f(z) = f_A(z) + f_R(z)$.
+Our real objective is the generating function $f(z)$ that generates the mRNA
+distribution $p(m)$, independent of what state the promoter is in. But since
+$p(m) = p_A(m) + p_R(m)$, it follows too that $f(z) = f_A(z) + f_R(z)$.
 
-So as before we multiply both equations by $z^m$ and sum over all $m$.
-Each individual term transforms exactly as did an analogous term in
-the constitutive case, so the coupled ODEs for the generating functions read
+As before we multiply both equations by $z^m$ and sum over all $m$. Each
+individual term transforms exactly as did an analogous term in the constitutive
+case, so the coupled ODEs for the generating functions read
 \begin{align}
 0 =& k_R^+ f_A(z) - k_R^- f_R(z) + \pderiv{z} f_R(z) - z \pderiv{z} f_R(z)
 \\
@@ -374,17 +386,17 @@ the constitutive case, so the coupled ODEs for the generating functions read
 &- k_i f_A(z) + k_i \frac{\theta}{1-z(1-\theta)} f_A(z),
 \end{split}
 \end{align}
-and after changing variables $\xi = 1 - \theta$ as before
-and rearranging, we have
+and after changing variables $\xi = 1 - \theta$ as before and rearranging, we
+have
 \begin{align}
 0 &= k_R^+ f_A(z) - k_R^- f_R(z) + (1-z) \pderiv{z} f_R(z)
 \\
 0 &=  - k_R^+ f_A(z) + k_R^- f_R(z) + (1 - z) \pderiv{z} f_A(z)
 + k_i \frac{(z-1)\xi}{1-z\xi} f_A(z),
 \end{align}
-We can transform this problem from two coupled first-order ODEs to a
-single second-order ODE by solving for $f_A$ in the first and plugging
-into the second, giving
+We can transform this problem from two coupled first-order ODEs to a single
+second-order ODE by solving for $f_A$ in the first and plugging into the second,
+giving
 \begin{align}
 \begin{split}
 0 = (1&-z) \pderiv[f_R]{z}
@@ -395,8 +407,8 @@ into the second, giving
         \left(k_R^- f_R + (z-1) \pderiv[f_R]{z}\right),
 \end{split}
 \end{align}
-where, to reduce notational clutter, we have dropped the explicit $z$
-dependence of $f_A$ and $f_R$. Simplifying we have
+where, to reduce notational clutter, we have dropped the explicit $z$ dependence
+of $f_A$ and $f_R$. Simplifying we have
 \begin{align}
 0 = \psecderiv[f_R]{z}
         - \left(\frac{k_i\xi}{1-z\xi}
@@ -404,23 +416,21 @@ dependence of $f_A$ and $f_R$. Simplifying we have
         \right)\pderiv[f_R]{z}
         + \frac{k_i k_R^- \xi}{(1-z\xi)(1-z)}f_R.
 \end{align}
-This can be recognized as the hypergeometric differential equation,
-with singularities at $z=1$, $z=\xi^{-1}$, and $z=\infty$. The latter
-can be verified by a change of variables from $z$ to $x=1/z$,
-being careful with the chain rule, and noting that $z=\infty$ is a
-singular point if and only if $x=1/z=0$ is a singular point.
+This can be recognized as the hypergeometric differential equation, with
+singularities at $z=1$, $z=\xi^{-1}$, and $z=\infty$. The latter can be verified
+by a change of variables from $z$ to $x=1/z$, being careful with the chain rule,
+and noting that $z=\infty$ is a singular point if and only if $x=1/z=0$ is a
+singular point.
 
 The standard form of the hypergeometric differential equation has its
-singularities at 0, 1, and $\infty$, so to take advantage of the
-standard form solutions to this ODE, we first need to transform
-variables to put it into a standard form.
-However, this is subtle. While any such transformation should work in
-principle, the solutions are expressed most simply in the neighborhood
-of $z=0$, but the normalization condition that we need to enforce
-corresponds to $z=1$. The easiest path, therefore, is to find a change
-of variables that maps
-1 to 0, $\infty$ to $\infty$, and $\xi^{-1}$ to 1.
-This is most intuitively done in two steps.
+singularities at 0, 1, and $\infty$, so to take advantage of the standard form
+solutions to this ODE, we first need to transform variables to put it into a
+standard form. However, this is subtle. While any such transformation should
+work in principle, the solutions are expressed most simply in the neighborhood
+of $z=0$, but the normalization condition that we need to enforce corresponds to
+$z=1$. The easiest path, therefore, is to find a change of variables that maps 1
+to 0, $\infty$ to $\infty$, and $\xi^{-1}$ to 1. This is most intuitively done
+in two steps.
 
 First map the $z=1$ singularity to 0 by the change of variables $v=z-1$, giving
 \begin{align}
@@ -430,17 +440,16 @@ First map the $z=1$ singularity to 0 by the change of variables $v=z-1$, giving
         \right)\pderiv[f_R]{v}
         + \frac{k_i k_R^- \xi}{((1+v)\xi - 1)v}f_R.
 \end{align}
-Now two singularities are at $v=0$ and $v=\infty$.
-The third is determined by $(1+v)\xi -1 = 0$, or $v=\xi^{-1} - 1$.
-We want another variable change that maps this third singularity to 1
-(without moving 0 or infinity). Changing variables again to
-$w=\frac{v}{\xi^{-1} - 1} = \frac{\xi}{1-\xi} v$ fits the bill.
-In other words, the combined change of variables
+Now two singularities are at $v=0$ and $v=\infty$. The third is determined by
+$(1+v)\xi -1 = 0$, or $v=\xi^{-1} - 1$. We want another variable change that
+maps this third singularity to 1 (without moving 0 or infinity). Changing
+variables again to $w=\frac{v}{\xi^{-1} - 1} = \frac{\xi}{1-\xi} v$ fits the
+bill. In other words, the combined change of variables
 \begin{align}
 w = \frac{\xi}{1-\xi} (z-1)
 \end{align}
-maps $z = \{1, \xi^{-1}, \infty\}$ to $w =\{0, 1, \infty\}$ as desired.
-Plugging in, being mindful of the chain rule and noting
+maps $z = \{1, \xi^{-1}, \infty\}$ to $w =\{0, 1, \infty\}$ as desired. Plugging
+in, being mindful of the chain rule and noting
 $(1 + v)\xi - 1 = (1 - \xi)(w - 1)$ gives
 \begin{align}
 0 = \left(\frac{\xi}{1-\xi}\right)^2 \psecderiv[f_R]{w}
@@ -449,8 +458,8 @@ $(1 + v)\xi - 1 = (1 - \xi)(w - 1)$ gives
 \right) \frac{\xi}{1-\xi} \pderiv[f_R]{w}
 + \frac{k_i k_R^- \xi^2}{(1-\xi)^2 w(w-1)}f_R.
 \end{align}
-This is close to the standard form of the hypergeometric differential
-equation, and some cancellation and rearrangement gives
+This is close to the standard form of the hypergeometric differential equation,
+and some cancellation and rearrangement gives
 \begin{align}
 0 = w(w-1)\psecderiv[f_R]{w}
 + \left(k_i w + (1 + k_R^- + k_R^+)(w-1)\right) \pderiv[f_R]{w}
@@ -464,14 +473,15 @@ and a little more algebra produces
 \right) \pderiv[f_R]{w}
 - k_i k_R^- f_R,
 \end{align}
-which is the standard form. From this we can read off the solution
-in terms of hypergeometric functions ${_2F_1}$ from
-any standard source, e.g.~\cite{Abramowitz1964}, and identify the
-conventional parameters in terms of our model parameters.
-We want the general solution in the neighborhood of $w=0$ ($z=1$),
-which for a homogeneous linear second order ODE must be a sum of two
-linearly independent solutions.
-More precisely,
+which is the standard form. From this we can read off the solution in terms of
+hypergeometric functions ${_2F_1}$ from any standard source,
+e.g.~\cite{Abramowitz1964}, and identify the conventional parameters in terms of
+our model parameters. We want the general solution in the neighborhood of $w=0$
+($z=1$), which for a homogeneous linear second order ODE must be a sum of two
+linearly independent solutions. More precisely, 
+\mrm{the use of variable $\gamma$ here is confusing. Is it okay to change it to
+$\delta$ or something else in order to avoid associating it with the mRNA
+degradation rate?}
 \begin{align}
 f_R(w) = C_1 {_2F_1}(\alpha, \beta, \gamma; w)
 + C_2 w^{1-\gamma}{_2F_1}(1+\alpha-\gamma, 1+\beta-\gamma, 2-\gamma; w)
@@ -486,8 +496,9 @@ with parameters determined by
 \gamma &= 1 + k_R^- + k_R^+
 \end{split}
 \end{align}
-and constants $C_1$ and $C_2$ to be set by boundary conditions.
-Solving for $\alpha$ and $\beta$, we find\footnote{
+and constants $C_1$ and $C_2$ to be set by boundary conditions. Solving for
+$\alpha$ and $\beta$, we find
+\footnote{
 Note that $\alpha$ and $\beta$ are interchangeable in the definition of
 ${_2F_1}$ and differ only in the sign preceeding the radical.
 }
@@ -587,19 +598,18 @@ with $\alpha$ and $\beta$ given above by
 \left(k_i+k_R^-+k_R^+ - \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right).
 \end{split}
 \end{align}
-Finally we are in sight of the original goal. We can generate the
-steady-state probability distribution of interest by
-differentiating the generating function,
+Finally we are in sight of the original goal. We can generate the steady-state
+probability distribution of interest by differentiating the generating function,
 \begin{align}
 p(m) = m! \left.\frac{\partial^m}{\partial z^m} f(z) \right|_{z=0},
 \end{align}
-which follows easily from its definition. Some contemplation reveals
-that repeated application of the derivative rule used above will produce
-products of the form $\alpha(\alpha+1)(\alpha+2)\cdots(\alpha+m-1)$ in
-the expression for $p(m)$ and similarly for $\beta$ and $\gamma$. These
-resemble ratios of factorials, but since $\alpha$, $\beta$, and $\gamma$
-are not necessarily integer, we should express the ratios using gamma
-functions instead. More precisely, one finds
+which follows easily from its definition. Some contemplation reveals that
+repeated application of the derivative rule used above will produce products of
+the form $\alpha(\alpha+1)(\alpha+2)\cdots(\alpha+m-1)$ in the expression for
+$p(m)$ and similarly for $\beta$ and $\gamma$. These resemble ratios of
+factorials, but since $\alpha$, $\beta$, and $\gamma$ are not necessarily
+integer, we should express the ratios using gamma functions instead. More
+precisely, one finds
 \begin{align}
 p(m) = \frac{
         \Gamma(\alpha + m)\Gamma(\beta + m)\Gamma(k_R^+ + k_R^-)
@@ -612,23 +622,23 @@ p(m) = \frac{
 \end{align}
 which is finally the probability distribution we sought to derive.
 
-\subsubsection{Moments}
-We can verify the correctness of~\eq{eq:p_m_bursty+rep_appdx}
-by comparison with Gillespie simulation.
-We can also easily compute moments of the distribution from
-the generating function, and check these against raw moments computed
+\subsubsection{Moments of two-state bursty promoter mRNA distribution}
+
+We can verify the correctness of~\eq{eq:p_m_bursty+rep_appdx} by comparison with
+Gillespie simulation. We can also easily compute moments of the distribution
+from the generating function, and check these against raw moments computed
 directly from the master equation.
 
-The $j$-th raw moment of the distribution can be computed from the
-generating function from the formula
+The $j$-th raw moment of the distribution can be computed from the generating
+function from the formula
 \begin{align}
 \langle m^j \rangle
 = \left. \left(z \frac{\partial}{\partial z}\right)^j f(z)\right|_{z=1}.
 \end{align}
-Note that \textit{probabilities} are generated by differentiating
-and evaluating at $z=0$, while \textit{moments} are generated by
-differentiating and evaluating at $z=1$. This also aligns with the
-normalization constraint, which can be thought of as the zeroth raw moment.
+Note that \textit{probabilities} are generated by differentiating and evaluating
+at $z=0$, while \textit{moments} are generated by differentiating and evaluating
+at $z=1$. This also aligns with the normalization constraint, which can be
+thought of as the zeroth raw moment.
         
 The mean mRNA is given by
 \begin{align}
@@ -636,9 +646,8 @@ The mean mRNA is given by
 = \frac{\alpha\beta b}{k_R^+ + k_R^-}
 = k_i b\frac{k_R^-}{k_R^+ + k_R^-},
 \end{align}
-which is intuitive and appealingly simple:
-the mean mRNA is just the mean mRNA in the absense of repression
-($k_i b$, the burst rate time mean burst size)
+which is intuitive and appealingly simple: the mean mRNA is just the mean mRNA
+in the absence of repression ($k_i b$, the burst rate time mean burst size)
 times the fraction of time the repressor is bound, $k_R^-/(k_R^+ + k_R^-)$.
 
 To compute the variance, let us first compute
@@ -684,6 +693,7 @@ the variability arising from the negative binomial distribution of the
 unregulated promoter $(1+b)$ plus additional noise arising from repression.
 
 \mmnote{Still to writeup: moment derivation direct from CME to compare}
+\mrm{stopped reading here}
 
 \subsection{Numerical considerations and recursion formulas}
 \subsubsection{Generalities}
