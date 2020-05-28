@@ -2,6 +2,20 @@
 \section{Finding the ``right'' model: Bayesian parameter inference and model 
 selection}
 \label{section_04_bayesian_inference}
+
+\textcolor{red}{In this section of the paper, we continue our program of providing
+one complete description of the entire broad sweep of studies
+that have been made in the context of the repressor-operator model,
+dating all the way back to the original work of Jacob and Monod
+and including the visionary quantitative work of M\"{u}ller-Hill and collaborators
+and up to more recent studies.   In addition, the aim is to reconcile the 
+equilibrium and non-equilibrium perspectives that have been brought
+to bear on this problem.  To that end, we require a self-consistent means
+of determining the parameters in these different theoretical analyses and
+the current section does that, first by examining the constitutive promoter
+and then turning to the full case of simple repression. }
+
+
 \subsection{Parameter inference for constitutive promoters}
 
 From consideration of Fano factors in the previous section, we suspect that
@@ -91,7 +105,7 @@ be anywhere from 0 to a few hundred. $\alpha=1$ and $\beta=1/50$ achieve this,
 since the gamma distribution is strictly positive with mean $\alpha/\beta$ and
 standard deviation $\sqrt{\alpha}/\beta$.
 
-As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior known
+As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior is known
 as the \textit{conjugate} prior for a Poisson likelihood. This type of priors
 have nice properties to work with, in particular a conjugate prior allows us to
 get a closed form for the posterior distribution $p(\lambda \mid D)$. In
@@ -101,7 +115,7 @@ distribution ~\cite{Gelman2013}. In particular the two parameters $\alpha'$ and
 $\beta'$ for this posterior distribution take the form $\alpha' = \alpha +
 \bar{m} N$ and $\beta' = \beta + N$, where we defined the sample mean $\bar{m} =
 \frac{1}{N}\sum_k m_k$ for notational convenience, and $N$ is the number of
-cells n our dataset. Furthermore given that $N$ is $\mathcal{O}(10^3)$ and
+cells in our dataset. Furthermore, given that $N$ is $\mathcal{O}(10^3)$ and
 $\langle m\rangle \gtrsim 0.1$ for all promoters measured in~\cite{Jones2014}
 our data easily overwhelms the choice of prior, and allows us to approximate the
 Gamma distribution with a Gaussian distribution with mean $\bar{m}$ and variance
@@ -121,7 +135,7 @@ $\lambda$ for our model is highly constrained to take a narrow range of values,
 but a narrow posterior distribution does not speak to the goodness of fit of the
 model. As we will see later in Figure~\ref{fig:constit_post_full} after
 exploring the bursty promoter model, indeed there is not good correspondence
-when contrasting the Poisson model with the experimental .
+when contrasting the Poisson model with the experimental data.
 
 \subsubsection{Model 5 - Bursty promoter}
 
@@ -189,7 +203,8 @@ while the lighter green contains 95\% of the randomly generated samples. This
 way of representing the fit of the model to the data gives us a sense of the
 range of data we might consider plausible, under the assumption that the model
 is true. For this case, as we expected given our premise of the Poisson promoter
-being wrong, it is quite obvious that the observed data, plotted in black. An 
+being wrong, it is quite obvious that the observed data, plotted in black is not consistent with
+the Poisson promoter model. An 
 equivalent plot for the bursty promoter model is shown in blue. Again the darker
 tone shows the median, while the lighter color encompasses 95\% of the randomly
 generated samples. Unlike the Poisson promoter model, the experimental ECDF
