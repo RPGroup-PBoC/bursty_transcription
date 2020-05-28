@@ -147,7 +147,7 @@ of Technology, Pasadena, CA 91125, USA}
 
 % Indicate that now all sections and subsections should be included in the
 % table of contents so that only the SI is included.
-\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{3}}
 
 	% Define reference section for the supplemental material
     \begin{refsegment}
@@ -157,7 +157,6 @@ of Technology, Pasadena, CA 91125, USA}
          \input{appendix_01_bayesian_inference.tex}
          \input{appendix_02_constitutive_promoters.tex}
          \input{appendix_03_regulated_promoters.tex}
-        % \input{appendix_test.tex}
 		% Print supplemental references changing the title
 		\printbibliography[title={Supplemental References},
 		segment=\therefsegment, filter=notother]
