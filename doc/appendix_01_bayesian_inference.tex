@@ -1,21 +1,145 @@
 % !TEX root = ./busty_transcription.tex
 \section{Bayesian inference}
 \label{sec:bayesian}
+
+\subsection{The problem of parameter inference}
+
+\mmnote{Bayes theorem. Elaborate on posterior as plausibility over space of
+model parameters.} 
+
+One could argue that the whole goal of formulating theoretical models about
+nature is to sharpen our understanding from qualitative statements to precise
+quantitative assertions about the relevant features of the natural phenomena in
+question \cite{Gunawardena2014}. It is in these models that we intend to distill
+the essential parts of the object of study. Writing down such models leads to a
+propagation of mathematical variables that parametrize our models. By assigning
+numerical values to these parameters we can compute concrete predictions that
+can be contrasted with experimental data. But for these predictions to match the
+data the parameter values have to carefully be chosen from the whole parameter
+space. But how do we go about asserting the effectiveness of different regions
+of parameter space to speak to the ability of our model to reproduce the
+experimental observations? The language of probability, and more specifically of
+Bayesian statistics is -- we think -- the natural language to tackle this
+question.
+
+\subsubsection{Bayes theorem}
+
+Bayes theorem is a simple mathematical statement that can apply to \textit{any}
+logical conjecture. For two particular events $A$ and $B$ that potentially 
+depend on each other Bayes theorem gives us a recipe for how to update our 
+beliefs about one, let's say $B$, given that we get to observe something about
+$A$. In its most classic form Bayes theorem is written as
+\begin{equation}
+P(B \mid A) = {P(A \mid B) P(B) \over P(A)},
+\end{equation}
+where the vertical line $\mid$ is read as ``given that''. So $P(B \mid A)$ is
+read as probability of $B$ given that $A$ took place. $A$ and $B$ can be any
+logical assertion. In particular the problem of Bayesian inference focuses on
+the question of finding the probability distribution of a particular parameter
+value given the data.
+
+For a given model with a set of parameters $\vec{\theta} = (\theta_1, \theta_2,
+\ldots, \theta_n)$, the so-called \textit{posterior distribution} 
+$P(\vec{\theta} \mid D)$, where $D$ is the experimental data, quantifies the
+plausibility of a set of parameter values given that we get to observe some
+particular dataset. In other words, through the application of Bayes formula we
+update our beliefs on the possible values that parameters can take upon learning
+the outcome of a particular experiment. We specify the word ``update'' as we
+come to every inference problem with prior information about the plausibility of
+particular regions of parameter space even before performing any experiment.
+Even when we claim as researchers that we are totally ignorant about the values
+that the parameters in our models can take, we always come to a problem with
+domain expertise that can be exploited. If this was not the case, it is likely
+that the formulation of our model is not going to capture the phenomena we claim
+to want to understand. This prior information is caputerd in the \textit{prior
+probability} $P(\vec{\theta})$. The relationship between how parameter values
+can connect with the data is enconded in the \textit{likelihood function} $P(D
+\mid \vec{\theta})$. Our theoretical model, whether deterministic or
+probabilistic, is encoded in this term that can be intuitively understood as the
+probability of having observed the particular experimental data we have at hand
+given that our model is parametrized with the concrete values $\vec{\theta}$. 
+Implicitly here we are also conditioning on the fact that our theoretical model
+is ``true,'' i.e. the model itself if evaluated or simulated in the computer is
+capable of generating equivalent datasets to the one we got to observe in an 
+experiment. In this way Bayesian inference consists of applying Bayes formula 
+as 
+\begin{equation}
+P(\vec{\theta} \mid D) \propto P(D \mid \vec{\theta}) P(\vec{\theta}).
+\end{equation}
+Notice than rather than writing the full form of Bayes theorem, we limit 
+ourselves to the terms that depend on our quantity of interest -- that is the 
+parameter values themselves $\vec{\theta}$ -- as the denominator $P(D)$ only
+serves as a normalization constant.
+
+\subsubsection{The likelihood function}
+
+\mmnote{Choosing likelihoods. Easy here, just the steady-state distributions of
+our master equations, assuming iid single-cell measurements.}
+
+As we alluded in the previous section it is through the likelihood function 
+$P(D \mid \vec{\theta})$ that we encode the connection between our parameter 
+values and the experimental observables. Broadly speaking there are two classes
+of models that we might need to encode into our likelihood function:
+\begin{itemize}
+        \item Deterministic models: Models for which a concrete selection of
+        parameter values give a single output. Say differently, rigid models 
+        with a one-to-one mapping between inputs and outputs.
+        \item Probabilistic models: As the name says it, models that rather than
+        having a one-to-one mapping, describe the full probability distribution
+        of possible outputs.
+\end{itemize}
+In this paper we focus on inference done with probabilistic models. After all
+the chemical master equations we wrote down describe the time evolutions of the
+mRNA probability distribution. So all our terms $P(\vec{\theta} \mid D)$ will 
+be given by the steady-state solution of the corresponding chemical master 
+equation in question. This is rather convenient as we do not have to worry about
+adding a statistical model on top of our model to describe deviations from the
+predictions; our models themselves focus on predicting such variations from 
+cell count to cell count.
+
+\subsubsection{Prior selection}
+
+\mmnote{Choosing priors. Not critical here because we are data-rich and
+nonhierarchical, as long as we don't exclude ground truth. In other
+applications, prior can matter a lot. This is a feature, not a bug: it's
+revealing hidden structure that was implied by your modeling assumptions and you
+just didn't realize it. Predictive checks to verify you're not excluding any
+plausible values.}
+
+The different models explored in this work embraced different levels of 
+coarse-graining that resulted in a diverse set of number of parameters. For each
+of these model configurations Bayes theorem demands from us to represent our 
+preconceptions on the possible parameter values in the form of the prior 
+$P(\vec{\theta})$. Throughout this work for models with $> 1$ parameter we 
+assign independent priors to each of the parameters; this is
+\begin{equation}
+P(\vec{\theta}) = \prod_{i=1}^n P(\theta_i).
+\end{equation}
+Although it is common practice to use non-informative, or maximally
+uninformative priors, we are of the mindset that this is a disservice to the
+philosophical and practical implications of Bayes theorem. It sounds almost
+contradictory to claim that can we represent our thinking about a natural
+phenomena in the form of a mathematical model -- which itself is a bold claim of
+deeply understanding the features that matter in the object of study -- but we
+have absolutely no idea what the parameter values ought to be. We therefore make
+use of our own expertise, many times in the form of order-of-magnitude
+estimates, to write down prior distributions for our parameters.
+
 \mmnote{
 \begin{itemize}
-\item Bayes theorem.
-Elaborate on posterior as plausibility over
-space of model parameters.
-\item Choosing likelihoods.
-Easy here, just the steady-state distributions of our master
-equations, assuming iid single-cell measurements.
-\item Choosing priors.
-Not critical here because we are data-rich and nonhierarchical,
-as long as we don't exclude ground truth. In other applications,
-prior can matter a lot. This is a feature, not a bug: it's
-revealing hidden structure that was implied by your modeling
-assumptions and you just didn't realize it. Predictive checks to
-verify you're not excluding any plausible values.
+% \item Bayes theorem.
+% Elaborate on posterior as plausibility over
+% space of model parameters.
+% \item Choosing likelihoods.
+% Easy here, just the steady-state distributions of our master
+% equations, assuming iid single-cell measurements.
+% \item Choosing priors.
+% Not critical here because we are data-rich and nonhierarchical,
+% as long as we don't exclude ground truth. In other applications,
+% prior can matter a lot. This is a feature, not a bug: it's
+% revealing hidden structure that was implied by your modeling
+% assumptions and you just didn't realize it. Predictive checks to
+% verify you're not excluding any plausible values.
 \item Marginalization/expectations.
 Analytically hard, trivial with sampling.
 \item MCMC.
@@ -34,7 +158,8 @@ generative process for the data.
 \end{itemize}
 }
 
-\subsection{Parameter inference for constitutive promoters}
+\subsection{Bayesian inference on constitutive promoters}
+\label{sec:si_bayes_unreg}
 
 To proceed we need to specify a prior. In this case we are extremely data-rich,
 as the dataset from Jones et.\ al~\cite{Jones2014} has of order 1000-3000
