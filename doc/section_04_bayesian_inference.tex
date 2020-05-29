@@ -550,7 +550,7 @@ al.~\cite{Jones2014}. In both cases there was, in a sense, not
 enough information in the distriubtions for our inference
 algorithm to extract, and their inclusion simply caused problems
 for the MCMC sampler without yielding any new insight. For the
-strongly repressed data (Oid, 10~ng/mL aTc), with >95\% of cells
+strongly repressed data (Oid, 10~ng/mL aTc), with $>$ 95\% of cells
 with zero mRNA, there was quite literally very little data from
 which to infer rates. And the weakly repressed data, all with the
 repressor binding site O3, had an unbinding rate so fast that the
@@ -571,7 +571,6 @@ correspond to physically real free energies, not mere fit parameters.
 Figure~\ref{fig4:repressed_post_full}(B) shows both comparisons,
 with the top panel comparing to equilbrium binding energies
 and the bottom panel comparing to single-molecule measurements.
-
 First consider the top panel and its comparison between repressor
 kinetic rates and binding energies.
 As described in section~\ref{section_02_means}, if the
@@ -579,7 +578,7 @@ equilibrium binding energies from~\cite{Garcia2011a}
 and~\cite{Razo-Mejia2018} indeed are the physically real binding
 energies we believe them to be, then they should be related to
 the repressor kinetic rates via
-Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, which we reprint here,
+Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, which we restate here,
 \begin{equation}
 \Delta F_R = \beta\Delta\varepsilon_R - \log(R/N_{NS})
         = - \log(k_R^+/k_R^-).
@@ -636,15 +635,17 @@ high background since Oid represses so strongly. We are therefore
 inclined to regard the failure of this point to fall near the
 diagonal as a testament to the difficulty of the measurement and
 not as a failure of our theory.
-\mmnote{Does this seem a fair characterization?}
+\mmnote{Does this seem a fair characterization?   - RP: thanks, that was very helpful
+for me.}
 
 On the whole then, we regard this as striking confirmation of the
 validity of the equilibrium models. Their lynchpin parameter is a
 phenomenological free energy of repressor binding that has
 previously only been inferred indirectly. Our result shows that
 the microscopic interpretation of this free energy, as the log of
-a ratio of transition rates, does indeed hold true.
-\mmnote{Does this deserve qualifiers, like ``to a good approximation,'' or ``as a first order model'' or something? I like the simple finality without, but I worry it's too brazen or subtlely misleading.}
+a ratio of transition rates, does indeed hold true to within the inherent
+uncertainties that remain in the entire theory-experiment dialogue.
+%\mmnote{Does this deserve qualifiers, like ``to a good approximation,'' or ``as a first order model'' or something? I like the simple finality without, but I worry it's too brazen or subtlely misleading.}
 
 \subsubsection{Comparison with prior measurements of repressor kinetics}
 In the previous section we established the equivalence between
