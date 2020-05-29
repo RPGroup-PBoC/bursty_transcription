@@ -76,3 +76,6 @@ __pycache__/
 
 # Ignore segmentation status outfiles
 *seg_status.out*
+
+# Ignore internal private folders
+doc/coverletter/
