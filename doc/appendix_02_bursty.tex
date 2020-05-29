@@ -9,14 +9,14 @@
 The objective of this section is to write down the steady-state mRNA
 distribution for model 5 in Figure~\ref{fig2:constit_cartoons}. Our claim is
 that this model is rich enough that it can capture the expression pattern of
-bacteria unregulated promoters regulated by the $\sigma_{70}$ sigma factor.
-Figure~\ref{figS1:bursty_one_state} shows two different schematic
-representations of the model. Figure~\ref{figS1:bursty_one_state}(A) shows the
-promoter cartoon model with burst initiation rate $k_i$, mRNA degradation rate
-$\gamma$, and mean burst size $b$. For our derivation of the chemical master
-equation we will focus more on Figure~\ref{figS1:bursty_one_state}(B). This
-representation is intended to highlight that bursty gene expression allows
-transitions between mRNA count $m$ and $m'$ even with $m - m' > 1$.
+bacteria constitutive promoters. Figure~\ref{figS1:bursty_one_state} shows two
+different schematic representations of the model.
+Figure~\ref{figS1:bursty_one_state}(A) shows the promoter cartoon model with
+burst initiation rate $k_i$, mRNA degradation rate $\gamma$, and mean burst size
+$b$. For our derivation of the chemical master equation we will focus more on
+Figure~\ref{figS1:bursty_one_state}(B). This representation is intended to
+highlight that bursty gene expression allows transitions between mRNA count $m$
+and $m'$ even with $m - m' > 1$.
 
 \begin{figure}[h!]
 \centering
@@ -27,11 +27,12 @@ transitions between mRNA count $m$ and $m'$ even with $m - m' > 1$.
 bursty initiation rate, $\gamma$ is the mRNA degradation rate, and $b$ is the
 mean burst size. (B) Schematic depiction of the mRNA count state transitions.
 The model in (A) allows for transitions of $> 1$ mRNA counts with probability
-$G_{m-m'}$.}
+$G_{m-m'}$, where the state jumps from having $m'$ mRNA to having $m$ mRNA in a
+single burst of gene expression.}
 \label{figS1:bursty_one_state}
 \end{figure}
 
-To derive the master equation we begin by thinking the possible state
+To derive the master equation we begin by considering the possible state
 transitions to ``enter'' state $m$. There are two possible paths to jump from an
 mRNA count $m' \neq m$ to a state $m$ in a small time window $\Delta t$:
 \begin{enumerate}
@@ -59,13 +60,20 @@ p(m, t + \Delta t) = &p(m, t)
 \label{eq:si_master_deltat}
 \end{equation}
 where we indicate $G_{m'-m}$ as the probability of having a burst of size
-$m'-m$. We suggestively use the letter $G$ as we will assume that these bursts
-sizes are geometrically distributed with parameter $\theta$. This is written as
+$m'-m$, i.e. when the number of mRNAs jump from $m$ to $m' > m$ due to a single
+mRNA transcription burst. We suggestively use the letter $G$ as we will assume
+that these bursts sizes are geometrically distributed with parameter $\theta$.
+This is written as
 \begin{equation}
 G_{k} = \theta (1 - \theta)^k\; \text{for } k \in \{0, 1, 2, \ldots \}.
 \end{equation}
-What this implies is that for a geometrically distributed burst size we have a
-mean burst size $b$ of the form
+In Section~\ref{sec:beyond_means} of the main text we derive this functional
+form for the burst size distribution. An intuitive way to think about it is that
+for transcription initiation events that take place instantaneously there are
+two competing possibilities: Producing another mRNA with probability $(1 -
+\theta)$, or ending the burst with probability $\theta$. What this implies is
+that for a geometrically distributed burst size we have a mean burst size $b$ of
+the form
 \begin{equation}
 b \equiv \left\langle m' - m \right\rangle 
 = \sum_{k=0}^\infty k \theta (1 - \theta)^k = {1 - \theta \over \theta}.
@@ -98,9 +106,9 @@ burst of size zero. We can re-index the sum to include this term, obtaining
 _{\text{re-index sum to include burst size zero}} -
 \underbrace{G_0}_{\text{subtract extra added term}}\right].
 \end{equation}
-Given the normalization of the geometric distribution, adding the probability of
-all possible burst sizes -- including size zero since we re-indexed the sum --
-allows us to write
+Given the normalization constraint of the geometric distribution, adding the
+probability of all possible burst sizes -- including size zero since we
+re-indexed the sum -- allows us to write
 \begin{equation}
 \sum_{m'=m}^{\infty}G_{m'-m} - G_0 = 1 - G_0.
 \end{equation}
@@ -133,8 +141,8 @@ as
 F(z,t) = \sum_{m=0}^\infty z^m p(m,t),
 \end{align}
 where $z$ is just a dummy variable that will help us later on to obtain the
-moments of the distribution. Applying $F(z, t)$ on both sides of 
-Eq.~\ref{eq:si_master_unreg} results in
+moments of the distribution. Let us now multiply both sides of
+Eq.~\ref{eq:si_master_unreg} by $z^m$ and sum over all $m$
 \begin{equation}
 \sum_m z^m {d \over d\tau} p(m, \tau) = 
 \sum_m z^m \left[ 
@@ -173,12 +181,40 @@ define $k \equiv m + 1$. This allows us to write
 &=z^{-1} \left(z \frac{\partial F(z)}{\partial z}\right), \\
 &=\frac{\partial F(z)}{\partial z}.
 \end{align}
+
+\begin{figure}[h!]
+\centering
+\includegraphics{../figures/si/figS0X_reindex_sum.pdf}
+\caption{\textbf{Reindexing double sum.} Schematic for how to proceed with the
+reindexing of the sum $\sum_{m=0}^\infty \sum_{m'=0}^m$. The trick consists on
+noticing that this double sum adds up all of the $(m, m')$ pairs in the lower
+triangle part of the $m, m'$ plane.}
+\label{figS2:sum_reindex}
+\end{figure}
+
 The third term in Eq.~\ref{eq:si_generating_01} is the most trouble. The trick
 is to reverse the default order of the sums as
 \begin{equation}
 \sum_{m=0}^{\infty} \sum_{m'=0}^{m} = \sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty}.
 \end{equation}
-This results in
+To see the logic of the sum we point the reader to
+Figure~\ref{figS2:sum_reindex}. The key is to notice that the double sum
+$\sum_{m=0}^\infty \sum_{m'=0}^m$ is adding all possible pairs $(m, m')$ in the
+lower triangle, so we can add the terms vertically as the original sum
+indexing suggests, i.e.
+\begin{equation}
+\sum_{m=0}^{\infty} \sum_{m'=0}^{m} x_{(m, m')}= 
+x_{(0, 0)} + x_{(1, 0)} + x_{(1, 1)} + x_{(2, 0)} + x_{(2, 1)} + x_{(2, 2)} + 
+\ldots,
+\end{equation}
+where the variable $x$ is just a placeholder to indicate the order in which the
+sum is taking place. But we can also add the terms horizontally as
+\begin{equation}
+\sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty} x_{(m, m')} =
+x_{(0, 0)} + x_{(1, 0)} + x_{(2, 0)} + \ldots + x_{(1,1)} + x_{(2, 1)} + \ldots,
+\end{equation}
+which still adds all of the lower triangle terms. Applying this reindexing
+results in
 \begin{align}
 \lambda \sum_m z^m \sum_{m'=0}^m G_{m-m'} p(m', \tau) =
 \lambda \sum_{m'=0}^{\infty} \sum_{m=m'}^{\infty} z^m 
@@ -193,9 +229,18 @@ where we also substituted the definition of the geometric distribution $G_{k} =
 \sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m}.
 \label{eq:si_generating_02}
 \end{align}
-We know that $1 - \theta \in (0, 1)$, and that $z$ is a dummy variable that we
-usually evaluate as $z=1$. With these two facts we can safely state that
-$| z (1 - \theta) | < 1$. Defining $n \equiv m - m'$ we rewrite the last sum in 
+
+The next step requires us to look slightly ahead into what we expect to obtain.
+We are working on deriving an equation for the generating function $F(z, \tau)$
+that when solved will allow us to compute what we care about, i.e. the
+probability function $p(m, \tau)$. Upon finding the function for $F(z, \tau)$,
+we will recover this probability distribution by evaluating $F(z=1, \tau)$ in
+other cases we can evaluate $F(z=0, \tau)$ to recover instead the moments of the
+distribution. The point here is that we know that when all the dust settles we
+will evaluate $z$ to be less than one \mrm{someone needs to fact check me}.
+Furthermore, we know that the parameter of the geometric distribution $\theta$
+must be between zero and one. With these two facts we can safely state that $| z
+(1 - \theta) | < 1$. Defining $n \equiv m - m'$ we rewrite the last sum in
 Eq.~\ref{eq:si_generating_02} as
 \begin{align}
 \sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m} &= 
@@ -220,7 +265,7 @@ Changing variables to $\xi=1-\theta$ and simplifying gives
 \label{eq:1state_unreg_015}
 \end{align}
 
-\subsubsection{Stead-state}
+\subsubsection{Steady-state}
 
 To get at the mRNA distribution at steady state we first must solve
 Eq.~\ref{eq:1state_unreg_015} setting the time derivative to zero. At
@@ -252,14 +297,102 @@ Only one choice for $c$ can satisfy initial conditions, producing
 \begin{align}
 F(z) = \left(\frac{1-\xi}{1-\xi z}\right)^\lambda
         = \left(\frac{\theta}{1 - z(1-\theta)}\right)^\lambda,
+\label{eq:gen_fn}
 \end{align}
-which is exactly the negative binomial's generating function. Now we may recover
-the mRNA probability distribution of interest by differentiating the generating
-function, or by consulting a standard reference\mmnote{maybe van Kampen, check},
-from which we find that\mrm{I have a series of notes where I go through some 
-of the derivatives to find the general pattern, arriving to this exact result 
-by ``scratch and sniff'' without the black magic. Should I add it to this 
-section?}
+
+\subsubsection{Recovering the steady-state probability distribution}
+
+To obtain the steady state mRNA distribution $p(m)$ we are aiming for we need to
+extract it from the generating function
+\begin{equation}
+F(z) = \sum_m z^m p(m).
+\end{equation}
+Taking a derivative with respect to $z$ results in
+\begin{equation}
+{d F(z) \over dz} = \sum_m m z^{m - 1} p(m).
+\end{equation}
+Setting $z = 0$ leaves one term in the sum when $m = 1$ 
+\begin{equation}
+\left.\frac{d F(z)}{d z}\right|_{z=0} = 
+\left(0 \cdot 0^{-1} \cdot p(0) 
++ 1 \cdot 0^0 \cdot p(1) 
++ 2 \cdot 0^1 \cdot p(2)
++ \cdots \right) = p(1),
+\end{equation}
+since in the limit $\lim_{x \rightarrow 0^+} x^x = 1$. A second derivative of
+the generating function would result in
+\begin{equation}
+\frac{d^{2} F(z)}{d z^{2}} = \sum_{m=0}^{\infty} m(m-1) z^{m-2} p(m).
+\end{equation}
+Again evaluating at $z = 0$ gives 
+\begin{equation}
+\left.\frac{d^{2} F(z)}{d z}\right|_{z=0} = 2 p(z).
+\end{equation}
+In general any $p(m)$ is obtained from the generating function as
+\begin{equation}
+p(m) = {1 \over m!} \left. {d^m F(z) \over dz} \right\vert_{z=0}.
+\label{eq:prob_from_gen}
+\end{equation}
+
+Let's now look at the general form of the derivative for our generating function
+in Eq.~\ref{eq:gen_fn}. For $p(0)$ we simply evaluate $F(z=0)$ directly, 
+obtaining
+\begin{equation}
+p(0) = F(z=0) = \theta^{\lambda}.
+\end{equation}
+The first derivative results in
+\begin{equation}
+\begin{aligned}
+\frac{d F(z)}{d z} &=\theta^{\lambda} \frac{d}{d z}(1-z(1-\theta))^{-\lambda} \\
+&=\theta^{\lambda}\left[-\lambda(1-z(1-f))^{-\lambda-1} \cdot(\theta-1)\right]\\
+&=\theta^{\lambda}\left[\lambda(1-z(1-\theta))^{-\lambda-1}(1-\theta)\right].
+\end{aligned}
+\end{equation}
+Evaluating this at $z=0$ as required to get $p(1)$ gives
+\begin{equation}
+\left.\frac{d F(z)}{d z}\right|_{z=0}=\theta^{\lambda} \lambda(1-\theta)
+\end{equation}
+For the second derivative we find
+\begin{equation}
+\frac{d^{2} F(z)}{d z^{2}} = \theta^{\lambda}
+\left[\lambda(\lambda+1)(1-z(1-\theta))^{-\lambda-2}(1-\theta)^{2}\right].
+\end{equation}
+Again evaluating $z = 0$ gives
+\begin{equation}
+\left.\frac{d^{2} F(z)}{d z^{2}}\right|_{z=0} = 
+\theta^{\lambda} \lambda(\lambda+1)(1-\theta)^{2}.
+\end{equation}
+Let's go for one more derivative to see the pattern. The third derivative of the
+generating function gives
+\begin{equation}
+\frac{d^{3} F(z)}{d z^{3}} = 
+\theta^{\lambda} 
+\left[\lambda(\lambda+1)
+(\lambda+2)(1-z(1-\theta))^{-\lambda-3}(1-\theta)^{3}\right],
+\end{equation}
+which again we evaluate at $z=0$
+\begin{equation}
+\left.\frac{d^{3} F(z)}{d z^{3}}\right|_{z=1} =
+\theta^{\lambda}\left[\lambda(\lambda+1)(\lambda+2)(1-\theta)^{3}\right].
+\end{equation}
+If $\lambda$ was an integer we could write this as
+\begin{equation}
+\left.\frac{d^{3} F(z)}{d z^{3}}\right|_{z=0} = 
+\frac{(\lambda+2) !}{(\lambda-1) !} \theta^{\lambda}(1-\theta)^{3}.
+\end{equation}
+Since $\lambda$ might not be an integer we can write this using Gamma functions
+as
+\begin{equation}
+\left.\frac{d^{3} F(z)}{d z^{3}}\right|_{z=0} = 
+\frac{\Gamma(\lambda+3)}{\Gamma(\lambda)} \theta^{\lambda}(1-\theta)^{3}.
+\end{equation}
+Generalizing the pattern we then have that the $m$-th derivative takes the form
+\begin{equation}
+\left.\frac{d^{m} F(z)}{d z^{m}}\right|_{z=0} =
+\frac{\Gamma(\lambda+m)}{\Gamma(\lambda)} \theta^{\lambda}(1-\theta)^{m}.
+\end{equation}
+With this result we can use Eq.~\ref{eq:prob_from_gen} to obtain the desired
+steady-state probability distribution function
 \begin{equation}
 p(m) = \frac{\Gamma(m+\lambda)}{\Gamma(m+1)\Gamma(\lambda)}
         \theta^\lambda (1-\theta)^m.
