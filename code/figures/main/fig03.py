@@ -9,6 +9,7 @@ import arviz as az
 
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.patheffects as path_effects
 import seaborn as sns
 import bebi103.viz
 
@@ -241,12 +242,18 @@ for i, promoter in enumerate(df_energies.Name):
         linewidth=1.0,
         c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
     )
-    ax_c.annotate(
+    text = ax_c.annotate(
         f"{i + 1}",
         (np.mean(x_contour[0]),
         np.mean(y_contour),),
         fontsize=7,
+        color="white"
     )
+    text.set_path_effects(
+        [path_effects.Stroke(linewidth=1.5, foreground="black"),
+         path_effects.Normal()]
+    )
+
 ax_c.set_xlim(right=1.2e1)
 ax_c.set_ylim(top=1e1)
 ax_c.set_ylabel(r'$k_i$ (bursts per mRNA lifetime)')
@@ -276,12 +283,16 @@ for i, promoter in enumerate(df_energies.Name):
     # Append y position
     y_pos.append(ptile_med)
     
-    ax_d.annotate(
+    text = ax_d.annotate(
         f"{i + 1}",
         (df_energies[df_energies.Name == promoter]["Energy (kT)"],
         ptile_med,),
         fontsize=7,
-        color="gray",
+        color="white"
+    )
+    text.set_path_effects(
+        [path_effects.Stroke(linewidth=1.5, foreground="black"),
+         path_effects.Normal()]
     )
 
 # Add colorbar

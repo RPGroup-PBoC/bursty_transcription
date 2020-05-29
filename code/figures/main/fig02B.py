@@ -9,6 +9,7 @@ import arviz as az
 
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.patheffects as path_effects
 import seaborn as sns
 import bebi103.viz
 
@@ -76,7 +77,7 @@ ax.text(
 # super-Poissonian
 ax.axhspan(1, 10, facecolor='#E8B19D', alpha=0.5, zorder=-100)
 ax.text(
-    5,
+    5
     2.5,
     "super-Poissonian",
     fontsize=10,
@@ -114,11 +115,15 @@ cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
 
 # Annotate points
 for i, (row, data) in enumerate(df_summary.iterrows()):
-    ax.annotate(
+    text = ax.annotate(
         f"{i + 1}",
         (data["mean"], data["fano"],),
         fontsize=7,
-        color="gray",
+        color="white",
+    )
+    text.set_path_effects(
+        [path_effects.Stroke(linewidth=1.5, foreground="black"),
+         path_effects.Normal()]
     )
 
 # Label axis
