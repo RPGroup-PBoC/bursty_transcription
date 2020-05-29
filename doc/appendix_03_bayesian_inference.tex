@@ -90,12 +90,12 @@ of models that we might need to encode into our likelihood function:
 \end{itemize}
 In this paper we focus on inference done with probabilistic models. After all
 the chemical master equations we wrote down describe the time evolutions of the
-mRNA probability distribution. So all our terms $P(\vec{\theta} \mid D)$ will 
-be given by the steady-state solution of the corresponding chemical master 
-equation in question. This is rather convenient as we do not have to worry about
-adding a statistical model on top of our model to describe deviations from the
-predictions; our models themselves focus on predicting such variations from 
-cell count to cell count.
+mRNA probability distribution. So all our terms $P(\vec{\theta} \mid D)$ will be
+given by the steady-state solution of the corresponding chemical master equation
+in question. This is rather convenient as we do not have to worry about adding a
+statistical model on top of our model to describe deviations from the
+predictions; our models themselves focus on predicting such variations from cell
+count to cell count.
 
 \subsubsection{Prior selection}
 
@@ -106,11 +106,11 @@ revealing hidden structure that was implied by your modeling assumptions and you
 just didn't realize it. Predictive checks to verify you're not excluding any
 plausible values.}
 
-The different models explored in this work embraced different levels of 
-coarse-graining that resulted in a diverse set of number of parameters. For each
-of these model configurations Bayes theorem demands from us to represent our 
-preconceptions on the possible parameter values in the form of the prior 
-$P(\vec{\theta})$. Throughout this work for models with $> 1$ parameter we 
+The different models explored in this work embraced different levels of
+coarse-graining that resulted in a diverse number of parameters for different
+models. For each of these model configurations Bayes theorem demands from us to
+represent our preconceptions on the possible parameter values in the form of the
+prior $P(\vec{\theta})$. Throughout this work for models with $> 1$ parameter we
 assign independent priors to each of the parameters; this is
 \begin{equation}
 P(\vec{\theta}) = \prod_{i=1}^n P(\theta_i).
@@ -123,7 +123,12 @@ phenomena in the form of a mathematical model -- which itself is a bold claim of
 deeply understanding the features that matter in the object of study -- but we
 have absolutely no idea what the parameter values ought to be. We therefore make
 use of our own expertise, many times in the form of order-of-magnitude
-estimates, to write down prior distributions for our parameters.
+estimates, to write down prior distributions for our parameters. In summary then
+we don’t want to be maximally uninformative because we aren’t completely
+uninformed.
+
+\mrm{Still need to write something about the intuition of being data-rich and 
+how then the prior matters little.}
 
 \mmnote{
 \begin{itemize}
@@ -161,19 +166,48 @@ generative process for the data.
 \subsection{Bayesian inference on constitutive promoters}
 \label{sec:si_bayes_unreg}
 
-To proceed we need to specify a prior. In this case we are extremely data-rich,
-as the dataset from Jones et.\ al~\cite{Jones2014} has of order 1000-3000
-single-cell measurements for each promoter, so our choice of prior matters
-little here, as long as it is sufficiently broad. A convenient choice for our
-problem is to use a \textit{conjugate} prior. A conjugate prior is a special
-prior that causes the posterior to have the same functional form as the prior,
-simply with updated model parameters. This makes calculations analytically
-tractable and also offers a nice interpretation of the inference procedure as
-updating our knowledge about the model parameters. This makes conjugate priors
-very useful when they exist. The caveat is that conjugate priors only exist for
-a very limited number of likelihoods, mostly with only one or two model
-parameters, so in almost all other Bayesian inference problems, we must tackle
-the posterior numerically.
+Having introduced the ideas behind Bayesian inference we are ready to apply the
+theoretical machinery to our non-equilibrium models. In particular in this
+section we will focus on model 1 and model 5 in
+Figure~\ref{fig2:constit_cartoons}(A). Model 1, the Poisson promoter, will help
+us build practical intuition into the implementation of the Bayesian inference
+pipeline as we noted in Section~\ref{sec:beyond_means} of the main text that
+this model cannot be reconciled with experimental data from observables such as
+the Fano factor. In other words, we acknowledge that this model is ``wrong,''
+but we still see value in going through the analysis since the simple nature of
+the model translates into a neat statistical analysis.
+
+\subsubsection{Model 1 - Poisson promoter}
+
+As specified in the main test, the mRNA steady-state distribution for model 1 in
+Figure~\ref{fig2:constit_cartoons}(A) is Poisson with parameter $\lambda$.
+Throughout this Appendix we will appeal to the convenient notation for
+probability distributions of the form
+\begin{equation}
+m \sim \text{Poisson}(\lambda),
+\end{equation}
+where the simbol ``$\sim$'' can be read as \textit{is distributed according to}.
+So the previous equation can be read as: the mRNA copy number $m$ is distributed
+according to a Poisson distribution with parameter $\lambda$. Our objective then
+is to compute the posterior probability distribution $P(\lambda \mid D)$, where,
+as in the main text, $D = \{ m_1, m_2, \ldots, m_N \}$ are the data consisting
+of single-cell mRNA counts. Since we can assume that each of the cells mRNA
+counts are independent of any other cells, our likelihood function $P(D \mid
+\lambda)$ consists of the product of $N$ Poisson distributions.
+
+To proceed with the inference problem we need to specify a prior. In this case
+we are extremely data-rich, as the dataset from Jones et.\ al~\cite{Jones2014}
+has of order 1000-3000 single-cell measurements for each promoter, so our choice
+of prior matters little here, as long as it is sufficiently broad. A convenient
+choice for our problem is to use a \textit{conjugate} prior. A conjugate prior
+is a special prior that causes the posterior to have the same functional form as
+the prior, simply with updated model parameters. This makes calculations
+analytically tractable and also offers a nice interpretation of the inference
+procedure as updating our knowledge about the model parameters. This makes
+conjugate priors very useful when they exist. The caveat is that conjugate
+priors only exist for a very limited number of likelihoods, mostly with only one
+or two model parameters, so in almost all other Bayesian inference problems, we
+must tackle the posterior numerically.
 
 But, for the problem at hand, a conjugate prior does in fact exist. For a
 Poisson likelihood of identical and identically distributed data, the conjugate
@@ -239,20 +273,20 @@ $\bar{m} \approx 18.7$. In this case then, our posterior is
 \begin{equation}
 \lambda
 \sim \text{Normal}\left(18.7, 0.08\right),
+\label{eq:gauss_posterior}
 \end{equation}
 which suggests we have inferred our model's one parameter to a precision of
 order 1\%.
 
-This is not wrong, but it is not the full story. The model's posterior is
-tightly constrained, but is it a good generative model? In other words, does the
-model generate data that look similar to our actual data, and is it therefore
+This is not wrong, but it is not the full story. The model's posterior
+distribution is tightly constrained, but is it a good generative model? In other
+words, if we use the model to generate synthetic data in the computer does it
+generate data that look similar to our actual data, and is it therefore
 plausible that the model captures the important features of the data generating
 process? This intuitive notion can be codified with \textit{posterior predictive
 checks}, or PPCs, and we will see that this simple Poisson model fails badly.
 
-The intuitive idea of posterior predictive checks is simple: \mmnote{Not sure if
-all this stuff is clearer by example, but then does it confuse the reader in
-generalizing to other models?}
+The intuitive idea of posterior predictive checks is simple: 
 \begin{enumerate}
 \item Make a random draw of the model parameter $\lambda$ from the posterior
 distribution.
@@ -263,38 +297,30 @@ $\{m_k\}$ conditioned on $\lambda$.
 More formally, the posterior predictive distribution can be thought of as the
 distribution of future yet-to-be-observed data, conditioned on the data we have
 already observed. Clearly if those data appear quite different, the model has a
-problem. Put another way, if we suppose the generative model is true, then the
-synthetic datasets we generate should resemble the actual observed data, and if
-not, it suggests the model is missing important features. All the data we
-consider in this work are 1D (distributions of mRNA counts over a population) so
-ECDFs are an excellent visual means of comparing synthetic and observed
-datasets. In general for higher dimensional datasets, much of the challenge is
-in merely designing good visualizations that can actually show if synthetic and
-observed data are similar or not.
+problem. Put another way, if we suppose the generative model is true, i.e. we
+claim that our model explains the process through which our observed
+experimental data was generated, then the synthetic datasets we generate should
+resemble the actual observed data. If this is not the case, it suggests the
+model is missing important features. All the data we consider in this work are
+1D (distributions of mRNA counts over a population) so empirical cumulative
+distribution functions ECDFs are an excellent visual means of comparing
+synthetic and observed datasets. In general for higher dimensional datasets,
+much of the challenge is in merely designing good visualizations that can
+actually show if synthetic and observed data are similar or not.
 
 For our example Poisson promoter model then, we merely draw many random numbers,
-say 1000, from the Gaussian posterior. For each one of those draws, we generate
-a dataset from the likelihood, i.e., we draw 2648 (the number of observed cells
-in the actual dataset) Poisson-distributed numbers for each of the 1000
-posterior draws, for a total of 2648000 samples from the posterior predictive
-distribution.
+say 1000, from the Gaussian posterior in Eq.~\ref{eq:gauss_posterior}. For each
+one of those draws, we generate a dataset from the likelihood, i.e., we draw
+2648 (the number of observed cells in the actual dataset) Poisson-distributed
+numbers for each of the 1000 posterior draws, for a total of 2648000 samples
+from the posterior predictive distribution.
 
 To compare so many samples with the actual observed data, one excellent
 visualization for 1D data is ECDFs of the quantiles, as shown for our Poisson
-model in~\fig{fig:constit_post_full}.
-In this example, the median for each possible mRNA
-count is shown as a dark green line, while shaded bands of lighter
-green contain 95\% of the posterior predictive samples.
-Plotting quantiles in this way gives us a sense of the range of data we might
-consider plausible, under the assumption that the model is true. In this case it
-is quite obvious that the observed data, plotted in orange, could not plausibly
-come from this Poisson generative model. The other model with a PPC plotted
-in~\fig{fig:constit_post_full}, bursty model 5 with
-a negative binomial steady-state mRNA
-distribution, looks like a good candidate by eye. We cover it in more detail
-later.
+model in~\fig{fig:constit_post_full}(B) in the main text. 
 
 \subsubsection{Model 5 - Bursty promoter}
+
 Let us now consider the problem of parameter inference from FISH data for model
 five from~\fig{fig1:means_cartoons}(C). As derived in
 Appendix~\ref{sec:gen_fcn_appdx}, the steady-state mRNA distribution in this
@@ -303,205 +329,77 @@ model is a negative binomial distribution, given by
 p(m) = \frac{\Gamma(m+k_i)}{\Gamma(m+1)\Gamma(k_i)}
         \left(\frac{1}{1+b}\right)^{k_i}
         \left(\frac{b}{1+b}\right)^m,
-\label{eq:neg_bionom}
+\label{eq:si_neg_bionom}
 \end{equation}
 where $b$ is the mean burst size and $k_i$ is the burst rate nondimensionalized
-by the mRNA degradation rate $\gamma$. As sketched earlier, the story of this
-distribution is of geometrically-distributed bursts of mRNA, where the arrival
-of bursts is a Poisson process with rate $k_i$ and the mean size of a burst is
-$b$.
+by the mRNA degradation rate $\gamma$. As sketched earlier, we can intuitively
+think about this distribution through a simple story. The story of this
+distribution is that the promoter undergoes geometrically-distributed bursts of
+mRNA, where the arrival of bursts is a Poisson process with rate $k_i$ and the
+mean size of a burst is $b$.
 
 As for the Poisson promoter model, this expression for the steady-state mRNA
 distribution is exactly the likelihood we want to use in Bayes theorem. Again
 denoting the single-cell mRNA count data as $D=\{m_1, m_2,\dots, m_N\}$, here
 Bayes theorem takes the form
 \begin{equation}
-p(k_i, b \mid D) \propto p(D\mid k_i,b)p(k_i, b).
+p(k_i, b \mid D) \propto p(D\mid k_i,b)p(k_i, b),
 \end{equation}
-We already have our likelihood --the product of $N$ negative binomials as
-Eq.~\ref{eq:neg_bionom}--  so we only need to choose priors on $k_i$ and $b$.
-For the datasets from~\cite{Jones2014} that we are analyzing, as for the Poisson
-promoter model above we are still data-rich so the prior's influence remains
-weak, but not nearly as weak because the dimensionality of our model has
-increased from one to two.
+where the likelihood $p(D\mid k_i,b)$ is given by the product of $N$ negative
+binomials as in Eq.~\ref{eq:si_neg_bionom}. We only need to choose priors on
+$k_i$ and $b$. For the datasets from~\cite{Jones2014} that we are analyzing, as
+for the Poisson promoter model above we are still data-rich so the prior's
+influence remains weak, but not nearly as weak because the dimensionality of our
+model has increased from one to two.
 
-We follow the guidance of~\cite{Gelman2013}, Section 2.9 in
-opting for weakly-informative priors on $k_i$ and $b$ (conjugate
-priors do not exist for this problem), and we find
-``street-fighting estimates''~\cite{Mahajan2010} to be an ideal
-way of constructing such priors. The idea of weakly informative
-priors is to allow all remotely plausible values of model
-parameters while excluding the completely absurd or unphysical.
+We follow the guidance of~\cite{Gelman2013}, Section 2.9 in opting for
+weakly-informative priors on $k_i$ and $b$ (conjugate priors do not exist for
+this problem), and we find ``street-fighting estimates''~\cite{Mahajan2010} to
+be an ideal way of constructing such priors. The idea of weakly informative
+priors is to allow all remotely plausible values of model parameters while
+excluding the completely absurd or unphysical.
 
-Consider $k_i$. The fastest known bacterial promoters control
-rRNA genes and initiate transcripts no faster than $\sim
-1/\text{sec}$. It would be exceedingly strange if any of the
-constitutive promoters from~\cite{Jones2014} were stronger than
-that, so we can take that as an upper bound. For a lower bound,
-if transcripts are produced too rarely, there would be nothing to
-see with FISH. The datasets for each strain contain of order
-$10^3$ cells, and if the $\langle m \rangle = k_i b/\gamma
-\lesssim 10^{-2}$, then the total number of expected mRNA
-detections would be single-digits or less and we would have
-essentially no data on which to carry out inference. So assuming
-$b$ is not too different from 1, justified next, and an mRNA
-lifetime of $\gamma^{-1}\sim 3-5~\text{min}$, this gives us soft
-bounds on $k_i/\gamma$ of perhaps $10^{-2}$ and $3\times 10^1$.
+Consider $k_i$. Some of the strongest known bacterial promoters control rRNA
+genes and initiate transcripts no faster than $\sim 1/\text{sec}$. It would be
+exceedingly strange if any of the constitutive promoters from~\cite{Jones2014}
+were stronger than that, so we can take that as an upper bound. For a lower
+bound, if transcripts are produced too rarely, there would be nothing to see
+with FISH. The datasets for each strain contain of order $10^3$ cells, and if
+the $\langle m \rangle = k_i b/\gamma \lesssim 10^{-2}$, then the total number
+of expected mRNA detections would be single-digits or less and we would have
+essentially no data on which to carry out inference. So assuming $b$ is not too
+different from 1, justified next, and an mRNA lifetime of $\gamma^{-1}\sim
+3-5~\text{min}$, this gives us soft bounds on $k_i/\gamma$ of perhaps $10^{-2}$
+and $3\times 10^1$.
 
-Next consider mean burst size $b$. This parametrization of the
-geometric distribution allows bursts of size zero (which could
-representing aborted transcripts and initiations), but it would
-be quite strange for the mean burst size $b$ to be below
-$\sim10^{-1}$, for which nearly all bursts would be of size zero
-or one. For an upper bound, if transcripts are initiating at a
-rate somewhat slower than rRNA promoters, then it would probably
-take a time comparable to the lifetime of an mRNA to produce a
-burst larger than 10-20 transcripts, which would invalidate the
-approximation of the model that the duration of bursts are
-instantaneous compared to other timescales in the problem. So we
-will take soft bounds of $10^{-1}$ and $10^1$ for $b$.
+Next consider mean burst size $b$. This parametrization of the geometric
+distribution allows bursts of size zero (which could representing aborted
+transcripts and initiations), but it would be quite strange for the mean burst
+size $b$ to be below $\sim10^{-1}$, for which nearly all bursts would be of size
+zero or one. For an upper bound, if transcripts are initiating at a rate
+somewhat slower than rRNA promoters, then it would probably take a time
+comparable to the lifetime of an mRNA to produce a burst larger than 10-20
+transcripts, which would invalidate the approximation of the model that the
+duration of bursts are instantaneous compared to other timescales in the
+problem. So we will take soft bounds of $10^{-1}$ and $10^1$ for $b$.
 
-Note that the natural scale for these ``street-fighting estimates''
-was a log scale. This is commonly the case that our prior sense
-of reasonable and unreasonable parameters is set on a log scale.
-A natural way to enforce these soft bounds is therefore to use a
-lognormal prior distribution, with the soft bounds set $\pm2$
-standard deviations from the mean.
+Note that the natural scale for these ``street-fighting estimates'' was a log
+scale. This is commonly the case that our prior sense of reasonable and
+unreasonable parameters is set on a log scale. A natural way to enforce these
+soft bounds is therefore to use a lognormal prior distribution, with the soft
+bounds set $\pm2$ standard deviations from the mean.
 
 With this, we are ready to write our full generative model as
 \begin{equation}
 \begin{split}
-\ln k_i \sim \text{Normal}(-0.5, 2)
+\ln k_i \sim \text{Normal}(-0.5, 2),
 \\
-\ln b \sim \text{Normal}(0.5, 1)
+\ln b \sim \text{Normal}(0.5, 1),
 \\
 m \sim \text{NBinom}(k_i, b).
 \end{split}
 \end{equation}
-We carried out MCMC sampling on the posterior of this model, starting
-with the constitutive \textit{lacUV5} dataset from~\cite{Jones2014}.
-The resulting MCMC samples are shown in~\fig{fig:constit_post_full}(A).
-In constrast to the active/inactive constitutive model considered
-in~\cite{Razo-Mejia2020} (nonequilibrium model four
-in~\ref{fig2:constit_cartoons}), this model is well-identified
-with both parameters determined to a fractional uncertainty of 5-10\%.
-The strong correlation reflects the fact that their product sets
-the mean of the mRNA distribution, which is tightly constrained
-by the data, but there is weak ``sloppiness''~\cite{Transtrum2015}
-along a set of values with a similar product.
+Section ~\ref{section_04_bayesian_inference} in the main text details the
+results of applying this inference to the single-cell mRNA counts data.
 
-Flush with success having found the model's posterior to be
-well-identified, the next step was posterior predictive sampling.
-The only procedural difference compared to the Poisson promoter
-model is that, since we have no analytical posterior expression
-but only samples from the posterior, we generate a synthetic
-dataset (i.e., posterior predictive samples) for each posterior
-sample from the MCMC sampling. \fig{fig:constit_post_full}(B)
-shows the resulting predictive ECDF; similarly to the Poisson
-promoter model, the median posterior predictive ECDF is plotted
-as a dark blue line, while a lighter blue shaded region
-encompasses 95\% of the posterior predictive samples. Unlike the
-Poisson promoter model, the experimental ECDF closely tracks the
-posterior predictive ECDF, indicating this model is actually able
-to generate the observed data and increasing our confidence that
-this model is at least not wrong.
-
-\textit{lacUV5} is our primary target here, since it forms the
-core of all the simple repression constructs of~\cite{Jones2014}
-that we consider in Section~\ref{sec:rep_kinetics_inference}.
-Nevertheless, we thought it wise to apply our bursty promoter
-model to the other 17 constitutive promoters available in the
-FISH dataset from~\cite{Jones2014} as a test that the model is
-capturing the essential phenomenology. If the model fit well to
-all the different promoters, this would increase our confidence
-that it would serve well as a foundation for inferring repressor
-kinetics later in Section~\ref{sec:rep_kinetics_inference}.
-Conversely, were the model to fail on more than a couple of the
-other promoters, it would give us pause.
-
-
-\fig{fig:constit_post_full}(C) shows the results, plotting the
-posterior distribution from individually MCMC sampling all 18
-constitutive promoter datasets from~\cite{Jones2014}. To aid
-visualization, rather than plotting samples for each promoter's
-posterior as we did in \fig{fig:constit_post_full}(A), for each
-posterior we find and plot the curve that surrounds the 95\%
-highest probability density region, i.e., on a plot analogous
-to~(A), each contour would enclose approximately 95\% of the
-samples, and thus 95\% of the probability mass,
-of its posterior distribution.
-Posterior predictive ECDFs (not shown) display a similar level of
-agreement between data and predictive samples as for the bursty
-model with \textit{lacUV5} in \fig{fig:constit_post_full}(B).
-\mmnote{Might be worth showing some/all of these PPCs in
-supplement for completeness? We could do postage stamp sized diff
-plots and probably fit all 18 promoters on 1-2 pages.}
-
-One interesting feature from \fig{fig:constit_post_full}(C) is
-that burst rate varies far more widely, over a range of
-$\sim10^2$, than burst size, confined to a range of
-$\lesssim10^1$ (and with the exception of promoter 6, just a span
-of 3-5x). This suggests that $k_i$, not $b$, is the key dynamic
-variable that promoter binding site tunes.
-
-It is interesting to connect this observation to the work
-of~\cite{Brewster2012}, where these same 18 promoters were
-considered through the lens of the three-state equilibrium model
-and binding energies $\Delta\epsilon_P$ were predicted from an
-energy matrix model derived from~\cite{Kinney2010}. The connection
-is made simply by equating mean mRNA levels in both theories,
-\mmnote{derivation is hasty, needs elaboration}
-\begin{equation}
-\langle m \rangle = \frac{k_i b}{\gamma}
-        = \frac{r}{\gamma}
-        \frac{\frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P)}
-                {1+\frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P)},
-\end{equation}
-and taking the weak-promoter limit in the equilibrium model,
-\begin{equation}
-\langle m \rangle = \frac{k_i b}{\gamma}
-        = \frac{r}{\gamma} \frac{P}{N_{NS}}\exp(-\beta\Delta\epsilon_P),
-\end{equation}
-valid for all the binding energies considered here.
-
-How are the two coarse-grainings related? The only association that makes dimensional sense and produces the correct order-of-magnitude for the known parameters is to take
-\begin{equation}
-\frac{k_i}{\gamma} = \exp(-\beta\Delta\epsilon_P)
-\label{eq:bursty_equil_corresp1_appdx}
-\end{equation}
-and
-\begin{equation}
-b = \frac{r}{\gamma}\frac{P}{N_{NS}}.
-\label{eq:bursty_equil_corresp2_appdx}
-\end{equation}
-\fig{fig:constit_post_full}(D) shows that this linear scaling
-between $\ln k_i$ and $-\beta\Delta\epsilon_P$ is approximately
-true for all 18 constitutive promoters considered. The intercept
-is an uninteresting function of the unknown model parameters, so
-we only consider the slope of the scaling in
-\fig{fig:constit_post_full}(D).
-\mmnote{Wait, is that true or can we do something with the intercept, related to the burst size in some useful way? Needs more careful thought.}
-
-While the associations represented by
-\eq{eq:bursty_equil_corresp1_appdx} and \eq{eq:bursty_equil_corresp2_appdx}
-appear to be born out by the scaling $\ln k_i \sim
--\beta\Delta\epsilon_P$, we do not find the association of
-parameters encoded by
-\eqrange{eq:bursty_equil_corresp1_appdx}{eq:bursty_equil_corresp2_appdx}
-intuitive. If some deeper insight is waiting to be gleaned from it,
-we leave it as an open problem.
-
-\mmnote{Outline, still to cover:
-\begin{itemize}
-\item All 18 promoters. Hey the model still works on things other than UV5,
-cool. Interesting and somewhat counterintuitive scaling b/w burst rate and
-binding energy. Puzzle in comparing w/ Chong2014 supercoiling model. Are we
-missing important things?? Unclear, we leave as open question. Good enough for
-our purposes: posterior is identifiable, PPC is great, and of the models we've
-thought of it is unique in satisfying both.
-\end{itemize}
-}
-
-\mmnote{Discuss puzzling comparison w/ Chong2014: if supercoiling is the thing, why are my burst sizes all the same but burst rates vary? And why is the duty cycle of my promoter so low, ie., bursts so short? COmpare their fig 7E; their $\beta/\alpha$ is my $k^+/k^-$. They have one or two genes with very small $\beta/\alpha$, does the \textit{galK} locus just happen to be that, or is there a deeper disagreement? Hard to say w/o more data.}
-
-\subsection{Transcription factor kinetics can be inferred from FISH}
+\subsection{Bayesian inference on the simple-repression architecture}
