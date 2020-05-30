@@ -600,3 +600,31 @@ quite reasonable.
 \end{itemize}
 }
 
+\mmnote{These next 2 paragraphs should be SI, I think. Leaving here for
+now to avoid a merge conflict w/ MRM.}
+
+We found that fitting a single operator/aTc concentration at a
+time with a single binding and unbinding rate did not yield a
+stable inference for most of the possible operator/aTc
+combinations. In other words, a single dataset could not
+independently resolve the binding and unbinding rates, only their
+ratio as set by the mean fold-change in
+Figure~\ref{fig1:means_cartoons}. Only by making the assumption
+of a single unique binding rate for each repressor copy number
+and a single unique unbinding rate for each binding site, as done
+in Figure~\ref{fig4:repressed_post_full}A, was it possible to
+independently resolve the rates and not merely their ratios.
+
+We also note that we found it necessary to exclude the very
+weakly and very strongly repressed datasets from Jones et.\
+al.~\cite{Jones2014}. In both cases there was, in a sense, not
+enough information in the distriubtions for our inference
+algorithm to extract, and their inclusion simply caused problems
+for the MCMC sampler without yielding any new insight. For the
+strongly repressed data (Oid, 10~ng/mL aTc), with $>$ 95\% of cells
+with zero mRNA, there was quite literally very little data from
+which to infer rates. And the weakly repressed data, all with the
+repressor binding site O3, had an unbinding rate so fast that the
+sampler essentially sampled from the prior; the likelihood had
+negligible influence, meaning the data was not informing the
+sampler in any meaninful way, so no inference was possible.
