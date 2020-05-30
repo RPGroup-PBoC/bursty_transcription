@@ -3,42 +3,49 @@
 selection}
 \label{section_04_bayesian_inference}
 
-In this section of the paper, we continue our program of providing
-one complete description of the entire broad sweep of studies
-that have been made in the context of the repressor-operator model,
-dating all the way back to the original work of Jacob and Monod
-and including the visionary quantitative work of M\"{u}ller-Hill and collaborators
-and up to more recent studies.   In addition, the aim is to reconcile the 
-equilibrium and non-equilibrium perspectives that have been brought
-to bear on this problem. From Section~\ref{section_02_means}, this reconciliation
-depends on a key quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}: does the free energy of repressor binding, as described in the equilibrium models and indirectly inferred from gene expression measurements, agree with the corresponding values of repressor binding and unbinding rates in the non-equilibrium picture, measured or inferred more directly? In this section we tackle the statistical inference problem of inferring these repressor rates from mRNA FISH data. But before we can turn to the full case of simple repression, we must choose an appropriate model of the constitutive promoter and infer the parameter values in that model. This is the problem we address first.
+In this section of the paper, we continue our program of providing one complete
+description of the entire broad sweep of studies that have been made in the
+context of the repressor-operator model, dating all the way back to the original
+work of Jacob and Monod and including the visionary quantitative work of
+M\"{u}ller-Hill and collaborators~\cite{Oehler1990} and up to more recent
+studies \cite{Garcia2011a}. In addition, the aim is to reconcile the equilibrium
+and non-equilibrium perspectives that have been brought to bear on this problem.
+From Section~\ref{section_02_means}, this reconciliation depends on a key
+quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}: does
+the free energy of repressor binding, as described in the equilibrium models and
+indirectly inferred from gene expression measurements, agree with the
+corresponding values of repressor binding and unbinding rates in the
+non-equilibrium picture, measured or inferred more directly? In this section we
+tackle the statistical inference problem of inferring these repressor rates from
+mRNA FISH data. But before we can turn to the full case of simple repression, we
+must choose an appropriate model of the constitutive promoter and infer the
+parameter values in that model. This is the problem we address first.
 
 
 \subsection{Parameter inference for constitutive promoters}
 
 From consideration of Fano factors in the previous section, we suspect that
 model 5 in Figure~\ref{fig2:constit_cartoons}(A), a one-state bursty model of
-constitutive promoters, achieves the right balance of complexity
-and simplicity, by allowing both Fano factor $\nu>1$, but also by
-remedying, by design, the problems of parameter degeneracy than
-model 4 in Figure~\ref{fig2:constit_cartoons} suffered. Does this
-stand up to closer scrutiny, namely, comparison to full mRNA distributions
-rather than simply their moments? We will test this thoroughly on
-single-cell mRNA counts for different unregulated promoters from Jones et.\
-al.~\cite{Jones2014}.
+constitutive promoters, achieves the right balance of complexity and simplicity,
+by allowing both Fano factor $\nu>1$, but also by remedying, by design, the
+problems of parameter degeneracy than model 4 in
+Figure~\ref{fig2:constit_cartoons} suffered. Does this stand up to closer
+scrutiny, namely, comparison to full mRNA distributions rather than simply their
+moments? We will test this thoroughly on single-cell mRNA counts for different
+unregulated promoters from Jones et.\ al.~\cite{Jones2014}.
 
 It will be instructive, however, to first consider the Poisson promoter, model 1
 in Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the
-Poisson distribution has a Fano factor $\nu$ strictly equal to 1, and all of
-the observed data in Figure~\ref{fig2:constit_cartoons}(B) has Fano factor
-$\nu>1$, we might already suspect that this model is incapable of fitting the
-data. We will verify that this is in fact the case. Using the same argument we
-can immediately rule out models 2 and 3 from
-Figure~\ref{fig2:constit_cartoons}(A). These models have Fano factors $\nu\le 1$
-meaning they are underdispersed relative to the Poisson distribution. We will
-also not explicitly consider model 4 from~\fig{fig2:constit_cartoons}(A) since
-it was already thoroughly analyzed in~\cite{Razo-Mejia2020}, and since model 5
-can be viewed as a special case of it.
+Poisson distribution has a Fano factor $\nu$ strictly equal to 1, and all of the
+observed data in Figure~\ref{fig2:constit_cartoons}(B) has Fano factor $\nu>1$,
+we might already suspect that this model is incapable of fitting the data. We
+will verify that this is in fact the case. Using the same argument we can
+immediately rule out models 2 and 3 from Figure~\ref{fig2:constit_cartoons}(A).
+These models have Fano factors $\nu\le 1$ meaning they are underdispersed
+relative to the Poisson distribution. We will also not explicitly consider model
+4 from~\fig{fig2:constit_cartoons}(A) since it was already thoroughly analyzed
+in~\cite{Razo-Mejia2020}, and since model 5 can be viewed as a special case of
+it.
 
 Our objective for this section will then be to assess whether or not model 5 is
 quantitatively able to reproduce experimental data. In other words, if our claim
@@ -76,8 +83,8 @@ counts. As is standard we will neglected the denominator $p(D)$ on the right
 hand side since it is independent of $\lambda$ and serves only as a
 normalization factor.
 
-The steady-state solution for the master equation defines the likelihood
-term for a single cell $p(m \mid \lambda)$. What this means is that for a given
+The steady-state solution for the master equation defines the likelihood term
+for a single cell $p(m \mid \lambda)$. What this means is that for a given
 choice of parameter $\lambda$, under model 1 of
 Figure~\ref{fig2:constit_cartoons}(A), we expect to observe $m$ mRNAs in a
 single cell with probability
@@ -106,13 +113,13 @@ be anywhere from 0 to a few hundred. $\alpha=1$ and $\beta=1/50$ achieve this,
 since the gamma distribution is strictly positive with mean $\alpha/\beta$ and
 standard deviation $\sqrt{\alpha}/\beta$.
 
-As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior is known
-as the \textit{conjugate} prior for a Poisson likelihood. This type of priors
-have nice properties to work with, in particular a conjugate prior allows us to
-get a closed form for the posterior distribution $p(\lambda \mid D)$. In
-particular it can be shown that for a Poisson distribution likelihood with its
+As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior is
+known as the \textit{conjugate} prior for a Poisson likelihood. This type of
+priors have nice properties to work with, in particular a conjugate prior allows
+us to get a closed form for the posterior distribution $p(\lambda \mid D)$. For
+our case it can be shown that for a Poisson distribution likelihood with its
 Gamma distribution conjugate prior, the posterior distribution is also a Gamma
-distribution ~\cite{Gelman2013}. In particular the two parameters $\alpha'$ and
+distribution ~\cite{Gelman2013}. Specifically the two parameters $\alpha'$ and
 $\beta'$ for this posterior distribution take the form $\alpha' = \alpha +
 \bar{m} N$ and $\beta' = \beta + N$, where we defined the sample mean $\bar{m} =
 \frac{1}{N}\sum_k m_k$ for notational convenience, and $N$ is the number of
@@ -153,7 +160,7 @@ p(m) = \frac{\Gamma(m+k_i)}{\Gamma(m+1)\Gamma(k_i)}
 where $b$ is the mean burst size and $k_i$ is the burst rate in units of the
 mRNA degradation rate $\gamma$. As sketched earlier, to think of the negative
 binomial distribution in terms of an intuitive story, we imagine the arrival of
-bursts as a Poisson process with rate $k_i$, where each burst has a 
+bursts as a Poisson process with rate $k_i$, where each burst has a
 geometrically-distributed size with mean size $b$.
 
 As for the Poisson promoter model, this expression for the steady-state mRNA
@@ -204,14 +211,13 @@ while the lighter green contains 95\% of the randomly generated samples. This
 way of representing the fit of the model to the data gives us a sense of the
 range of data we might consider plausible, under the assumption that the model
 is true. For this case, as we expected given our premise of the Poisson promoter
-being wrong, it is quite obvious that the observed data, plotted in black is not consistent with
-the Poisson promoter model. An 
-equivalent plot for the bursty promoter model is shown in blue. Again the darker
-tone shows the median, while the lighter color encompasses 95\% of the randomly
-generated samples. Unlike the Poisson promoter model, the experimental ECDF
-closely tracks the posterior predictive ECDF, indicating this model is actually
-able to generate the observed data and increasing our confidence that this model
-is at least not wrong.
+being wrong, it is quite obvious that the observed data, plotted in black is not
+consistent with the Poisson promoter model. An equivalent plot for the bursty
+promoter model is shown in blue. Again the darker tone shows the median, while
+the lighter color encompasses 95\% of the randomly generated samples. Unlike the
+Poisson promoter model, the experimental ECDF closely tracks the posterior
+predictive ECDF, indicating this model is actually able to generate the observed
+data and increasing our confidence that this model is at least not wrong.
 
 \textit{lacUV5} is our primary target here, since it forms the core of all the
 simple repression constructs of~\cite{Jones2014} that we consider in
@@ -300,8 +306,8 @@ Given this result, how are the two coarse-grainings related? A quick estimate
 can shed some light. Consider for instance the \textit{lacUV5} promoter, which
 we see from Figure~\ref{fig:constit_post_full}(A) has $k_i/\gamma \sim b \sim
 \text{few}$, from Figure~\ref{fig:constit_post_full}(B) has $\langle m \rangle
-\sim 20$, and from~\cite{Brewster2012} has $\beta\Delta\epsilon_P \sim - 6.5$.
-Further we generally assume $P/N_{NS} \sim 10^{-3}$ since
+\sim 20$, and from~\cite{Brewster2012} has $\beta\Delta\varepsilon_P \sim -
+6.5$. Further we generally assume $P/N_{NS} \sim 10^{-3}$ since
 $N_{NS}\approx4.6\times10^6$ and $P\sim10^3$. After some guess-and-check with
 these values, one finds the only association that makes dimensional sense and
 produces the correct order-of-magnitude for the known parameters is to take
@@ -350,13 +356,13 @@ measurements}\label{sec:rep_kinetics_inference}
 \subsubsection{Building the model and performing parameter inference}
 
 Now that we have a satisfactory model in hand for constitutive promoters, we
-would like to return to the main thread: can we reconcile the equilibrium
-and nonequilibrium models by putting to the test
+would like to return to the main thread: can we reconcile the equilibrium and
+nonequilibrium models by putting to the test
 Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, the correspondence between indirectly
-inferred equilibrium binding energies and nonequilibrium kinetic rates?
-To make this comparison, is it possible to infer repressor binding and
-unbinding rates from mRNA distributions over a population of cells as measured
-by single-molecule FISH in~\cite{Jones2014}? If so, how do these inferred rates
+inferred equilibrium binding energies and nonequilibrium kinetic rates? To make
+this comparison, is it possible to infer repressor binding and unbinding rates
+from mRNA distributions over a population of cells as measured by
+single-molecule FISH in~\cite{Jones2014}? If so, how do these inferred rates
 compare to direct single-molecule measurements such as from~\cite{Hammar2014}
 and to binding energies such as from~\cite{Garcia2011a}
 and~\cite{Razo-Mejia2018}, which were inferred under the assumptions of the
@@ -429,7 +435,7 @@ where subscripts for dissociation rates $k^-$  indicate the different repressor
 binding sites, and subscripts for association rates $k^+$ indicate the aTc
 concentration at which the repressor itself was induced. We emphasize that for
 this particular dataset the repressor copy numbers are not known directly, so we
-label their association rates by the concentration of a small molecule inducer
+label their association rates by the concentration of a small inducer molecule 
 aTc which indirectly controls the transcription of $\textit{lacI}$, as
 described in detail in~\cite{Jones2014}. Also note
 that the authors of~\cite{Jones2014} report estimates of LacI copy number per
@@ -474,7 +480,8 @@ p(m \mid k_R^+, k_R^-, k_i, b) = & ~\frac{
 \end{split}
 \label{eq:p_m_bursty+rep}
 \end{equation}
-where $\alpha$ and $\beta$, defined for notational convenience, are
+where $_2F_1$ is the confluent hypergeometric function of the second kind,
+$\alpha$ and $\beta$, defined for notational convenience, are
 \begin{align}
 \begin{split}
 \alpha &= \frac{1}{2}
@@ -529,73 +536,38 @@ We note that the 95\% uncertainties of all the rates span about $\sim0.3$
 log units, or about a factor of two, with the exception of $k_{0.5}^+$, the
 association rate for the lowest repressor copy number which is somewhat larger.
 
-\mmnote{These next 2 paragraphs should be SI, I think. Leaving here for
-now to avoid a merge conflict w/ MRM.}
-
-We found that fitting a single operator/aTc concentration at a
-time with a single binding and unbinding rate did not yield a
-stable inference for most of the possible operator/aTc
-combinations. In other words, a single dataset could not
-independently resolve the binding and unbinding rates, only their
-ratio as set by the mean fold-change in
-Figure~\ref{fig1:means_cartoons}. Only by making the assumption
-of a single unique binding rate for each repressor copy number
-and a single unique unbinding rate for each binding site, as done
-in Figure~\ref{fig4:repressed_post_full}A, was it possible to
-independently resolve the rates and not merely their ratios.
-
-We also note that we found it necessary to exclude the very
-weakly and very strongly repressed datasets from Jones et.\
-al.~\cite{Jones2014}. In both cases there was, in a sense, not
-enough information in the distriubtions for our inference
-algorithm to extract, and their inclusion simply caused problems
-for the MCMC sampler without yielding any new insight. For the
-strongly repressed data (Oid, 10~ng/mL aTc), with $>$ 95\% of cells
-with zero mRNA, there was quite literally very little data from
-which to infer rates. And the weakly repressed data, all with the
-repressor binding site O3, had an unbinding rate so fast that the
-sampler essentially sampled from the prior; the likelihood had
-negligible influence, meaning the data was not informing the
-sampler in any meaninful way, so no inference was possible.
-
 \subsubsection{Comparison with prior measurements of repressor binding energies}
-Our primary goal in this work is to reconcile the kinetic
-and equilibrium pictures of simple repression.
-Towards this end we would like to compare the repressor kinetic rates we
-have inferred with the repressor binding energies inferred through
-multiple methods in~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}.
-If the agreement is close, then it suggests that the equilibrium
-models are not wrong and the repressor binding energies they contain
+Our primary goal in this work is to reconcile the kinetic and equilibrium
+pictures of simple repression. Towards this end we would like to compare the
+repressor kinetic rates we have inferred with the repressor binding energies
+inferred through multiple methods in~\cite{Garcia2011a}
+and~\cite{Razo-Mejia2018}. If the agreement is close, then it suggests that the
+equilibrium models are not wrong and the repressor binding energies they contain
 correspond to physically real free energies, not mere fit parameters.
 
-Figure~\ref{fig4:repressed_post_full}(B) shows both comparisons,
-with the top panel comparing to equilbrium binding energies
-and the bottom panel comparing to single-molecule measurements.
-First consider the top panel and its comparison between repressor
-kinetic rates and binding energies.
-As described in section~\ref{section_02_means}, if the
-equilibrium binding energies from~\cite{Garcia2011a}
-and~\cite{Razo-Mejia2018} indeed are the physically real binding
-energies we believe them to be, then they should be related to
-the repressor kinetic rates via
-Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, which we restate here,
+Figure~\ref{fig4:repressed_post_full}(B) shows both comparisons, with the top
+panel comparing to equilibrium binding energies and the bottom panel comparing
+to single-molecule measurements. First consider the top panel and its comparison
+between repressor kinetic rates and binding energies. As described in
+section~\ref{section_02_means}, if the equilibrium binding energies
+from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018} indeed are the physically real
+binding energies we believe them to be, then they should be related to the
+repressor kinetic rates via Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, which we
+restate here,
 \begin{equation}
 \Delta F_R = \beta\Delta\varepsilon_R - \log(R/N_{NS})
         = - \log(k_R^+/k_R^-).
 \label{eq:deltaFR_eq_noneq_equiv_repeat}
 \end{equation}
-Assuming mass action
-kinetics implies that $k_R^+$ is proportional to repressor copy
-number $R$, or more precisely, it can be thought of as repressor
-copy number times some intrinsic per molecule association rate.
-But since $R$ is not directly known for our data
-from~\cite{Jones2014}, we cannot use this equation directly.
-Instead we can consider two different repressor binding sites and
-compute the \textit{difference} in binding energy between them,
-since this difference depends only on the unbinding rates and not
-on the binding rates. This can be seen by evaluating
-Eq.~\ref{eq:deltaFR_eq_noneq_equiv_repeat} for two different
-repressor binding sites, labeled (1) and (2), but with the same
+Assuming mass action kinetics implies that $k_R^+$ is proportional to repressor
+copy number $R$, or more precisely, it can be thought of as repressor copy
+number times some intrinsic per molecule association rate. But since $R$ is not
+directly known for our data from~\cite{Jones2014}, we cannot use this equation
+directly. Instead we can consider two different repressor binding sites and
+compute the \textit{difference} in binding energy between them, since this
+difference depends only on the unbinding rates and not on the binding rates.
+This can be seen by evaluating Eq.~\ref{eq:deltaFR_eq_noneq_equiv_repeat} for
+two different repressor binding sites, labeled (1) and (2), but with the same
 repressor copy number $R$, and taking the difference to find
 \begin{equation}
 \Delta F_R^{(1)} - \Delta F_R^{(2)}
@@ -607,152 +579,131 @@ or simply
 \beta\Delta\varepsilon_1 - \beta\Delta\varepsilon_2
 = \log(k_2^-/k_1^-).
 \end{equation}
-The left and right hand sides of this equation are exactly the horizontal
-and vertical axes of the top panel of Figure~\ref{fig4:repressed_post_full}.
-Since we inferred rates for three repressor binding sites (O1, O2, and Oid),
-there are only two independent differences that can be constructed, and we
-arbitrarily chose to plot O2-O1 and O1-Oid in
-Figure~\ref{fig4:repressed_post_full}(B).
-Numerically, we compute values of $k_{O1}^- / k_{Oid}^-$ and
-$k_{O2}^- / k_{O1}^-$ directly from our full posterior samples,
-which conveniently provides uncertainties as well, as detailed in
-Appendix~\ref{sec:bayesian}.
+The left and right hand sides of this equation are exactly the horizontal and
+vertical axes of the top panel of Figure~\ref{fig4:repressed_post_full}. Since
+we inferred rates for three repressor binding sites (O1, O2, and Oid), there are
+only two independent differences that can be constructed, and we arbitrarily
+chose to plot O2-O1 and O1-Oid in Figure~\ref{fig4:repressed_post_full}(B).
+Numerically, we compute values of $k_{O1}^- / k_{Oid}^-$ and $k_{O2}^- /
+k_{O1}^-$ directly from our full posterior samples, which conveniently provides
+uncertainties as well, as detailed in Appendix~\ref{sec:bayesian}.
 \mmnote{Explain in appendix how marginalization with sampling makes this
-``trivial'' to compute from samples of the joint posterior, b/c
-sampling makes marginalization trivial.}
-We then compare these ratios of rates to the binding energy differences
-$\Delta\epsilon_{O1} - \Delta\epsilon_{Oid}$ and from
-$\Delta\epsilon_{O2} - \Delta\epsilon_{O1}$ as computed from the values
-from both~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}.
-Three of the four values are within $\sim0.5 k_BT$ of the diagonal
-representing perfect agreement, which is comparable to the
-$\sim\text{few}\times0.1 k_BT$ variability between the independent
-determinations of the same quantities between~\cite{Garcia2011a}
+``trivial'' to compute from samples of the joint posterior, b/c sampling makes
+marginalization trivial.} We then compare these log ratios of rates to the
+binding energy differences $\Delta\varepsilon_{O1} - \Delta\varepsilon_{Oid}$
+and from $\Delta\varepsilon_{O2} - \Delta\varepsilon_{O1}$ as computed from the
+values from both~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}. Three of the four
+values are within $\sim0.5 k_BT$ of the diagonal representing perfect agreement,
+which is comparable to the $\sim\text{few}\times0.1 k_BT$ variability between
+the independent determinations of the same quantities between~\cite{Garcia2011a}
 and~\cite{Razo-Mejia2018}. The only outlier involves Oid measurements
 from~\cite{Razo-Mejia2018}, and as the authors of~\cite{Razo-Mejia2018} note,
-this is a difficult measurement of low fluorescence signal against
-high background since Oid represses so strongly. We are therefore
-inclined to regard the failure of this point to fall near the
-diagonal as a testament to the difficulty of the measurement and
-not as a failure of our theory.
-\mmnote{Does this seem a fair characterization?   - RP: thanks, that was very helpful
-for me.}
+this is a difficult measurement of low fluorescence signal against high
+background since Oid represses so strongly. We are therefore inclined to regard
+the failure of this point to fall near the diagonal as a testament to the
+difficulty of the measurement and not as a failure of our theory. \mmnote{Does
+this seem a fair characterization?   - RP: thanks, that was very helpful for
+me.}
 
-On the whole then, we regard this as striking confirmation of the
-validity of the equilibrium models. Their lynchpin parameter is a
-phenomenological free energy of repressor binding that has
-previously only been inferred indirectly. Our result shows that
-the microscopic interpretation of this free energy, as the log of
-a ratio of transition rates, does indeed hold true to within the inherent
+On the whole then, we regard this as striking confirmation of the validity of
+the equilibrium models. Their lynchpin parameter is a phenomenological free
+energy of repressor binding that has previously only been inferred indirectly.
+Our result shows that the microscopic interpretation of this free energy, as the
+log of a ratio of transition rates, does indeed hold true to within the inherent
 uncertainties that remain in the entire theory-experiment dialogue.
 %\mmnote{Does this deserve qualifiers, like ``to a good approximation,'' or ``as a first order model'' or something? I like the simple finality without, but I worry it's too brazen or subtlely misleading.}
 
 \subsubsection{Comparison with prior measurements of repressor kinetics}
-In the previous section we established the equivalence between
-the equilibrium models' binding energies and the repressor
-kinetics we infer from mRNA population distributions.
-But one might worry that the repressor rates we infer
-from mRNA distributions are \textit{themselves} merely
-fitting parameters and that they do not actually correspond to the
-binding and unbinding rates of the repressor in vivo.
-To verify that this is not the case, we next compare our kinetic rates with a
-different measurement of the same rates using a radically different method:
-single molecule measurements as performed in Hammar et.\ al.~\cite{Hammar2014}.
-This is plotted in the lower panel of Figure~\ref{fig4:repressed_post_full}B.
+In the previous section we established the equivalence between the equilibrium
+models' binding energies and the repressor kinetics we infer from mRNA
+population distributions. But one might worry that the repressor rates we infer
+from mRNA distributions are \textit{themselves} merely fitting parameters and
+that they do not actually correspond to the binding and unbinding rates of the
+repressor in vivo. To verify that this is not the case, we next compare our
+kinetic rates with a different measurement of the same rates using a radically
+different method: single molecule measurements as performed in Hammar et.\
+al.~\cite{Hammar2014}. This is plotted in the lower panel of
+Figure~\ref{fig4:repressed_post_full}B.
 
-Since we do not have access to repressor copy number for either
-the FISH data from~\cite{Jones2014} or the single-molecule data
-from~\cite{Hammar2014}, we cannot make an apples-to-apples
-comparison of association rates $k_R^+$. Further, while Hammar
-et.\ al.\ directly measure the dissociation rates $k_R^-$, our
-inference procedure returns $k_R^-/\gamma$, i.e., the repressor
-dissociation rate nondimensionalized by the mRNA degradation rate
-$\gamma$. So to make the comparison, we must make an assumption
-for the value of $\gamma$ since it was not directly measured. For
-most mRNAs in \textit{E.\ coli}, quoted values for the typical mRNA
-lifetime $\gamma^{-1}$ range between about 2.5~min~\cite{Chen2015}
-to 8~min. We chose $\gamma^{-1} = 3$~min and $\gamma^{-1} =
-5$~min as representative values and plot a comparison of
-$k_{O1}^-$ and $k_{Oid}^-$ from our inference with corresponding values
+Since we do not have access to repressor copy number for either the
+single-cell mRNA data from~\cite{Jones2014} or the single-molecule data
+from~\cite{Hammar2014}, we cannot make an apples-to-apples comparison of
+association rates $k_R^+$. Further, while Hammar et.\ al.\ directly measure the
+dissociation rates $k_R^-$, our inference procedure returns $k_R^-/\gamma$,
+i.e., the repressor dissociation rate nondimensionalized by the mRNA degradation
+rate $\gamma$. So to make the comparison, we must make an assumption for the
+value of $\gamma$ since it was not directly measured. For most mRNAs in
+\textit{E.\ coli}, quoted values for the typical mRNA lifetime $\gamma^{-1}$
+range between about 2.5~min~\cite{Chen2015} to 8~min. We chose $\gamma^{-1} =
+3$~min and $\gamma^{-1} = 5$~min as representative values and plot a comparison
+of $k_{O1}^-$ and $k_{Oid}^-$ from our inference with corresponding values
 reported in~\cite{Hammar2014} for both these choices of $\gamma$.
 
 The degree of quantitative agreement in the lower panel of
-Figure~\ref{fig4:repressed_post_full}B clearly depends on the
-precise choice of $\gamma$. Nevertheless we find this comparison very satisfying, when two wildly different approaches to a measurement of the same quantity yield broadly compatible results. We emphasize the agreement between our rates
-and the rates reported in~\cite{Hammar2014} for any reasonable
-$\gamma$: values differ by at most a factor of 2 and possibly
-agree to within our uncertainties of 10-20\%. From this we feel
-confident asserting that the parameters we have inferred from
-Jones et.\ al.'s FISH data do in fact correspond to repressor
-binding and unbinding rates, and therefore our conclusions on the
-agreement of these rates with binding energies
-from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018} are valid.
+Figure~\ref{fig4:repressed_post_full}B clearly depends on the precise choice of
+$\gamma$. Nevertheless we find this comparison very satisfying, when two wildly
+different approaches to a measurement of the same quantity yield broadly
+compatible results. We emphasize the agreement between our rates and the rates
+reported in~\cite{Hammar2014} for any reasonable $\gamma$: values differ by at
+most a factor of 2 and possibly agree to within our uncertainties of 10-20\%.
+From this we feel confident asserting that the parameters we have inferred from
+Jones et.\ al.'s single-cell mRNA counts data do in fact correspond to repressor
+binding and unbinding rates, and therefore our conclusions on the agreement of
+these rates with binding energies from~\cite{Garcia2011a}
+and~\cite{Razo-Mejia2018} are valid.
 
 \subsubsection{Model checking}
-In Figure~\ref{fig:constit_post_full}B we saw that the simple
-Poisson model of a constitutive promoter, despite having a well
-behaved posterior, was clearly insufficient to describe the data.
-It behooves us to carry out a similar check for our model of
-simple repression, codified by Eq.~\ref{eq:p_m_bursty+rep} for
-the steady-state mRNA copy number distribution.
-As derived in Sections~\ref{section_02_means}
-and~\ref{sec:beyond_means}, we have compelling theoretical reasons
-to believe it is a good model, but if it nevertheless turned out
-to be badly contradicted by the data we should like to know.
+In Figure~\ref{fig:constit_post_full}B we saw that the simple Poisson model of a
+constitutive promoter, despite having a well behaved posterior, was clearly
+insufficient to describe the data. It behooves us to carry out a similar check
+for our model of simple repression, codified by Eq.~\ref{eq:p_m_bursty+rep} for
+the steady-state mRNA copy number distribution. As derived in
+Sections~\ref{section_02_means} and~\ref{sec:beyond_means}, we have compelling
+theoretical reasons to believe it is a good model, but if it nevertheless turned
+out to be badly contradicted by the data we should like to know.
 
-The details are deferred to Appendix~\ref{sec:bayesian}, and here
-we only attempt to summarize the intuitive ideas, as detailed at
-greater length by Jaynes~\cite{Jaynes2003} as well as Gelman and
-coauthors~\cite{Gelman2013,Gelman2013a}. From our samples of the
-posterior distribution, plotted in
-Figure~\ref{fig4:repressed_post_full}A, we generate many
-replicate data using a random number generator.
-In Figure~\ref{fig4:repressed_post_full}C, we plot ECDFs of the
-middle 95\% quantiles of these replicate data with the actual
-experimental data from Jones et.\ al.~\cite{Jones2014} overlaid,
-covering all ten experimental conditions spanning repressor
-binding sites and copy numbers (as well as the constitutive
-baseline UV5).
+The details are deferred to Appendix~\ref{sec:bayesian}, and here we only
+attempt to summarize the intuitive ideas, as detailed at greater length by
+Jaynes~\cite{Jaynes2003} as well as Gelman and
+coauthors~\cite{Gelman2013,Gelman2013a}. From our samples of the posterior
+distribution, plotted in Figure~\ref{fig4:repressed_post_full}A, we generate
+many replicate data using a random number generator. In
+Figure~\ref{fig4:repressed_post_full}C, we plot empirical cumulative
+distribution functions of the middle 95\% quantiles of these replicate data with
+the actual experimental data from Jones et.\ al.~\cite{Jones2014} overlaid,
+covering all ten experimental conditions spanning repressor binding sites and
+copy numbers (as well as the constitutive baseline UV5).
 
-The purpose of Figure~\ref{fig4:repressed_post_full}C is simply a
-graphical, qualitative assessment of the model: do the
-experimental data systematically disagree with the simulated
-data, which would suggest that our model is missing important
-features? A further question is not just whether there is a
-detectable difference between simulated and experimental data,
-but whether this difference is likely to materially affect the
-conclusions we draw from the posterior in
-Figure~\ref{fig4:repressed_post_full}A. More rigorous and
-quantitative statistical tests are possible~\cite{Gelman2013},
-but their quantitativeness does not necessarily make them more
-useful. As stated in~\cite{Gelman2013a}, we often find this
-graphical comparison more enlightening because it better engages
-our intuitition for the model, not merely telling \textit{if} the
-model is wrong but suggesting \textit{how} the model may be
-incomplete.
+The purpose of Figure~\ref{fig4:repressed_post_full}C is simply a graphical,
+qualitative assessment of the model: do the experimental data systematically
+disagree with the simulated data, which would suggest that our model is missing
+important features? A further question is not just whether there is a detectable
+difference between simulated and experimental data, but whether this difference
+is likely to materially affect the conclusions we draw from the posterior in
+Figure~\ref{fig4:repressed_post_full}A. More rigorous and quantitative
+statistical tests are possible~\cite{Gelman2013}, but their quantitativeness
+does not necessarily make them more useful. As stated in~\cite{Gelman2013a}, we
+often find this graphical comparison more enlightening because it better engages
+our intuition for the model, not merely telling \textit{if} the model is wrong
+but suggesting \textit{how} the model may be incomplete.
 
-Our broad brush takeaway from
-Figure~\ref{fig4:repressed_post_full}C is overall of good
-agreement. There some oddities, in particular the long tails in
-the data for Oid, 1~ng/mL, and O2, 0.5~ng/mL. The latter is
-especially odd since it extends beyond the tail of the
-unregulated UV5 distribution. This is a relatively small number
-of cells, however, so whether this is a peculiarity of the
-experimental data, a statistical fluke of small numbers, or a
-real biological effect is unclear. It is conceivable that there
-is some very slow timescale switching dynamics that could cause
-this bimodality, although it is unclear why it would only appear
-for specific repressor copy numbers. There is also a small offset
-between experiment and simulation for O2 at the higher repressor
-copy numbers, especially at 2~ng/mL. We suspect this may be
-caused by the very large number of zero mRNA counts for Oid,
-2~ng/mL skewing it's partner datasets through the shared
-association rate, and so we are not too concerned by this
-discrepancy either. None of these fairly minor quibbles cause us
-to seriously doubt the overall correctness of our model, which
-further validates its use to compare the equilbrium models'
-binding energies to the nonequilibrium models' repressor
-kinetics, as we originally set out to do.
+Our broad brush takeaway from Figure~\ref{fig4:repressed_post_full}C is overall
+of good agreement. There some oddities, in particular the long tails in the data
+for Oid, 1~ng/mL, and O2, 0.5~ng/mL. The latter is especially odd since it
+extends beyond the tail of the unregulated UV5 distribution. This is a
+relatively small number of cells, however, so whether this is a peculiarity of
+the experimental data, a statistical fluke of small numbers, or a real
+biological effect is unclear. It is conceivable that there is some very slow
+timescale switching dynamics that could cause this bimodality, although it is
+unclear why it would only appear for specific repressor copy numbers. There is
+also a small offset between experiment and simulation for O2 at the higher
+repressor copy numbers, especially at 2~ng/mL. We suspect this may be caused by
+the very large number of zero mRNA counts for Oid, 2~ng/mL skewing it's partner
+datasets through the shared association rate, and so we are not too concerned by
+this discrepancy either. None of these fairly minor quibbles cause us to
+seriously doubt the overall correctness of our model, which further validates
+its use to compare the equilibrium models' binding energies to the
+nonequilibrium models' repressor kinetics, as we originally set out to do.
 
 
 % With priors and likelihood specified we may write down our complete generative model as
