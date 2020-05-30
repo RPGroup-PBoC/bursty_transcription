@@ -433,7 +433,12 @@ small molecule anhydrotetracycline (aTc), it shifts to an inactive conformation
 unable to bind to the DNA. This translates into an increase in gene expression
 level. In other words, the higher the concentration of aTc added to the media,
 the less TetR repressors that can control the expression of the \textit{lacI}
-gene, so the higher the concentration of LacI repressors in the cell.
+gene, so the higher the concentration of LacI repressors in the cell. So by 
+tuning the amount of aTc in the media where the experimental strains were grown
+they effectively tune $k^+$ in our simple theoretical model. On the other hand
+to tune $k^-$ the authors swap three different binding sites for the LacI 
+repressor, each with different repressor-DNA binding affinities previously 
+characterized \cite{Garcia2011a}.
 
 \begin{figure}[h!]
 \centering
@@ -450,67 +455,44 @@ quantification.}
 \label{figS:aTc_circuit}
 \end{figure}
 
-As we found in Section~\ref{sec:beyond_means}, for our purposes
-the ``right'' model of a constitutive promoter is the bursty
-picture, model five in Figure~\ref{fig:constit_cartoons}.
-Therefore our starting point here is the analogous model with
-repressor added, model 5 in Figure~\ref{fig1:means_cartoons}.
-For a given repressor binding site and copy number,
-this model has four rate parameters to be inferred:
-the repressor binding and unbinding rates $k_R^+$, and $k_R^-$,
-the initiation rate of bursts, $k_i$, and the mean burst size $b$
-(we nondimensionalize all of these by the mRNA degradation rate $\gamma$).
-
-Before showing the mathematical formulation of our statistical
-inference model, we would like to sketch the intuitive structure.
-The dataset from~\cite{Jones2014} we consider consists of
-single-cell mRNA FISH measurements of nine different conditions,
-spanning several combinations of three unique binding sites and
-four unique repressor copy numbers. We assume that the values of
-$k_i$ and $b$ are known, since we have already cleanly inferred
-them from constitutive promoter data, and further we assume that
-these values are the same across datasets with different
-repressor binding sites and copy numbers. We assume that there is
-one unbinding rate parameter for each repressor binding site,
-which is shared across conditions, and likewise one binding rate
-for each unique repressor copy number. This makes our model seven
-dimensional, or nine if one counts $k_i$ and $b$ as well.
+What this means is that we have access to data with different combinations of
+$k^-$ and $k^+$. We could naively try to fit the kinetic parameters individually
+for each of the datasets, but there is no reason to believe that the binding
+site identity for the LacI repressor somehow affects its expression level
+controlled from a completely different location in the genome, nor vice versa.
+In other words, what makes the most sense it to fit all datasets together to
+obtain a single value for each of the association and dissociation rates. What
+this means, as described in~\ref{section_04_bayesian_inference} of the main text
+is that we have a seven dimensional parameter space with four possible
+association rates $k^+$ given the four available aTc concentrations, and three
+possible dissociation rates $k^-$ given the three different binding sites
+available in the dataset.
 
 Formally now, denote the set of seven repressor rates to be inferred as
 \begin{equation}
 \vect{k} =\{k_{Oid}^-, k_{O1}^-, k_{O2}^-,
 k_{0.5}^+, k_{1}^+, k_{2}^+, k_{10}^+\}.
 \end{equation}
-Note the repressor copy numbers are not known directly, so we label their
-association rates by the concentration of a small molecule inducer aTc
-which indirectly controls the transcription of $\textit{lacI}$.
-Also note that the authors of~\cite{Jones2014} report estimates
-of LacI copy number per cell rather than direct measurements.
-However, these estimates were made \textit{assuming} the validity
-of the equilibrium models in Figure~\ref{fig1:means_cartoons},
-and since \textit{testing} these models is our goal, we will make
-no assumptions about the LacI copy number for given aTc concentrations.
-
-Bayes theorem reads simply
+Note that since the repressor copy numbers are not known directly as explained
+before, we label their association rates by the concentration of aTc. Bayes
+theorem reads simply
 \begin{equation}
 p(\vect{k}, k_i, b \mid D)
 \propto
 p(D \mid\vect{k}, k_i, b) p(\vect{k}, k_i, b),
 \end{equation}
-where $D$ is the set of all $N$ observed single-cell mRNA counts
-across the various conditions. We assume that individual single-cell
-measurements are independent so that the likelihood factorizes as
+where $D$ is the set of all $N$ observed single-cell mRNA counts across the
+various conditions. We assume that individual single-cell measurements are
+independent so that the likelihood factorizes as
 \begin{equation}
 p(D \mid\vect{k}, k_i, b)
 = \prod_{j=1}^N p(m\mid \vect{k}, k_i, b)
 = \prod_{j=1}^N p(m\mid k_j^+, k_j^-, k_i, b)
 \end{equation}
-where $k_j^\pm$ represent the appropriate binding and unbinding
-rates for the $j$-th measured cell. The probability
-$p(m\mid k_j^+, k_j^-, k_i, b)$ appearing in the last expression
-is exactly Eq.~\ref{eq:p_m_bursty+rep_appdx}, the steady-state
-distribution for our bursty model with repression derived in
-Section~\ref{sec:gen_fcn_appdx}, which for completeness we reproduce here as
+where $k_j^\pm$ represent the appropriate binding and unbinding rates for the
+$j$-th measured cell. Our likelihood function, previously derived in
+Appendix~\ref{sec:gen_fcn_appdx}, is given by the rather complicated result in
+Eq.~\ref{eq:p_m_bursty+rep_appdx}, which for completeness we reproduce here as
 \begin{equation}
 \begin{split}
 p(m \mid k_R^+, k_R^-, k_i, b) = & ~\frac{
@@ -536,40 +518,37 @@ where $\alpha$ and $\beta$, defined for notational convenience, are
 \end{split}
 \end{align}
 
-\mmnote{Probably SI most of this paragraph?}
-This likelihood is rather inscrutable. We did not find any of the
-known analytical approximations for ${_2F_1}$ terribly useful in
-gaining intuition, so we instead resorted to numerics. One insight we found
+\mrm{This paragraph needs its own subsection in my opinion if it is to be 
+included in the SI.}
+This likelihood is rather inscrutable. We did not find any of the known
+analytical approximations for ${_2F_1}$ terribly useful in gaining intuition, so
+we instead resorted to numerics. One insight we found
 \mmnote{a plot would probably help explain, maybe SI, need to explain better}
 was that for very strong or very weak repression, the distribution in
-Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial
-with burst size $b$ and burst rate $k_i$ equal to their
-constitutive \textit{lacUV5} values, except with $k_i$ multiplied
-by the fold-change $\left(1+k_R^+/k_R^-\right)^{-1}$.
-In other words, once again only the \textit{ratio} $k_R^+/k_R^-$
-was detectable. But for intermediate repression, the distribution
-was visibly broadened with Fano factor greater than $1+b$, the
-value for the corresponding constitutive case. This indicates
-that the repressor rates had left an imprint on the distribution,
-and perhaps intuitively, this intermediate regime occurs for values of
-$k_R^\pm$ comparable to the burst rate $k_i$. Put another way,
-if the repressor rates are much faster or much slower than $k_i$,
-then there is a timescale separation and effectively only one
-timescale remains, $k_i\left(1+k_R^+/k_R^-\right)^{-1}$.
-Only when all three rates in the problem are comparable does the
-mRNA distribution retain detectable information about them.
+Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial with
+burst size $b$ and burst rate $k_i$ equal to their constitutive \textit{lacUV5}
+values, except with $k_i$ multiplied by the fold-change
+$\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again only the
+\textit{ratio} $k_R^+/k_R^-$ was detectable. But for intermediate repression,
+the distribution was visibly broadened with Fano factor greater than $1+b$, the
+value for the corresponding constitutive case. This indicates that the repressor
+rates had left an imprint on the distribution, and perhaps intuitively, this
+intermediate regime occurs for values of $k_R^\pm$ comparable to the burst rate
+$k_i$. Put another way, if the repressor rates are much faster or much slower
+than $k_i$, then there is a timescale separation and effectively only one
+timescale remains, $k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three
+rates in the problem are comparable does the mRNA distribution retain detectable
+information about them.
 
-Next we specify priors. As for the constitutive model, weakly
-informative lognormal priors are a natural choice for all our
-rates. We found that if the priors were too weak, our MCMC
-sampler would often become stuck in regions of parameter space
-with very low probability density, unable to move. We struck a
-balance in choosing our prior widths between helping the sampler
-run while simultaneously verifying that the marginal posteriors
-for each parameter were not artificially constrained or distorted
-by the presence of the prior. The only exception to this is the
-highly informative priors we placed on $k_i$ and $b$, since we
-have strong knowledge of them from our inference of constitutive
+Next we specify priors. As for the constitutive model, weakly informative
+lognormal priors are a natural choice for all our rates. We found that if the
+priors were too weak, our MCMC sampler would often become stuck in regions of
+parameter space with very low probability density, unable to move. We struck a
+balance in choosing our prior widths between helping the sampler run while
+simultaneously verifying that the marginal posteriors for each parameter were
+not artificially constrained or distorted by the presence of the prior. The only
+exception to this is the highly informative priors we placed on $k_i$ and $b$,
+since we have strong knowledge of them from our inference of constitutive
 promoters above.
 
 With priors and likelihood specified we may write down our complete generative model as
@@ -587,19 +566,31 @@ With priors and likelihood specified we may write down our complete generative m
 m &\sim \text{Likelihood}(k_R^+, k_R^-, k_i, b),
 \end{split}
 \end{equation}
-where the likelihood is specified by Eq.~\ref{eq:p_m_bursty+rep}.
-\mmnote{Now that I've typed this out, this notation seems totally
-pointless here, especially when the likelihood is not a standard
-distribution. Maybe I should make a table or something to record
-the prior values, and maybe even that should go to SI?}
-We ran MCMC sampling on the full nine dimensional posterior
-specified by this generative model. To attempt to visualize this
-object, in Figure~\ref{fig4:repressed_post_full}(A) we plot
-several two-dimensional slices as contour plots, analogous to
-Figure~\ref{fig:constit_post_full}(C). Each of these nine slices
-corresponds to the $(k_R^+, k_R^-)$ pair of rates for one of the
-conditions from the dataset used to fit the model and gives a
-sense of the uncertainty and correlations in the posterior.
+where the likelihood is specified by Eq.~\ref{eq:p_m_bursty+rep}. We ran MCMC
+sampling on the full nine dimensional posterior specified by this generative
+model.
+
+We found that fitting a single operator/aTc concentration at a time with a
+single binding and unbinding rate did not yield a stable inference for most of
+the possible operator/aTc combinations. In other words, a single dataset could
+not independently resolve the binding and unbinding rates, only their ratio as
+set by the mean fold-change in Figure~\ref{fig1:means_cartoons} in the main
+text. Only by making the assumption of a single unique binding rate for each
+repressor copy number and a single unique unbinding rate for each binding site,
+as done in Figure~\ref{fig4:repressed_post_full}(A), was it possible to
+independently resolve the rates and not merely their ratios.
+
+We also note that we found it necessary to exclude the very weakly and very
+strongly repressed datasets from Jones et.\ al.~\cite{Jones2014}. In both cases
+there was, in a sense, not enough information in the distributions for our
+inference algorithm to extract, and their inclusion simply caused problems for
+the MCMC sampler without yielding any new insight. For the strongly repressed
+data (Oid, 10~ng/mL aTc), with $>$ 95\% of cells with zero mRNA, there was quite
+literally very little data from which to infer rates. And the weakly repressed
+data, all with the repressor binding site O3, had an unbinding rate so fast that
+the sampler essentially sampled from the prior; the likelihood had negligible
+influence, meaning the data was not informing the sampler in any meaningful way,
+so no inference was possible.
 
 \mmnote{Outline:
 \begin{itemize}
@@ -633,32 +624,3 @@ assumptions, e.g., about equivalence of rates across experiments, but that seems
 quite reasonable.
 \end{itemize}
 }
-
-\mmnote{These next 2 paragraphs should be SI, I think. Leaving here for
-now to avoid a merge conflict w/ MRM.}
-
-We found that fitting a single operator/aTc concentration at a
-time with a single binding and unbinding rate did not yield a
-stable inference for most of the possible operator/aTc
-combinations. In other words, a single dataset could not
-independently resolve the binding and unbinding rates, only their
-ratio as set by the mean fold-change in
-Figure~\ref{fig1:means_cartoons}. Only by making the assumption
-of a single unique binding rate for each repressor copy number
-and a single unique unbinding rate for each binding site, as done
-in Figure~\ref{fig4:repressed_post_full}A, was it possible to
-independently resolve the rates and not merely their ratios.
-
-We also note that we found it necessary to exclude the very
-weakly and very strongly repressed datasets from Jones et.\
-al.~\cite{Jones2014}. In both cases there was, in a sense, not
-enough information in the distriubtions for our inference
-algorithm to extract, and their inclusion simply caused problems
-for the MCMC sampler without yielding any new insight. For the
-strongly repressed data (Oid, 10~ng/mL aTc), with $>$ 95\% of cells
-with zero mRNA, there was quite literally very little data from
-which to infer rates. And the weakly repressed data, all with the
-repressor binding site O3, had an unbinding rate so fast that the
-sampler essentially sampled from the prior; the likelihood had
-negligible influence, meaning the data was not informing the
-sampler in any meaninful way, so no inference was possible.
