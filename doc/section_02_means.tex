@@ -80,18 +80,17 @@ didn't mention it in the paper}. Computing fold-changes neatly cancels this
 effect as well.
 
 \fig{fig1:means_cartoons} depicts a smorgasbord of mathematicized cartoons for
-simple repression using both thermodynamic and kinetic models that have
-appeared in previous literature. For each cartoon, we calculate the fold-change
-in mean gene expression as predicted by that model, deferring some algebraic
-details to the appendix \mrm{cite specific appendix section}. What we will find
-is that all cartoons collapse to a single master curve, shown in
-\fig{fig1:means_cartoons}(D), which contains just two parameters. We label the
-parameters $\Delta F_R$, an effective free energy parametrizing the
-repressor-DNA interaction, and $\rho$, which subsumes all details of
-transcription in the absence of repressors. We will offer some intuition for why
-this master curve exists and discuss why at the level of the mean expression, we
-are unable to discriminate ``right'' from ``wrong'' cartoons given only
-measurements of fold-changes in expression.
+simple repression using both thermodynamic and kinetic models that have appeared
+in previous literature. For each cartoon, we calculate the fold-change in mean
+gene expression as predicted by that model, deferring some algebraic details to
+Appendix~\ref{sec:non_bursty}. What we will find is that all cartoons collapse
+to a single master curve, shown in \fig{fig1:means_cartoons}(D), which contains
+just two parameters. We label the parameters $\Delta F_R$, an effective free
+energy parametrizing the repressor-DNA interaction, and $\rho$, which subsumes
+all details of transcription in the absence of repressors. We will offer some
+intuition for why this master curve exists and discuss why at the level of the
+mean expression, we are unable to discriminate ``right'' from ``wrong'' cartoons
+given only measurements of fold-changes in expression.
 
 \subsubsection{The Two-State Equilibrium Model}
 In this simplest model, depicted as (1) in Figure~\ref{fig1:means_cartoons}(B),
@@ -109,8 +108,7 @@ is the mRNA degradation rate, $R$ is repressor copy number, $N_{NS}$ is the
 number of nonspecific binding sites in the genome where repressors spend most
 of their time when not bound to the operator, $\beta \equiv 1/k_BT$, and
 $\Delta\varepsilon_R$ is the binding energy of a repressor to its operator site.
-The derivation of this result is deferred to the appendix \mrm{cite specific 
-section}.
+The derivation of this result is deferred to Appendix~\ref{sec:non_bursty}.
 
 The fold-change is  found as the ratio of mean mRNA with and without repressor
 as introduced in eqn.~\ref{eq:fc_def}. Invoking that definition results in
@@ -245,10 +243,10 @@ derivatives to zero, the mean mRNA can be found to be
 \langle m \rangle = \frac{r}{\gamma}
         \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
 \end{equation}
-with the algebra details again deferred to the appendix \mrm{cite specific
-location}. Recall $k_R^+$ is proportional to the repressor copy number, so in
-computing fold-change, absence of repressor corresponds to $k_R^+\rightarrow0$.
-Therefore fold-change in this model is simply
+with the algebra details again deferred to Appendix~\ref{sec:non_bursty}. Recall
+$k_R^+$ is proportional to the repressor copy number, so in computing
+fold-change, absence of repressor corresponds to $k_R^+\rightarrow0$. Therefore
+fold-change in this model is simply
 \begin{equation}
 \text{fold-change} = \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
 \end{equation}
@@ -400,7 +398,7 @@ the closed complex. The initiation matrices are given by
 again closely analogous to nonequilibrium model 2.
 
 The expression for mean mRNA is substantially more complicated now, as worked
-out in the appendix \mrm{cite section} where we find
+out in Appendix~\ref{sec:non_bursty} where we find
 \begin{equation}
 \langle m\rangle = \frac{r}{\gamma}
         \frac{k_R^- k_P^+ k_O}

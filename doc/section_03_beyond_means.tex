@@ -85,7 +85,7 @@ Phillips2019}. Here,  as shown in model 2 of Figure~\ref{fig2:constit_cartoons},
 transcription initiation results in a state transition from the bound to the
 unbound state, reflecting the microscopic reality that an RNAP that has begun to
 elongate a transcript is no longer available at the start site to begin another.
-As shown in Appendix~\ref{sec:unreg_promoters}, the Fano factor in this model is
+As shown in Appendix~\ref{sec:non_bursty}, the Fano factor in this model is
 given by
 \begin{align}
     \nu = 1 -
@@ -200,7 +200,7 @@ process only when the promoter is in one of the two states in this model,
 transcription initiations should now be ``bunched,'' in contrast to the
 ``anti-bunching'' of models 2 and 3 above. One might further guess that this
 bunching would lead to super-Poissonian noise in the mRNA distribution over a
-population of cells.  Indeed, as shown in Appendix~\ref{sec:unreg_promoters}, a
+population of cells.  Indeed, as shown in Appendix~\ref{sec:non_bursty}, a
 calculation of the Fano factor produces
 \begin{align}
 \nu &= 1 + \frac{r k^-}{(k^+ + k^- + \gamma)(k^+ + k^-)},
@@ -319,7 +319,7 @@ So in taking the limit $r,k^-\rightarrow\infty$, $r/k^-\equiv b$, we obtain a
 model which effectively has only a single promoter state, which initiates bursts
 at rate $k^+$ (transitions to the active state, in the model 4 picture). The
 master equation for mRNA copy number $m$ as derived in
-Appendix~\ref{sec:unreg_promoters} takes the form
+Appendix~\ref{sec:non_bursty} takes the form
 \begin{align}
 \begin{split}
 {d \over dt}p(m,t) = & (m+1)\gamma p(m+1,t) - m\gamma p(m,t) \\
@@ -327,7 +327,6 @@ Appendix~\ref{sec:unreg_promoters} takes the form
          - \sum_{m'=m+1}^\infty k_i p(m,t) \text{Geom}(m'-m;b),
 \end{split}
 \end{align}
-\mrm{notice I changed $k^+$ to $k_i$ to be consistent with the figure.}
 where we use $k_i$ to denote the burst initiation rate, $\text{Geom}(n;b)$ is the
 geometric distribution with mean~$b$, i.e., $\text{Geom}(n;b) =
 \frac{1}{1+b}\left(\frac{b}{1+b}\right)^n$ (with domain over nonnegative
