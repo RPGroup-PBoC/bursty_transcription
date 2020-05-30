@@ -127,8 +127,19 @@ estimates, to write down prior distributions for our parameters. In summary then
 we don’t want to be maximally uninformative because we aren’t completely
 uninformed.
 
-\mrm{Still need to write something about the intuition of being data-rich and 
-how then the prior matters little.}
+For our particular case all of the datasets from~\cite{Jones2014} used in this
+paper have $\mathcal{O}(10^3)$ data points. What this implies is that our
+particular choice of priors will not significantly affect our inference as long
+as they are broad enough. A way to see why this is the case is to simply look at
+Bayes theorem. For $N ~ 1000-3000$ datum all of the independent of each other
+and $n \ll 10^3$ parameters Bayes theorem reads as
+\begin{equation}
+P(\vec{\theta} \mid D) \propto \prod_{k=1}^{N} P(d_k \mid \vec{\theta})
+\prod_{i=1}^n P(\theta_i),
+\end{equation}
+where $d_k$ represents the $k$-th datum. That means that if our priors span a
+wide range of parameter space, the posterior distribution would be dominated by
+the likelihood function.
 
 \mmnote{
 \begin{itemize}
@@ -399,22 +410,45 @@ With this, we are ready to write our full generative model as
 m \sim \text{NBinom}(k_i, b).
 \end{split}
 \end{equation}
-Section ~\ref{section_04_bayesian_inference} in the main text details the
+Section~\ref{section_04_bayesian_inference} in the main text details the
 results of applying this inference to the single-cell mRNA counts data.
 
 \subsection{Bayesian inference on the simple-repression architecture}
 
-Now that we have a satisfactory model in hand for constitutive
-promoters, we would like to return to the main thread: can we
-infer repressor binding and unbinding rates from mRNA distributions
-over a population of cells as measured by FISH in~\cite{Jones2014}?
-If so, how do these inferred rates compare to direct
-single-molecule measurements such as from~\cite{Hammar2014} and
-to binding energies such as from~\cite{Garcia2011a}
-and~\cite{Razo-Mejia2018}, which were inferred under the assumptions
-of the equilibrium models in Figure~\ref{fig1:means_cartoons}(B)?
-And can this comparison shed light on the unreasonable effectiveness
-of the equilibrium models?
+As detailed in~\ref{section_04_bayesian_inference} in the main text the
+inference on the unregulated promoter served as a stepping stone towards our
+ultimate goal of inferring repressor rates from the steady-state mRNA
+distributions of simple-repression architectures. For this we expand the
+one-state bursty promoter model to a two-state promoter as schematized in
+Figure~\ref{fig1:means_cartoons}(C) as model 5. This model adds two new
+parameters: the repressor binding rate $k^+$, solely function of the repressor
+concentration, and the repressor dissociation rate $k^-$, solely a function of
+the repressor-DNA binding affinity.
+
+The structure of the data in~\cite{Jones2014} for regulated promoters tuned
+these two parameters independently. In their work the production of the LacI
+repressor was under the control of an inducible promoter regulated by the TetR
+repressor as schematized in Figre~\ref{figS:aTc_circuit}. When TetR binds to the
+small molecule anhydrotetracycline (aTc), it shifts to an inactive conformation
+unable to bind to the DNA. This translates into an increase in gene expression
+level. In other words, the higher the concentration of aTc added to the media,
+the less TetR repressors that can control the expression of the \textit{lacI}
+gene, so the higher the concentration of LacI repressors in the cell.
+
+\begin{figure}[h!]
+\centering
+\includegraphics{../figures/si/figS0X_aTc_circuit.pdf}
+\caption{\textbf{aTc controlled expression of LacI repressor.} Schematic of the
+circuit used in~\cite{Jones2014} to control the expression of the LacI
+repressor. The \textit{lacI} gene is under the control of the TetR repressor. As
+the TetR repressor is inactivated upon binding of anhydrotetracycline or aTc,
+the more aTc added to the media were cells are growing, the less TetR repressors
+available to control the expression of the \textit{lacI} gene, resulting in more
+LacI repressors per cell. LacI simultaneously controls the expression of the
+mRNA on which single-molecule mRNA FISH was performed for gene expression
+quantification.}
+\label{figS:aTc_circuit}
+\end{figure}
 
 As we found in Section~\ref{sec:beyond_means}, for our purposes
 the ``right'' model of a constitutive promoter is the bursty
