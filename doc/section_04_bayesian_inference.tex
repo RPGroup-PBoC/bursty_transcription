@@ -1,6 +1,5 @@
 % !TEX root = ./bursty_transcription.tex
-\section{Finding the ``right'' model: Bayesian parameter inference and model 
-selection}
+\section{Finding the ``right'' model: Bayesian parameter inference}
 \label{section_04_bayesian_inference}
 
 In this section of the paper, we continue our program of providing one complete
@@ -17,9 +16,9 @@ indirectly inferred from gene expression measurements, agree with the
 corresponding values of repressor binding and unbinding rates in the
 non-equilibrium picture, measured or inferred more directly? In this section we
 tackle the statistical inference problem of inferring these repressor rates from
-mRNA FISH data. But before we can turn to the full case of simple repression, we
-must choose an appropriate model of the constitutive promoter and infer the
-parameter values in that model. This is the problem we address first.
+single-cell mRNA counts data. But before we can turn to the full case of simple
+repression, we must choose an appropriate model of the constitutive promoter and
+infer the parameter values in that model. This is the problem we address first.
 
 
 \subsection{Parameter inference for constitutive promoters}
@@ -29,10 +28,11 @@ model 5 in Figure~\ref{fig2:constit_cartoons}(A), a one-state bursty model of
 constitutive promoters, achieves the right balance of complexity and simplicity,
 by allowing both Fano factor $\nu>1$, but also by remedying, by design, the
 problems of parameter degeneracy than model 4 in
-Figure~\ref{fig2:constit_cartoons} suffered. Does this stand up to closer
-scrutiny, namely, comparison to full mRNA distributions rather than simply their
-moments? We will test this thoroughly on single-cell mRNA counts for different
-unregulated promoters from Jones et.\ al.~\cite{Jones2014}.
+Figure~\ref{fig2:constit_cartoons} suffered~\cite{Razo-Mejia2020}. Does this
+stand up to closer scrutiny, namely, comparison to full mRNA distributions
+rather than simply their moments? We will test this thoroughly on single-cell
+mRNA counts for different unregulated promoters from Jones et.\
+al.~\cite{Jones2014}.
 
 It will be instructive, however, to first consider the Poisson promoter, model 1
 in Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the
@@ -122,8 +122,8 @@ Gamma distribution conjugate prior, the posterior distribution is also a Gamma
 distribution ~\cite{Gelman2013}. Specifically the two parameters $\alpha'$ and
 $\beta'$ for this posterior distribution take the form $\alpha' = \alpha +
 \bar{m} N$ and $\beta' = \beta + N$, where we defined the sample mean $\bar{m} =
-\frac{1}{N}\sum_k m_k$ for notational convenience, and $N$ is the number of
-cells in our dataset. Furthermore, given that $N$ is $\mathcal{O}(10^3)$ and
+\frac{1}{N}\sum_{k=1}^N m_k$ for notational convenience, and $N$ is the number
+of cells in our dataset. Furthermore, given that $N$ is $\mathcal{O}(10^3)$ and
 $\langle m\rangle \gtrsim 0.1$ for all promoters measured in~\cite{Jones2014}
 our data easily overwhelms the choice of prior, and allows us to approximate the
 Gamma distribution with a Gaussian distribution with mean $\bar{m}$ and variance
@@ -183,16 +183,17 @@ domain expertise spans several orders of magnitude. For this we chose log-Normal
 distributions for both $k_i$ and $b$. Details on the mean and variance of these
 distributions can be found in Appendix~\ref{sec:bayesian}.
 
-We carried out MCMC sampling on the posterior of this model, starting with the
-constitutive \textit{lacUV5} dataset from~\cite{Jones2014}. The resulting MCMC
-samples are shown in Figure~\ref{fig:constit_post_full}(A). In contrast to the
-active/inactive constitutive model considered in~\cite{Razo-Mejia2020}
-(nonequilibrium model 4 in~\ref{fig2:constit_cartoons}), this model is
-well-identified with both parameters determined to a fractional uncertainty of
-5-10\%. The strong correlation reflects the fact that their product sets the
-mean of the mRNA distribution, which is tightly constrained by the data, but
-there is weak ``sloppiness''~\cite{Transtrum2015} along a set of values with a
-similar product.
+We carried out Markov-Chain Monte Carlo (MCMC) sampling on the posterior of this
+model, starting with the constitutive \textit{lacUV5} dataset
+from~\cite{Jones2014}. The resulting MCMC samples are shown in
+Figure~\ref{fig:constit_post_full}(A). In contrast to the active/inactive
+constitutive model considered in~\cite{Razo-Mejia2020} (nonequilibrium model 4
+in~\ref{fig2:constit_cartoons}), this model is well-identified with both
+parameters determined to a fractional uncertainty of 5-10\%. The strong
+correlation reflects the fact that their product sets the mean of the mRNA
+distribution, which is tightly constrained by the data, but there is weak
+``sloppiness''~\cite{Transtrum2015} along a set of values with a similar
+product.
 
 Having found the model's posterior to be well-identified as with the Poisson
 promoter, the next step is to compare both models with experimental data. To do
@@ -240,7 +241,7 @@ with negative binomially-distributed steady state, is plotted with MCMC samples.
 was fit on \textit{lacUV5} data from~\cite{Jones2014}. (B) The empirical
 distribution function (ECDF) of the observed population distribution of mRNA
 transcripts under the control of a constitutive \textit{lacUV5} promoter is
-shown in orange. The median posterior predictive ECDFs for models (1), Poisson,
+shown in black. The median posterior predictive ECDFs for models (1), Poisson,
 and (5), negative binomial, are plotted in dark green and dark blue,
 respectively. Lighter green and blue regions enclose 95\% of all posterior
 predictive samples from their respective models. Model (1) is in obvious
@@ -279,7 +280,7 @@ a range of $\lesssim10^1$ (and with the exception of promoter 6, just a span of
 promoter sequence tunes.
 
 \subsubsection{Connecting inferred parameters to prior work}
-It is interesting to connect these speculations on $k_i$ and $b$ to the work
+It is interesting to connect these inferences on $k_i$ and $b$ to the work
 of~\cite{Brewster2012}, where these same 18 promoters were considered through
 the lens of the three-state equilibrium model (model 2 in
 Figure~\ref{fig1:means_cartoons}(B)) and binding energies $\Delta\varepsilon_P$
@@ -351,8 +352,8 @@ thought of it is unique in satisfying both.
 \end{itemize}
 }
 
-\subsection{Transcription factor kinetics can be inferred from FISH
-measurements}\label{sec:rep_kinetics_inference}
+\subsection{Transcription factor kinetics can be inferred from single-cell mRNA
+distribution measurements}\label{sec:rep_kinetics_inference}
 \subsubsection{Building the model and performing parameter inference}
 
 Now that we have a satisfactory model in hand for constitutive promoters, we
@@ -362,13 +363,14 @@ Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, the correspondence between indirectly
 inferred equilibrium binding energies and nonequilibrium kinetic rates? To make
 this comparison, is it possible to infer repressor binding and unbinding rates
 from mRNA distributions over a population of cells as measured by
-single-molecule FISH in~\cite{Jones2014}? If so, how do these inferred rates
-compare to direct single-molecule measurements such as from~\cite{Hammar2014}
-and to binding energies such as from~\cite{Garcia2011a}
-and~\cite{Razo-Mejia2018}, which were inferred under the assumptions of the
-equilibrium models in Figure~\ref{fig1:means_cartoons}(B)? And can this
-comparison shed light on the unreasonable effectiveness of the equilibrium
-models, for instance, in their application in~\cite{Chure2019, Chure2019a}?
+single-molecule Fluorescence \textit{in situ} Hybridization in~\cite{Jones2014}?
+If so, how do these inferred rates compare to direct single-molecule
+measurements such as from~\cite{Hammar2014} and to binding energies such as
+from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}, which were inferred under the
+assumptions of the equilibrium models in Figure~\ref{fig1:means_cartoons}(B)?
+And can this comparison shed light on the unreasonable effectiveness of the
+equilibrium models, for instance, in their application in~\cite{Chure2019,
+Chure2019a}?
 
 \begin{figure}%[h!]
 \centering
@@ -400,7 +402,7 @@ point.}
 
 As we found in Section~\ref{sec:beyond_means}, for our purposes the ``right''
 model of a constitutive promoter is the bursty picture, model five in
-Figure~\ref{fig2:constit_cartoons}A. Therefore our starting point here is the
+Figure~\ref{fig2:constit_cartoons}(A). Therefore our starting point here is the
 analogous model with repressor added, model 5 in
 Figure~\ref{fig1:means_cartoons}(C). For a given repressor binding site and copy
 number, this model has four rate parameters to be inferred: the repressor
@@ -410,8 +412,8 @@ mRNA degradation rate $\gamma$).
 
 Before showing the mathematical formulation of our statistical inference model,
 we would like to sketch the intuitive structure. The dataset
-from~\cite{Jones2014} we consider consists of single-cell mRNA FISH measurements
-of nine different conditions, spanning several combinations of three unique
+from~\cite{Jones2014} we consider consists of single-cell mRNA counts data of
+nine different conditions, spanning several combinations of three unique
 repressor binding sites and four unique repressor copy numbers. We assume that
 the values of $k_i$ and $b$ are known, since we have already cleanly inferred
 them from constitutive promoter data, and further we assume that these values
@@ -419,12 +421,12 @@ are the same across datasets with different repressor binding sites and copy
 numbers. In other words, we assume that the regulation of the transcription
 factor does not affect the mean burst size nor the burst initiation rate. The
 regulation happens as the promoter is taken away from the transcriptionally
-active state when the promoter is bound by repressor. We assume that there is one unbinding
-rate parameter for each repressor binding site, which is shared across aTc
-inducer conditions, and likewise one binding rate for each unique repressor copy
-number. This makes our model seven dimensional, or nine if one counts $k_i$ and
-$b$ as well. Note that we use only a subset of the datasets from
-Jones et.\ al.~\cite{Jones2014}, as discussed more in Appendix~\ref{sec:bayes}.
+active state when the promoter is bound by repressor. We assume that there is
+one unbinding rate parameter for each repressor binding site, and likewise one
+binding rate for each unique repressor copy number. This makes our model seven
+dimensional, or nine if one counts $k_i$ and $b$ as well. Note that we use only
+a subset of the datasets from Jones et.\ al.~\cite{Jones2014}, as discussed more
+in Appendix~\ref{sec:bayes}.
 
 Formally now, denote the set of seven repressor rates to be inferred as
 \begin{equation}
@@ -432,19 +434,18 @@ Formally now, denote the set of seven repressor rates to be inferred as
 k_{0.5}^+, k_{1}^+, k_{2}^+, k_{10}^+\},
 \end{equation}
 where subscripts for dissociation rates $k^-$  indicate the different repressor
-binding sites, and subscripts for association rates $k^+$ indicate the aTc
-concentration at which the repressor itself was induced. We emphasize that for
-this particular dataset the repressor copy numbers are not known directly, so we
-label their association rates by the concentration of a small inducer molecule 
-aTc which indirectly controls the transcription of $\textit{lacI}$, as
-described in detail in~\cite{Jones2014}. Also note
-that the authors of~\cite{Jones2014} report estimates of LacI copy number per
-cell rather than direct measurements. However, these estimates were made
-\textit{assuming} the validity of the equilibrium models in
-Figure~\ref{fig1:means_cartoons}, and since \textit{testing} these models is our
-present goal, it would be circular logic if we were to make the same assumption.
-Therefore we will make no assumptions about the LacI copy number for given aTc
-concentrations.
+binding sites, and subscripts for association rates $k^+$ indicate the
+concentration of the small-molecule that controlled the expression of the LacI
+repressor (see Appendix~\ref{sec:bayes}). This is because for this particular
+dataset the repressor copy numbers were not measured directly, but it is safe to
+assume that a given concentration of the inducer resulted in a specific mean
+repressor copy number\cite{Chure2019a}. Also note that the authors
+of~\cite{Jones2014} report estimates of LacI copy number per cell rather than
+direct measurements. However, these estimates were made assuming the validity of
+the equilibrium models in Figure~\ref{fig1:means_cartoons}, and since testing
+these models is our present goal, it would be circular logic if we were to make
+the same assumption. Therefore we will make no assumptions about the LacI copy
+number for a given inducer concentrations.
 
 Having stated the problem, Bayes theorem reads simply
 \begin{equation}
@@ -492,7 +493,6 @@ $\alpha$ and $\beta$, defined for notational convenience, are
 \end{split}
 \end{align}
 
-\mmnote{Probably SI most of this paragraph?}
 This likelihood is rather inscrutable. We did not find any of the known
 analytical approximations for ${_2F_1}$ terribly useful in gaining intuition, so
 we instead resorted to numerics. One insight we found
@@ -501,17 +501,17 @@ was that for very strong or very weak repression, the distribution in
 Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial with
 burst size $b$ and burst rate $k_i$ equal to their constitutive \textit{lacUV5}
 values, except with $k_i$ multiplied by the fold-change
-$\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again only the
-\textit{ratio} $k_R^+/k_R^-$ was detectable. But for intermediate repression,
-the distribution was visibly broadened with Fano factor greater than $1+b$, the
-value for the corresponding constitutive case. This indicates that the repressor
-rates had left an imprint on the distribution, and perhaps intuitively, this
-intermediate regime occurs for values of $k_R^\pm$ comparable to the burst rate
-$k_i$. Put another way, if the repressor rates are much faster or much slower
-than $k_i$, then there is a timescale separation and effectively only one
-timescale remains, $k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three
-rates in the problem are comparable does the mRNA distribution retain detectable
-information about them.
+$\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again only the ratio
+$k_R^+/k_R^-$ was detectable. But for intermediate repression, the distribution
+was visibly broadened with Fano factor greater than $1+b$, the value for the
+corresponding constitutive case. This indicates that the repressor rates had
+left an imprint on the distribution, and perhaps intuitively, this intermediate
+regime occurs for values of $k_R^\pm$ comparable to the burst rate $k_i$. Put
+another way, if the repressor rates are much faster or much slower than $k_i$,
+then there is a timescale separation and effectively only one timescale remains,
+$k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three rates in the problem
+are comparable does the mRNA distribution retain detectable information about
+them.
 
 Next we specify priors. As for the constitutive model, weakly informative
 lognormal priors are a natural choice for all our rates. We found that if the
@@ -601,9 +601,7 @@ from~\cite{Razo-Mejia2018}, and as the authors of~\cite{Razo-Mejia2018} note,
 this is a difficult measurement of low fluorescence signal against high
 background since Oid represses so strongly. We are therefore inclined to regard
 the failure of this point to fall near the diagonal as a testament to the
-difficulty of the measurement and not as a failure of our theory. \mmnote{Does
-this seem a fair characterization?   - RP: thanks, that was very helpful for
-me.}
+difficulty of the measurement and not as a failure of our theory.
 
 On the whole then, we regard this as striking confirmation of the validity of
 the equilibrium models. Their lynchpin parameter is a phenomenological free
@@ -623,7 +621,7 @@ repressor in vivo. To verify that this is not the case, we next compare our
 kinetic rates with a different measurement of the same rates using a radically
 different method: single molecule measurements as performed in Hammar et.\
 al.~\cite{Hammar2014}. This is plotted in the lower panel of
-Figure~\ref{fig4:repressed_post_full}B.
+Figure~\ref{fig4:repressed_post_full}(B).
 
 Since we do not have access to repressor copy number for either the
 single-cell mRNA data from~\cite{Jones2014} or the single-molecule data
@@ -640,9 +638,9 @@ of $k_{O1}^-$ and $k_{Oid}^-$ from our inference with corresponding values
 reported in~\cite{Hammar2014} for both these choices of $\gamma$.
 
 The degree of quantitative agreement in the lower panel of
-Figure~\ref{fig4:repressed_post_full}B clearly depends on the precise choice of
-$\gamma$. Nevertheless we find this comparison very satisfying, when two wildly
-different approaches to a measurement of the same quantity yield broadly
+Figure~\ref{fig4:repressed_post_full}(B) clearly depends on the precise choice
+of $\gamma$. Nevertheless we find this comparison very satisfying, when two
+wildly different approaches to a measurement of the same quantity yield broadly
 compatible results. We emphasize the agreement between our rates and the rates
 reported in~\cite{Hammar2014} for any reasonable $\gamma$: values differ by at
 most a factor of 2 and possibly agree to within our uncertainties of 10-20\%.
@@ -653,8 +651,8 @@ these rates with binding energies from~\cite{Garcia2011a}
 and~\cite{Razo-Mejia2018} are valid.
 
 \subsubsection{Model checking}
-In Figure~\ref{fig:constit_post_full}B we saw that the simple Poisson model of a
-constitutive promoter, despite having a well behaved posterior, was clearly
+In Figure~\ref{fig:constit_post_full}(B) we saw that the simple Poisson model of
+a constitutive promoter, despite having a well behaved posterior, was clearly
 insufficient to describe the data. It behooves us to carry out a similar check
 for our model of simple repression, codified by Eq.~\ref{eq:p_m_bursty+rep} for
 the steady-state mRNA copy number distribution. As derived in
@@ -666,31 +664,31 @@ The details are deferred to Appendix~\ref{sec:bayesian}, and here we only
 attempt to summarize the intuitive ideas, as detailed at greater length by
 Jaynes~\cite{Jaynes2003} as well as Gelman and
 coauthors~\cite{Gelman2013,Gelman2013a}. From our samples of the posterior
-distribution, plotted in Figure~\ref{fig4:repressed_post_full}A, we generate
+distribution, plotted in Figure~\ref{fig4:repressed_post_full}(A), we generate
 many replicate data using a random number generator. In
-Figure~\ref{fig4:repressed_post_full}C, we plot empirical cumulative
+Figure~\ref{fig4:repressed_post_full}(C), we plot empirical cumulative
 distribution functions of the middle 95\% quantiles of these replicate data with
 the actual experimental data from Jones et.\ al.~\cite{Jones2014} overlaid,
 covering all ten experimental conditions spanning repressor binding sites and
 copy numbers (as well as the constitutive baseline UV5).
 
-The purpose of Figure~\ref{fig4:repressed_post_full}C is simply a graphical,
+The purpose of Figure~\ref{fig4:repressed_post_full}(C) is simply a graphical,
 qualitative assessment of the model: do the experimental data systematically
 disagree with the simulated data, which would suggest that our model is missing
 important features? A further question is not just whether there is a detectable
 difference between simulated and experimental data, but whether this difference
 is likely to materially affect the conclusions we draw from the posterior in
-Figure~\ref{fig4:repressed_post_full}A. More rigorous and quantitative
+Figure~\ref{fig4:repressed_post_full}(A). More rigorous and quantitative
 statistical tests are possible~\cite{Gelman2013}, but their quantitativeness
 does not necessarily make them more useful. As stated in~\cite{Gelman2013a}, we
 often find this graphical comparison more enlightening because it better engages
 our intuition for the model, not merely telling \textit{if} the model is wrong
 but suggesting \textit{how} the model may be incomplete.
 
-Our broad brush takeaway from Figure~\ref{fig4:repressed_post_full}C is overall
-of good agreement. There some oddities, in particular the long tails in the data
-for Oid, 1~ng/mL, and O2, 0.5~ng/mL. The latter is especially odd since it
-extends beyond the tail of the unregulated UV5 distribution. This is a
+Our broad brush takeaway from Figure~\ref{fig4:repressed_post_full}(C) is
+overall of good agreement. There some oddities, in particular the long tails in
+the data for Oid, 1~ng/mL, and O2, 0.5~ng/mL. The latter is especially odd since
+it extends beyond the tail of the unregulated UV5 distribution. This is a
 relatively small number of cells, however, so whether this is a peculiarity of
 the experimental data, a statistical fluke of small numbers, or a real
 biological effect is unclear. It is conceivable that there is some very slow
@@ -704,26 +702,3 @@ this discrepancy either. None of these fairly minor quibbles cause us to
 seriously doubt the overall correctness of our model, which further validates
 its use to compare the equilibrium models' binding energies to the
 nonequilibrium models' repressor kinetics, as we originally set out to do.
-
-
-% With priors and likelihood specified we may write down our complete generative model as
-% \begin{equation}
-% \begin{split}
-% \log_{10}k_i &\sim \text{Normal}(0.725, 0.025)\\
-% \log_{10}b   &\sim \text{Normal}(0.55, 0.025)\\
-% \log_{10}k_{0.5}^+ &\sim \text{Normal}(-0.45, 0.3)\\
-% \log_{10}k_{1}^+   &\sim \text{Normal}(0.6, 0.3)\\
-% \log_{10}k_{2}^+   &\sim \text{Normal}(1.15, 0.3)\\
-% \log_{10}k_{10}^+  &\sim \text{Normal}(1.5, 0.3)\\
-% \log_{10}k_{Oid}^- &\sim \text{Normal}(-0.25, 0.3)\\
-% \log_{10}k_{O1}^-  &\sim \text{Normal}(0.1, 0.3)\\
-% \log_{10}k_{O2}^-  &\sim \text{Normal}(0.45, 0.3)\\
-% m &\sim \text{Likelihood}(k_R^+, k_R^-, k_i, b),
-% \end{split}
-% \end{equation}
-% where the likelihood is specified by Eq.~\ref{eq:p_m_bursty+rep}.
-% \mmnote{Now that I've typed this out, this notation seems totally
-% pointless here, especially when the likelihood is not a standard
-% distribution. Maybe I should make a table or something to record
-% the prior values, and maybe even that should go to SI?}
-
