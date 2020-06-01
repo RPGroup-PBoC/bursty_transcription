@@ -2,6 +2,507 @@
 \section{Derivations for non-bursty promoter models}
 \label{sec:non_bursty}
 
+In this section we detail the calculation of mean mRNA levels,
+fold-changes in expression, and Fano factors for nonequilibrium
+promoter models one through four in Figure~\ref{fig1:means_cartoons}.
+These are the results that were quoted but not derived in
+Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
+main text. In each of these four models, the natural
+mathematization of their cartoons is as a chemical master
+equation such as Eq.~\ref{eq:2state_rep_cme} for model one, which
+for completeness we reproduce here as
+\begin{align}
+\begin{split}
+\deriv{t}p_R(m,t) =& 
+- \overbrace{k_R^- p_R(m,t)}^{R \rightarrow U}
++ \overbrace{k_R^+ p_U(m,t)}^{U \rightarrow R}
++ \overbrace{(m+1)\gamma p_R(m+1,t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma mp_R(m,t)}^{m \rightarrow m - 1}
+\\
+\deriv{t}p_U(m,t) =&\; 
+\overbrace{k_R^- p_R(m,t)}^{R \rightarrow U}
+- \overbrace{k_R^+ p_U(m,t)}^{U \rightarrow R}
++ \overbrace{rp_U(m-1,t)}^{m-1 \rightarrow m}
+- \overbrace{rp_U(m,t)}^{m \rightarrow m + 1}
+\\
+&+ \overbrace{(m+1)\gamma p_U(m+1,t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma mp_U(m,t)}^{m \rightarrow m - 1}.
+\label{eq:poisson_promoter_cme_appdx}
+\end{split}
+\end{align}
+Here $p_R(m,t)$ and $p_U(m,t)$ are the probabilities of finding
+the system with $m$ mRNA molecules at time $t$ either in the
+repressor bound or unbound states, respectively. $r$ is the
+probability per unit time that a transcript will be initiated
+when the repressor is unbound, and $\gamma$ is the probability
+per unit time for a given mRNA to be degraded. $k_R^-$ is the
+probability per unit time that a bound repressor will unbind,
+while $k_R^+$ is the probability per unit time that an unbound
+operator will become bound by a repressor. Assuming mass action
+kinetics, $k_R^+$ is proportional to repressor copy number $R$.
+
+Next consider the cartoon for nonequilibrium model two in
+Figure~\ref{fig1:means_cartoons}. Now we must track probabilities
+$p_R$, $p_P$, and $p_E$ for the repressor bound, polymerase
+bound, and unbound states, respectively. By analogy
+to~\ref{eq:poisson_promoter_cme_appdx}, the master equation for
+model two can be written
+\begin{align}
+\begin{split}
+\deriv{t}p_R(m,t) =& 
+- \overbrace{k_R^- p_R(m,t)}^{R \rightarrow U}
++ \overbrace{k_R^+ p_E(m,t)}^{U \rightarrow R}
++ \overbrace{(m+1)\gamma p_R(m+1,t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma mp_R(m,t)}^{m \rightarrow m - 1}
+\\
+\deriv{t}p_E(m,t) =&\; 
+  \overbrace{k_R^- p_R(m,t)}^{R \rightarrow U}
+- \overbrace{k_R^+ p_E(m,t)}^{U \rightarrow R}
++ \overbrace{(m+1)\gamma p_E(m+1,t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma mp_E(m,t)}^{m \rightarrow m - 1}.
+\\
+&
++ \overbrace{k_P^- p_P(m,t)}^{A \rightarrow U}
+- \overbrace{k_P^+ p_E(m,t)}^{U \rightarrow A}
++ \overbrace{rp_P(m-1,t)}^{m-1 \rightarrow m,\;A \rightarrow U}
+\\
+\deriv{t}p_P(m,t) =&\; 
+- \overbrace{k_P^- p_P(m,t)}^{A \rightarrow U}
++ \overbrace{k_P^+ p_E(m,t)}^{U \rightarrow A}
++ \overbrace{(m+1)\gamma p_P(m+1,t)}^{m + 1 \rightarrow m}
+- \overbrace{\gamma mp_P(m,t)}^{m \rightarrow m - 1}.
+\\
+&- \overbrace{rp_P(m,t)}^{m \rightarrow m + 1,\;A \rightarrow U}.
+\label{eq:model2_cme_appdx}
+\end{split}
+\end{align}
+$k_P^+$ and $k_P^-$ are defined in close analogy to $k_R^+$ and
+$k_R^-$, except for RNAP binding and unbinding instead of
+repressor. Similarly $p_P(m,t)$ is defined for the active
+(RNAP-bound) state exactly as are $p_R(m,t)$ and $p_E(m,t)$ for
+the repressor bound and unbound states, respectively.
+The new subtlety Eq.~\ref{eq:model2_cme_appdx} introduces compared to
+Eq.~\ref{eq:poisson_promoter_cme_appdx} is that when mRNAs are
+produced, the promoter state also changes. This is encoded by the
+terms involving $r$, the last term in each of the equations for
+$p_E$ and $p_P$. The former accounts for arrivals in the
+unbound state and the latter accounts for departures from the
+RNAP-bound state.
+
+To condense and clarify the unwieldy notation of
+Eq.~\ref{eq:model2_cme_appdx}, it can be rewriten in matrix form. We define the column vector $\vec{p}(m,t)$ as
+\begin{equation}
+\vec{p}(m,t)
+= \begin{pmatrix} p_R(m,t) \\ p_E(m,t) \\ p_P(m,t) \end{pmatrix}
+\end{equation}
+to gather, for a given $m$, the probabilities of finding the
+system in the three possible promoter states. Then all the
+transition rates may be condensed into matrices which multiply
+this vector. The first matrix is
+\begin{equation}
+\mathbf{K} = \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
+                        k_R^- & -k_R^+ -k_P^+ & k_P^- \\
+                        0 & k_P^+ & -k_P^- 
+                \end{pmatrix},
+% \label{eq:3state_cme_matrices_pt1}
+\end{equation}
+which tracks all promoter state changes in
+Eq.~\ref{eq:model2_cme_appdx} that are \textit{not} accompanied
+by a change in the mRNA copy number. The two terms accounting for
+transcription, the only transition that increases mRNA copy
+number, must be handled by two separate matrices given by
+\begin{equation}
+\mathbf{R_A} = \begin{pmatrix}
+                0 & 0 & 0 \\ 
+                0 & 0 & r \\ 
+                0 & 0 & 0
+                \end{pmatrix},\
+\mathbf{R_D} = \begin{pmatrix}
+                0 & 0 & 0 \\ 
+                0 & 0 & 0 \\ 
+                0 & 0 & r
+                \end{pmatrix}.
+% \label{eq:3state_cme_matrices_pt2}
+\end{equation}
+With these definitions, we can condense Eq.~\ref{eq:model2_cme_appdx} into
+the single equation
+\begin{equation}
+\frac{d}{dt} \vec{p}(m,t) =
+\left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m,t)
+                + \mathbf{R_A} \vec{p}(m-1,t) +
+                \gamma (m+1) \mathbf{I} \vec{p}(m+1,t),
+\label{eq:generic_cme_appdx}
+\end{equation}
+which is just Eq.~\ref{eq:3state_rep_cme} in the main text.
+Straightforward if tedious algebra verifies that
+Eqs.~\ref{eq:3state_rep_cme} and~\ref{eq:generic_cme_appdx} are
+in fact equivalent.
+
+Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case
+of nonequilibrium model two in Figure~\ref{fig1:means_cartoons},
+in fact the chemical master equations for all of the
+nonequilibrium models in Figure~\ref{fig1:means_cartoons} except
+for model five can be cast in this form. (We treat model five
+separately in Section~\ref{sec:gen_fcn_appdx}.)
+Model three introduces no new subtleties beyond model two and
+Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply
+with different matrices of dimension four instead of three.
+Models one and four are both handled by Eq.~\ref{eq:2state_rep_cme}
+in the main text, which is just Eq.~\ref{eq:generic_cme_appdx}
+except in the special case of $\mathbf{R_D} = \mathbf{R_A} \equiv
+\mathbf{R}$, since in these two models transcription initiation
+events do not change promoter state.
+
+Recalling that our goal in this section is to derive expressions
+for mean mRNA and Fano factor for nonequilibrium models one
+through four in Figure~\ref{fig1:means_cartoons}, and since all
+four of these models are described by Eq.~\ref{eq:generic_cme_appdx},
+we can save substantial effort by deriving general formulas for
+mean mRNA and Fano factor from Eq.~\ref{eq:generic_cme_appdx}
+once and for all. Then for each model we can simply plug in the
+appropriate matrices for $\mathbf{K}$, $\mathbf{R_D}$, and
+$\mathbf{R_A}$ and carry out the remaining algebra.
+
+For our purposes it will suffice to derive the first and second
+moments of the mRNA distribution from this master equation,
+similar to the treatment in~\cite{Sanchez2011}, but we refer the
+interested reader to~\cite{Razo-Mejia2020} for an analogous
+treatment demonstrating an analytical solution for arbitrary moments.
+
+\subsection{General forms for mean mRNA and Fano factor}
+Our task now is to derive expressions for the first two moments of the
+steady-state mRNA distribution from Eq.~\ref{eq:generic_cme_appdx}.
+Our treatment of this is analogous to that given in~\cite{Sanchez2011}
+and~\cite{Razo-Mejia2020}. We first obtain the steady-state limit of
+Eq.~\ref{eq:generic_cme_appdx} in which the time derivative vanishes, giving
+\begin{equation}
+0 =
+\left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
+                + \mathbf{R_A} \vec{p}(m-1) +
+                \gamma (m+1) \mathbf{I} \vec{p}(m+1),
+\label{eq:generic_cme_ss}
+\end{equation}
+From this, we want to compute
+\begin{equation}
+\langle{m}\rangle = \sum_S \sum_{m=0}^\infty m p_S(m)
+\end{equation}
+and
+\begin{equation}
+\langle{m^2}\rangle = \sum_S \sum_{m=0}^\infty m^2 p_S(m)
+\end{equation}
+which define the average values of $m$ and $m^2$ at steady state, where the
+averaging is over all possible mRNA copy numbers and promoter states $S$.
+For example, for model one in Figure~\ref{fig1:means_cartoons}, the sum on $S$
+would cover repressor bound and unbound states ($R$ and $U$ respectively),
+for model two, the sum would cover repressor bound, polymerase bound,
+and empty states ($R$, $P$, and $E$), and so on for the other models.
+
+Along the way it will be convenient to define the following
+\textit{conditional} moments as
+\begin{equation}
+\langle\vec{m}\rangle = \sum_{m=0}^\infty m \vec{p}(m),
+\end{equation}
+and
+\begin{equation}
+\langle\vec{m}^2\rangle = \sum_{m=0}^\infty m^2 \vec{p}(m).
+\end{equation}
+These objects are vectors of the same size as $\vect{p}(m)$, and each
+component can be thought of as the expected value of the mRNA copy number,
+or copy number squared, conditional on the promoter being in a certain state.
+For example, for model one in Figure~\ref{fig1:means_cartoons} which has
+repressor bound and unbound states labeled $R$ and $U$,
+$\langle\vec{m}^2\rangle$ would be
+\begin{equation}
+\langle\vec{m}^2\rangle
+= \begin{pmatrix} \sum_{m=0}^\infty m^2 p_R(m)
+                \\ \sum_{m=0}^\infty m^2 p_U(m) \end{pmatrix}.
+\end{equation}
+Analogously to $\langle\vec{m}\rangle$ and $\langle\vec{m}^2\rangle$,
+it is convenient to define the vector
+\begin{equation}
+\langle\vec{m}^0\rangle = \sum_{m=0}^\infty \vec{p}(m),
+\end{equation}
+whose elements are simply the probabilities of finding the system
+in each of the possible promoter states. To reduce notational clutter
+in what follows, sums over $m$ will be assumed to run from 0 to $\infty$
+unless otherwise specified, i.e., $\sum_{m=0}^\infty$ will be denoted
+simply as $\sum_m$.
+It will also be convenient to denote by $\vec{1}^\dagger$ a row
+vector of the same length as $\vec{p}$ whose elements are all
+1, such that, for instance,
+$\vec{1}^\dagger \cdot \langle\vec{m}^0\rangle = 1$,
+$\vec{1}^\dagger \cdot \langle\vec{m}\rangle = \langle{m}\rangle$, etc.
+
+\subsubsection{Promoter state probabilities $\langle\vec{m}^0\rangle$}
+To begin, we will find the promoter state probabilities
+$\langle\vec{m}^0\rangle$ from Eq.~\ref{eq:generic_cme_ss} by summing over all
+mRNA copy numbers $m$, producing
+\begin{equation}
+0 = \sum_m \left[
+    \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
+                + \mathbf{R_A} \vec{p}(m-1) +
+                \gamma (m+1) \mathbf{I} \vec{p}(m+1)
+\right]
+\end{equation}
+Using the definitions of $\langle\vec{m}^0\rangle$ and $\langle\vec{m}\rangle$,
+and noting the matrices $\mathbf{K}$, $\mathbf{R_D}$, and $\mathbf{R_A}$
+are all independent of $m$ and can be moved outside the sum, this simplifies to
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^0\rangle
+    - \gamma \langle\vec{m}\rangle + \mathbf{R_A} \sum_m \vec{p}(m-1)
+    + \gamma \sum_m (m+1)\vec{p}(m+1).
+\label{eq:generic_cme_deriv_020}
+\end{equation}
+The last two terms can be handled by reindexing the summations, transforming
+them to match the definitions of $\langle\vec{m}^0\rangle$ and
+$\langle\vec{m}\rangle$. For the first, noting $\vec{p}(-1)=0$ since
+negative numbers of mRNA are nonsensical, we have
+\begin{equation}
+\sum_{m=0}^\infty \vec{p}(m-1)
+= \sum_{m=-1}^\infty \vec{p}(m)
+= \sum_{m=0}^\infty \vec{p}(m) = \langle\vec{m}^0\rangle.
+\end{equation}
+Similarly for the second,
+\begin{equation}
+\sum_{m=0}^\infty (m+1)\vec{p}(m+1)
+= \sum_{m=1}^\infty m\vec{p}(m)
+= \sum_{m=0}^\infty m\vec{p}(m) = \langle\vec{m}\rangle,
+\end{equation}
+which holds since in extending the lower limit from $m=1$ to $m=0$,
+the extra term we added to the sum is zero. Substituting these back in
+Eq.~\ref{eq:generic_cme_deriv_020}, we have
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^0\rangle
+    - \gamma \langle\vec{m}\rangle + \mathbf{R_A} \langle\vec{m}^0\rangle
+    + \gamma \langle\vec{m}\rangle,
+\end{equation}
+or simply
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) \langle\vec{m}^0\rangle.
+\label{eq:generic_cme_vecm0}
+\end{equation}
+So given matrices $\mathbf{K}$, $\mathbf{R_D}$, and $\mathbf{R_A}$ describing
+a promoter, finding $\langle\vec{m}^0\rangle$ simply amounts to solving this
+set of linear equations, subject to the normalization constraint
+$\vec{1}^\dagger \cdot \langle\vec{m}^0\rangle = 1$.
+
+\subsubsection{First moments $\langle\vec{m}\rangle$ and $\langle{m}\rangle$}
+By analogy to the above procedure for finding $\langle\vec{m}^0\rangle$,
+we may find $\langle\vec{m}\rangle$ by first multiplying
+Eq.~\ref{eq:generic_cme_ss} by $m$ and then summing over $m$.
+Carrying out this procedure we have
+\begin{equation}
+0 = \sum_m m \left[
+\left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
+            + \mathbf{R_A} \vec{p}(m-1) +
+            \gamma (m+1) \mathbf{I} \vec{p}(m+1)
+\right],
+\end{equation}
+and now identifying $\langle\vec{m}\rangle$ and $\langle\vec{m}^2\rangle$ gives
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}\rangle
+    - \gamma \langle\vec{m}^2\rangle + \mathbf{R_A} \sum_m m\vec{p}(m-1)
+    + \gamma \sum_m m(m+1)\vec{p}(m+1).
+\label{eq:generic_cme_deriv_030}
+\end{equation}
+The summations in the last two terms can be reindexed just as we did for
+$\langle\vec{m}^0\rangle$, freely adding or removing terms from
+the sum which are zero. For the first,
+\begin{equation}
+\sum_{m=0}^\infty m\vec{p}(m-1)
+= \sum_{m=-1}^\infty (m+1)\vec{p}(m)
+= \sum_{m=0}^\infty (m+1)\vec{p}(m)
+= \langle\vec{m}\rangle + \langle\vec{m}^0\rangle,
+\end{equation}
+and for the second,
+\begin{equation}
+\sum_{m=0}^\infty m(m+1)\vec{p}(m+1)
+= \sum_{m=1}^\infty (m-1)m\vec{p}(m)
+= \sum_{m=0}^\infty (m-1) m\vec{p}(m)
+= \langle\vec{m}^2\rangle - \langle\vec{m}\rangle.
+\end{equation}
+Substituting back in Eq.~\ref{eq:generic_cme_deriv_030} then produces
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}\rangle
+- \gamma \langle\vec{m}^2\rangle
++ \mathbf{R_A} (\langle\vec{m}\rangle + \langle\vec{m}^0\rangle)
++ \gamma (\langle\vec{m}^2\rangle - \langle\vec{m}\rangle),
+\end{equation}
+or after simplifying
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A} - \gamma) \langle\vec{m}\rangle
++ \mathbf{R_A} \langle\vec{m}^0\rangle.
+\label{eq:generic_cme_deriv_040}
+\end{equation}
+So like $\langle\vec{m}^0\rangle$, $\langle\vec{m}\rangle$ is also found
+by simply solving a set of linear equations after first solving for
+$\langle\vec{m}^0\rangle$ from Eq.~\ref{eq:generic_cme_vecm0}.
+
+Next we can find the mean mRNA copy number $\langle{m}\rangle$ from
+$\langle\vec{m}\rangle$ according to
+\begin{equation}
+\langle{m}\rangle = \vec{1}^\dagger\cdot\langle\vec{m}\rangle,
+\label{eq:m_from_vecm}
+\end{equation}
+where $\vec{1}^\dagger$ is a row vector whose elements are all 1.
+Eq.~\ref{eq:m_from_vecm} holds since the $i$-th element of the column vector
+$\langle\vec{m}\rangle$ is the mean mRNA value conditional on the system
+occupying the $i-$th promoter state, so the dot product with $\vec{1}^\dagger$
+amounts to simply summing the elements of $\langle\vec{m}\rangle$.
+Rather than solving Eq.~\ref{eq:generic_cme_deriv_040} for $\langle\vec{m}\rangle$
+and then computing $\vec{1}^\dagger\cdot\langle\vec{m}\rangle$, we may
+take a shortcut by muliplying Eq.~\ref{eq:generic_cme_deriv_040} by
+$\vec{1}^\dagger$ first. The key observation that makes this useful is that
+\begin{equation}
+\vec{1}^\dagger \cdot (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) = 0.
+\end{equation}
+Intuitively, this equality holds because each column of this matrix
+represents transitions to and from a given promoter state. In any given column,
+the diagonal encodes all departing transitions and off-diagonals encode all
+arriving transitions. Conservation of probability means that each column
+sums to zero, and summing columns is exactly the operation that multiplying by
+$\vec{1}^\dagger$ carries out.
+
+Proceeding then in multiplying Eq.~\ref{eq:generic_cme_deriv_040} by
+$\vec{1}^\dagger$ produces
+\begin{equation}
+0 = -\gamma \vec{1}^\dagger\cdot\langle\vec{m}\rangle
++ \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle,
+\end{equation}
+or simply
+\begin{equation}
+\langle{m}\rangle
+= \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle.
+\label{eq:generic_mean_m_appdx}
+\end{equation}
+We note that the in equilibrium models of transcription such as in
+Figure~\ref{fig1:means_cartoons}, it is usually \textit{assumed} that the
+mean mRNA level is given by the ratio of initiation rate $r$ to degradation
+rate $\gamma$ multiplied by the probability of finding the system in the
+RNAP-bound state. Reassuringly, we have recovered exactly this result
+from the master equation picture: the product
+$\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle$ picks out the
+probability of the active promoter state from $\langle\vec{m}^0\rangle$
+and multiplies it by the initiation rate $r$.
+
+\subsubsection{Second moment $\langle{m}^2\rangle$ and Fano factor $\nu$}
+Continuing the pattern of the zeroth and first moments, we now find
+$\langle\vec{m}^2\rangle$ by multiplying Eq.~\ref{eq:generic_cme_ss} by $m^2$
+and then summing over $m$, which explicitly is
+\begin{equation}
+0 = \sum_m m^2 \left[
+\left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
+            + \mathbf{R_A} \vec{p}(m-1) +
+            \gamma (m+1) \mathbf{I} \vec{p}(m+1)
+\right].
+\end{equation}
+Identifying the moments $\langle\vec{m}^2\rangle$ and $\langle\vec{m}^3\rangle$
+in the first term simplifies this to
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^2\rangle
+    - \gamma \langle\vec{m}^3\rangle + \mathbf{R_A} \sum_m m^2\vec{p}(m-1)
+    + \gamma \sum_m m^2(m+1)\vec{p}(m+1).
+\label{eq:generic_cme_deriv_050}
+\end{equation}
+Reindexing the sums of the last two terms proceeds just as it did for the
+zeroth and first moments. Explicitly, we have
+\begin{equation}
+\sum_{m=0}^\infty m^2\vec{p}(m-1)
+= \sum_{m=-1}^\infty (m+1)^2\vec{p}(m)
+= \sum_{m=0}^\infty (m+1)^2\vec{p}(m)
+= \langle\vec{m}^2\rangle + 2\langle\vec{m}\rangle + \langle\vec{m}^0\rangle,
+\end{equation}
+for the first sum and
+\begin{equation}
+\sum_{m=0}^\infty m^2(m+1)\vec{p}(m+1)
+= \sum_{m=1}^\infty (m-1)^2m\vec{p}(m)
+= \sum_{m=0}^\infty (m-1)^2 m\vec{p}(m)
+= \langle\vec{m}^3\rangle - 2\langle\vec{m}^2\rangle + \langle\vec{m}\rangle
+\end{equation}
+for the second. Substituting the results of the sums back in
+Eq.~\ref{eq:generic_cme_deriv_050} gives
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^2\rangle
+- \gamma \langle\vec{m}^3\rangle
++ \mathbf{R_A}
+    (\langle\vec{m}^2\rangle + 2\langle\vec{m}\rangle + \langle\vec{m}^0\rangle)
++ \gamma
+    (\langle\vec{m}^3\rangle - 2\langle\vec{m}^2\rangle + \langle\vec{m}\rangle),
+\end{equation}
+and after grouping like powers of $m$ we have
+\begin{equation}
+0 = (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A} - 2\gamma) \langle\vec{m}^2\rangle
++ (2\mathbf{R_A} + \gamma) \langle\vec{m}\rangle
++ \mathbf{R_A} \langle\vec{m}^0\rangle.
+\label{eq:generic_cme_deriv_060}
+\end{equation}
+As we found when computing $\langle{m}\rangle$ from $\langle\vec{m}\rangle$,
+we can spare ourselves some algebra by multiplying
+Eq.~\ref{eq:generic_cme_deriv_060} by $\vect{1}^\dagger$, which then reduces to
+\begin{equation}
+0 = - 2\gamma \langle{m}^2\rangle
++ \vec{1}^\dagger\cdot(2\mathbf{R_A} + \gamma) \langle\vec{m}\rangle
++ \vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}^0\rangle,
+\end{equation}
+and noting from Eq.~\ref{eq:generic_mean_m_appdx} that
+$\vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}^0\rangle
+= \gamma\langle{m}\rangle$, we have the tidy result
+\begin{equation}
+\langle{m}^2\rangle
+= \langle{m}\rangle + \frac{1}{\gamma}
+        \vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}\rangle.
+\end{equation}
+
+Finally we have all the preliminary results needed to write a general expression for the Fano factor $\nu$. The Fano factor is defined as the ratio of variance to mean, which can be written as
+\begin{equation}
+\nu = \frac{\langle{m}^2\rangle - \langle{m}\rangle^2}{\langle{m}\rangle}
+= \frac{
+    \langle{m}\rangle + \frac{1}{\gamma}
+        \vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}\rangle
+    - \langle{m}\rangle^2
+    }{\langle{m}\rangle}
+\end{equation}
+and simplified to
+\begin{equation}
+\nu = 1 - \langle{m}\rangle
++ \frac{\vec{1}^\dagger\cdot \mathbf{R_A}\langle\vec{m}\rangle}
+        {\gamma \langle{m}\rangle}.
+\label{eq:generic_fano_appdx}
+\end{equation}
+Note a subtle notational trap here: $\langle{m}\rangle
+= \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle$
+rather than the by-eye similar but wrong expression $\langle{m}\rangle
+\ne \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}\rangle$,
+so the last term in Eq.~\ref{eq:generic_fano_appdx} is in general quite nontrivial.
+For a generic promoter, Eq.~\ref{eq:generic_fano_appdx} may be greater than, less than, or equal to one, as asserted in Section~\ref{sec:beyond_means}. We have not found the general form Eq.~\ref{eq:generic_fano_appdx} terribly intuitive and instead defer discussion to specific examples.
+
+\subsubsection{Summary of general results}
+For ease of reference, we collect and reprint here the key results derived in this section that are used in the main text and subsequent subsections. Mean mRNA copy number and Fano factor are given by Eqs.~\ref{eq:generic_mean_m_appdx} and \ref{eq:generic_fano_appdx}, which are
+\begin{equation}
+\langle{m}\rangle
+= \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle
+\end{equation}
+and
+\begin{equation}
+\nu = 1 - \langle{m}\rangle
++ \frac{\vec{1}^\dagger\cdot \mathbf{R_A}\langle\vec{m}\rangle}
+        {\gamma \langle{m}\rangle},
+\end{equation}
+respectively.
+To compute these two quantities, we need the expressions for
+$\langle\vec{m}^0\rangle$ and $\langle\vec{m}\rangle$ given by solving
+Eqs.~\ref{eq:generic_cme_vecm0} and \ref{eq:generic_cme_deriv_040},
+respectively, which are
+\begin{equation}
+(\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) \langle\vec{m}^0\rangle = 0
+\end{equation}
+and
+\begin{equation}
+(\mathbf{K} - \mathbf{R_D}
++ \mathbf{R_A} - \gamma\mathbf{I}) \langle\vec{m}\rangle
+= - \mathbf{R_A} \langle\vec{m}^0\rangle.
+\end{equation}
+
 \subsection{Nonequilibrium Model One - Poisson Promoter}
 \mmnote{Derive mean mRNA referred to in means section.}
 
