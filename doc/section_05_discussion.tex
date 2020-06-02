@@ -71,7 +71,7 @@ of self-consistent parameters, demonstrating not only a predictive framework,
 but also reconciling the equilibrium and non-equilibrium views of the same
 simple repression constructs. More specifically, we obtained values for the
 transcription factor association and dissociation rates by performing Bayesian
-inference on the ful mRNA distribution for data obtained from simple-repression
+inference on the full mRNA distribution for data obtained from simple-repression
 promoters with varying number of transcription factors per cell and affinity of
 such transcription factors for the binding site. The free energy value obtained
 from these kinetic rates -- computed as the log ratio of the rates -- agrees
@@ -106,35 +106,64 @@ the variability across different loci? If so, and we were to repeat the
 parameter inference as done in this work, is there a simple theoretical model we
 could build to understand the resulting parameters?
 
-\mrm{We need to decide ASAP if this is going to be included in the discussion or not. My vote is no, but Jupiter must decide.}
-\mmnote{Do all my approximations work simply because galK happens to have a low
-duty cycle of supercoiling, $\beta/\alpha$ in Chong2014 picture? A potentially
-interesting test: put in the dozen or so Hernan constructs at some other locus,
-preferably one of the ones Chong identified as having a large duty cycle (large
-$\beta/\alpha$), i.e., the opposite limit of galK. Then just measure
-fold-changes. You don't even need to do FISH, although that would be even
-better. If their model is right, $\rho$ should be approximately set by the duty
-cycle of supercoiling, NOT by RNAP kinetics.
-\textit{This is a NICE prediction for future work.} \textit{cspE}
-is claimed nonessential, prediction is you drop HG reporter constructs in there
-and the inferred binding energies of all lacI operators shift the same amount,
-by about $\ln(3)\sim 1kT$. Not huge, but detectable, although might be
-confounding effects from moving to a new locus. With FISH measurements, $k^+$
-and $k^-$ in Fig 2, model 4 should now be separately inferrable if Chong2014
-measurements of $\beta/\alpha$ are correct. This would require an obnoxious
-amount of cloning, but once you did that, the measurements would be same old
-stuff that RP lab does.}
+\textcolor{red}{RP: I relegated all remaining comments to the background.  Muir
+can look at them to see if he really wants them.  I agreed with Manuel that the stuff
+below should not be included in the Discussion.  ONE THING FOR SURE - Muller-Hill
+and Oehler need to get a lot of love in references at beginning.}
+In summary, this work took up the challenge of exploring the extent
+to which a single specific mechanistic model of the simple-repression regulatory
+architecture suffices to explain the broad sweep of experimental
+data for this system.  Pioneering early experimental efforts from
+the M\"{u}ller-Hill lab established the simple-repression motif
+as an arena for the quantitative dissection of regulatory response in
+bacteria, with similar beautiful work emerging in examples such as the
+arabinose and gal operons as well~\cite{Dunn1984b, Oehler1990, Oehler1994, Schleif2000,Weickert1993, Semsey2002, SwintKruse2009}.  In light of a new generation of precision measurements
+on these systems, the definition of what it means to understand them can now
+be formulated as a rigorous quantitative question, and many aspects of
+the simple repression motif seem to merit the claim that they are sufficiently
+well understood to use that understanding to design new versions of that
+architecture based upon predictions about how repressor copy number and DNA binding site strength
+control expression.  In our view, the next step in the progression is
+to first perform similar rigorous analyses of the fundamental ``basis set'' of regulatory
+architectures such as the simple activation motif that is regulated by
+a single activator binding site, the repressor-activator architecture, mediated by
+the binding of both a single activator and a single repressor and beyond.
+With the individual input-output functions in hand, similar quantitative
+dissections including the rigorous analysis of their tuning parameters can be undertaken
+for the ``basis set'' of full gene-regulatory networks such as switches, feed-forward architectures and
+oscillators for example, building upon the recent impressive bonanza of efforts from
+systems biologists and synthetic biologists~\cite{Milo2002,Alon2007}.
 
-A direct \mmnote{if cloning intensive} future experiment would be
-to design a payload with a promoter driving a FISH reporter,
-integrate that payload at a variety of loci scattered around the genome,
-and carry out FISH measurements of the resulting strains.
-\mmnote{
-Did Brewster already do this? I remember he integrated arrays of
-competitor binding sites all over the genome, but did he put
-lacUV5 + reporter scattered around?}
-Obviously integration loci would need to be carefully chosen so
-that one could plausibly hope the deletion and integration did
-not disturb the cell's physiology too badly.
 
-\mrm{Rather than proposing more experiments, I feel that we are missing a closing paragraph that puts all these findings in context. Where do we go from here as a community? Things such as the next building block, i.e. simple activation, and then from there scale up the complexity until we can get a full gene regulatory network kind of thing. Rather than going small into tiny details specific to this, let's step back and look at the big picture.}
+%\mrm{We need to decide ASAP if this is going to be included in the discussion or not. My vote is no, but Jupiter must decide.}
+%\mmnote{Do all my approximations work simply because galK happens to have a low
+%duty cycle of supercoiling, $\beta/\alpha$ in Chong2014 picture? A potentially
+%interesting test: put in the dozen or so Hernan constructs at some other locus,
+%preferably one of the ones Chong identified as having a large duty cycle (large
+%$\beta/\alpha$), i.e., the opposite limit of galK. Then just measure
+%fold-changes. You don't even need to do FISH, although that would be even
+%better. If their model is right, $\rho$ should be approximately set by the duty
+%cycle of supercoiling, NOT by RNAP kinetics.
+%\textit{This is a NICE prediction for future work.} \textit{cspE}
+%is claimed nonessential, prediction is you drop HG reporter constructs in there
+%and the inferred binding energies of all lacI operators shift the same amount,
+%by about $\ln(3)\sim 1kT$. Not huge, but detectable, although might be
+%confounding effects from moving to a new locus. With FISH measurements, $k^+$
+%and $k^-$ in Fig 2, model 4 should now be separately inferrable if Chong2014
+%measurements of $\beta/\alpha$ are correct. This would require an obnoxious
+%amount of cloning, but once you did that, the measurements would be same old
+%stuff that RP lab does.}
+%
+%A direct \mmnote{if cloning intensive} future experiment would be
+%to design a payload with a promoter driving a FISH reporter,
+%integrate that payload at a variety of loci scattered around the genome,
+%and carry out FISH measurements of the resulting strains.
+%\mmnote{
+%Did Brewster already do this? I remember he integrated arrays of
+%competitor binding sites all over the genome, but did he put
+%lacUV5 + reporter scattered around?}
+%Obviously integration loci would need to be carefully chosen so
+%that one could plausibly hope the deletion and integration did
+%not disturb the cell's physiology too badly.
+%
+%\mrm{Rather than proposing more experiments, I feel that we are missing a closing paragraph that puts all these findings in context. Where do we go from here as a community? Things such as the next building block, i.e. simple activation, and then from there scale up the complexity until we can get a full gene regulatory network kind of thing. Rather than going small into tiny details specific to this, let's step back and look at the big picture.}
