@@ -67,17 +67,17 @@ for the presence of the transcription factor, and the model assumes that the
 transcription factor has no direct effect on translation.
 
 Fold-change has proven a very convenient observable in past
-work~\cite{Garcia2011a, Razo-Mejia2018, Chure2019}. Part of its utility in
-dissecting transcriptional regulation is its ratiometric nature, which removes
-many secondary effects that are present when making an absolute gene expression
-measurement. Also, by measuring otherwise identical cells with and without a
-transcription factor present, any biological noise common to both conditions can
-be made to cancel away. In addition, the presence of different operator sites,
-i.e. binding sites for the repressor, is known to change the basal expression
-level in the absence of repressor~\mmnote{look up cite}\mrm{does reg-seq mention
-anything like this in their SI? I definitely saw that on my own experiments, but
-didn't mention it in the paper}. Computing fold-changes neatly cancels this
-effect as well.
+work~\cite{Garcia2011a, Brewster2014, Razo-Mejia2018, Chure2019}. Part of its
+utility in dissecting transcriptional regulation is its ratiometric nature,
+which removes many secondary effects that are present when making an absolute
+gene expression measurement. Also, by measuring otherwise identical cells with
+and without a transcription factor present, any biological noise common to both
+conditions can be made to cancel away. In addition, the presence of different
+operator sites, i.e. binding sites for the repressor, is known to change the
+basal expression level in the absence of repressor~\mmnote{look up
+cite}\mrm{does reg-seq mention anything like this in their SI? I definitely saw
+that on my own experiments, but didn't mention it in the paper}. Computing
+fold-changes neatly cancels this effect as well.
 
 \fig{fig1:means_cartoons} depicts a smorgasbord of mathematicized cartoons for
 simple repression using both thermodynamic and kinetic models that have appeared
@@ -273,7 +273,8 @@ departing from, respectively, the promoter state of interest. If transcription
 initiation is accompanied by promoter state changes, we must have separate
 matrices for arriving and departing transcription events since the arriving and
 departing transitions have different initial copy numbers of mRNA, unlike for
-$\matr{K}$ where they are the same. The master equation for this model is
+$\matr{K}$ where they are the same (see Appendix~\cite{sec:non_bursty}). The
+master equation for this model is
 \begin{equation}
 \deriv{t}\vect{p}_m(t) =
 \left( \matr{K} - \matr{R_D} - \gamma m \matr{I} \right) \vect{p}_m(t)
@@ -441,18 +442,18 @@ not on full generality but rather to survey an assortment of plausible models
 for simple repression  that have been proposed in the literature.
 
 \subsubsection{Nonequilibrium Model Four - ``Active'' and ``Inactive'' States}
-This model, shown as (4) in Figure~\ref{fig1:means_cartoons}(C) is at the core
-of the theory in~\cite{Razo-Mejia2020}. At a glance the cartoon for this model
-may appear very similar to model 2, and mathematically it is, but the
-interpretation is rather different. In model 2, we interpreted the third state
-literally as an RNAP-bound promoter and modeled initiation of a transcript as
-triggering a promoter state change, making the hopefully uncontroversial
-assumption that an RNAP can only make one transcript at a time. In contrast, in
-the present model the promoter state does \textit{not} change when a transcript
-is initiated. So we no longer interpret these states as literally RNAP bound and
-unbound but instead as coarse-grained ``active'' and ``inactive'' states, the
-details of which we leave unspecified for now. We will comment more on this
-model below when we discuss Fano factors of models.
+Model 4 in Figure~\ref{fig1:means_cartoons}(C) is at the core of the theory
+in~\cite{Razo-Mejia2020}. At a glance the cartoon for this model may appear very
+similar to model 2, and mathematically it is, but the interpretation is rather
+different. In model 2, we interpreted the third state literally as an RNAP-bound
+promoter and modeled initiation of a transcript as triggering a promoter state
+change, making the hopefully uncontroversial assumption that an RNAP can only
+make one transcript at a time. In contrast, in the present model the promoter
+state does \textit{not} change when a transcript is initiated. So we no longer
+interpret these states as literally RNAP bound and unbound but instead as
+coarse-grained ``active'' and ``inactive'' states, the details of which we leave
+unspecified for now. We will comment more on this model below when we discuss
+Fano factors of models.
 
 Mathematically this model is very similar to models 1 and 2. Like model 1, the
 matrix $R$ describing transcription initiation is diagonal, namely
@@ -527,20 +528,21 @@ instance, ``action-at-a-distance'' mediated by kinked DNA due to repressors
 bound tens or hundreds of nucleotides upstream of a promoter is plausible as
 well.
 
-Why does the master curve of~\fig{fig1:means_cartoons}(D) exist at all? This
-brings to mind the deep questions posed in, e.g.,~\cite{Frank2013}
-and~\cite{Frank2014a}, asking us to search for general ``symmetries'' of the
-problem instead of specifying generative models of the known microscopics of a
-system. In our case, the key feature seems to be the exclusive nature of
-repressor and RNAP binding, which allows the parameter describing the repressor,
-$\Delta F_R$, to cleanly separate from all other details of the promoter
-architecture, which are encapsulated in $\rho$. In the graph-theoretic language
-which was applied to similar problems in~\cite{Gunawardena2012}
-and~\cite{Ahsendorf2014}, the repressor-bound state is a leaf of the graph
-describing transitions between promoter states. Arbitrary nonequilibrium
-behavior can occur on the rest of the promoter state space, but it may all be
-swept up in the effective parameter $\rho$, to which the repressor makes no
-contribution.
+Why does the master curve of~\fig{fig1:means_cartoons}(D) exist at all?
+\textcolor{blue}{This brings to mind the deep questions posed in,
+e.g.,~\cite{Frank2013} and~\cite{Frank2014a}, asking us to search for general
+``symmetries'' of the problem instead of specifying generative models of the
+known microscopics of a system} \mrm{I don't understand this last sentence. Can
+we make it more transparent?}. In our case, the key feature seems to be the
+exclusive nature of repressor and RNAP binding, which allows the parameter
+describing the repressor, $\Delta F_R$, to cleanly separate from all other
+details of the promoter architecture, which are encapsulated in $\rho$. In the
+graph-theoretic language which was applied to similar problems
+in~\cite{Gunawardena2012} and~\cite{Ahsendorf2014}, the repressor-bound state is
+a leaf of the graph describing transitions between promoter states. Arbitrary
+nonequilibrium behavior can occur on the rest of the promoter state space, but
+it may all be swept up in the effective parameter $\rho$, to which the repressor
+makes no contribution.
 
 As suggested in~\cite{Chure2019}, we believe this master curve should generalize
 to architectures with multiple repressor binding sites, as long as the
@@ -652,15 +654,15 @@ model in~\fig{fig1:means_cartoons}(B). In that picture, the weak promoter
 approximation means $\frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P) \ll 1$,
 meaning therefore $\rho\approx1$.  This approximation can be well justified on
 the basis of the number of RNAP per cell and the strength of binding of RNAP to
-DNA at weak promoters. This is suggestive, but how can we be sure that $\rho$
-is not, for instance, actually $10^2$ and that $\Delta F_R$ hides a compensatory
+DNA at weak promoters. This is suggestive, but how can we be sure that $\rho$ is
+not, for instance, actually $10^2$ and that $\Delta F_R$ hides a compensatory
 factor? A resolution is offered by an independent inference of $\rho$ in the
 absence of repressors. This was done in~\cite{Razo-Mejia2020} by fitting
 nonequilibrium model 4 in~\fig{fig1:means_cartoons}(C), with zero repressor
-(looking ahead, this is equivalent to model 4 in~\fig{fig2:constit_cartoons}), to
-FISH data from~\cite{Brewster2014}. This provided a determination of $k^+$ and
-$k^-$, from which their ratio is estimated to be no more than a few $10^{-1}$
-and possibly as small as $10^{-2}$.
+(looking ahead, this is equivalent to model 4 in~\fig{fig2:constit_cartoons}),
+to single-cell mRNA counts data from~\cite{Brewster2014}. This provided a
+determination of $k^+$ and $k^-$, from which their ratio is estimated to be no
+more than a few $10^{-1}$ and possibly as small as $10^{-2}$.
 
 The realization that $\rho\approx1$ to an excellent approximation,
 \textit{independent} of which model in~\fig{fig1:means_cartoons} one prefers,
@@ -726,5 +728,6 @@ fit to fold-change measurements, and $k_R^+$ and $k_R^-$ are inferred in some
 orthogonal manner. Single molecule measurements such as from~\cite{Hammar2014}
 have directly observed these rates, and in the remainder of this work we explore
 a complementary approach: inferring repressor binding and unbinding rates
-$k_R^+$ and $k_R^-$ from FISH measurements of mRNA population distributions.
+$k_R^+$ and $k_R^-$ from single-molecule measurements of mRNA population
+distributions.
 \marginpar{\it MM: Add a notation aside somewhere that all association rates are written as zeroth-order rates. In other words, the concentration of the molecule is hidden inside, so for instance, $k_R^+$ is proportional to repressor copy number.}
