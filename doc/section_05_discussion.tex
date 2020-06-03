@@ -27,14 +27,14 @@ explores the extent to which some of the different models that have been
 articulated to describe that motif allow us to understand both the average level
 of gene expression found in a population of cells, the intrinsic cell-to-cell
 variability, and the full gene expression distribution found in such population
-as would be reported in a single molecule Fluorescence in situ Hybridization
-experiment, for example.
+as would be reported in a single molecule mRNA Fluorescence in situ
+Hybridization experiment, for example.
 
 Our key insights can be summarized as follows. First, as shown in
 Figure~\ref{fig1:means_cartoons}, the mean expression in the simple repression
 architecture is captured by a master curve in which the action of repressor and
-the details of the polymerase interaction with the promoter appear separately
-and additively in an effective free energy. Interestingly, as has been shown
+the details of the RNAP interaction with the promoter appear separately and
+additively in an effective free energy. Interestingly, as has been shown
 elsewhere in the context of the Monod-Wyman-Changeux model, these kinds of
 coarse-graining results are an exact mathematical result and do not constitute
 hopeful approximations or biological naivete \cite{Razo-Mejia2018, Chure2019}.
@@ -52,7 +52,7 @@ to be able to reproduce the data. A previous exploration of model 4 demonstrated
 the sloppy nature of the model in which data on single-cell mRNA counts alone
 cannot constrain the value of all parameters simultaneously
 \cite{Razo-Mejia2020}. Here we demonstrate that the proposed one-state bursty
-promoter model (model 5 in Figure~\ref{fig2:constit_cartoons}) emerges as  a
+promoter model (model 5 in Figure~\ref{fig2:constit_cartoons}) emerges as a
 limit of the commonly used two-state promoter model \cite{Peccoud1995,
 Shahrezaei2008, So2011, Sanchez2013, Jones2014}. We put the idea to the test
 that this level of coarse-graining is rich enough to reproduce previous
@@ -77,7 +77,7 @@ such transcription factors for the binding site. The free energy value obtained
 from these kinetic rates -- computed as the log ratio of the rates -- agrees
 with previous inferences performed only from mean gene expression measurements,
 that assumed an equilibrium rather than a kinetic
-framework~\cite{Garcia2011a,Razo-Mejia2018}.
+framework~\cite{Garcia2011a, Razo-Mejia2018}.
 
 It is interesting to speculate what microscopic details are being coarse-grained
 by our burst rate and burst size in Figure~\ref{fig2:constit_cartoons} model 5.
@@ -106,64 +106,29 @@ the variability across different loci? If so, and we were to repeat the
 parameter inference as done in this work, is there a simple theoretical model we
 could build to understand the resulting parameters?
 
-\textcolor{red}{RP: I relegated all remaining comments to the background.  Muir
-can look at them to see if he really wants them.  I agreed with Manuel that the stuff
-below should not be included in the Discussion.  ONE THING FOR SURE - Muller-Hill
-and Oehler need to get a lot of love in references at beginning.}
-In summary, this work took up the challenge of exploring the extent
-to which a single specific mechanistic model of the simple-repression regulatory
-architecture suffices to explain the broad sweep of experimental
-data for this system.  Pioneering early experimental efforts from
-the M\"{u}ller-Hill lab established the simple-repression motif
-as an arena for the quantitative dissection of regulatory response in
-bacteria, with similar beautiful work emerging in examples such as the
-arabinose and gal operons as well~\cite{Dunn1984b, Oehler1990, Oehler1994, Schleif2000,Weickert1993, Semsey2002, SwintKruse2009}.  In light of a new generation of precision measurements
-on these systems, the definition of what it means to understand them can now
-be formulated as a rigorous quantitative question, and many aspects of
-the simple repression motif seem to merit the claim that they are sufficiently
-well understood to use that understanding to design new versions of that
-architecture based upon predictions about how repressor copy number and DNA binding site strength
-control expression.  In our view, the next step in the progression is
-to first perform similar rigorous analyses of the fundamental ``basis set'' of regulatory
-architectures such as the simple activation motif that is regulated by
-a single activator binding site, the repressor-activator architecture, mediated by
-the binding of both a single activator and a single repressor and beyond.
-With the individual input-output functions in hand, similar quantitative
-dissections including the rigorous analysis of their tuning parameters can be undertaken
-for the ``basis set'' of full gene-regulatory networks such as switches, feed-forward architectures and
-oscillators for example, building upon the recent impressive bonanza of efforts from
-systems biologists and synthetic biologists~\cite{Milo2002,Alon2007}.
-
-
-%\mrm{We need to decide ASAP if this is going to be included in the discussion or not. My vote is no, but Jupiter must decide.}
-%\mmnote{Do all my approximations work simply because galK happens to have a low
-%duty cycle of supercoiling, $\beta/\alpha$ in Chong2014 picture? A potentially
-%interesting test: put in the dozen or so Hernan constructs at some other locus,
-%preferably one of the ones Chong identified as having a large duty cycle (large
-%$\beta/\alpha$), i.e., the opposite limit of galK. Then just measure
-%fold-changes. You don't even need to do FISH, although that would be even
-%better. If their model is right, $\rho$ should be approximately set by the duty
-%cycle of supercoiling, NOT by RNAP kinetics.
-%\textit{This is a NICE prediction for future work.} \textit{cspE}
-%is claimed nonessential, prediction is you drop HG reporter constructs in there
-%and the inferred binding energies of all lacI operators shift the same amount,
-%by about $\ln(3)\sim 1kT$. Not huge, but detectable, although might be
-%confounding effects from moving to a new locus. With FISH measurements, $k^+$
-%and $k^-$ in Fig 2, model 4 should now be separately inferrable if Chong2014
-%measurements of $\beta/\alpha$ are correct. This would require an obnoxious
-%amount of cloning, but once you did that, the measurements would be same old
-%stuff that RP lab does.}
-%
-%A direct \mmnote{if cloning intensive} future experiment would be
-%to design a payload with a promoter driving a FISH reporter,
-%integrate that payload at a variety of loci scattered around the genome,
-%and carry out FISH measurements of the resulting strains.
-%\mmnote{
-%Did Brewster already do this? I remember he integrated arrays of
-%competitor binding sites all over the genome, but did he put
-%lacUV5 + reporter scattered around?}
-%Obviously integration loci would need to be carefully chosen so
-%that one could plausibly hope the deletion and integration did
-%not disturb the cell's physiology too badly.
-%
-%\mrm{Rather than proposing more experiments, I feel that we are missing a closing paragraph that puts all these findings in context. Where do we go from here as a community? Things such as the next building block, i.e. simple activation, and then from there scale up the complexity until we can get a full gene regulatory network kind of thing. Rather than going small into tiny details specific to this, let's step back and look at the big picture.}
+In summary, this work took up the challenge of exploring the extent to which a
+single specific mechanistic model of the simple-repression regulatory
+architecture suffices to explain the broad sweep of experimental data for this
+system. Pioneering early experimental efforts from the M\"{u}ller-Hill lab
+established the simple-repression motif as an arena for the quantitative
+dissection of regulatory response in bacteria, with similar beautiful work
+emerging in examples such as the arabinose and gal operons as
+well~\cite{Dunn1984b, Oehler1990, Weickert1993, Oehler1994, Schleif2000,
+Semsey2002, SwintKruse2009}. In light of a new generation of precision
+measurements on these systems, the definition of what it means to understand
+them can now be formulated as a rigorous quantitative question. In particular,
+many aspects of the simple repression motif seem to merit the claim that they
+are sufficiently well understood to use that understanding to design new
+versions of that architecture based upon predictions about how repressor copy
+number and DNA binding site strength control expression. In our view, the next
+step in the progression is to first perform similar rigorous analyses of the
+fundamental ``basis set'' of regulatory architectures. Natural followups to this
+work is the exploration of motifs such as simple activation that is
+regulated by a single activator binding site, and the repressor-activator
+architecture, mediated by the binding of both a single activator and a single
+repressor and beyond. With the individual input-output functions in hand,
+similar quantitative dissections including the rigorous analysis of their tuning
+parameters can be undertaken for the ``basis set'' of full gene-regulatory
+networks such as switches, feed-forward architectures and oscillators for
+example, building upon the recent impressive bonanza of efforts from systems
+biologists and synthetic biologists~\cite{Milo2002, Alon2007}.
