@@ -2,15 +2,18 @@
 \section{Derivations for non-bursty promoter models}
 \label{sec:non_bursty}
 
-In this section we detail the calculation of mean mRNA levels,
-fold-changes in expression, and Fano factors for nonequilibrium
-promoter models one through four in Figure~\ref{fig1:means_cartoons}.
-These are the results that were quoted but not derived in
-Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
-main text. In each of these four models, the natural
-mathematization of their cartoons is as a chemical master
-equation such as Eq.~\ref{eq:2state_rep_cme} for model one, which
-for completeness we reproduce here as
+\mrm{I personally think that the paper so far has done a great job at being very 
+pedagogical. That is why I am of the opinion that before jumping into the 
+derivation of moments and so on there needs to be a $p(m, t + \Delta t)$ kind of 
+derivation.}
+
+In this section we detail the calculation of mean mRNA levels, fold-changes in
+expression, and Fano factors for nonequilibrium promoter models one through four
+in Figure~\ref{fig1:means_cartoons}. These are the results that were quoted but
+not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
+main text. In each of these four models, the natural mathematization of their
+cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
+for model one, which for completeness we reproduce here as
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -30,23 +33,20 @@ for completeness we reproduce here as
 \label{eq:poisson_promoter_cme_appdx}
 \end{split}
 \end{align}
-Here $p_R(m,t)$ and $p_U(m,t)$ are the probabilities of finding
-the system with $m$ mRNA molecules at time $t$ either in the
-repressor bound or unbound states, respectively. $r$ is the
-probability per unit time that a transcript will be initiated
-when the repressor is unbound, and $\gamma$ is the probability
-per unit time for a given mRNA to be degraded. $k_R^-$ is the
-probability per unit time that a bound repressor will unbind,
-while $k_R^+$ is the probability per unit time that an unbound
-operator will become bound by a repressor. Assuming mass action
-kinetics, $k_R^+$ is proportional to repressor copy number $R$.
+Here $p_R(m,t)$ and $p_U(m,t)$ are the probabilities of finding the system with
+$m$ mRNA molecules at time $t$ either in the repressor bound or unbound states,
+respectively. $r$ is the probability per unit time that a transcript will be
+initiated when the repressor is unbound, and $\gamma$ is the probability per
+unit time for a given mRNA to be degraded. $k_R^-$ is the probability per unit
+time that a bound repressor will unbind, while $k_R^+$ is the probability per
+unit time that an unbound operator will become bound by a repressor. Assuming
+mass action kinetics, $k_R^+$ is proportional to repressor copy number $R$.
 
 Next consider the cartoon for nonequilibrium model two in
-Figure~\ref{fig1:means_cartoons}. Now we must track probabilities
-$p_R$, $p_P$, and $p_E$ for the repressor bound, empty, and
-polymerase bound states, respectively. By analogy
-to~\ref{eq:poisson_promoter_cme_appdx}, the master equation for
-model two can be written
+Figure~\ref{fig1:means_cartoons}(C). Now we must track probabilities $p_R$,
+$p_P$, and $p_E$ for the repressor bound, empty, and polymerase bound states,
+respectively. By analogy to~\ref{eq:poisson_promoter_cme_appdx}, the master
+equation for model two can be written
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -76,29 +76,27 @@ model two can be written
 \label{eq:model2_cme_appdx}
 \end{split}
 \end{align}
-$k_P^+$ and $k_P^-$ are defined in close analogy to $k_R^+$ and
-$k_R^-$, except for RNAP binding and unbinding instead of
-repressor. Similarly $p_P(m,t)$ is defined for the active
-(RNAP-bound) state exactly as are $p_R(m,t)$ and $p_E(m,t)$ for
-the repressor bound and unbound states, respectively.
-The new subtlety Eq.~\ref{eq:model2_cme_appdx} introduces compared to
-Eq.~\ref{eq:poisson_promoter_cme_appdx} is that when mRNAs are
-produced, the promoter state also changes. This is encoded by the
-terms involving $r$, the last term in each of the equations for
-$p_E$ and $p_P$. The former accounts for arrivals in the
-unbound state and the latter accounts for departures from the
+$k_P^+$ and $k_P^-$ are defined in close analogy to $k_R^+$ and $k_R^-$, except
+for RNAP binding and unbinding instead of repressor. Similarly $p_P(m,t)$ is
+defined for the active (RNAP-bound) state exactly as are $p_R(m,t)$ and
+$p_E(m,t)$ for the repressor bound and unbound states, respectively. The new
+subtlety Eq.~\ref{eq:model2_cme_appdx} introduces compared to
+Eq.~\ref{eq:poisson_promoter_cme_appdx} is that when mRNAs are produced, the
+promoter state also changes. This is encoded by the terms involving $r$, the
+last term in each of the equations for $p_E$ and $p_P$. The former accounts for
+arrivals in the unbound state and the latter accounts for departures from the
 RNAP-bound state.
 
-To condense and clarify the unwieldy notation of
-Eq.~\ref{eq:model2_cme_appdx}, it can be rewriten in matrix form. We define the column vector $\vec{p}(m,t)$ as
+To condense and clarify the unwieldy notation of Eq.~\ref{eq:model2_cme_appdx},
+it can be rewritten in matrix form. We define the column vector $\vec{p}(m,t)$
+as
 \begin{equation}
 \vec{p}(m,t)
 = \begin{pmatrix} p_R(m,t) \\ p_E(m,t) \\ p_P(m,t) \end{pmatrix}
 \end{equation}
-to gather, for a given $m$, the probabilities of finding the
-system in the three possible promoter states. Then all the
-transition rates may be condensed into matrices which multiply
-this vector. The first matrix is
+to gather, for a given $m$, the probabilities of finding the system in the three
+possible promoter states. Then all the transition rates may be condensed into
+matrices which multiply this vector. The first matrix is
 \begin{equation}
 \mathbf{K} = \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
                         k_R^- & -k_R^+ -k_P^+ & k_P^- \\
@@ -106,10 +104,9 @@ this vector. The first matrix is
                 \end{pmatrix},
 % \label{eq:3state_cme_matrices_pt1}
 \end{equation}
-which tracks all promoter state changes in
-Eq.~\ref{eq:model2_cme_appdx} that are \textit{not} accompanied
-by a change in the mRNA copy number. The two terms accounting for
-transcription, the only transition that increases mRNA copy
+which tracks all promoter state changes in Eq.~\ref{eq:model2_cme_appdx} that
+are \textit{not} accompanied by a change in the mRNA copy number. The two terms
+accounting for transcription, the only transition that increases mRNA copy
 number, must be handled by two separate matrices given by
 \begin{equation}
 \mathbf{R_A} = \begin{pmatrix}
@@ -124,10 +121,9 @@ number, must be handled by two separate matrices given by
                 \end{pmatrix}.
 % \label{eq:3state_cme_matrices_pt2}
 \end{equation}
-$\mathbf{R_A}$ accounts for transitions \textit{arriving} in a given state
-while $\mathbf{R_D}$ tracks \textit{departing} transitions.
-With these definitions, we can condense Eq.~\ref{eq:model2_cme_appdx} into
-the single equation
+$\mathbf{R_A}$ accounts for transitions \textit{arriving} in a given state while
+$\mathbf{R_D}$ tracks \textit{departing} transitions. With these definitions, we
+can condense Eq.~\ref{eq:model2_cme_appdx} into the single equation
 \begin{equation}
 \frac{d}{dt} \vec{p}(m,t) =
 \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m,t)
@@ -135,46 +131,42 @@ the single equation
                 \gamma (m+1) \mathbf{I} \vec{p}(m+1,t),
 \label{eq:generic_cme_appdx}
 \end{equation}
-which is just Eq.~\ref{eq:3state_rep_cme} in the main text.
-Straightforward if tedious algebra verifies that
-Eqs.~\ref{eq:model2_cme_appdx} and~\ref{eq:generic_cme_appdx} are
-in fact equivalent.
+which is just Eq.~\ref{eq:3state_rep_cme} in the main text. Straightforward if
+tedious algebra verifies that Eqs.~\ref{eq:model2_cme_appdx}
+and~\ref{eq:generic_cme_appdx} are in fact equivalent.
 
-Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case
-of nonequilibrium model two in Figure~\ref{fig1:means_cartoons},
-in fact the chemical master equations for all of the
-nonequilibrium models in Figure~\ref{fig1:means_cartoons} except
-for model five can be cast in this form. (We treat model five
-separately in Section~\ref{sec:gen_fcn_appdx}.)
-Model three introduces no new subtleties beyond model two and
-Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply
-with different matrices of dimension four instead of three.
-Models one and four are both handled by Eq.~\ref{eq:2state_rep_cme}
-in the main text, which is just Eq.~\ref{eq:generic_cme_appdx}
-except in the special case of $\mathbf{R_D} = \mathbf{R_A} \equiv
-\mathbf{R}$, since in these two models transcription initiation
-events do not change promoter state.
+Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case of
+nonequilibrium model two in Figure~\ref{fig1:means_cartoons}, in fact the
+chemical master equations for all of the nonequilibrium models in
+Figure~\ref{fig1:means_cartoons} except for model five can be cast in this form.
+(We treat model five separately in Appendix~\ref{sec:gen_fcn_appdx}.) Model
+three introduces no new subtleties beyond model two and
+Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply with different
+matrices of dimension four instead of three. Models one and four are both
+handled by Eq.~\ref{eq:2state_rep_cme} in the main text, which is just
+Eq.~\ref{eq:generic_cme_appdx} except in the special case of $\mathbf{R_D} =
+\mathbf{R_A} \equiv \mathbf{R}$, since in these two models transcription
+initiation events do not change promoter state.
 
-Recalling that our goal in this section is to derive expressions
-for mean mRNA and Fano factor for nonequilibrium models one
-through four in Figure~\ref{fig1:means_cartoons}, and since all
-four of these models are described by Eq.~\ref{eq:generic_cme_appdx},
-we can save substantial effort by deriving general formulas for
-mean mRNA and Fano factor from Eq.~\ref{eq:generic_cme_appdx}
-once and for all. Then for each model we can simply plug in the
-appropriate matrices for $\mathbf{K}$, $\mathbf{R_D}$, and
+Recalling that our goal in this section is to derive expressions for mean mRNA
+and Fano factor for nonequilibrium models one through four in
+Figure~\ref{fig1:means_cartoons}, and since all four of these models are
+described by Eq.~\ref{eq:generic_cme_appdx}, we can save substantial effort by
+deriving general formulas for mean mRNA and Fano factor from
+Eq.~\ref{eq:generic_cme_appdx} once and for all. Then for each model we can
+simply plug in the appropriate matrices for $\mathbf{K}$, $\mathbf{R_D}$, and
 $\mathbf{R_A}$ and carry out the remaining algebra.
 
-For our purposes it will suffice to derive the first and second
-moments of the mRNA distribution from this master equation,
-similar to the treatment in~\cite{Sanchez2011}, but we refer the
-interested reader to~\cite{Razo-Mejia2020} for an analogous
-treatment demonstrating an analytical solution for arbitrary moments.
+For our purposes it will suffice to derive the first and second moments of the
+mRNA distribution from this master equation, similar to the treatment
+in~\cite{Sanchez2011}, but we refer the interested reader
+to~\cite{Razo-Mejia2020} for an analogous treatment demonstrating an analytical
+solution for arbitrary moments.
 
 \subsection{General forms for mean mRNA and Fano factor}
 Our task now is to derive expressions for the first two moments of the
-steady-state mRNA distribution from Eq.~\ref{eq:generic_cme_appdx}.
-Our treatment of this is analogous to that given in~\cite{Sanchez2011}
+steady-state mRNA distribution from Eq.~\ref{eq:generic_cme_appdx}. Our
+treatment of this is analogous to that given in~\cite{Sanchez2011}
 and~\cite{Razo-Mejia2020}. We first obtain the steady-state limit of
 Eq.~\ref{eq:generic_cme_appdx} in which the time derivative vanishes, giving
 \begin{equation}
@@ -186,18 +178,18 @@ Eq.~\ref{eq:generic_cme_appdx} in which the time derivative vanishes, giving
 \end{equation}
 From this, we want to compute
 \begin{equation}
-\langle{m}\rangle = \sum_S \sum_{m=0}^\infty m p_S(m)
+\langle{m}\rangle = \sum_S \sum_{m=0}^\infty m \, p_S(m)
 \end{equation}
 and
 \begin{equation}
 \langle{m^2}\rangle = \sum_S \sum_{m=0}^\infty m^2 p_S(m)
 \end{equation}
 which define the average values of $m$ and $m^2$ at steady state, where the
-averaging is over all possible mRNA copy numbers and promoter states $S$.
-For example, for model one in Figure~\ref{fig1:means_cartoons}, the sum on $S$
-would cover repressor bound and unbound states ($R$ and $U$ respectively),
-for model two, the sum would cover repressor bound, polymerase bound,
-and empty states ($R$, $P$, and $E$), and so on for the other models.
+averaging is over all possible mRNA copy numbers and promoter states $S$. For
+example, for model one in Figure~\ref{fig1:means_cartoons}(C), the sum on $S$
+would cover repressor bound and unbound states ($R$ and $U$ respectively), for
+model two, the sum would cover repressor bound, polymerase bound, and empty
+states ($R$, $P$, and $E$), and so on for the other models.
 
 Along the way it will be convenient to define the following
 \textit{conditional} moments as
@@ -208,12 +200,11 @@ and
 \begin{equation}
 \langle\vec{m}^2\rangle = \sum_{m=0}^\infty m^2 \vec{p}(m).
 \end{equation}
-These objects are vectors of the same size as $\vect{p}(m)$, and each
-component can be thought of as the expected value of the mRNA copy number,
-or copy number squared, conditional on the promoter being in a certain state.
-For example, for model one in Figure~\ref{fig1:means_cartoons} which has
-repressor bound and unbound states labeled $R$ and $U$,
-$\langle\vec{m}^2\rangle$ would be
+These objects are vectors of the same size as $\vect{p}(m)$, and each component
+can be thought of as the expected value of the mRNA copy number, or copy number
+squared, conditional on the promoter being in a certain state. For example, for
+model one in Figure~\ref{fig1:means_cartoons} which has repressor bound and
+unbound states labeled $R$ and $U$, $\langle\vec{m}^2\rangle$ would be
 \begin{equation}
 \langle\vec{m}^2\rangle
 = \begin{pmatrix} \sum_{m=0}^\infty m^2 p_R(m)
@@ -224,16 +215,14 @@ it is convenient to define the vector
 \begin{equation}
 \langle\vec{m}^0\rangle = \sum_{m=0}^\infty \vec{p}(m),
 \end{equation}
-whose elements are simply the probabilities of finding the system
-in each of the possible promoter states. To reduce notational clutter
-in what follows, sums over $m$ will be assumed to run from 0 to $\infty$
-unless otherwise specified, i.e., $\sum_{m=0}^\infty$ will be denoted
-simply as $\sum_m$.
-It will also be convenient to denote by $\vec{1}^\dagger$ a row
-vector of the same length as $\vec{p}$ whose elements are all
-1, such that, for instance,
-$\vec{1}^\dagger \cdot \langle\vec{m}^0\rangle = 1$,
-$\vec{1}^\dagger \cdot \langle\vec{m}\rangle = \langle{m}\rangle$, etc.
+whose elements are simply the probabilities of finding the system in each of the
+possible promoter states. To reduce notational clutter in what follows, sums
+over $m$ will be assumed to run from 0 to $\infty$ unless otherwise specified,
+i.e., $\sum_{m=0}^\infty$ will be denoted simply as $\sum_m$. It will also be
+convenient to denote by $\vec{1}^\dagger$ a row vector of the same length as
+$\vec{p}$ whose elements are all 1, such that, for instance, $\vec{1}^\dagger
+\cdot \langle\vec{m}^0\rangle = 1$, $\vec{1}^\dagger \cdot \langle\vec{m}\rangle
+= \langle{m}\rangle$, etc.
 
 \subsubsection{Promoter state probabilities $\langle\vec{m}^0\rangle$}
 \label{sec:m0_appdx}
@@ -258,8 +247,8 @@ are all independent of $m$ and can be moved outside the sum, this simplifies to
 \end{equation}
 The last two terms can be handled by reindexing the summations, transforming
 them to match the definitions of $\langle\vec{m}^0\rangle$ and
-$\langle\vec{m}\rangle$. For the first, noting $\vec{p}(-1)=0$ since
-negative numbers of mRNA are nonsensical, we have
+$\langle\vec{m}\rangle$. For the first, noting $\vec{p}(-1)=0$ since negative
+numbers of mRNA are nonsensical, we have
 \begin{equation}
 \sum_{m=0}^\infty \vec{p}(m-1)
 = \sum_{m=-1}^\infty \vec{p}(m)
@@ -271,8 +260,8 @@ Similarly for the second,
 = \sum_{m=1}^\infty m\vec{p}(m)
 = \sum_{m=0}^\infty m\vec{p}(m) = \langle\vec{m}\rangle,
 \end{equation}
-which holds since in extending the lower limit from $m=1$ to $m=0$,
-the extra term we added to the sum is zero. Substituting these back in
+which holds since in extending the lower limit from $m=1$ to $m=0$, the extra
+term we added to the sum is zero. Substituting these back in
 Eq.~\ref{eq:generic_cme_deriv_020}, we have
 \begin{equation}
 0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^0\rangle
@@ -284,24 +273,22 @@ or simply
 0 = (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) \langle\vec{m}^0\rangle.
 \label{eq:generic_cme_vecm0}
 \end{equation}
-So given matrices $\mathbf{K}$, $\mathbf{R_D}$, and $\mathbf{R_A}$ describing
-a promoter, finding $\langle\vec{m}^0\rangle$ simply amounts to solving this
-set of linear equations, subject to the normalization constraint
-$\vec{1}^\dagger \cdot \langle\vec{m}^0\rangle = 1$.
-It will turn out to be the case that, if the matrix
-$\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}$ is $n$ dimensional, it will always
-have only $n-1$ linearly independent equations. Including the normalization
-condition provides the $n$-th linearly independent equation, ensuring a
-unique solution. So when using this equation to solve for
-$\langle\vec{m}^0\rangle$, we may always drop one row of the matrix equation
-at our convenience and supplement the system with the normalization
-condition instead.
+So given matrices $\mathbf{K}$, $\mathbf{R_D}$, and $\mathbf{R_A}$ describing a
+promoter, finding $\langle\vec{m}^0\rangle$ simply amounts to solving this set
+of linear equations, subject to the normalization constraint $\vec{1}^\dagger
+\cdot \langle\vec{m}^0\rangle = 1$. It will turn out to be the case that, if the
+matrix $\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}$ is $n$ dimensional, it will
+always have only $n-1$ linearly independent equations. Including the
+normalization condition provides the $n$-th linearly independent equation,
+ensuring a unique solution. So when using this equation to solve for
+$\langle\vec{m}^0\rangle$, we may always drop one row of the matrix equation at
+our convenience and supplement the system with the normalization condition
+instead.
 
 \subsubsection{First moments $\langle\vec{m}\rangle$ and $\langle{m}\rangle$}
-By analogy to the above procedure for finding $\langle\vec{m}^0\rangle$,
-we may find $\langle\vec{m}\rangle$ by first multiplying
-Eq.~\ref{eq:generic_cme_ss} by $m$ and then summing over $m$.
-Carrying out this procedure we have
+By analogy to the above procedure for finding $\langle\vec{m}^0\rangle$, we may
+find $\langle\vec{m}\rangle$ by first multiplying Eq.~\ref{eq:generic_cme_ss} by
+$m$ and then summing over $m$. Carrying out this procedure we have
 \begin{equation}
 0 = \sum_m m \left[
 \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
@@ -317,8 +304,8 @@ and now identifying $\langle\vec{m}\rangle$ and $\langle\vec{m}^2\rangle$ gives
 \label{eq:generic_cme_deriv_030}
 \end{equation}
 The summations in the last two terms can be reindexed just as we did for
-$\langle\vec{m}^0\rangle$, freely adding or removing terms from
-the sum which are zero. For the first,
+$\langle\vec{m}^0\rangle$, freely adding or removing terms from the sum which
+are zero. For the first,
 \begin{equation}
 \sum_{m=0}^\infty m\vec{p}(m-1)
 = \sum_{m=-1}^\infty (m+1)\vec{p}(m)
@@ -345,8 +332,8 @@ or after simplifying
 + \mathbf{R_A} \langle\vec{m}^0\rangle.
 \label{eq:generic_cme_deriv_040}
 \end{equation}
-So like $\langle\vec{m}^0\rangle$, $\langle\vec{m}\rangle$ is also found
-by simply solving a set of linear equations after first solving for
+So like $\langle\vec{m}^0\rangle$, $\langle\vec{m}\rangle$ is also found by
+simply solving a set of linear equations after first solving for
 $\langle\vec{m}^0\rangle$ from Eq.~\ref{eq:generic_cme_vecm0}.
 
 Next we can find the mean mRNA copy number $\langle{m}\rangle$ from
@@ -359,11 +346,11 @@ where $\vec{1}^\dagger$ is a row vector whose elements are all 1.
 Eq.~\ref{eq:m_from_vecm} holds since the $i$-th element of the column vector
 $\langle\vec{m}\rangle$ is the mean mRNA value conditional on the system
 occupying the $i-$th promoter state, so the dot product with $\vec{1}^\dagger$
-amounts to simply summing the elements of $\langle\vec{m}\rangle$.
-Rather than solving Eq.~\ref{eq:generic_cme_deriv_040} for $\langle\vec{m}\rangle$
-and then computing $\vec{1}^\dagger\cdot\langle\vec{m}\rangle$, we may
-take a shortcut by muliplying Eq.~\ref{eq:generic_cme_deriv_040} by
-$\vec{1}^\dagger$ first. The key observation that makes this useful is that
+amounts to simply summing the elements of $\langle\vec{m}\rangle$. Rather than
+solving Eq.~\ref{eq:generic_cme_deriv_040} for $\langle\vec{m}\rangle$ and then
+computing $\vec{1}^\dagger\cdot\langle\vec{m}\rangle$, we may take a shortcut by
+multiplying Eq.~\ref{eq:generic_cme_deriv_040} by $\vec{1}^\dagger$ first. The
+key observation that makes this useful is that
 \begin{equation}
 \vec{1}^\dagger \cdot (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) = 0.
 \end{equation}
@@ -387,14 +374,14 @@ or simply
 \label{eq:generic_mean_m_appdx}
 \end{equation}
 We note that the in equilibrium models of transcription such as in
-Figure~\ref{fig1:means_cartoons}, it is usually \textit{assumed} that the
-mean mRNA level is given by the ratio of initiation rate $r$ to degradation
-rate $\gamma$ multiplied by the probability of finding the system in the
-RNAP-bound state. Reassuringly, we have recovered exactly this result
-from the master equation picture: the product
+Figure~\ref{fig1:means_cartoons}, it is usually \textit{assumed} that the mean
+mRNA level is given by the ratio of initiation rate $r$ to degradation rate
+$\gamma$ multiplied by the probability of finding the system in the RNAP-bound
+state. Reassuringly, we have recovered exactly this result from the master
+equation picture: the product
 $\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle$ picks out the
-probability of the active promoter state from $\langle\vec{m}^0\rangle$
-and multiplies it by the initiation rate $r$.
+probability of the active promoter state from $\langle\vec{m}^0\rangle$ and
+multiplies it by the initiation rate $r$.
 
 \subsubsection{Second moment $\langle{m}^2\rangle$ and Fano factor $\nu$}
 Continuing the pattern of the zeroth and first moments, we now find
@@ -415,8 +402,8 @@ in the first term simplifies this to
     + \gamma \sum_m m^2(m+1)\vec{p}(m+1).
 \label{eq:generic_cme_deriv_050}
 \end{equation}
-Reindexing the sums of the last two terms proceeds just as it did for the
-zeroth and first moments. Explicitly, we have
+Reindexing the sums of the last two terms proceeds just as it did for the zeroth
+and first moments. Explicitly, we have
 \begin{equation}
 \sum_{m=0}^\infty m^2\vec{p}(m-1)
 = \sum_{m=-1}^\infty (m+1)^2\vec{p}(m)
@@ -447,8 +434,8 @@ and after grouping like powers of $m$ we have
 + \mathbf{R_A} \langle\vec{m}^0\rangle.
 \label{eq:generic_cme_deriv_060}
 \end{equation}
-As we found when computing $\langle{m}\rangle$ from $\langle\vec{m}\rangle$,
-we can spare ourselves some algebra by multiplying
+As we found when computing $\langle{m}\rangle$ from $\langle\vec{m}\rangle$, we
+can spare ourselves some algebra by multiplying
 Eq.~\ref{eq:generic_cme_deriv_060} by $\vect{1}^\dagger$, which then reduces to
 \begin{equation}
 0 = - 2\gamma \langle{m}^2\rangle
@@ -464,7 +451,9 @@ $\vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}^0\rangle
         \vec{1}^\dagger\cdot\mathbf{R_A} \langle\vec{m}\rangle.
 \end{equation}
 
-Finally we have all the preliminary results needed to write a general expression for the Fano factor $\nu$. The Fano factor is defined as the ratio of variance to mean, which can be written as
+Finally we have all the preliminary results needed to write a general expression
+for the Fano factor $\nu$. The Fano factor is defined as the ratio of variance
+to mean, which can be written as
 \begin{equation}
 \nu = \frac{\langle{m}^2\rangle - \langle{m}\rangle^2}{\langle{m}\rangle}
 = \frac{
@@ -480,18 +469,21 @@ and simplified to
         {\gamma \langle{m}\rangle}.
 \label{eq:generic_fano_appdx}
 \end{equation}
-Note a subtle notational trap here: $\langle{m}\rangle
-= \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle$
-rather than the by-eye similar but wrong expression $\langle{m}\rangle
-\ne \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}\rangle$,
-so the last term in Eq.~\ref{eq:generic_fano_appdx} is in general quite nontrivial.
-For a generic promoter, Eq.~\ref{eq:generic_fano_appdx} may be greater than, less than, or equal to one, as asserted in Section~\ref{sec:beyond_means}. We have not found the general form Eq.~\ref{eq:generic_fano_appdx} terribly intuitive and instead defer discussion to specific examples.
+Note a subtle notational trap here: $\langle{m}\rangle = \frac{1}{\gamma}
+\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle$ rather than the by-eye
+similar but wrong expression $\langle{m}\rangle \ne \frac{1}{\gamma}
+\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}\rangle$, so the last term in
+Eq.~\ref{eq:generic_fano_appdx} is in general quite nontrivial. For a generic
+promoter, Eq.~\ref{eq:generic_fano_appdx} may be greater than, less than, or
+equal to one, as asserted in Section~\ref{sec:beyond_means}. We have not found
+the general form Eq.~\ref{eq:generic_fano_appdx} terribly intuitive and instead
+defer discussion to specific examples.
 
 \subsubsection{Summary of general results}
-For ease of reference, we collect and reprint here the key results derived
-in this section that are used in the main text and subsequent subsections.
-Mean mRNA copy number and Fano factor are given by
-Eqs.~\ref{eq:generic_mean_m_appdx} and \ref{eq:generic_fano_appdx}, which are
+For ease of reference, we collect and reprint here the key results derived in
+this section that are used in the main text and subsequent subsections. Mean
+mRNA copy number and Fano factor are given by Eqs.~\ref{eq:generic_mean_m_appdx}
+and \ref{eq:generic_fano_appdx}, which are
 \begin{equation}
 \langle{m}\rangle
 = \frac{1}{\gamma} \vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle
@@ -504,8 +496,7 @@ and
         {\gamma \langle{m}\rangle},
 \label{eq:fano_appdx_ref}
 \end{equation}
-respectively.
-To compute these two quantities, we need the expressions for
+respectively. To compute these two quantities, we need the expressions for
 $\langle\vec{m}^0\rangle$ and $\langle\vec{m}\rangle$ given by solving
 Eqs.~\ref{eq:generic_cme_vecm0} and \ref{eq:generic_cme_deriv_040},
 respectively, which are
@@ -520,42 +511,42 @@ and
 = - \mathbf{R_A} \langle\vec{m}^0\rangle.
 \label{eq:vecm_appdx_ref}
 \end{equation}
-Some comments are in order before we consider particular models. First,
-note that to obtain $\langle\vec{m}\rangle$ and $\nu$, we need not bother
-solving for all components of the vectors $\langle\vec{m}^0\rangle$ and
-$\langle\vec{m}\rangle$, but only the components which are multiplied by
-nonzero elements of $\mathbf{R_A}$. The only component of
-$\langle\vec{m}^0\rangle$ that ever survives is the transciptionally active
-state, and for the models we consider here, there is only ever one such state.
-This will save us some amount of algebra below.
+Some comments are in order before we consider particular models. First, note
+that to obtain $\langle\vec{m}\rangle$ and $\nu$, we need not bother solving for
+all components of the vectors $\langle\vec{m}^0\rangle$ and
+$\langle\vec{m}\rangle$, but only the components which are multiplied by nonzero
+elements of $\mathbf{R_A}$. The only component of $\langle\vec{m}^0\rangle$ that
+ever survives is the transciptionally active state, and for the models we
+consider here, there is only ever one such state. This will save us some amount
+of algebra below.
 
 Also note that we are computing Fano factors to verify the results of
-Section~\ref{sec:beyond_means}, concerning the constitutive promoter models
-in Figure~\ref{fig2:constit_cartoons} which are analogs of the simple
-repression models in Figure~\ref{fig1:means_cartoons}. We can translate
-the matrices from the simple repression models to the constitutive case
-by simply all occurences of repressor rates and removing the row and column
-corresponding to the repressor bound state. The results for
-$\langle{m}\rangle$ computed in the repressed case can be easily translated
-to the constitutive case, rather than recalculating from scratch, by taking
-the limit $k_R^+\rightarrow 0$, since this amounts to sending repressor
-copy number to zero.
+Section~\ref{sec:beyond_means}, concerning the constitutive promoter models in
+Figure~\ref{fig2:constit_cartoons} which are analogs of the simple repression
+models in Figure~\ref{fig1:means_cartoons}. We can translate the matrices from
+the simple repression models to the constitutive case by simply substituting all
+occurrences of repressor rates by zero and removing the row and column
+corresponding to the repressor bound state. The results for $\langle{m}\rangle$
+computed in the repressed case can be easily translated to the constitutive
+case, rather than recalculating from scratch, by taking the limit
+$k_R^+\rightarrow 0$, since this amounts to sending repressor copy number to
+zero.
 
 Finally, we point out that it would be possible to compute
-$\langle\vec{m}^0\rangle$ more simply using the diagram methods from King
-and Altman~\cite{King1956} (also independently discovered by
-Hill~\cite{Hill1966}). But to our knowledge this method cannot be
-applied to compute $\langle\vec{m}\rangle$ or $\nu$, so since we would need
-to resort to solving the matrix equations anyways for $\langle\vec{m}\rangle$,
-we choose not to introduce the extra conceptual burden of the diagram
-methods simply for computing $\langle\vec{m}^0\rangle$.
+$\langle\vec{m}^0\rangle$ more simply using the diagram methods from King and
+Altman~\cite{King1956} (also independently discovered by Hill~\cite{Hill1966}).
+But to our knowledge this method cannot be applied to compute
+$\langle\vec{m}\rangle$ or $\nu$, so since we would need to resort to solving
+the matrix equations anyways for $\langle\vec{m}\rangle$, we choose not to
+introduce the extra conceptual burden of the diagram methods simply for
+computing $\langle\vec{m}^0\rangle$.
 
 \subsection{Nonequilibrium Model One - Poisson Promoter}
 \subsubsection{Mean mRNA}
-For nonequilibrium model one in Figure~\ref{fig1:means_cartoons},
-we have already shown the full master equation in
-Eq.~\ref{eq:poisson_promoter_cme} and Eq.~\ref{eq:poisson_promoter_cme_appdx},
-but for completeness we reprint it again as
+For nonequilibrium model one in Figure~\ref{fig1:means_cartoons}, we have
+already shown the full master equation in Eq.~\ref{eq:poisson_promoter_cme} and
+Eq.~\ref{eq:poisson_promoter_cme_appdx}, but for completeness we reprint it
+again as
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -575,20 +566,20 @@ but for completeness we reprint it again as
 \end{split}
 \end{align}
 This is a direct transcription of the states and rates in
-Figure~\ref{fig1:means_cartoons}. This may be converted to the matrix form
-of the master equation shown in Eq.~\ref{eq:generic_cme_appdx} with matrices
+Figure~\ref{fig1:means_cartoons}. This may be converted to the matrix form of
+the master equation shown in Eq.~\ref{eq:generic_cme_appdx} with matrices
 \begin{equation}
 \vec{p}(m) = \begin{pmatrix} p_R(m) \\ p_U(m) \end{pmatrix},\
 \mathbf{K} = \begin{pmatrix} -k_R^- & k_R^+ \\ k_R^- & -k_R^+ \end{pmatrix},\
 \mathbf{R} = \begin{pmatrix} 0 & 0 \\ 0 & r \end{pmatrix},\
 \end{equation}
-where $\mathbf{R_A}$ and $\mathbf{R_D}$ are equal, so we drop the subscript
-and denote both simply by $\mathbf{R}$. Since our interest is only in
-steady-state we dropped the time dependence as well.
+where $\mathbf{R_A}$ and $\mathbf{R_D}$ are equal, so we drop the subscript and
+denote both simply by $\mathbf{R}$. Since our interest is only in steady-state
+we dropped the time dependence as well.
 
 First we need $\langle\vec{m}^0\rangle$. Label its components as $p_R$ and
-$p_U$, the probabilities of finding the system in either promoter state,
-and note that only $p_U$ survives multiplication by $\mathbf{R}$, since
+$p_U$, the probabilities of finding the system in either promoter state, and
+note that only $p_U$ survives multiplication by $\mathbf{R}$, since
 \begin{equation}
 \mathbf{R} \langle\vec{m}^0\rangle
 = \begin{pmatrix} 0 & 0 \\ 0 & r \end{pmatrix}
@@ -603,8 +594,8 @@ so we need not bother finding $p_R$. Then we have
     \begin{pmatrix} p_R \\ p_U \end{pmatrix} = 0.
 \end{equation}
 As mentioned earlier in Section~\ref{sec:m0_appdx}, the two rows are linearly
-dependent, so taking only the first row and using normalization to set
-$p_R = 1-p_U$ gives
+dependent, so taking only the first row and using normalization to set $p_R =
+1-p_U$ gives
 \begin{equation}
 -k_R^- (1-p_U) + k_R^+ p_U = 0,
 \end{equation}
@@ -621,10 +612,10 @@ as asserted in Eq.~\ref{eq:mean_m_model1} of the main text.
 
 \subsubsection{Fano factor}
 To verify that the Fano factor for model one in
-Figure~\ref{fig2:constit_cartoons} is in fact 1 as claimed in the main text,
+Figure~\ref{fig2:constit_cartoons}(A) is in fact 1 as claimed in the main text,
 note that in this limit $p_U = 1$ and $\langle{m}\rangle = r/\gamma$. All
-elements of $\mathbf{K}$ are zero, and $\mathbf{R_A}-\mathbf{R_D} = 0$,
-so Eq.~\ref{eq:vecm_appdx_ref} reduces to
+elements of $\mathbf{K}$ are zero, and $\mathbf{R_A}-\mathbf{R_D} = 0$, so
+Eq.~\ref{eq:vecm_appdx_ref} reduces to
 \begin{equation}
 - \gamma \langle\vec{m}\rangle = - r,
 \end{equation}
@@ -669,8 +660,8 @@ Figure~\ref{fig1:means_cartoons} is
 &- \overbrace{rp_P(m,t)}^{m \rightarrow m + 1,\;A \rightarrow U},
 \end{split}
 \end{align}
-which can be condensed to the matrix form of Eq.~\ref{eq:generic_cme_appdx}
-with matrices given by
+which can be condensed to the matrix form of Eq.~\ref{eq:generic_cme_appdx} with
+matrices given by
 \begin{equation}
 \mathbf{K} = \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
                         k_R^- & -k_R^+ -k_P^+ & k_P^- \\
@@ -689,9 +680,9 @@ with matrices given by
 \label{eq:model2_matrices_appdx}
 \end{equation}
 As for model one, we must first find $\mathbf{R_A} \langle\vect{m}^0\rangle$.
-Denote its components as $p_R$, $p_E$, $p_P$, the probabilities of being
-found in repressor bound, empty, or RNAP-bound states, respectively.
-Only $p_P$ is necessary to find since
+Denote its components as $p_R$, $p_E$, $p_P$, the probabilities of being found
+in repressor bound, empty, or RNAP-bound states, respectively. Only $p_P$ is
+necessary to find since
 \begin{equation}
 \mathbf{R_A} \langle\vec{m}^0\rangle
 = \begin{pmatrix} 0 \\ r p_P \\ 0 \end{pmatrix}.
@@ -728,7 +719,8 @@ and solving for $p_P$ gives
 \begin{equation}
 p_P = \frac{k_P^+ k_R^-}{k_P^+ k_R^- + (k_P^- + r)(k_R^+ + k_R^-)}.
 \end{equation}
-Substituting this in Eq.~\ref{eq:model2_deriv_appdx_020} and multiplying by $\mathbf{R_A}$ produces
+Substituting this in Eq.~\ref{eq:model2_deriv_appdx_020} and multiplying by
+$\mathbf{R_A}$ produces
 \begin{equation}
 \mathbf{R_A} \langle\vec{m}^0\rangle
 = r \frac{k_P^+ k_R^-} {k_P^+ k_R^- + (k_P^- + r)(k_R^+ + k_R^-)}
@@ -743,8 +735,8 @@ from which $\langle{m}\rangle$ follows readily,
 as claimed in Eq.~\ref{eq:model2_meanm} in the main text.
 
 \subsubsection{Fano factor}
-To compute the Fano factor, we first remove the repressor bound state from
-the matrices describing the model, which reduce to
+To compute the Fano factor, we first remove the repressor bound state from the
+matrices describing the model, which reduce to
 \begin{equation}
 \mathbf{K} = \begin{pmatrix}
                 -k_P^+ & k_P^- \\
@@ -759,9 +751,9 @@ the matrices describing the model, which reduce to
                 0 & r
                 \end{pmatrix}.    
 \end{equation}
-Similarly we remove the repressor bound state from
-$\mathbf{R_A} \langle\vec{m}^0\rangle$ and take the $k_R^+\rightarrow 0$
-limit, which simplifies to 
+Similarly we remove the repressor bound state from $\mathbf{R_A}
+\langle\vec{m}^0\rangle$ and take the $k_R^+\rightarrow 0$ limit, which
+simplifies to 
 \begin{equation}
 \mathbf{R_A} \langle\vec{m}^0\rangle
 = r \frac{k_P^+ } {k_P^+ + k_P^- + r}
@@ -781,11 +773,11 @@ which with these matrices reads
     \begin{pmatrix} 1 \\ 0 \end{pmatrix},
 \end{equation}
 where we labeled the components of $\langle\vec{m}\rangle$ as $m_E$ and $m_P$,
-since they are the mean mRNA counts conditional upon the system residing in
-the empty or polymerase bound states, respectively. Unlike for
-$\langle\vec{m}^0\rangle$, the rows of this matrix are linearly independent
-so we simply solve this matrix equation as is. We can immediately eliminate
-$m_E$ since $m_E = m_P (k_P^- + r + \gamma)/k_P^+$ from the second row, and
+since they are the mean mRNA counts conditional upon the system residing in the
+empty or polymerase bound states, respectively. Unlike for
+$\langle\vec{m}^0\rangle$, the rows of this matrix are linearly independent so
+we simply solve this matrix equation as is. We can immediately eliminate $m_E$
+since $m_E = m_P (k_P^- + r + \gamma)/k_P^+$ from the second row, and
 substituting into the first row gives an equation for $m_P$ alone, which is
 \begin{equation}
 \left[-(k_P^+ + \gamma)(k_P^- + r + \gamma) + k_P^+(k_P^- + r)\right] m_P
@@ -826,12 +818,13 @@ which further simplifies to
 \end{equation}
 exactly Eq.~\ref{eq:model2_fano} in the main text.
     
-\subsection{Nonequilibrium Model Three
-    - Multistep Transcription Initiation and Escape}
+\subsection{Nonequilibrium Model Three - Multistep Transcription Initiation and
+Escape}
+
 \subsubsection{Mean mRNA}
 In close analogy to model two above, nonequilibrium model three from
-Figure~\ref{fig1:means_cartoons} can be described by our generic master equation
-Eq.~\ref{eq:generic_cme_appdx} with promoter transition matrix given by
+Figure~\ref{fig1:means_cartoons}(C) can be described by our generic master
+equation Eq.~\ref{eq:generic_cme_appdx} with promoter transition matrix given by
 \begin{equation}
 \mathbf{K} =
 \begin{pmatrix} -k_R^- & k_R^+ & 0 & 0\\
@@ -869,17 +862,17 @@ which in this case takes the form
 \begin{pmatrix} p_R \\ p_E \\ p_C \\ p_O
 \end{pmatrix} = 0,
 \end{equation}
-where the four components of $\langle\vec{m}^0\rangle$ correspond to the
-four promoter states repressor bound, empty, RNAP-bound closed complex, and
-RNAP-bound open complex. As explained in Section~\ref{sec:m0_appdx}, we
-are free to discard one linearly dependent row from this matrix and replace
-it with the normalization condition $p_R + p_E + p_C + p_O = 1$.
-Using normalization to eliminate $p_R$ from the first row gives
+where the four components of $\langle\vec{m}^0\rangle$ correspond to the four
+promoter states repressor bound, empty, RNAP-bound closed complex, and
+RNAP-bound open complex. As explained in Section~\ref{sec:m0_appdx}, we are free
+to discard one linearly dependent row from this matrix and replace it with the
+normalization condition $p_R + p_E + p_C + p_O = 1$. Using normalization to
+eliminate $p_R$ from the first row gives
 \begin{equation}
 p_E = (1 - p_C - p_O)\frac{k_R^-}{k_R^- + k_R^+}.
 \end{equation}
-If we substitute this in the third row, then the last two rows constitute
-two equations in $p_C$ and $p_O$ given by
+If we substitute this in the third row, then the last two rows constitute two
+equations in $p_C$ and $p_O$ given by
 \begin{align}
 k_P^+k_R^-(1-p_C-p_O) - (k_P^- + k_O)(k_R^+ + k_R^-) p_C &= 0
 \\
@@ -897,9 +890,9 @@ p_O = \frac{k_P^+ k_R^- k_O}{k_P^+ k_R^- k_O + r k_P^+ k_R^- +
                             r (k_P^- + k_O) (k_R^+ + k_R^-)}.
 \label{eq:model3_pO}
 \end{equation}
-Once again $p_O$, the transcriptionally active state, is the only component
-of $\langle\vec{m}^0\rangle$ that survives multiplication by $\mathbf{R_A}$,
-and $\mathbf{R_A}\langle\vec{m}^0\rangle = r p_O$. So
+Once again $p_O$, the transcriptionally active state, is the only component of
+$\langle\vec{m}^0\rangle$ that survives multiplication by $\mathbf{R_A}$, and
+$\mathbf{R_A}\langle\vec{m}^0\rangle = r p_O$. So
 \begin{equation}
 \langle{m}\rangle =
     \frac{1}{\gamma}\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle
@@ -912,9 +905,9 @@ which equals Eq.~\ref{eq:model3_mean_m} in the main text.
 \subsubsection{Fano factor}
 To compute the Fano factor of the analogous constitutive promoter, we first
 excise the repressor states and rates from the problem. More precisely, we
-construct the matrix
-$(\mathbf{K} - \mathbf{R_D} + \mathbf{R_A} - \gamma\mathbf{I})$ and
-substitute it into Eq.~\ref{eq:vecm_appdx_ref} which is now
+construct the matrix $(\mathbf{K} - \mathbf{R_D} + \mathbf{R_A} -
+\gamma\mathbf{I})$ and substitute it into Eq.~\ref{eq:vecm_appdx_ref} which is
+now
 \begin{equation}
 (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A} - \gamma\mathbf{I})
     \langle\vec{m}\rangle
@@ -926,19 +919,18 @@ substitute it into Eq.~\ref{eq:vecm_appdx_ref} which is now
 \begin{pmatrix} m_E \\ m_C \\ m_O \end{pmatrix}
 = -r p_O \begin{pmatrix}1 \\ 0 \\ 0 \end{pmatrix}
 \end{equation}
-where we labeled the unbound, closed complex, and open complex componenets of
-$\langle\vec{m}\rangle$ as $m_E$, $m_C$, and $m_O$, respectively. $p_O$
-is given by the limit of Eq.~\ref{eq:model3_pO} as $k_R^+\rightarrow 0$,
-which is
+where we labeled the unbound, closed complex, and open complex components of
+$\langle\vec{m}\rangle$ as $m_E$, $m_C$, and $m_O$, respectively. $p_O$ is given
+by the limit of Eq.~\ref{eq:model3_pO} as $k_R^+\rightarrow 0$, which is
 \begin{equation}
 p_O = \frac{k_P^+  k_O}{k_P^+ (k_O + r) + r (k_P^- + k_O)}
 \equiv \frac{k_P^+  k_O}{\mathcal{Z}},
 \end{equation}
-where we define $\mathcal{Z}$ for upcoming convenience as this sum of terms
-will appear repeatedly. We can use the second equation to eliminate $m_E$,
-finding $m_E = m_C(k_P^- + k_O + \gamma)/k_P^+$, and the third to eliminate
-$m_C$, which is simply $m_C = m_O(r+\gamma)/k_O$. Substituting these both into
-the first equation gives a single equation for the variable of interest, $m_O$,
+where we define $\mathcal{Z}$ for upcoming convenience as this sum of terms will
+appear repeatedly. We can use the second equation to eliminate $m_E$, finding
+$m_E = m_C(k_P^- + k_O + \gamma)/k_P^+$, and the third to eliminate $m_C$, which
+is simply $m_C = m_O(r+\gamma)/k_O$. Substituting these both into the first
+equation gives a single equation for the variable of interest, $m_O$,
 \begin{equation}
 -(k_P^+ + \gamma) (k_P^- + k_O + \gamma) (r + \gamma) m_O
     + k_P^- k_P^+ (r + \gamma) m_O + r k_P^+ k_O m_O = - r k_P^+ k_O p_O,
@@ -955,8 +947,8 @@ m_O = p_O \frac{r}{\gamma} \frac{k_P^+ k_O}
     {\mathcal{Z} + \gamma(k_P^+ + k_P^- + k_O + r) + \gamma^2}.
 \end{equation}
 Now $\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}\rangle = r m_O$, and
-$\langle{m}\rangle = rp_O/\gamma$, so if we substitute these two quantities
-into Eq.~\ref{eq:fano_appdx_ref}, we will readily obtain the Fano factor as
+$\langle{m}\rangle = rp_O/\gamma$, so if we substitute these two quantities into
+Eq.~\ref{eq:fano_appdx_ref}, we will readily obtain the Fano factor as
 \begin{equation}
 \nu = 1 - \langle{m}\rangle
     + \frac{\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}\rangle}
@@ -978,16 +970,14 @@ and after simplifying, we obtain
 \end{equation}
 as stated in Eq.~\ref{eq:model3_fano} in the main text.
         
-\subsection{Nonequilibrium Model Four
-    - ``Active'' and ``Inactive'' States}
+\subsection{Nonequilibrium Model Four - ``Active'' and ``Inactive'' States}
 \subsubsection{Mean mRNA}
 The mathematical specification of this model is almost identical to model two.
-The matrix $\mathbf{K}$ is identical, as is $\mathbf{R_D}$. The only
-difference is that now $\mathbf{R_A}=\mathbf{R_D}$, i.e., both are diagonal,
-in contrast to model two where $\mathbf{R_A}$ has an off-diagonal element, as in
-Eq.~\ref{eq:model2_matrices_appdx}.
-Then the analog of Eq.~\ref{eq:model2_K-R+R_for_m0} for finding
-$\langle{m}^0\rangle$ is
+The matrix $\mathbf{K}$ is identical, as is $\mathbf{R_D}$. The only difference
+is that now $\mathbf{R_A}=\mathbf{R_D}$, i.e., both are diagonal, in contrast to
+model two where $\mathbf{R_A}$ has an off-diagonal element, as in
+Eq.~\ref{eq:model2_matrices_appdx}. Then the analog of
+Eq.~\ref{eq:model2_K-R+R_for_m0} for finding $\langle{m}^0\rangle$ is
 \begin{equation}
 \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
         k_R^- & -k_R^+ -k_P^+ & k_P^-\\
@@ -998,15 +988,14 @@ $\langle{m}^0\rangle$ is
 \end{pmatrix}
 = 0.
 \end{equation}
-In fact we need not do this calculation explicitly and can instead recycle
-the calculation of mean mRNA $\langle{m}\rangle$ from model two. The
-matrices are identical except for the relabeling
-$k_P^- \longleftrightarrow (k_P^- + r)$, and a careful look through the
-derivation of $\langle{m}\rangle$ for model two shows that the parameters
-$k_P^-$ and $r$ only ever appear as the sum $k_P^- + r$. So taking
-$\langle{m}\rangle$ from model two, Eq.~\ref{eq:model2_meanm_appdx}, and
-relabeling $(k_P^- + r) \rightarrow k_P^-$ gives us our answer for model
-four, simply
+In fact we need not do this calculation explicitly and can instead recycle the
+calculation of mean mRNA $\langle{m}\rangle$ from model two. The matrices are
+identical except for the relabeling $k_P^- \longleftrightarrow (k_P^- + r)$, and
+a careful look through the derivation of $\langle{m}\rangle$ for model two shows
+that the parameters $k_P^-$ and $r$ only ever appear as the sum $k_P^- + r$. So
+taking $\langle{m}\rangle$ from model two, Eq.~\ref{eq:model2_meanm_appdx}, and
+relabeling $(k_P^- + r) \rightarrow k_P^-$ gives us our answer for model four,
+simply
 \begin{equation}
 \langle{m}\rangle = \frac{r}{\gamma}
         \frac{k_P^+ k_R^-} {k_P^+ k_R^- + k_P^- (k_R^+ + k_R^-)}.
@@ -1014,14 +1003,14 @@ four, simply
 
 \subsubsection{Fano factor}
 Likewise, for computing the Fano factor of this model we may take a shortcut.
-Consider the constitutive model four from Figure~\ref{fig2:constit_cartoons}
-for which we want to compute the Fano factor and compare it to nonequilibrium
-model one of simple repression in Figure~\ref{fig1:means_cartoons}.
-Mathematically these are exactly the same model, just with rates labeled
-differently and the meaning of the promoter states interpreted differently.
-Furthermore, nonequilibrium model one from Figure~\ref{fig1:means_cartoons}
-was the model considered by Jones et.\ al.~\cite{Jones2014}, where they
-derived the Fano factor for that model to be
+Consider the constitutive model four from Figure~\ref{fig2:constit_cartoons} for
+which we want to compute the Fano factor and compare it to nonequilibrium model
+one of simple repression in Figure~\ref{fig1:means_cartoons}. Mathematically
+these are exactly the same model, just with rates labeled differently and the
+meaning of the promoter states interpreted differently. Furthermore,
+nonequilibrium model one from Figure~\ref{fig1:means_cartoons} was the model
+considered by Jones et.\ al.~\cite{Jones2014}, where they derived the Fano
+factor for that model to be
 \begin{equation}
 \nu = 1 + \frac{r k_R^+}{(k_R^+ + k_R^-)(k_R^+ + k_R^- + \gamma)}.
 \end{equation}
