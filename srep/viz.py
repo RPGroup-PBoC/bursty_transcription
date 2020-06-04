@@ -306,7 +306,7 @@ def predictive_ecdf(
     return ax
 
 
-def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(80, 60, 40, 20), ax=None):
+def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(95, 75, 50, 25), ax=None, **kwargs):
     """Plot posterior predictive ECDFs.
     Credit to JB for part of this function,
     double check how much I wrote & which tutorial/year
@@ -324,7 +324,8 @@ def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(80, 60, 40, 20), 
         data=df["mRNA_cell"],
         percentiles=percentiles,
         discrete=True,
-        ax=ax[0]
+        ax=ax[0],
+        **kwargs
     )
 
     ax[1] = predictive_ecdf(
@@ -335,12 +336,26 @@ def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(80, 60, 40, 20), 
         percentiles=percentiles,
         discrete=True,
         diff=True,
-        ax=ax[1]
+        ax=ax[1],
+        **kwargs
     )
     # p1.x_range = p2.x_range
     
     return ax
 
+# %%
+fig, ax = plt.subplots(1, 2, figsize= (6, 2.5))
+srep.viz.ppc_ecdf_pair(
+    all_samples['5DL10'],
+    'mRNA_counts_ppc',
+    df_unreg[df_unreg['experiment'] == '5DL10'],
+    ax=ax,
+    data_color='black',
+    color='green',
+    data_label='5DL10'
+    )
+plt.legend()
+# %%
 
 def ecdf(data):
     """
