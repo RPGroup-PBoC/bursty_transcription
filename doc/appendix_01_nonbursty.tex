@@ -9,7 +9,8 @@ not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
 main text. In each of these four models, the natural mathematicization of their
 cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
 for model one. Before jumping into the derivations of the general computation of
-the mean mRNA level and the Fano factor we will work through the derivation of an example master equation. In particular we will focus on model 1 from 
+the mean mRNA level and the Fano factor we will work through the derivation of
+an example master equation. In particular we will focus on model 1 from
 Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
 other chemical master equations in this work.
 
@@ -35,19 +36,19 @@ continuous or discrete probability distribution function. In our specific case
 we want to describe the time evolution of the discrete mRNA distribution. What
 this means is that we want to compute the probability of having $m$ mRNA
 molecules at time $t + \Delta t$, where $\Delta t$ is a sufficiently small time
-interval such that only one of the possible reactions take place during that time interval. For the
-example that we will work out here in detail we chose the two-state stochastic
-simple repression model schematized in Figure~\ref{fig:two_state}(A). To derive
-the master equation we will focus more on the representation shown in
-Figure~\ref{fig:two_state}(B), where the transitions between different mRNA
-counts and promoter states is more explicitly depicted. Given that the DNA
-promoter can exist in one of two states -- transcriptionally active state, and
-with repressor bound -- we will keep track not only of the mRNA count, but on
-which state the promoter is. For this we will keep track of two probability
-distributions: The probability of having $m$ mRNAs at time $t$ when the promoter
-is in the transcriptionally active state $A$, $p_A(m, t)$, and the equivalent
-probability but when the promoter is in the repressor bound state $R$, $p_R(m,
-t)$.
+interval such that only one of the possible reactions take place during that
+time interval. For the example that we will work out here in detail we chose the
+two-state stochastic simple repression model schematized in
+Figure~\ref{fig:two_state}(A). To derive the master equation we will focus more
+on the representation shown in Figure~\ref{fig:two_state}(B), where the
+transitions between different mRNA counts and promoter states is more explicitly
+depicted. Given that the DNA promoter can exist in one of two states --
+transcriptionally active state, and with repressor bound -- we will keep track
+not only of the mRNA count, but on which state the promoter is. For this we will
+keep track of two probability distributions: The probability of having $m$ mRNAs
+at time $t$ when the promoter is in the transcriptionally active state $A$,
+$p_A(m, t)$, and the equivalent probability but when the promoter is in the
+repressor bound state $R$, $p_R(m, t)$.
 
 Since mRNA production can only take place in the transcriptionally active state
 we will focus on this function for our derivation. The repressor bound state
@@ -59,25 +60,26 @@ transcriptionally active state we have
 \begin{itemize}
     \item Produce an mRNA, jumping from $m-1$ to $m$.
     \item Degrade an mRNA, jumping from $m+1$ to $m$.
-    \item Transition from the repressor bound state $R$ with m mRNAs  to the active state $A$
-    with m mRNAs.
+    \item Transition from the repressor bound state $R$ with $m$ mRNAs  to the
+    active state $A$ with $m$ mRNAs.
 \end{itemize}
 Likewise, for state transitions that ``jump out'' of state $m$ in the
 transcriptionally inactive state we have
 \begin{itemize}
     \item Produce an mRNA, jumping from $m$ to $m+1$.
     \item Degrade an mRNA, jumping from $m$ to $m-1$.
-    \item Transition from the active state $A$ with m mRNAs to the repressor bound state $R$ with
-    m mRNAs.
+    \item Transition from the active state $A$ with $m$ mRNAs to the repressor
+    bound state $R$ with $m$ mRNAs.
 \end{itemize}
 The mRNA production does not depend on the current number of mRNAs, therefore
-these state transitions occur with probability $r\Delta t$. The same is true
-for the promoter state transitions, each occurs with probability $k_R^\pm \Delta
-t$. As for the mRNA degradation events, these transitions depend on the current number of
-mRNA molecules since the more molecules of mRNA there are, the more will decay during
-a given time interval. Each molecule has a constant probability $\gamma \Delta t$ of 
-being degraded, so the total probability for an mRNA degradation event to happen
-is computed by multiplying this probability by the current number of mRNAs.
+these state transitions occur with probability $r\Delta t$. The same is true for
+the promoter state transitions, each occurs with probability $k_R^\pm \Delta t$.
+As for the mRNA degradation events, these transitions depend on the current
+number of mRNA molecules since the more molecules of mRNA there are, the more
+will decay during a given time interval. Each molecule has a constant
+probability $\gamma \Delta t$ of being degraded, so the total probability for an
+mRNA degradation event to happen is computed by multiplying this probability by
+the current number of mRNAs.
 
 To see these terms in action let us compute the probability of having $m$ mRNA
 at time $t + \Delta t$ in the transcriptionally active state. This takes the 
@@ -97,13 +99,14 @@ p_A(m, t + \Delta t) &= p_A(m, t) \\
 \end{aligned}
 \end{equation}
 where the overbrace indicates the corresponding state transitions. Notice that
-the second to last term on the right-hand side is multiplied by $p_R(m, t)$ 
+the second to last term on the right-hand side is multiplied by $p_R(m, t)$
 since the transition from state $R$ to state $A$ depends on the probability of
-being in state $R$ to begin with. It is through this term that the dynamics of the two probability
-distribution functions ($p_R(m,t)$ and $p_A(m,t)$ are coupled. An equivalent equation can be written for
-the probability of having $m$ mRNA at time $t + \Delta t$ while in the repressor
-bound state, the only difference being that the mRNA production rates are 
-removed, and the sign for the promoter state transitions are inverted. This is
+being in state $R$ to begin with. It is through this term that the dynamics of
+the two probability distribution functions ($p_R(m,t)$ and $p_A(m,t)$) are
+coupled. An equivalent equation can be written for the probability of having $m$
+mRNA at time $t + \Delta t$ while in the repressor bound state, the only
+difference being that the mRNA production rates are removed, and the sign for
+the promoter state transitions are inverted. This is
 \begin{equation}
 \begin{aligned}
 p_R(m, t + \Delta t) &= p_R(m, t) \\
