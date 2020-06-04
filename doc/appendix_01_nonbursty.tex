@@ -6,7 +6,7 @@ In this section we detail the calculation of mean mRNA levels, fold-changes in
 expression, and Fano factors for nonequilibrium promoter models one through four
 in Figure~\ref{fig1:means_cartoons}. These are the results that were quoted but
 not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
-main text. In each of these four models, the natural mathematization of their
+main text. In each of these four models, the natural mathematicization of their
 cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
 for model one. Before jumping into the derivations of the general computation of
 the mean mRNA level and the Fano factor we will work through the derivation of an example master equation. In particular we will focus on model 1 from 
@@ -25,7 +25,7 @@ and $k_R^-$ are the association and dissociation rates of the transcriptional
 repressor, respectively, $r$ is the transcription initiation rate, and $\gamma$
 is the mRNA degradation rate. (B) Schematic depiction of the mRNA count state
 transitions. The model in (A) only allows for jumps in mRNA of size 1. The
-production of mRNA can only happen when the promoter is in the transcriptionally
+production of mRNA can only occur when the promoter is in the transcriptionally
 active state.}
 \label{fig:two_state}
 \end{figure}
@@ -35,8 +35,8 @@ continuous or discrete probability distribution function. In our specific case
 we want to describe the time evolution of the discrete mRNA distribution. What
 this means is that we want to compute the probability of having $m$ mRNA
 molecules at time $t + \Delta t$, where $\Delta t$ is a sufficiently small time
-interval such that only one of the possible reactions take place. For the
-example that we will workout here in detail we chose the two-state stochastic
+interval such that only one of the possible reactions take place during that time interval. For the
+example that we will work out here in detail we chose the two-state stochastic
 simple repression model schematized in Figure~\ref{fig:two_state}(A). To derive
 the master equation we will focus more on the representation shown in
 Figure~\ref{fig:two_state}(B), where the transitions between different mRNA
@@ -49,7 +49,7 @@ is in the transcriptionally active state $A$, $p_A(m, t)$, and the equivalent
 probability but when the promoter is in the repressor bound state $R$, $p_R(m,
 t)$.
 
-Since mRNA production can only take place on the transcriptionally active state
+Since mRNA production can only take place in the transcriptionally active state
 we will focus on this function for our derivation. The repressor bound state
 will have an equivalent equation without terms involving the production of
 mRNAs. We begin by listing the possible state transition that can happen for a
@@ -59,20 +59,23 @@ transcriptionally active state we have
 \begin{itemize}
     \item Produce an mRNA, jumping from $m-1$ to $m$.
     \item Degrade an mRNA, jumping from $m+1$ to $m$.
-    \item Transition from the repressor bound state $R$ to the active state $A$.
+    \item Transition from the repressor bound state $R$ with m mRNAs  to the active state $A$
+    with m mRNAs.
 \end{itemize}
 Likewise, for state transitions that ``jump out'' of state $m$ in the
 transcriptionally inactive state we have
 \begin{itemize}
     \item Produce an mRNA, jumping from $m$ to $m+1$.
     \item Degrade an mRNA, jumping from $m$ to $m-1$.
-    \item Transition from the active state $A$ to the repressor bound state $R$.
+    \item Transition from the active state $A$ with m mRNAs to the repressor bound state $R$ with
+    m mRNAs.
 \end{itemize}
 The mRNA production does not depend on the current number of mRNAs, therefore
-these state transitions happen with probability $r\Delta t$. The same is true
-for the promoter state transitions, each happen with probability $k_R^\pm \Delta
-t$. As for the mRNA degradation events does must depend on the current number of
-mRNA molecules. Each molecule has a constant probability $\gamma \Delta t$ of 
+these state transitions occur with probability $r\Delta t$. The same is true
+for the promoter state transitions, each occurs with probability $k_R^\pm \Delta
+t$. As for the mRNA degradation events, these transitions depend on the current number of
+mRNA molecules since the more molecules of mRNA there are, the more will decay during
+a given time interval. Each molecule has a constant probability $\gamma \Delta t$ of 
 being degraded, so the total probability for an mRNA degradation event to happen
 is computed by multiplying this probability by the current number of mRNAs.
 
@@ -96,8 +99,8 @@ p_A(m, t + \Delta t) &= p_A(m, t) \\
 where the overbrace indicates the corresponding state transitions. Notice that
 the second to last term on the right-hand side is multiplied by $p_R(m, t)$ 
 since the transition from state $R$ to state $A$ depends on the probability of
-being in state $R$ to begin with. It is through this term that both probability
-distribution functions are coupled. An equivalent equation can be written for
+being in state $R$ to begin with. It is through this term that the dynamics of the two probability
+distribution functions ($p_R(m,t)$ and $p_A(m,t)$ are coupled. An equivalent equation can be written for
 the probability of having $m$ mRNA at time $t + \Delta t$ while in the repressor
 bound state, the only difference being that the mRNA production rates are 
 removed, and the sign for the promoter state transitions are inverted. This is
@@ -149,7 +152,7 @@ form
 +k_R^+ p_A(m, t).
 \end{aligned}
 \end{equation}
-In the next section we will write these couple ODEs in a more compat form using
+In the next section we will write these coupled ODEs in a more compact form using
 matrix notation.
 
 \subsection{Matrix form of the multi-state chemical master equation}
@@ -157,7 +160,7 @@ matrix notation.
 Having derived an example chemical master equation we now focus on writing a
 general matrix form for the kinetic models 1-4 shown in
 Figure~\ref{fig1:means_cartoons}(C) in the main text. In each of these four
-models, the natural mathematization of their cartoons is as a chemical master
+models, the natural mathematicization of their cartoons is as a chemical master
 equation such as Eq.~\ref{eq:2state_rep_cme} for model one, which for
 completeness we reproduce here as
 \begin{align}
@@ -191,7 +194,7 @@ mass action kinetics, $k_R^+$ is proportional to repressor copy number $R$.
 Next consider the cartoon for nonequilibrium model two in
 Figure~\ref{fig1:means_cartoons}(C). Now we must track probabilities $p_R$,
 $p_P$, and $p_E$ for the repressor bound, empty, and polymerase bound states,
-respectively. By analogy to~\ref{eq:poisson_promoter_cme_appdx}, the master
+respectively. By analogy to eqn.~\ref{eq:poisson_promoter_cme_appdx}, the master
 equation for model two can be written
 \begin{align}
 \begin{split}
@@ -312,7 +315,7 @@ solution for arbitrary moments.
 \subsection{General forms for mean mRNA and Fano factor}
 Our task now is to derive expressions for the first two moments of the
 steady-state mRNA distribution from Eq.~\ref{eq:generic_cme_appdx}. Our
-treatment of this is analogous to that given in~\cite{Sanchez2011}
+treatment of this is analogous to that given in Refs.~\cite{Sanchez2011}
 and~\cite{Razo-Mejia2020}. We first obtain the steady-state limit of
 Eq.~\ref{eq:generic_cme_appdx} in which the time derivative vanishes, giving
 \begin{equation}
@@ -489,9 +492,9 @@ $\langle\vec{m}\rangle$ according to
 \label{eq:m_from_vecm}
 \end{equation}
 where $\vec{1}^\dagger$ is a row vector whose elements are all 1.
-Eq.~\ref{eq:m_from_vecm} holds since the $i$-th element of the column vector
+Eq.~\ref{eq:m_from_vecm} holds since the $i^{th}$ element of the column vector
 $\langle\vec{m}\rangle$ is the mean mRNA value conditional on the system
-occupying the $i-$th promoter state, so the dot product with $\vec{1}^\dagger$
+occupying the $i^{th}$ promoter state, so the dot product with $\vec{1}^\dagger$
 amounts to simply summing the elements of $\langle\vec{m}\rangle$. Rather than
 solving Eq.~\ref{eq:generic_cme_deriv_040} for $\langle\vec{m}\rangle$ and then
 computing $\vec{1}^\dagger\cdot\langle\vec{m}\rangle$, we may take a shortcut by
