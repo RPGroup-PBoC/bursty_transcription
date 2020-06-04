@@ -99,8 +99,12 @@ for i in range(5):
 # Align y axis label
 fig.align_ylabels(ax)
 
+# Compute the mean of each promoter mRNA count
+df_mean = df_unreg.groupby("experiment")["mRNA_cell"].apply(np.mean)
+# Sort promoters by mean
+df_mean = df_mean.sort_values(ascending=False)
 # Find unique promoters
-promoters = df_energies["Name"].unique()
+promoters = df_mean.index.values
 
 # Loop through unique promoters and plot ECDF
 for i, p in enumerate(promoters):
