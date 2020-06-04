@@ -50,10 +50,6 @@ fig = plt.figure(constrained_layout=False, figsize=(7.5, 8.75))
 gs = fig.add_gridspec(
     nrows=15, 
     ncols=4, 
-    # left=0.05, 
-    # right=0.45,
-    # top=1, 
-    # bottom=0.55,
     wspace=0.15,
     hspace=0.15,
 )
@@ -67,8 +63,7 @@ for i in range(5):
     for j in range(4):
         # Generate axis for ECDF
         if counter < len(df_energies):
-            #update counter
-            counter += 1
+            
             ax_ecdf = fig.add_subplot(gs[(i * 3):(i * 3 + 2), j])
             ax_diff = fig.add_subplot(gs[(i * 3 + 2), j])
             # Join axis
@@ -79,13 +74,13 @@ for i in range(5):
                 ax_diff.get_yaxis().set_ticklabels([])
 
             ax_ecdf.get_xaxis().set_ticklabels([])
-            if i != 5:
+            if counter not in range(14, 18):
                 ax_diff.get_xaxis().set_ticklabels([])
             # Set axis label
             if j == 0:
                 ax_ecdf.set_ylabel("ECDF")
                 ax_diff.set_ylabel("ECDF diff.")
-            if i == 5:
+            if counter in range(14, 18):
                 ax_diff.set_xlabel("mRNA/cell")
             # Join axis to first plot
             if (i != 0) | (j != 0):
@@ -95,16 +90,17 @@ for i in range(5):
                 ax_diff.get_shared_y_axes().join(ax_diff, ax[0][1])
             # Add to list
             ax.append([ax_ecdf, ax_diff])
+            #update counter
+            counter += 1
 
 # Align y axis label
 fig.align_ylabels(ax)
 
-# Compute the mean of each promoter mRNA count
-df_mean = df_unreg.groupby("experiment")["mRNA_cell"].apply(np.mean)
-# Sort promoters by mean
-df_mean = df_mean.sort_values(ascending=False)
+# Set xlimit
+ax_ecdf.set_xlim([-2, 50])
+
 # Find unique promoters
-promoters = df_mean.index.values
+promoters = df_energies["Name"].values
 
 # Loop through unique promoters and plot ECDF
 for i, p in enumerate(promoters):
@@ -120,14 +116,37 @@ for i, p in enumerate(promoters):
         data_size=1,
     )
 
+    # Add cross-reference number
+    text = ax[i][0].text(
+        0.75, 
+        0.75, 
+        f"{i + 1}",
+        horizontalalignment='center',
+        verticalalignment='center',
+        fontsize=8,
+        transform=ax[i][0].transAxes,
+        color="white",
+    )
+    text.set_path_effects(
+        [path_effects.Stroke(linewidth=1.5, foreground="black"),
+         path_effects.Normal()]
+    )
+
+
     # Comupute mean mRNA
     mean_mRNA = np.round(df_unreg[
         df_unreg['experiment'] == p
         ]['mRNA_cell'].mean(), 1)
+    # Extract binding energy
+    binding_energy = np.round(df_energies[
+        df_energies["Name"] == p]["Energy (kT)"
+        ].values[0], 1)
+    # Add text indicating mean mRNA
     ax[i][0].text(
-        0.5, 
-        0.5, 
-        f"{p} \n $\\left\\langle m \\right\\rangle = ${mean_mRNA}",
+        0.75, 
+        0.4, 
+        f"$\\beta\\Delta\\epsilon_P = ${binding_energy}" + \
+        f"\n $\\left\\langle m \\right\\rangle = ${mean_mRNA}",
         horizontalalignment='center',
         verticalalignment='center',
         fontsize=8,
