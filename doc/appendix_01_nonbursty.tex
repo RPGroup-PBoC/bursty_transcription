@@ -2,18 +2,164 @@
 \section{Derivations for non-bursty promoter models}
 \label{sec:non_bursty}
 
-\mrm{I personally think that the paper so far has done a great job at being very 
-pedagogical. That is why I am of the opinion that before jumping into the 
-derivation of moments and so on there needs to be a $p(m, t + \Delta t)$ kind of 
-derivation.}
-
 In this section we detail the calculation of mean mRNA levels, fold-changes in
 expression, and Fano factors for nonequilibrium promoter models one through four
 in Figure~\ref{fig1:means_cartoons}. These are the results that were quoted but
 not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
 main text. In each of these four models, the natural mathematization of their
 cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
-for model one, which for completeness we reproduce here as
+for model one. Before jumping into the derivations of the general computation of
+the mean mRNA level and the Fano factor we will work through the derivation of an example master equation. In particular we will focus on model 1 from 
+Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
+other chemical master equations in this work.
+
+\subsection{Derivation of chemical master equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics{../figures/si/figS0X_two_state.pdf}
+\caption{
+\textbf{Two-state promoter chemical master equation.}
+(A) Schematic of the two state promoter simple repression model. Rates $k_R^+$
+and $k_R^-$ are the association and dissociation rates of the transcriptional
+repressor, respectively, $r$ is the transcription initiation rate, and $\gamma$
+is the mRNA degradation rate. (B) Schematic depiction of the mRNA count state
+transitions. The model in (A) only allows for jumps in mRNA of size 1. The
+production of mRNA can only happen when the promoter is in the transcriptionally
+active state.}
+\label{fig:two_state}
+\end{figure}
+
+The chemical master equation describes the continuous time evolution of a
+continuous or discrete probability distribution function. In our specific case
+we want to describe the time evolution of the discrete mRNA distribution. What
+this means is that we want to compute the probability of having $m$ mRNA
+molecules at time $t + \Delta t$, where $\Delta t$ is a sufficiently small time
+interval such that only one of the possible reactions take place. For the
+example that we will workout here in detail we chose the two-state stochastic
+simple repression model schematized in Figure~\ref{fig:two_state}(A). To derive
+the master equation we will focus more on the representation shown in
+Figure~\ref{fig:two_state}(B), where the transitions between different mRNA
+counts and promoter states is more explicitly depicted. Given that the DNA
+promoter can exist in one of two states -- transcriptionally active state, and
+with repressor bound -- we will keep track not only of the mRNA count, but on
+which state the promoter is. For this we will keep track of two probability
+distributions: The probability of having $m$ mRNAs at time $t$ when the promoter
+is in the transcriptionally active state $A$, $p_A(m, t)$, and the equivalent
+probability but when the promoter is in the repressor bound state $R$, $p_R(m,
+t)$.
+
+Since mRNA production can only take place on the transcriptionally active state
+we will focus on this function for our derivation. The repressor bound state
+will have an equivalent equation without terms involving the production of
+mRNAs. We begin by listing the possible state transition that can happen for a
+particular mRNA count with the promoter in the active state. For state changes
+in a small time window $\Delta t$ that ``jump into'' state $m$ in the
+transcriptionally active state we have
+\begin{itemize}
+    \item Produce an mRNA, jumping from $m-1$ to $m$.
+    \item Degrade an mRNA, jumping from $m+1$ to $m$.
+    \item Transition from the repressor bound state $R$ to the active state $A$.
+\end{itemize}
+Likewise, for state transitions that ``jump out'' of state $m$ in the
+transcriptionally inactive state we have
+\begin{itemize}
+    \item Produce an mRNA, jumping from $m$ to $m+1$.
+    \item Degrade an mRNA, jumping from $m$ to $m-1$.
+    \item Transition from the active state $A$ to the repressor bound state $R$.
+\end{itemize}
+The mRNA production does not depend on the current number of mRNAs, therefore
+these state transitions happen with probability $r\Delta t$. The same is true
+for the promoter state transitions, each happen with probability $k_R^\pm \Delta
+t$. As for the mRNA degradation events does must depend on the current number of
+mRNA molecules. Each molecule has a constant probability $\gamma \Delta t$ of 
+being degraded, so the total probability for an mRNA degradation event to happen
+is computed by multiplying this probability by the current number of mRNAs.
+
+To see these terms in action let us compute the probability of having $m$ mRNA
+at time $t + \Delta t$ in the transcriptionally active state. This takes the 
+form
+\begin{equation}
+\begin{aligned}
+p_A(m, t + \Delta t) &= p_A(m, t) \\
+&+ \overbrace{(r\Delta t) p_A(m-1, t)}^{m-1 \rightarrow m}
+- \overbrace{(r\Delta t) p_A(m, t)}^{m \rightarrow m+1}\\
+% \;\;\;\text{(mRNA production)} \\
+&+ \overbrace{(m+1)(\gamma \Delta t) p_A(m+1, t)}^{m+1 \rightarrow m}
+- \overbrace{m(\gamma \Delta t) p_A(m, t)}^{m \rightarrow m-1}\\
+% \;\;\;\text{(mRNA degradation)} \\
+&+\overbrace{(k_R^- \Delta t) p_R(m, t)}^{R \rightarrow A}
+-\overbrace{(k_R^+ \Delta t) p_A(m, t)}^{A \rightarrow R},
+% \;\;\;\text{(promoter state transition)}
+\end{aligned}
+\end{equation}
+where the overbrace indicates the corresponding state transitions. Notice that
+the second to last term on the right-hand side is multiplied by $p_R(m, t)$ 
+since the transition from state $R$ to state $A$ depends on the probability of
+being in state $R$ to begin with. It is through this term that both probability
+distribution functions are coupled. An equivalent equation can be written for
+the probability of having $m$ mRNA at time $t + \Delta t$ while in the repressor
+bound state, the only difference being that the mRNA production rates are 
+removed, and the sign for the promoter state transitions are inverted. This is
+\begin{equation}
+\begin{aligned}
+p_R(m, t + \Delta t) &= p_R(m, t) \\
+&+ \overbrace{(m+1)(\gamma \Delta t) p_R(m+1, t)}^{m+1 \rightarrow m}
+- \overbrace{m(\gamma \Delta t) p_R(m, t)}^{m \rightarrow m-1}\\
+% \;\;\;\text{(mRNA degradation)} \\
+&-\overbrace{(k_R^- \Delta t) p_R(m, t)}^{R \rightarrow A}
++\overbrace{(k_R^+ \Delta t) p_A(m, t)}^{A \rightarrow R}.
+\end{aligned}
+\end{equation}
+
+All we have to do now are simple algebraic steps in order to simplify the 
+equations. Let's focus on the transcriptionally active state $A$. First we will
+send the term $p_A(m, t)$ to the right-hand side, and then we will divide both
+sides of the equation by $\Delta t$. This results in
+\begin{equation}
+\begin{aligned}
+\frac{p_A(m, t + \Delta t) - p_A(m, t)}{\Delta t} &=
+r p_A(m-1, t) - r p_A(m, t)\\
+&+ (m+1)\gamma p_A(m+1, t)
+- m \gamma p_A(m, t)\\
+&+k_R^- p_R(m, t)
+-k_R^+ p_A(m, t).
+\end{aligned}
+\end{equation}
+Upon taking the limit when $\Delta t \rightarrow 0$ we can transform the 
+left-hand side into a derivative, obtaining the chemical master equation
+\begin{equation}
+\begin{aligned}
+\frac{d p_A(m, t)}{dt} &=
+r p_A(m-1, t) - r p_A(m, t)\\
+&+ (m+1)\gamma p_A(m+1, t)
+- m \gamma p_A(m, t)\\
+&+k_R^- p_R(m, t)
+-k_R^+ p_A(m, t).
+\end{aligned}
+\end{equation}
+Doing equivalent manipulations for the repressor bound state gives an ODE of the
+form
+\begin{equation}
+\begin{aligned}
+\frac{d p_R(m, t)}{dt} &=
+(m+1)\gamma p_R(m+1, t)
+- m \gamma p_R(m, t)\\
+&-k_R^- p_R(m, t)
++k_R^+ p_A(m, t).
+\end{aligned}
+\end{equation}
+In the next section we will write these couple ODEs in a more compat form using
+matrix notation.
+
+\subsection{Matrix form of the multi-state chemical master equation}
+
+Having derived an example chemical master equation we now focus on writing a
+general matrix form for the kinetic models 1-4 shown in
+Figure~\ref{fig1:means_cartoons}(C) in the main text. In each of these four
+models, the natural mathematization of their cartoons is as a chemical master
+equation such as Eq.~\ref{eq:2state_rep_cme} for model one, which for
+completeness we reproduce here as
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
