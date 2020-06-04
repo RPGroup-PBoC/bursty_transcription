@@ -44,12 +44,12 @@ df_energies.sort_values('Energy (kT)', inplace=True)
 # %%
 
 # Initialize figure
-fig = plt.figure(constrained_layout=False, figsize=(6, 12))
+fig = plt.figure(constrained_layout=False, figsize=(7.5, 8.75))
 
 # Set gridspec
 gs = fig.add_gridspec(
-    nrows=18, 
-    ncols=3, 
+    nrows=15, 
+    ncols=4, 
     # left=0.05, 
     # right=0.45,
     # top=1, 
@@ -60,36 +60,41 @@ gs = fig.add_gridspec(
 
 # Initialize list to save ax objects
 ax = list()
+# Initialize plot counter
+counter = 0
 # Loop through rows and columns
-for i in range(6):
-    for j in range(3):
+for i in range(5):
+    for j in range(4):
         # Generate axis for ECDF
-        ax_ecdf = fig.add_subplot(gs[(i * 3):(i * 3 + 2), j])
-        ax_diff = fig.add_subplot(gs[(i * 3 + 2), j])
-        # Join axis
-        ax_diff.get_shared_x_axes().join(ax_ecdf, ax_diff)
-        # Turn off axis labels
-        if j != 0:
-            ax_ecdf.get_yaxis().set_ticklabels([])
-            ax_diff.get_yaxis().set_ticklabels([])
+        if counter < len(df_energies):
+            #update counter
+            counter += 1
+            ax_ecdf = fig.add_subplot(gs[(i * 3):(i * 3 + 2), j])
+            ax_diff = fig.add_subplot(gs[(i * 3 + 2), j])
+            # Join axis
+            ax_diff.get_shared_x_axes().join(ax_ecdf, ax_diff)
+            # Turn off axis labels
+            if j != 0:
+                ax_ecdf.get_yaxis().set_ticklabels([])
+                ax_diff.get_yaxis().set_ticklabels([])
 
-        ax_ecdf.get_xaxis().set_ticklabels([])
-        if i != 5:
-            ax_diff.get_xaxis().set_ticklabels([])
-        # Set axis label
-        if j == 0:
-            ax_ecdf.set_ylabel("ECDF")
-            ax_diff.set_ylabel("ECDF diff.")
-        if i == 5:
-            ax_diff.set_xlabel("mRNA/cell")
-        # Join axis to first plot
-        if (i != 0) | (j != 0):
-            ax_ecdf.get_shared_x_axes().join(ax_ecdf, ax[0][0])
-            ax_ecdf.get_shared_y_axes().join(ax_ecdf, ax[0][0])
-            ax_diff.get_shared_x_axes().join(ax_diff, ax[0][1])
-            ax_diff.get_shared_y_axes().join(ax_diff, ax[0][1])
-        # Add to list
-        ax.append([ax_ecdf, ax_diff])
+            ax_ecdf.get_xaxis().set_ticklabels([])
+            if i != 5:
+                ax_diff.get_xaxis().set_ticklabels([])
+            # Set axis label
+            if j == 0:
+                ax_ecdf.set_ylabel("ECDF")
+                ax_diff.set_ylabel("ECDF diff.")
+            if i == 5:
+                ax_diff.set_xlabel("mRNA/cell")
+            # Join axis to first plot
+            if (i != 0) | (j != 0):
+                ax_ecdf.get_shared_x_axes().join(ax_ecdf, ax[0][0])
+                ax_ecdf.get_shared_y_axes().join(ax_ecdf, ax[0][0])
+                ax_diff.get_shared_x_axes().join(ax_diff, ax[0][1])
+                ax_diff.get_shared_y_axes().join(ax_diff, ax[0][1])
+            # Add to list
+            ax.append([ax_ecdf, ax_diff])
 
 # Align y axis label
 fig.align_ylabels(ax)
@@ -107,7 +112,8 @@ for i, p in enumerate(promoters):
         ax=ax[i],
         data_color='black',
         color='betancourt',
-        data_label=p
+        data_label=p,
+        data_size=1,
     )
 
     # Comupute mean mRNA
