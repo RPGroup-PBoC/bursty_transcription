@@ -411,7 +411,26 @@ m \sim \text{NBinom}(k_i, b).
 \end{split}
 \end{equation}
 Section~\ref{section_04_bayesian_inference} in the main text details the
-results of applying this inference to the single-cell mRNA counts data.
+results of applying this inference to the single-cell mRNA counts data. There
+we show the posterior distribution for the two parameters for different 
+promoters. Figure~\ref{figS:ppc_unreg} shows the so-called posterior predictive
+checks (see main text for explanation) for all 18 unregulated promoters shown
+in the main text.
+
+\begin{figure}[p]
+\centering
+\includegraphics{../figures/si/figS0X_ppc.pdf}
+\caption{\textbf{Theory-data comparison of inference on unregulated promoters.}
+Comparison of the inference (red shaded area) vs the experimental measurements
+(black lines) for 18 different unregulated promoters with different mean mRNA
+expression levels from Ref.~\cite{Jones2014}. Upper panels show the empirical
+cumulative distribution function (ECDF), while the lower panels show the
+differences with respect to the median of the posterior samples. White numbers
+are the same as in Figure~\ref{fig1:means_cartoons} for cross comparison. The
+predicted binding energies $\beta\Delta\varepsilon_p$ were obtained from the
+energy matrix model in Ref.~\cite{Brewster2012}}
+\label{figS:ppc_unreg}
+\end{figure}
 
 \subsection{Bayesian inference on the simple-repression architecture}
 
