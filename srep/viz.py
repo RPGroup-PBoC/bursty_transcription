@@ -343,20 +343,6 @@ def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(95, 75, 50, 25), 
     
     return ax
 
-# %%
-fig, ax = plt.subplots(1, 2, figsize= (6, 2.5))
-srep.viz.ppc_ecdf_pair(
-    all_samples['5DL10'],
-    'mRNA_counts_ppc',
-    df_unreg[df_unreg['experiment'] == '5DL10'],
-    ax=ax,
-    data_color='black',
-    color='green',
-    data_label='5DL10'
-    )
-plt.legend()
-# %%
-
 def ecdf(data):
     """
     data[0] should be a 1D array of observed values, and
