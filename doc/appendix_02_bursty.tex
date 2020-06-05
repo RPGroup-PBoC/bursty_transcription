@@ -135,8 +135,8 @@ master equation
 \end{align}
 
 In order to solve Eq.~\ref{eq:si_master_unreg} we will use the generating
-function method \mrm{reference?}. The probability generating function is defined
-as
+function method~\cite{vanKampen2007}. The probability generating function
+is defined as
 \begin{align}
 F(z,t) = \sum_{m=0}^\infty z^m p(m,t),
 \end{align}
@@ -155,7 +155,7 @@ where we use $\sum_m \equiv \sum_{m=0}^\infty$. We can distribute the sum and
 use the definition of $F(z, t)$ to obtain
 \begin{equation}
 {d F(z, \tau) \over d\tau} =
-- \sum_m z^m m p(m, \tau) +
+- \sum_m z^m m p(m, \tau)
 + \sum_m z^m (m + 1) p(m + 1, \tau)
 + \lambda \sum_m z^m \sum_{m'=0}^m G_{m-m'} p(m', \tau)
 - \lambda F(z, \tau).
@@ -234,13 +234,14 @@ The next step requires us to look slightly ahead into what we expect to obtain.
 We are working on deriving an equation for the generating function $F(z, \tau)$
 that when solved will allow us to compute what we care about, i.e. the
 probability function $p(m, \tau)$. Upon finding the function for $F(z, \tau)$,
-we will recover this probability distribution by evaluating $F(z=1, \tau)$ in
-other cases we can evaluate $F(z=0, \tau)$ to recover instead the moments of the
-distribution. The point here is that we know that when all the dust settles we
-will evaluate $z$ to be less than one \mrm{someone needs to fact check me}.
+we will recover this probability distribution by evaluating derivatives
+of $F(z, \tau)$ at $z=0$, whereas we can evaluate derivatives of
+$F(z, \tau)$ at $z=1$ to instead recover the moments of the
+distribution. The point here is that when the dust settles we
+will evaluate $z$ to be less than or equal to one.
 Furthermore, we know that the parameter of the geometric distribution $\theta$
-must be between zero and one. With these two facts we can safely state that $| z
-(1 - \theta) | < 1$. Defining $n \equiv m - m'$ we rewrite the last sum in
+must be strictly between zero and one. With these two facts we can safely state that
+$| z (1 - \theta) | < 1$. Defining $n \equiv m - m'$ we rewrite the last sum in
 Eq.~\ref{eq:si_generating_02} as
 \begin{align}
 \sum_{m=m'}^{\infty} \left[z (1-\theta)\right]^{m} &= 
@@ -251,7 +252,7 @@ Eq.~\ref{eq:si_generating_02} as
 \left( {1 \over 1 - z (1 - \theta)} \right),
 \end{align}
 where we use the geometric series since, as stated before, $| z (1 - \theta) | <
-1$. Putting these results together, the PDE for the generation function is
+1$. Putting these results together, the PDE for the generating function is
 \begin{equation}
 {\partial F \over \partial \tau} = 
 {\partial F \over\partial z}
@@ -279,15 +280,17 @@ which we can integrate as
 \end{align}
 The initial conditions for generating functions can be subtle and confusing. The
 key fact follows from the definition
-$F(z,t) = \sum_m z^m p(m,t)$,
-normalization requires that
+$F(z,t) = \sum_m z^m p(m,t)$.
+Clearly normalization of the distribution requires that
 $F(z=1, t) = \sum_m p(m,t) = 1$.
-\footnote{
-Sometimes the generating function may be undefined \textit{at} $z=1$ but the
-limit still holds. Also many authors change variables from $z$ to other
-things, so one must keep track of how the normalization condition transforms.
-}
-Doing the integrals (and producing constant $c$) gives
+A subtlety is that sometimes the generating function may be undefined
+\textit{at} $z=1$, in which case the limit as $z$ approaches $1$ from
+below suffices to define the normalization condition.
+We also warn the reader that, while it is frequently convenient to change
+variables from $z$ to a different independent variable, one must
+carefully track how the normalization condition transforms.
+
+Continuing on, we evaluate the integrals (producing a constant $c$) which gives
 \begin{align}
 \ln F &= -\lambda \ln(1-\xi z) + c
 \\
@@ -437,11 +440,6 @@ are, respectively, the rates at which repressors bind and unbind to and from the
 promoter, and $\gamma$ is the mRNA degradation rate. $k_i$ is the rate at which
 bursts initiate, and as before, the geometric distribution of burst sizes has
 mean $b=(1-\theta)/\theta$.
-\footnote{
-$\theta$ can be viewed as a Bernoulli trial probability: after each transcript
-in a burst is produced, $\theta$ is the probability that the burst terminates
-and $(1-\theta)$ is the probability that the burst continues.
-}
 
 Interestingly, it turns out that this problem maps exactly onto the three-stage
 promoter model considered by Shahrezaei and Swain in~\cite{Shahrezaei2008}, with
@@ -612,12 +610,9 @@ e.g.~\cite{Abramowitz1964}, and identify the conventional parameters in terms of
 our model parameters. We want the general solution in the neighborhood of $w=0$
 ($z=1$), which for a homogeneous linear second order ODE must be a sum of two
 linearly independent solutions. More precisely, 
-\mrm{the use of variable $\gamma$ here is confusing. Is it okay to change it to
-$\delta$ or something else in order to avoid associating it with the mRNA
-degradation rate?}
 \begin{align}
-f_R(w) = C_1 {_2F_1}(\alpha, \beta, \gamma; w)
-+ C_2 w^{1-\gamma}{_2F_1}(1+\alpha-\gamma, 1+\beta-\gamma, 2-\gamma; w)
+f_R(w) = C^{(1)} {_2F_1}(\alpha, \beta, \delta; w)
++ C^{(2)} w^{1-\delta}{_2F_1}(1+\alpha-\delta, 1+\beta-\delta, 2-\delta; w)
 \end{align}
 with parameters determined by
 \begin{align}
@@ -626,15 +621,11 @@ with parameters determined by
 \\
 1+\alpha+\beta &= 1+k_i+k_R^-+k_R^+
 \\
-\gamma &= 1 + k_R^- + k_R^+
+\delta &= 1 + k_R^- + k_R^+
 \end{split}
 \end{align}
-and constants $C_1$ and $C_2$ to be set by boundary conditions. Solving for
+and constants $C^{(1)}$ and $C^{(2)}$ to be set by boundary conditions. Solving for
 $\alpha$ and $\beta$, we find
-\footnote{
-Note that $\alpha$ and $\beta$ are interchangeable in the definition of
-${_2F_1}$ and differ only in the sign preceeding the radical.
-}
 \begin{align}
 \begin{split}
 \alpha &= \frac{1}{2}
@@ -643,13 +634,15 @@ ${_2F_1}$ and differ only in the sign preceeding the radical.
 \beta &= \frac{1}{2}
 \left(k_i+k_R^-+k_R^+ - \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right)
 \\
-\gamma &= 1 + k_R^- + k_R^+.
+\delta &= 1 + k_R^- + k_R^+.
 \end{split}
 \end{align}
+Note that $\alpha$ and $\beta$ are interchangeable in the definition of
+${_2F_1}$ and differ only in the sign preceeding the radical.
 Since the normalization condition requires that $f_R$ be finite at $w=0$,
-we can immediately set $C_2=0$ to discard the second solution.
+we can immediately set $C^{(2)}=0$ to discard the second solution.
 This is because all the rate constants are strictly positive,
-so $\gamma>1$ and therefore $w^{1-\gamma}$ blows up as $w\rightarrow0$.
+so $\delta>1$ and therefore $w^{1-\delta}$ blows up as $w\rightarrow0$.
 Now that we have $f_R$, we would like to find the generating function
 for the mRNA distribution, $f(z) = f_A(z) + f_R(z)$.
 We can recover $f_A$ from our solution for $f_R$, namely
@@ -662,56 +655,56 @@ f_A(w) = \frac{1}{k_R^+}\left(k_R^- f_R(w) + w \pderiv[f_R]{w}\right),
 \end{align}
 where in the second line we transformed our original relation between
 $f_R$ and $f_A$ to our new, more convenient, variable $w$.
-Plugging our solution for $f_R(w) = C_1{_2F_1}(\alpha, \beta, \gamma; w)$
+Plugging our solution for $f_R(w) = C^{(1)}{_2F_1}(\alpha, \beta, \delta; w)$
 into $f_A$, we will require the differentiation rule for ${_2F_1}$,
 which tells us
 \begin{align}
-\pderiv[f_R]{w} = C_1\frac{\alpha\beta}{\gamma}
-                {_2F_1}(\alpha+1, \beta+1, \gamma+1; w),
+\pderiv[f_R]{w} = C^{(1)}\frac{\alpha\beta}{\delta}
+                {_2F_1}(\alpha+1, \beta+1, \delta+1; w),
 \end{align}
 from which it follows that
 \begin{align}
-f_A(w) = \frac{C_1}{k_R^+}
+f_A(w) = \frac{C^{(1)}}{k_R^+}
 \left(
-k_R^- {_2F_1}(\alpha, \beta, \gamma; w)
-+ w\frac{\alpha\beta}{\gamma} {_2F_1}(\alpha+1, \beta+1, \gamma+1; w)
+k_R^- {_2F_1}(\alpha, \beta, \delta; w)
++ w\frac{\alpha\beta}{\delta} {_2F_1}(\alpha+1, \beta+1, \delta+1; w)
 \right)
 \end{align}
 and therefore
 \begin{align}
-f(w) = C_1\left(1 + \frac{k_R^-}{k_R^+}\right)
-        {_2F_1}(\alpha, \beta, \gamma; w)
-+ w \frac{C_1}{k_R^+} \frac{\alpha\beta}{\gamma}
-        {_2F_1}(\alpha+1, \beta+1, \gamma+1; w).
+f(w) = C^{(1)}\left(1 + \frac{k_R^-}{k_R^+}\right)
+        {_2F_1}(\alpha, \beta, \delta; w)
++ w \frac{C^{(1)}}{k_R^+} \frac{\alpha\beta}{\delta}
+        {_2F_1}(\alpha+1, \beta+1, \delta+1; w).
 \end{align}
 To proceed, we need one of the (many) useful identities known for
 hypergeometric functions, in particular
 \begin{align}
-w\frac{\alpha\beta}{\gamma} {_2F_1}(\alpha+1, \beta+1, \gamma+1; w)
+w\frac{\alpha\beta}{\delta} {_2F_1}(\alpha+1, \beta+1, \delta+1; w)
 =
-(\gamma-1)\left(
-{_2F_1}(\alpha, \beta, \gamma-1; w) - {_2F_1}(\alpha, \beta, \gamma; w)
+(\delta-1)\left(
+{_2F_1}(\alpha, \beta, \delta-1; w) - {_2F_1}(\alpha, \beta, \delta; w)
 \right).
 \end{align}
 Substituting this for the second term in $f(w)$, we find
 \begin{align}
-f(w) = \frac{C_1}{k_R^+}
+f(w) = \frac{C^{(1)}}{k_R^+}
 \left[
         \left(k_R^+ + k_R^-\right)
-        {_2F_1}(\alpha, \beta, \gamma; w)
-+ (\gamma-1)\left(
-        {_2F_1}(\alpha, \beta, \gamma-1; w) - {_2F_1}(\alpha, \beta, \gamma; w)
+        {_2F_1}(\alpha, \beta, \delta; w)
++ (\delta-1)\left(
+        {_2F_1}(\alpha, \beta, \delta-1; w) - {_2F_1}(\alpha, \beta, \delta; w)
         \right)
 \right],
 \end{align}
-and since $\gamma-1 = k_R^+ + k_R^-$, the first and third terms cancel,
+and since $\delta-1 = k_R^+ + k_R^-$, the first and third terms cancel,
 leaving only
 \begin{align}
-f(w) = C_1\frac{k_R^+ + k_R^-}{k_R^+} {_2F_1}(\alpha, \beta, \gamma-1; w).
+f(w) = C^{(1)}\frac{k_R^+ + k_R^-}{k_R^+} {_2F_1}(\alpha, \beta, \delta-1; w).
 \end{align}
 Now we enforce normalization, demanding $f(w=0) = f(z=1) = 1$.
-${_2F_1}(\alpha, \beta, \gamma-1; 0) = 1$, so we must have
-$C_1 = k_R^+ / (k_R^+ + k_R^-)$ and consequently
+${_2F_1}(\alpha, \beta, \delta-1; 0) = 1$, so we must have
+$C^{(1)} = k_R^+ / (k_R^+ + k_R^-)$ and consequently
 \begin{align}
 f(w) =  {_2F_1}(\alpha, \beta, k_R^+ + k_R^-; w).
 \end{align}
@@ -739,8 +732,8 @@ p(m) = m! \left.\frac{\partial^m}{\partial z^m} f(z) \right|_{z=0},
 which follows easily from its definition. Some contemplation reveals that
 repeated application of the derivative rule used above will produce products of
 the form $\alpha(\alpha+1)(\alpha+2)\cdots(\alpha+m-1)$ in the expression for
-$p(m)$ and similarly for $\beta$ and $\gamma$. These resemble ratios of
-factorials, but since $\alpha$, $\beta$, and $\gamma$ are not necessarily
+$p(m)$ and similarly for $\beta$ and $\delta$. These resemble ratios of
+factorials, but since $\alpha$, $\beta$, and $\delta$ are not necessarily
 integer, we should express the ratios using gamma functions instead. More
 precisely, one finds
 \begin{align}
@@ -754,79 +747,6 @@ p(m) = \frac{
 \label{eq:p_m_bursty+rep_appdx}
 \end{align}
 which is finally the probability distribution we sought to derive.
-
-\subsubsection{Moments of two-state bursty promoter mRNA distribution}
-
-We can verify the correctness of~\eq{eq:p_m_bursty+rep_appdx} by comparison with
-Gillespie simulation. We can also easily compute moments of the distribution
-from the generating function, and check these against raw moments computed
-directly from the master equation.
-
-The $j$-th raw moment of the distribution can be computed from the generating
-function from the formula
-\begin{align}
-\langle m^j \rangle
-= \left. \left(z \frac{\partial}{\partial z}\right)^j f(z)\right|_{z=1}.
-\end{align}
-Note that \textit{probabilities} are generated by differentiating and evaluating
-at $z=0$, while \textit{moments} are generated by differentiating and evaluating
-at $z=1$. This also aligns with the normalization constraint, which can be
-thought of as the zeroth raw moment.
-        
-The mean mRNA is given by
-\begin{align}
-\langle m \rangle = \left.z \pderiv[f]{z} \right|_{z=1}
-= \frac{\alpha\beta b}{k_R^+ + k_R^-}
-= k_i b\frac{k_R^-}{k_R^+ + k_R^-},
-\end{align}
-which is intuitive and appealingly simple: the mean mRNA is just the mean mRNA
-in the absence of repression ($k_i b$, the burst rate time mean burst size)
-times the fraction of time the repressor is bound, $k_R^-/(k_R^+ + k_R^-)$.
-
-To compute the variance, let us first compute
-\begin{align}
-\begin{split}
-\langle m^2\rangle
-&= \left .z\pderiv{z}\left(z\pderiv[f]{z}\right) \right|_{z=1}
-= \left. z\left(\pderiv[f]{z} + z\psecderiv[f]{z}\right)\right|_{z=1}
-\\
-&= \frac{\alpha\beta b}{k_R^+ + k_R^-}
-        + \frac{\alpha(\alpha+1)\beta(\beta+1) b^2}
-                {(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)}
-\\
-&= \frac{k_i b k_R^-}{k_R^+ + k_R^-}
-        + \frac{k_i k_R^- b^2 (1 + k_i + k_R^+ + k_R^- + k_i k_R^-)}
-                {(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)},
-\end{split}
-\end{align}
-from which the variance is
-\begin{align}
-\begin{split}
-var(m) = \langle m^2\rangle - \langle m\rangle^2
-&= \frac{k_i b k_R^-}{k_R^+ + k_R^-}
-\left(
-1 + \frac{b(1 + k_i + k_R^+ + k_R^- + k_i k_R^-)} {k_R^+ + k_R^- + 1}
-- \frac{k_i b k_R^-}{k_R^+ + k_R^-}
-\right)
-\\
-&= k_i b\frac{k_R^-}{k_R^+ + k_R^-}
-\left(
-1 + b + k_i b\frac{1 + k_R^-} {k_R^+ + k_R^- + 1}
-- \frac{k_i b k_R^-}{k_R^+ + k_R^-}
-\right)
-\\
-&= k_i b\frac{k_R^-}{k_R^+ + k_R^-}
-\left(
-1 + b + k_i b\frac{k_R^+}{(k_R^+ + k_R^-)(k_R^+ + k_R^- + 1)}
-\right).
-\end{split}
-\end{align}
-The Fano factor is the quantity in parentheses. This can be interpreted as
-the variability arising from the negative binomial distribution of the
-unregulated promoter $(1+b)$ plus additional noise arising from repression.
-
-\mmnote{Still to writeup: moment derivation direct from CME to compare}
-\mrm{stopped reading here}
 
 \subsection{Numerical considerations and recursion formulas}
 \subsubsection{Generalities}
@@ -855,7 +775,7 @@ to the tail of the distribution, which can easily reach 50, possibly 100.
 From~\eq{eq:p_m_bursty+rep_appdx}, this means evaluating ${_2F_1}$
 repeatedly for values of $a$, $b$, and $c$ spanning the full range
 from $\mathcal{O}(1)$ to $\mathcal{O}(10^2)$,
-even if $\alpha$, $\beta$, and $\gamma$
+even if $\alpha$, $\beta$, and $\delta$
 in~\eq{eq:p_m_bursty+rep_appdx} are small,
 with the situation even worse if they are not small.
 A naive numerical evaluation of the series definition will be
@@ -903,16 +823,15 @@ for fixed $a,b$, and $c$ and many integer values of $m$.
 They idea is that we can use arbitrary precision arithmetic to evaluate
 ${_2F_1}$ for just two particular values of $m$ and then generate
 ${_2F_1}$ for the other 50-100 values of $m$ using the recurrence
-relation.\footnote{
-There are even more sophisticated ways of utilizing the recurrence
+relation.
+In fact there are even more sophisticated ways of utilizing the recurrence
 relations that might have netted another factor of 2 speed-up, and
 possibly as much as a factor of 10, but the method described here had
 already reduced the computation time to an acceptable
 $\mathcal{O}(\text{1 min})$, so these more sophisticated approaches did
 not seem worth the time to pursue.
-}
 
-However, there two further wrinkles.
+However, there are two further wrinkles.
 The first is that
 a naive application of the recurrence relation is numerically unstable.
 Roughly, this is because the three term recurrence relations,
@@ -944,22 +863,22 @@ the right recurrence relation, and the right minimal solution.
 Let us now demonstrate these generalities for our problem of interest.
 In order to evaluate the probability distribution of our
 model,~\eq{eq:p_m_bursty+rep_appdx}, we need to evaluate hypergeometric functions
-of the form ${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$
+of the form ${_2F_1}(\alpha+m, \beta+m, \delta+m; -b)$
 for values of $m$ ranging from $0$ to $\mathcal{O}(100)$.
 The authors of~\cite{Gil2007} did not derive a recursion relation
 for precisely this case. We could follow their methods and do so ourselves,
 but it is much easier to convert to a case that they did consider.
 The strategy is to look through the minimal solutions tabulated
 in~\cite{Gil2007} and search for a transformation we could apply to
-${_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)$ that would place the $m$'s
+${_2F_1}(\alpha+m, \beta+m, \delta+m; -b)$ that would place the $m$'s
 (the variable being incremented by the recursion)
 in the same arguments of ${_2F_1}$ as the minimal solution.
 After some ``guess and check,'' we found that the transformation
 \begin{align}
-{_2F_1}(\alpha+m, \beta+m, \gamma+m; -b)
+{_2F_1}(\alpha+m, \beta+m, \delta+m; -b)
 =
 (1+b)^{-\alpha-m}
-        {_2F_1}\left(\alpha+m, \gamma-\beta, \gamma+m; \frac{b}{1+b}\right),
+        {_2F_1}\left(\alpha+m, \delta-\beta, \delta+m; \frac{b}{1+b}\right),
 \label{eq:rec_euler_pretransform}
 \end{align}
 produces a ${_2F_1}$ on the right hand side that closely resembles
@@ -968,16 +887,16 @@ Explicitly, these solutions are
 \begin{align}
 y_{3,m}
 &\propto
-{_2F_1}\left(-\alpha^\prime + \gamma^\prime - m,
-                -\beta^\prime + \gamma^\prime,
-                1-\alpha^\prime-\beta^\prime+\gamma^\prime-m;
+{_2F_1}\left(-\alpha^\prime + \delta^\prime - m,
+                -\beta^\prime + \delta^\prime,
+                1-\alpha^\prime-\beta^\prime+\delta^\prime-m;
                 1-z\right)
 \\
 y_{4,m}
 &\propto
 {_2F_1}\left(\alpha^\prime + m,
                 \beta^\prime,
-                1+\alpha^\prime+\beta^\prime-\gamma^\prime+m;
+                1+\alpha^\prime+\beta^\prime-\delta^\prime+m;
                 1-z\right),
 \label{eq:minimal_soln_sans_prefac}
 \end{align}
@@ -996,9 +915,9 @@ it increments the first only, rather than first and third.
 This recurrence relation can be looked up, e.g., Eq.~15.2.10
 in~\cite{Abramowitz1964}, which is
 \begin{align}
-(\gamma^\prime - (\alpha^\prime + m)) f_{m-1}
+(\delta^\prime - (\alpha^\prime + m)) f_{m-1}
 +
-(2(\alpha^\prime+m) - \gamma^\prime + (\beta^\prime - \alpha^\prime)z)f_m
+(2(\alpha^\prime+m) - \delta^\prime + (\beta^\prime - \alpha^\prime)z)f_m
 + \alpha^\prime(z-1) f_{m+1} = 0.
 \label{eq:chosen_rec_rel}
 \end{align}
@@ -1008,9 +927,9 @@ in terms of our parameters, namely by setting
 \begin{split}
 \alpha^\prime &= \alpha
 \\
-\beta^\prime &= \gamma - \beta
+\beta^\prime &= \delta - \beta
 \\
-1 + \alpha^\prime + \beta^\prime - \gamma^\prime &= \gamma
+1 + \alpha^\prime + \beta^\prime - \delta^\prime &= \delta
 \\
 1 - z &= \frac{b}{1+b}
 \end{split}
@@ -1020,9 +939,9 @@ and solving to find
 \begin{split}
 \alpha^\prime &= \alpha
 \\
-\beta^\prime &= \gamma - \beta
+\beta^\prime &= \delta - \beta
 \\
-\gamma^\prime &= 1 + \alpha - \beta
+\delta^\prime &= 1 + \alpha - \beta
 \\
 z &= \frac{1}{1+b}
 .
@@ -1032,28 +951,30 @@ Finally we have everything we need. The minimal solution
 \begin{align}
 y_{4,m}
 =
-\frac{\Gamma(1+\alpha^\prime-\gamma^\prime+m)}
-        {\Gamma(1+\alpha^\prime+\beta^\prime-\gamma^\prime+m)}
+\frac{\Gamma(1+\alpha^\prime-\delta^\prime+m)}
+        {\Gamma(1+\alpha^\prime+\beta^\prime-\delta^\prime+m)}
 \times
 {_2F_1}\left(\alpha^\prime + m,
                 \beta^\prime,
-                1+\alpha^\prime+\beta^\prime-\gamma^\prime+m;
+                1+\alpha^\prime+\beta^\prime-\delta^\prime+m;
                 1-z\right),
 \end{align}
 where we have now included the necessary prefactors,
 is a numerically stable solution of the recurrence
 relation~\eq{eq:chosen_rec_rel} if the recursion is run
 from large $m$ to small $m$.
-So the procedure is to compute the value of ${_2F_1}$ for the two
-largest $m$ values of interest using arbitrary precision arithmetic,
-compute the prefactors to construct
-$y_{4,\text{max}(m)}$ and $y_{4,\text{max}(m)-1}$,
-recursively compute $y_{4,m}$ for all $m$ less than $\text{max}(m)$ down
-to $m=0$, then cancel off the prefactors of the resulting values of
+
+Let us finally outline the complete procedure as an algorithm to be implemented:
+\begin{enumerate}
+\item Compute the value of ${_2F_1}$ for the two
+largest $m$ values of interest using arbitrary precision arithmetic.
+\item Compute the prefactors to construct
+$y_{4,\text{max}(m)}$ and $y_{4,\text{max}(m)-1}$.
+\item Recursively compute $y_{4,m}$ for all $m$ less than $\text{max}(m)$ down
+to $m=0$.
+\item Cancel off the prefactors of the resulting values of
 $y_{4,m}$ for all $m$ to produce ${_2F_1}$ for all desired $m$ values.
-\mmnote{Maybe I should reformat this paragraph into
-a pseudocode version of the algorithm?
-Instead of, or in addition to?}
+\end{enumerate}
 
 With ${_2F_1}$ computed, the only remaining numerical danger in computing
 $p(m)$ in~\eq{eq:p_m_bursty+rep_appdx} is overflow of the gamma functions.

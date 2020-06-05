@@ -15,6 +15,7 @@ Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
 other chemical master equations in this work.
 
 \subsection{Derivation of chemical master equation}
+\label{sec:cme_from_cartoon}
 
 \begin{figure}[h!]
 \centering
@@ -53,7 +54,7 @@ repressor bound state $R$, $p_R(m, t)$.
 Since mRNA production can only take place in the transcriptionally active state
 we will focus on this function for our derivation. The repressor bound state
 will have an equivalent equation without terms involving the production of
-mRNAs. We begin by listing the possible state transition that can happen for a
+mRNAs. We begin by listing the possible state transitions that can occur for a
 particular mRNA count with the promoter in the active state. For state changes
 in a small time window $\Delta t$ that ``jump into'' state $m$ in the
 transcriptionally active state we have
@@ -73,12 +74,12 @@ transcriptionally inactive state we have
 \end{itemize}
 The mRNA production does not depend on the current number of mRNAs, therefore
 these state transitions occur with probability $r\Delta t$. The same is true for
-the promoter state transitions, each occurs with probability $k_R^\pm \Delta t$.
+the promoter state transitions; each occurs with probability $k_R^\pm \Delta t$.
 As for the mRNA degradation events, these transitions depend on the current
 number of mRNA molecules since the more molecules of mRNA there are, the more
 will decay during a given time interval. Each molecule has a constant
 probability $\gamma \Delta t$ of being degraded, so the total probability for an
-mRNA degradation event to happen is computed by multiplying this probability by
+mRNA degradation event to occur is computed by multiplying this probability by
 the current number of mRNAs.
 
 To see these terms in action let us compute the probability of having $m$ mRNA
@@ -119,7 +120,7 @@ p_R(m, t + \Delta t) &= p_R(m, t) \\
 \end{equation}
 
 All we have to do now are simple algebraic steps in order to simplify the 
-equations. Let's focus on the transcriptionally active state $A$. First we will
+equations. Let us focus on the transcriptionally active state $A$. First we will
 send the term $p_A(m, t)$ to the right-hand side, and then we will divide both
 sides of the equation by $\Delta t$. This results in
 \begin{equation}
@@ -368,9 +369,7 @@ it is convenient to define the vector
 \langle\vec{m}^0\rangle = \sum_{m=0}^\infty \vec{p}(m),
 \end{equation}
 whose elements are simply the probabilities of finding the system in each of the
-possible promoter states. To reduce notational clutter in what follows, sums
-over $m$ will be assumed to run from 0 to $\infty$ unless otherwise specified,
-i.e., $\sum_{m=0}^\infty$ will be denoted simply as $\sum_m$. It will also be
+possible promoter states. It will be
 convenient to denote by $\vec{1}^\dagger$ a row vector of the same length as
 $\vec{p}$ whose elements are all 1, such that, for instance, $\vec{1}^\dagger
 \cdot \langle\vec{m}^0\rangle = 1$, $\vec{1}^\dagger \cdot \langle\vec{m}\rangle
@@ -382,7 +381,7 @@ To begin, we will find the promoter state probabilities
 $\langle\vec{m}^0\rangle$ from Eq.~\ref{eq:generic_cme_ss} by summing over all
 mRNA copy numbers $m$, producing
 \begin{equation}
-0 = \sum_m \left[
+0 = \sum_{m=0}^\infty \left[
     \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
                 + \mathbf{R_A} \vec{p}(m-1) +
                 \gamma (m+1) \mathbf{I} \vec{p}(m+1)
@@ -393,8 +392,8 @@ and noting the matrices $\mathbf{K}$, $\mathbf{R_D}$, and $\mathbf{R_A}$
 are all independent of $m$ and can be moved outside the sum, this simplifies to
 \begin{equation}
 0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^0\rangle
-    - \gamma \langle\vec{m}\rangle + \mathbf{R_A} \sum_m \vec{p}(m-1)
-    + \gamma \sum_m (m+1)\vec{p}(m+1).
+    - \gamma \langle\vec{m}\rangle + \mathbf{R_A} \sum_{m=0}^\infty \vec{p}(m-1)
+    + \gamma \sum_{m=0}^\infty (m+1)\vec{p}(m+1).
 \label{eq:generic_cme_deriv_020}
 \end{equation}
 The last two terms can be handled by reindexing the summations, transforming
@@ -436,13 +435,17 @@ ensuring a unique solution. So when using this equation to solve for
 $\langle\vec{m}^0\rangle$, we may always drop one row of the matrix equation at
 our convenience and supplement the system with the normalization condition
 instead.
+The reader may find it illuminating to skip ahead and see
+Eq.~\ref{eq:generic_cme_vecm0} in use with concrete examples, e.g.,
+Eq.~\ref{eq:model1_m0_giver_appdx} and what follows it, before
+continuing on through the general formulas for moments.
 
 \subsubsection{First moments $\langle\vec{m}\rangle$ and $\langle{m}\rangle$}
 By analogy to the above procedure for finding $\langle\vec{m}^0\rangle$, we may
 find $\langle\vec{m}\rangle$ by first multiplying Eq.~\ref{eq:generic_cme_ss} by
 $m$ and then summing over $m$. Carrying out this procedure we have
 \begin{equation}
-0 = \sum_m m \left[
+0 = \sum_{m=0}^\infty m \left[
 \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
             + \mathbf{R_A} \vec{p}(m-1) +
             \gamma (m+1) \mathbf{I} \vec{p}(m+1)
@@ -451,20 +454,20 @@ $m$ and then summing over $m$. Carrying out this procedure we have
 and now identifying $\langle\vec{m}\rangle$ and $\langle\vec{m}^2\rangle$ gives
 \begin{equation}
 0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}\rangle
-    - \gamma \langle\vec{m}^2\rangle + \mathbf{R_A} \sum_m m\vec{p}(m-1)
-    + \gamma \sum_m m(m+1)\vec{p}(m+1).
+    - \gamma \langle\vec{m}^2\rangle + \mathbf{R_A} \sum_{m=0}^\infty m\vec{p}(m-1)
+    + \gamma \sum_{m=0}^\infty m(m+1)\vec{p}(m+1).
 \label{eq:generic_cme_deriv_030}
 \end{equation}
 The summations in the last two terms can be reindexed just as we did for
 $\langle\vec{m}^0\rangle$, freely adding or removing terms from the sum which
-are zero. For the first,
+are zero. For the first term we find
 \begin{equation}
 \sum_{m=0}^\infty m\vec{p}(m-1)
 = \sum_{m=-1}^\infty (m+1)\vec{p}(m)
 = \sum_{m=0}^\infty (m+1)\vec{p}(m)
 = \langle\vec{m}\rangle + \langle\vec{m}^0\rangle,
 \end{equation}
-and for the second,
+and similarly for the second,
 \begin{equation}
 \sum_{m=0}^\infty m(m+1)\vec{p}(m+1)
 = \sum_{m=1}^\infty (m-1)m\vec{p}(m)
@@ -540,7 +543,7 @@ Continuing the pattern of the zeroth and first moments, we now find
 $\langle\vec{m}^2\rangle$ by multiplying Eq.~\ref{eq:generic_cme_ss} by $m^2$
 and then summing over $m$, which explicitly is
 \begin{equation}
-0 = \sum_m m^2 \left[
+0 = \sum_{m=0}^\infty m^2 \left[
 \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m)
             + \mathbf{R_A} \vec{p}(m-1) +
             \gamma (m+1) \mathbf{I} \vec{p}(m+1)
@@ -550,8 +553,8 @@ Identifying the moments $\langle\vec{m}^2\rangle$ and $\langle\vec{m}^3\rangle$
 in the first term simplifies this to
 \begin{equation}
 0 = (\mathbf{K} - \mathbf{R_D}) \langle\vec{m}^2\rangle
-    - \gamma \langle\vec{m}^3\rangle + \mathbf{R_A} \sum_m m^2\vec{p}(m-1)
-    + \gamma \sum_m m^2(m+1)\vec{p}(m+1).
+    - \gamma \langle\vec{m}^3\rangle + \mathbf{R_A} \sum_{m=0}^\infty m^2\vec{p}(m-1)
+    + \gamma \sum_{m=0}^\infty m^2(m+1)\vec{p}(m+1).
 \label{eq:generic_cme_deriv_050}
 \end{equation}
 Reindexing the sums of the last two terms proceeds just as it did for the zeroth
@@ -744,6 +747,7 @@ so we need not bother finding $p_R$. Then we have
 (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) \langle\vec{m}^0\rangle
 = \begin{pmatrix} -k_R^- & k_R^+ \\ k_R^- & -k_R^+ \end{pmatrix}
     \begin{pmatrix} p_R \\ p_U \end{pmatrix} = 0.
+\label{eq:model1_m0_giver_appdx}
 \end{equation}
 As mentioned earlier in Section~\ref{sec:m0_appdx}, the two rows are linearly
 dependent, so taking only the first row and using normalization to set $p_R =
@@ -1121,7 +1125,35 @@ and after simplifying, we obtain
             {\mathcal{Z} + \gamma(k_P^+ + k_P^- + k_O + r) + \gamma^2},
 \end{equation}
 as stated in Eq.~\ref{eq:model3_fano} in the main text.
-        
+
+\subsubsection{Generalizing $\nu<1$ to more fine-grained models}
+In the main text we argued that the convolution of multiple
+exponential distributions should be a distribution with a smaller
+fractional width than the corresponding exponential distribution
+with the same mean.
+This can be made more precise with a result from~\cite{Stewart2007},
+who showed that the convolution of multiple gamma distributions (of which the
+exponential distribution is a special case) is, to a very good approximation,
+also gamma distributed. Using their Eq.~2 for the distribution of the
+convolution, with shape parameters set to 1 to give exponential distributions,
+the total waiting time distribution has a ratio of variance to squared mean
+$\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i k_i\right)^2$, where the $k_i$ are
+the rates of the individual steps. Clearly this is less than 1 and therefore the
+total waiting time distribution is narrower than the corresponding exponential.
+
+We also claimed in the main text that for a process whose waiting time
+distribution is narrower than exponential, i.e., has $\sigma^2/\mu^2<1$,
+the distribution of counts should be less variable than a Poisson
+distribution, leading to a Fano factor $\nu<1$.
+This we argue by analogy to photon statistics where it is known that
+``antibunched'' arrivals, in other words more uniformly distributed in
+time relative to uncorrelated arrivals, generally gives rise to
+sub-Poissonian noise~\cite{Paul1982, Zou1990}. Although loopholes to this
+result are known to exist, to our knowledge they appear to arise from
+uniquely quantum effects so we do not expect they apply for our problem.
+Nevertheless we refrain from elevating this equivalence of
+kinetic cycles with sub-Poissonian noise to a ``theorem.''
+
 \subsection{Nonequilibrium Model Four - ``Active'' and ``Inactive'' States}
 \subsubsection{Mean mRNA}
 The mathematical specification of this model is almost identical to model two.
@@ -1132,25 +1164,25 @@ Eq.~\ref{eq:model2_matrices_appdx}. Then the analog of
 Eq.~\ref{eq:model2_K-R+R_for_m0} for finding $\langle{m}^0\rangle$ is
 \begin{equation}
 \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
-        k_R^- & -k_R^+ -k_P^+ & k_P^-\\
-        0 & k_P^+ & -k_P^-
+        k_R^- & -k_R^+ -k^+ & k^-\\
+        0 & k^+ & -k^-
 \end{pmatrix}
 \begin{pmatrix}
-    p_R \\ p_E \\ p_P
+    p_R \\ p_I \\ p_A
 \end{pmatrix}
 = 0.
 \end{equation}
 In fact we need not do this calculation explicitly and can instead recycle the
 calculation of mean mRNA $\langle{m}\rangle$ from model two. The matrices are
-identical except for the relabeling $k_P^- \longleftrightarrow (k_P^- + r)$, and
+identical except for the relabeling $k^- \longleftrightarrow (k_P^- + r)$, and
 a careful look through the derivation of $\langle{m}\rangle$ for model two shows
 that the parameters $k_P^-$ and $r$ only ever appear as the sum $k_P^- + r$. So
 taking $\langle{m}\rangle$ from model two, Eq.~\ref{eq:model2_meanm_appdx}, and
-relabeling $(k_P^- + r) \rightarrow k_P^-$ gives us our answer for model four,
+relabeling $(k_P^- + r) \rightarrow k^-$ gives us our answer for model four,
 simply
 \begin{equation}
 \langle{m}\rangle = \frac{r}{\gamma}
-        \frac{k_P^+ k_R^-} {k_P^+ k_R^- + k_P^- (k_R^+ + k_R^-)}.
+        \frac{k^+ k_R^-} {k^+ k_R^- + k^- (k_R^+ + k_R^-)}.
 \end{equation}
 
 \subsubsection{Fano factor}

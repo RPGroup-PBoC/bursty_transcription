@@ -27,7 +27,7 @@ From consideration of Fano factors in the previous section, we suspect that
 model 5 in Figure~\ref{fig2:constit_cartoons}(A), a one-state bursty model of
 constitutive promoters, achieves the right balance of complexity and simplicity,
 by allowing both Fano factor $\nu>1$, but also by remedying, by design, the
-problems of parameter degeneracy than model 4 in
+problems of parameter degeneracy that model 4 in
 Figure~\ref{fig2:constit_cartoons} suffered~\cite{Razo-Mejia2020}. Does this
 stand up to closer scrutiny, namely, comparison to full mRNA distributions
 rather than simply their moments? We will test this thoroughly on single-cell
@@ -65,11 +65,11 @@ Figure~\ref{fig2:constit_cartoons}(B).
 For this model the master equation of interest is
 Eq.~\ref{eq:poisson_promoter_cme} with repressor set to zero, i.e.,
 \begin{equation}
-{d\over dt}p_{m,U}(t) = 
-        rp_{m-1,U}(t) 
-        - rp_{m,U}(t)
-        + (m+1)\gamma p_{m+1,U}(t) 
-        - \gamma p_{m,U}(t),
+{d\over dt}p_U(m)(t) = 
+        rp_U(m-1)(t) 
+        - rp_U(m)(t)
+        + (m+1)\gamma p_U(m+1)(t) 
+        - \gamma p_U(m)(t),
 \end{equation}
 whose steady-state solution is given by a Poisson distribution with parameter
 $\lambda \equiv r / \gamma$~\cite{Sanchez2013}. The goal of our inference 
@@ -79,7 +79,7 @@ $\lambda$ given the experimental data. By Bayes theorem this can be written as
 p(\lambda \mid D) = {p(D \mid \lambda) p(\lambda) \over p(D)},
 \end{equation}
 where $D = \{m_1, m_2, \ldots, m_N \}$ are the single-cell mRNA experimental
-counts. As is standard we will neglected the denominator $p(D)$ on the right
+counts. As is standard we will neglect the denominator $p(D)$ on the right
 hand side since it is independent of $\lambda$ and serves only as a
 normalization factor.
 
@@ -94,7 +94,7 @@ p(m\mid\lambda) = \frac{\lambda^m e^{-\lambda}}{m!}.
 \end{equation}
 Assuming each cell's mRNA count in our dataset is independent of others, the
 likelihood of the full inference problem $p(D\mid\lambda)$ is simply a product
-of the single cell likelihoods given by \eq{eq:poisson_inference010} above, so
+of the single cell likelihoods given by Eq.~\ref{eq:poisson_inference010} above, so
 \begin{equation}
 p(D\mid\lambda) = \prod_{k=1}^N \frac{\lambda^{m_k}e^{-\lambda}}{m_k!}.
 \end{equation}
@@ -114,12 +114,11 @@ since the gamma distribution is strictly positive with mean $\alpha/\beta$ and
 standard deviation $\sqrt{\alpha}/\beta$.
 
 As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior is
-known as the \textit{conjugate} prior for a Poisson likelihood. This type of
-priors have nice properties to work with, in particular a conjugate prior allows
-us to get a closed form for the posterior distribution $p(\lambda \mid D)$. For
-our case it can be shown that for a Poisson distribution likelihood with its
+known as the \textit{conjugate} prior for a Poisson likelihood.
+Conjugate priors have the convenient properties that a closed form exists for the posterior distribution $p(\lambda \mid D)$ - unusual in Bayesian inference problems - and the closed form posterior takes the same form as the prior. For
+our case of a Poisson distribution likelihood with its
 Gamma distribution conjugate prior, the posterior distribution is also a Gamma
-distribution ~\cite{Gelman2013}. Specifically the two parameters $\alpha'$ and
+distribution~\cite{Gelman2013}. Specifically the two parameters $\alpha'$ and
 $\beta'$ for this posterior distribution take the form $\alpha' = \alpha +
 \bar{m} N$ and $\beta' = \beta + N$, where we defined the sample mean $\bar{m} =
 \frac{1}{N}\sum_{k=1}^N m_k$ for notational convenience, and $N$ is the number
@@ -136,14 +135,15 @@ we have inferred our model's one parameter to a precision of order 1\%.
 
 We remind the reader that we began this section claiming that the Poisson model
 was ``wrong'' since it could not reproduce features of the data such as a Fano
-factor $> 1$. The fact that we got such a narrow posterior distribution for our
+factor $> 1$. The fact that we obtain such a narrow posterior distribution for our
 parameter $P(\lambda \mid D)$ does not equate to the model being adequate to
-describe the data. What this means is that given the data $D$, the parameter 
-$\lambda$ for our model is highly constrained to take a narrow range of values,
-but a narrow posterior distribution does not speak to the goodness of fit of the
-model. As we will see later in Figure~\ref{fig:constit_post_full} after
-exploring the bursty promoter model, indeed there is not good correspondence
-when contrasting the Poisson model with the experimental data.
+describe the data. What this means is that given the data $D$, only values
+in a narrow range are remotely plausible for the parameter $\lambda$,
+but a narrow posterior distribution does not necessarily
+mean the model accurately depicts reality.
+As we will see later in Figure~\ref{fig:constit_post_full} after
+exploring the bursty promoter model, indeed the correspondence
+when contrasting the Poisson model with the experimental data is quite poor.
 
 \subsubsection{Model 5 - Bursty promoter}
 
@@ -159,7 +159,8 @@ p(m) = \frac{\Gamma(m+k_i)}{\Gamma(m+1)\Gamma(k_i)}
 \end{equation}
 where $b$ is the mean burst size and $k_i$ is the burst rate in units of the
 mRNA degradation rate $\gamma$. As sketched earlier, to think of the negative
-binomial distribution in terms of an intuitive story, we imagine the arrival of
+binomial distribution in terms of an intuitive ``story,'' in the precise
+meaning of~\cite{Blitzstein2015}, we imagine the arrival of
 bursts as a Poisson process with rate $k_i$, where each burst has a
 geometrically-distributed size with mean size $b$.
 
@@ -188,7 +189,7 @@ model, starting with the constitutive \textit{lacUV5} dataset
 from~\cite{Jones2014}. The resulting MCMC samples are shown in
 Figure~\ref{fig:constit_post_full}(A). In contrast to the active/inactive
 constitutive model considered in~\cite{Razo-Mejia2020} (nonequilibrium model 4
-in~\ref{fig2:constit_cartoons}), this model is well-identified with both
+in Figure~\ref{fig2:constit_cartoons}(A)), this model is well-identified with both
 parameters determined to a fractional uncertainty of 5-10\%. The strong
 correlation reflects the fact that their product sets the mean of the mRNA
 distribution, which is tightly constrained by the data, but there is weak
@@ -266,12 +267,10 @@ samples for each promoter's posterior as in \fig{fig:constit_post_full}(A), for
 each posterior we find and plot the curve that surrounds the 95\% highest
 probability density region. What this means is that each contour 
 encloses approximately 95\% of the samples, and thus 95\% of the probability
-mass, of its posterior distribution. Theory-experiment comparisons (not shown)
+mass, of its posterior distribution. Theory-experiment comparisons,
+shown in Figure~\ref{figS:ppc_unreg} in Appendix~\ref{sec:bayesian},
 display a similar level of agreement between data and predictive samples as for
 the bursty model with \textit{lacUV5} in \fig{fig:constit_post_full}(B).
-\mmnote{Might be worth showing some/all of these PPCs in supplement for
-completeness? We could do postage stamp sized diff plots and probably fit all 18
-promoters on 1-2 pages.}\mrm{Definitely need to show them in SI.}
 
 One interesting feature from \fig{fig:constit_post_full}(C) is that burst rate
 varies far more widely, over a range of $\sim10^2$, than burst size, confined to
@@ -336,21 +335,42 @@ internally self-consistent framework that adequately describes the data, but
 attempting to translate between models reveals the dubious physical
 interpretation of their parameters.
 
-\mmnote{Outline, still to cover:
-\begin{itemize}
-\item There is a puzzle in comparing w/ Chong2014 supercoiling
-model: if supercoiling is the thing, why are my burst sizes all
-the same but burst rates vary? And why is the duty cycle of my
-promoter so low, ie., bursts so short? COmpare their fig 7E;
-their $\beta/\alpha$ is my $k^+/k^-$. They have one or two genes
-with very small $\beta/\alpha$, does the \textit{galK} locus just
-happen to be that, or is there a deeper disagreement? Hard to say
-w/o more data. Are we
-missing important things?? Unclear, we leave as open question. Good enough for
-our purposes: posterior is identifiable, PPC is great, and of the models we've
-thought of it is unique in satisfying both.
-\end{itemize}
-}
+We mention one further comparison, between our inferred parameters and the
+work of Chong et.\ al.~\cite{Chong2014}, which is interesting and puzzling.
+Beautiful experiments in~\cite{Chong2014} convincingly argue that
+supercoiling accumulated from the production of mRNA transcripts is key
+in setting the burstiness of mRNA production.
+In their model, this supercoiling occurs on the scale of $\sim100$~kb
+domains of DNA. This suggests that all genes on a given domain should burst
+in synchrony, and that the difference between highly and lowly expressed
+genes is the \textit{size} of transcriptional bursts, not the
+\textit{time between} bursts.
+But here, all burst sizes we infer in Figure~\ref{fig:constit_post_full}(C)
+are comparable and burst rates vary wildly. It is not immediately clear
+how to square this circle. Furthermore, Figure~7E in~\cite{Chong2014}
+reports values of the quantity they label $\beta/\alpha$ and we label
+$k^+/k^-$ in model 4 from Figure~\ref{fig2:constit_cartoons}. In contrast
+to the findings of~\cite{Razo-Mejia2020}, Chong et.\ al.\ do not find
+$k^+/k^-\ll1$ for most of the genes they consider. This begs the question:
+is the \textit{galK} chromosomal locus used for the reporter constructs
+in~\cite{Razo-Mejia2020} and~\cite{Jones2014} merely an outlier,
+or is there a deeper puzzle here waiting to be resolved? Without more
+apples-to-apples data we can only speculate, and we leave it as an
+intriguing open question for the field.
+
+Despite such puzzles, our goal here is not to unravel the mysterious origins
+of burstiness in transcription. Our remaining task in this work is a
+determination of the physical reality of equilibrium binding energies in
+Figure~\ref{fig1:means_cartoons}, as codified by the equilibrium-nonequilibrium
+equivalence of Eq.~\ref{eq:deltaFR_eq_noneq_equiv}.
+For our phenomenological needs here model 5 in
+Figure~\ref{fig2:constit_cartoons} is more than adequate: the posterior
+distributions in Figure~\ref{fig:constit_post_full}(C) are cleanly
+identifiable and the predictive checks in Figure~\ref{figS:ppc_unreg}
+indicate no discrepancies between the model and the mRNA single-moleucle
+count data of~\cite{Jones2014}. Of the models we have considered it
+is unique in satisfying both these requirements. So we will happily use
+it as a foundation to build upon in the next section when we add regulation.
 
 \subsection{Transcription factor kinetics can be inferred from single-cell mRNA
 distribution measurements}\label{sec:rep_kinetics_inference}
@@ -420,13 +440,13 @@ them from constitutive promoter data, and further we assume that these values
 are the same across datasets with different repressor binding sites and copy
 numbers. In other words, we assume that the regulation of the transcription
 factor does not affect the mean burst size nor the burst initiation rate. The
-regulation happens as the promoter is taken away from the transcriptionally
+regulation occurs as the promoter is taken away from the transcriptionally
 active state when the promoter is bound by repressor. We assume that there is
 one unbinding rate parameter for each repressor binding site, and likewise one
 binding rate for each unique repressor copy number. This makes our model seven
 dimensional, or nine if one counts $k_i$ and $b$ as well. Note that we use only
 a subset of the datasets from Jones et.\ al.~\cite{Jones2014}, as discussed more
-in Appendix~\ref{sec:bayes}.
+in Appendix~\ref{sec:bayesian}.
 
 Formally now, denote the set of seven repressor rates to be inferred as
 \begin{equation}
@@ -436,7 +456,7 @@ k_{0.5}^+, k_{1}^+, k_{2}^+, k_{10}^+\},
 where subscripts for dissociation rates $k^-$  indicate the different repressor
 binding sites, and subscripts for association rates $k^+$ indicate the
 concentration of the small-molecule that controlled the expression of the LacI
-repressor (see Appendix~\ref{sec:bayes}). This is because for this particular
+repressor (see Appendix~\ref{sec:bayesian}). This is because for this particular
 dataset the repressor copy numbers were not measured directly, but it is safe to
 assume that a given concentration of the inducer resulted in a specific mean
 repressor copy number\cite{Chure2019a}. Also note that the authors
@@ -481,7 +501,7 @@ p(m \mid k_R^+, k_R^-, k_i, b) = & ~\frac{
 \end{split}
 \label{eq:p_m_bursty+rep}
 \end{equation}
-where $_2F_1$ is the confluent hypergeometric function of the second kind,
+where $_2F_1$ is the confluent hypergeometric function of the second kind and
 $\alpha$ and $\beta$, defined for notational convenience, are
 \begin{align}
 \begin{split}
@@ -496,7 +516,6 @@ $\alpha$ and $\beta$, defined for notational convenience, are
 This likelihood is rather inscrutable. We did not find any of the known
 analytical approximations for ${_2F_1}$ terribly useful in gaining intuition, so
 we instead resorted to numerics. One insight we found
-\mmnote{a plot would probably help explain, maybe SI, need to explain better}
 was that for very strong or very weak repression, the distribution in
 Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial with
 burst size $b$ and burst rate $k_i$ equal to their constitutive \textit{lacUV5}
@@ -523,7 +542,7 @@ not artificially constrained or distorted by the presence of the prior. The only
 exception to this is the highly informative priors we placed on $k_i$ and $b$,
 since we have strong knowledge of them from our inference of constitutive
 promoters above. All details for our prior distributions are listed in 
-Appendix~\ref{sec:bayes}.
+Appendix~\ref{sec:bayesian}.
 
 We ran MCMC sampling on the full nine dimensional posterior specified by this
 model. To attempt to visualize this object, in
@@ -695,10 +714,14 @@ biological effect is unclear. It is conceivable that there is some very slow
 timescale switching dynamics that could cause this bimodality, although it is
 unclear why it would only appear for specific repressor copy numbers. There is
 also a small offset between experiment and simulation for O2 at the higher
-repressor copy numbers, especially at 2~ng/mL. We suspect this may be caused by
-the very large number of zero mRNA counts for Oid, 2~ng/mL skewing it's partner
-datasets through the shared association rate, and so we are not too concerned by
-this discrepancy either. None of these fairly minor quibbles cause us to
+repressor copy numbers, especially at 2 and 10~ng/mL.
+From the estimate of repressor copy numbers from~\cite{Jones2014}, it is
+possible that the repressor copy numbers here are becoming large enough to
+partially invalidate our assumption of a separation of timescales between
+burst duration and repressor association rate. Another possibility is that
+the very large number of zero mRNA counts for Oid, 2~ng/mL is skewing it's partner
+datasets through the shared association rate.
+None of these fairly minor quibbles cause us to
 seriously doubt the overall correctness of our model, which further validates
 its use to compare the equilibrium models' binding energies to the
 nonequilibrium models' repressor kinetics, as we originally set out to do.

@@ -4,9 +4,6 @@
 
 \subsection{The problem of parameter inference}
 
-\mmnote{Bayes theorem. Elaborate on posterior as plausibility over space of
-model parameters.} 
-
 One could argue that the whole goal of formulating theoretical models about
 nature is to sharpen our understanding from qualitative statements to precise
 quantitative assertions about the relevant features of the natural phenomena in
@@ -14,9 +11,9 @@ question \cite{Gunawardena2014}. It is in these models that we intend to distill
 the essential parts of the object of study. Writing down such models leads to a
 propagation of mathematical variables that parametrize our models. By assigning
 numerical values to these parameters we can compute concrete predictions that
-can be contrasted with experimental data. But for these predictions to match the
+can be contrasted with experimental data. For these predictions to match the
 data the parameter values have to carefully be chosen from the whole parameter
-space. But how do we go about asserting the effectiveness of different regions
+space. But how do we go about assessing the effectiveness of different regions
 of parameter space to speak to the ability of our model to reproduce the
 experimental observations? The language of probability, and more specifically of
 Bayesian statistics is -- we think -- the natural language to tackle this
@@ -27,7 +24,7 @@ question.
 Bayes theorem is a simple mathematical statement that can apply to \textit{any}
 logical conjecture. For two particular events $A$ and $B$ that potentially 
 depend on each other Bayes theorem gives us a recipe for how to update our 
-beliefs about one, let's say $B$, given that we get to observe something about
+beliefs about one, let us say $B$, given some state of knowledge, or lack thereof, about
 $A$. In its most classic form Bayes theorem is written as
 \begin{equation}
 P(B \mid A) = {P(A \mid B) P(B) \over P(A)},
@@ -41,7 +38,7 @@ value given the data.
 For a given model with a set of parameters $\vec{\theta} = (\theta_1, \theta_2,
 \ldots, \theta_n)$, the so-called \textit{posterior distribution} 
 $P(\vec{\theta} \mid D)$, where $D$ is the experimental data, quantifies the
-plausibility of a set of parameter values given that we get to observe some
+plausibility of a set of parameter values given our observation of some
 particular dataset. In other words, through the application of Bayes formula we
 update our beliefs on the possible values that parameters can take upon learning
 the outcome of a particular experiment. We specify the word ``update'' as we
@@ -51,7 +48,7 @@ Even when we claim as researchers that we are totally ignorant about the values
 that the parameters in our models can take, we always come to a problem with
 domain expertise that can be exploited. If this was not the case, it is likely
 that the formulation of our model is not going to capture the phenomena we claim
-to want to understand. This prior information is caputerd in the \textit{prior
+to want to understand. This prior information is captured in the \textit{prior
 probability} $P(\vec{\theta})$. The relationship between how parameter values
 can connect with the data is enconded in the \textit{likelihood function} $P(D
 \mid \vec{\theta})$. Our theoretical model, whether deterministic or
@@ -71,10 +68,17 @@ ourselves to the terms that depend on our quantity of interest -- that is the
 parameter values themselves $\vec{\theta}$ -- as the denominator $P(D)$ only
 serves as a normalization constant.
 
-\subsubsection{The likelihood function}
+We also emphasize that the dichotomy we have presented between prior and
+likelihood is more subtle. Although it is often stated that our prior
+knowledge is entirely encapsulated by the obviously named prior
+probability $P(\vec{\theta})$, this is usually too simplistic.
+The form(s) we choose for our likelihood function
+$P(D \mid \vec{\theta})$ also draw heavily on our prior domain expertise
+and the assumptions, implicit and explicit, that these choices encode are
+at least as important, and often inseparable from,
+the prior probability, as persuasively argued in~\cite{Gelman2017}.
 
-\mmnote{Choosing likelihoods. Easy here, just the steady-state distributions of
-our master equations, assuming iid single-cell measurements.}
+\subsubsection{The likelihood function}
 
 As we alluded in the previous section it is through the likelihood function 
 $P(D \mid \vec{\theta})$ that we encode the connection between our parameter 
@@ -82,30 +86,22 @@ values and the experimental observables. Broadly speaking there are two classes
 of models that we might need to encode into our likelihood function:
 \begin{itemize}
         \item Deterministic models: Models for which a concrete selection of
-        parameter values give a single output. Say differently, rigid models 
+        parameter values give a single output. Said differently, models 
         with a one-to-one mapping between inputs and outputs.
-        \item Probabilistic models: As the name says it, models that rather than
-        having a one-to-one mapping, describe the full probability distribution
-        of possible outputs.
+        \item Probabilistic models: As the name suggests, models that, rather than
+        having a one-to-one input-output mapping, describe the full
+        probability distribution of possible outputs.
 \end{itemize}
-In this paper we focus on inference done with probabilistic models. After all
+In this paper we focus on inference done with probabilistic models. After all,
 the chemical master equations we wrote down describe the time evolutions of the
 mRNA probability distribution. So all our terms $P(\vec{\theta} \mid D)$ will be
 given by the steady-state solution of the corresponding chemical master equation
 in question. This is rather convenient as we do not have to worry about adding a
 statistical model on top of our model to describe deviations from the
-predictions; our models themselves focus on predicting such variations from cell
-count to cell count.
+predictions. Instead our models themselves focus on predicting such variation
+in cell count.
 
 \subsubsection{Prior selection}
-
-\mmnote{Choosing priors. Not critical here because we are data-rich and
-nonhierarchical, as long as we don't exclude ground truth. In other
-applications, prior can matter a lot. This is a feature, not a bug: it's
-revealing hidden structure that was implied by your modeling assumptions and you
-just didn't realize it. Predictive checks to verify you're not excluding any
-plausible values.}
-
 The different models explored in this work embraced different levels of
 coarse-graining that resulted in a diverse number of parameters for different
 models. For each of these model configurations Bayes theorem demands from us to
@@ -141,6 +137,12 @@ where $d_k$ represents the $k$-th datum. That means that if our priors span a
 wide range of parameter space, the posterior distribution would be dominated by
 the likelihood function.
 
+\subsubsection{Expectations and marginalizations}
+One of the great powers of Bayesian analysis is \textit{marginalization}.
+For models with more than one or two parameters, it is generally unwise
+to attempt to draw inferences directly from the full joint posterior
+distribution $P(\vec{\theta} \mid D)$...
+
 \mmnote{
 \begin{itemize}
 % \item Bayes theorem.
@@ -159,8 +161,9 @@ the likelihood function.
 \item Marginalization/expectations.
 Analytically hard, trivial with sampling.
 \item MCMC.
-Lot's of fun here, and deep analogies to stat mech and
-Hamiltonian mechanics worth exploring. In a perfect world, you'd
+Lot's of fun and deep analogies to stat mech and
+Hamiltonian mechanics we'll allude to but not explore here.
+The idea of MCMC: in a perfect world, you'd
 wave a magic wand and generate independent draws from target
 posterior. But we don't know how. Next best: generate a Markov
 chain of $N$ \textit{correlated} samples, estimate an
@@ -168,9 +171,8 @@ autocorrelation time $\tau$, then you've got roughly $N/\tau$
 effective samples. Obviously with some assumptions.
 \item Posterior predictive checks.
 So the posterior is fine, but is the model actually not wrong?
-PPC is essential to verify that your model is a plausible
-generative process for the data.
-\item Discuss identifiability, degeneracy, and failed PPCs in main text. Better thru example anyway.
+PPC is essential to verify that your model is
+not blatantly contradicted by the data.
 \end{itemize}
 }
 
@@ -481,7 +483,7 @@ site identity for the LacI repressor somehow affects its expression level
 controlled from a completely different location in the genome, nor vice versa.
 In other words, what makes the most sense it to fit all datasets together to
 obtain a single value for each of the association and dissociation rates. What
-this means, as described in~\ref{section_04_bayesian_inference} of the main text
+this means, as described in Section~\ref{section_04_bayesian_inference} of the main text
 is that we have a seven dimensional parameter space with four possible
 association rates $k^+$ given the four available aTc concentrations, and three
 possible dissociation rates $k^-$ given the three different binding sites
@@ -537,28 +539,6 @@ where $\alpha$ and $\beta$, defined for notational convenience, are
 \end{split}
 \end{align}
 
-\mrm{This paragraph needs its own subsection in my opinion if it is to be 
-included in the SI.}
-This likelihood is rather inscrutable. We did not find any of the known
-analytical approximations for ${_2F_1}$ terribly useful in gaining intuition, so
-we instead resorted to numerics. One insight we found
-\mmnote{a plot would probably help explain, maybe SI, need to explain better}
-was that for very strong or very weak repression, the distribution in
-Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial with
-burst size $b$ and burst rate $k_i$ equal to their constitutive \textit{lacUV5}
-values, except with $k_i$ multiplied by the fold-change
-$\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again only the
-\textit{ratio} $k_R^+/k_R^-$ was detectable. But for intermediate repression,
-the distribution was visibly broadened with Fano factor greater than $1+b$, the
-value for the corresponding constitutive case. This indicates that the repressor
-rates had left an imprint on the distribution, and perhaps intuitively, this
-intermediate regime occurs for values of $k_R^\pm$ comparable to the burst rate
-$k_i$. Put another way, if the repressor rates are much faster or much slower
-than $k_i$, then there is a timescale separation and effectively only one
-timescale remains, $k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three
-rates in the problem are comparable does the mRNA distribution retain detectable
-information about them.
-
 Next we specify priors. As for the constitutive model, weakly informative
 lognormal priors are a natural choice for all our rates. We found that if the
 priors were too weak, our MCMC sampler would often become stuck in regions of
@@ -612,34 +592,8 @@ influence, meaning the data was not informing the sampler in any meaningful way,
 so no inference was possible.
 
 \mmnote{Outline:
-\begin{itemize}
-\item Hey look it mostly works. With full model, 9D model is well identified,
-though most of the individual experiments unsurprisingly are not:
-only 3 of the 9 datasets were identifiable if fit in isolation
-and for the rest only the ratio of repressor rates is identifiable.
-Only by making assumptions that certain rates
-are equal across datasets was identifiability achieved.
-PPC is not perfect, it kinda misses some
-rep/op pairs but overall it's surprisingly predictive considering how strong
-were the assumptions that went into it.
-\item Do we chalk this up to experimental imperfections or is there interesting
-biology to be found in the disagreements? I'm inclined towards the former. Even
-just catching cells in truly apples-to-apples growth phases, or matching up
-parameters of imaging sessions weeks or months apart, is hardly trivial.
-\item The alternative is to refine our model and/or add on complexity, and it's
-not at all clear what additions to make to the model, especially how to produce
-the long tail of repressed strains over UV5. I see no way to get that without
-getting into complicated time-correlation/history effects, where
-transcription...rebounds?? After being repressed?? Sounds odd.
-\item Comparison between my inferred rates, equilibrium binding E, and
-single-molecule measurements. Not quite as slam-dunk as I'd hoped because of
-$\gamma$ dependence, but rates are w/in factor of 2 or better, seems quite good
-really! With exception of one Oid data data point, free energies are w/in about
-0.5 kT also. That's not massively larger than the repeatability threshold of
-fold-change measurements, at maybe 0.1 to 0.3 kT.
-\item Surprising that so many model parameters can be inferred from just a few
+Perhaps urprising that so many model parameters can be inferred from just a few
 distributions that, by eye, don't have strong features! Does require some
 assumptions, e.g., about equivalence of rates across experiments, but that seems
 quite reasonable.
-\end{itemize}
 }

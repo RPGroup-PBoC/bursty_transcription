@@ -16,8 +16,8 @@ steady-state mRNA distribution must be Poisson, giving a Fano factor of one.
 Before we can tackle simple repression, we need an adequate phenomenological
 model of constitutive expression. The literature abounds with options from which
 we can choose, and we show several potential kinetic models for constitutive
-promoters in~\fig{fig2:constit_cartoons}. Let us consider the suitability of
-each model for our purposes in turn.
+promoters in Figure~\ref{fig2:constit_cartoons}(A). Let us consider
+the suitability of each model for our purposes in turn.
 
 \begin{figure}%[h!]
 \centering
@@ -53,7 +53,7 @@ cross comparison with data presented in Figure 3.}
 \subsubsection{Noise in the Poisson Promoter Model}
 
 The simplest model of constitutive expression that we can imagine is shown as
-model 1 in Figure~\ref{fig2:constit_cartoons} and assumes that transcripts are
+model 1 in Figure~\ref{fig2:constit_cartoons}(A) and assumes that transcripts are
 produced as a Poisson process from a single promoter state. This is the picture
 from Jones et.\ al.~\cite{Jones2014} that was used to interpret a systematic
 study of gene expression noise over a series of promoters designed to have
@@ -64,8 +64,8 @@ Fano = 1 to intensity variability in fluorescent spots, gene copy number
 variation, and copy number fluctuations of the transcription machinery, e.g.,
 RNAP itself. In this picture, the master equation makes no appearance, and all
 the corrections to Poisson behavior are derived as additive corrections to the
-Fano factor. For disproving the ``universal noise curve'' from So et
-al~\cite{So2011}, this picture was excellent. It is appealing in its simplicity,
+Fano factor. For disproving the ``universal noise curve'' from So et.\
+al.~\cite{So2011}, this picture was excellent. It is appealing in its simplicity,
 with only two parameters, the initiation rate $r$ and degradation rate $\gamma$.
 Since $\gamma$ is independently known from other experiments, and the mean mRNA
 copy number is $r/\gamma$, $r$ is easily inferred from data. In other words, the
@@ -81,7 +81,7 @@ equation formulation.
 
 Our second model of constitutive transcription posits an architecture in which
 the promoter is either empty or bound by RNAP ~\cite{Phillips2015a,
-Phillips2019}. Here,  as shown in model 2 of Figure~\ref{fig2:constit_cartoons},
+Phillips2019}. Here,  as shown in model 2 of Figure~\ref{fig2:constit_cartoons}(A),
 transcription initiation results in a state transition from the bound to the
 unbound state, reflecting the microscopic reality that an RNAP that has begun to
 elongate a transcript is no longer available at the start site to begin another.
@@ -111,7 +111,7 @@ How might we remedy the deficits of model 2? It is known~\cite{DeHaseth1998}
 that once RNAP initially binds the promoter region, a multitude of distinct
 steps occur sequentially before RNAP finally escapes into the elongation phase.
 Perhaps adding some of this mechanistic detail as shown in model 3 of
-Figure~\ref{fig2:constit_cartoons} might rescue the previous model. The next
+Figure~\ref{fig2:constit_cartoons}(A) might rescue the previous model. The next
 simplest refinement of that model could consider open complex formation and
 promoter escape as separate steps rather than as a single effective step. In
 other words, we construct model 3 by adding a single extra state to model 2, and
@@ -125,9 +125,8 @@ important features that a model needs to include to square with the known
 experimental reality of constitutive expression.
 
 Unfortunately, as hinted at in earlier work~\cite{Mitarai2015}, this model too
-has Fano factor $\nu<1$. This can be seen by starting with their Eq.~A1 for the
-Fano factor of the analogous model with repressor and taking the limit as
-repressor concentration goes to zero. After substantial algebra, the result is
+has Fano factor $\nu<1$. We again leave the algebraic details for
+Appendix~\ref{sec:non_bursty} and merely state the result that
 \begin{align}
 \nu = 1 - \frac{r k_P^+ k_O}{\mathcal{Z}}
 \frac{k_P^+ + k_P^- + k_O + r + \gamma}
@@ -136,10 +135,7 @@ repressor concentration goes to zero. After substantial algebra, the result is
 \end{align}
 where we defined $\mathcal{Z} = r(k_O + k_P^-) + k_P^+(k_O + r)$ for notational
 tidiness. This is necessarily less than 1 for arbitrary rate constants.
-\mmnote{I originally made a typo in this, double check if it propagated to
-Figure 2 and fix if need be!}
 
-\marginpar{\it RP: very fun next paragraph - I like the argument, need to think more}
 In fact, we suspect \textit{any} model in which transcription proceeds through a
 multistep cycle must necessarily have $\nu<1$. The intuitive argument compares
 the waiting time distribution to traverse the cycle with the waiting time for a
@@ -147,26 +143,12 @@ Poisson promoter (model 1) with the same mean time. The latter is simply an
 exponential distribution. The former is a convolution of multiple exponentials,
 and intuitively should be more peaked with a smaller fractional width than an
 exponential with the same mean.
-\footnote{This can be made more precise with a result from~\cite{Stewart2007},
-who showed that the convolution of multiple gamma distributions (of which the
-exponential distribution is a special case) is, to a very good approximation,
-also gamma distributed. Using their Eq.~2 for the distribution of the
-convolution, with shape parameters set to 1 to give exponential distributions,
-the total waiting time distribution has a ratio of variance to squared mean
-$\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i k_i\right)^2$, where the $k_i$ are
-the rates of the individual steps. Clearly this is less than 1 and therefore the
-total waiting time distribution is narrower than the corresponding exponential.}
 A less disperse waiting time distribution means transcription initations are
 more uniformly distributed in time relative to a Poisson process. Hence the
 distribution of mRNA over a population of cells should be less variable compared
 to Poisson, giving $\nu<1$.
-\footnote{This last step, while intuitive, can be argued by analogy to photon
-statistics where antibunching gives rise to sub-Poissonian noise~\cite{Paul1982,
-Zou1990}. Although loopholes exist, we do not expect they apply for our problem.
-Nevertheless we refrain from elevating this cycle/sub-Poissonian equivalence to
-a ``theorem.'' \mmnote{Antibunching is the ``obvious'' analogy for me but it'd
-be totally out of left field for most readers, any suggestions on a more
-comprehensible reference??}}
+(In Appendix~\ref{sec:non_bursty} we present a more precise version
+of the intuitive arguments in this paragraph.)
 Regardless of the merits of this model in describing the noise properties of
 constitutive transcription initiation, it ultimately fails the simplest
 quantitative feature of the data, namely that the Fano factor $> 1$ and hence
@@ -175,8 +157,10 @@ we must discard this mechanistic picture and search elsewhere.
 \subsubsection{Noise in a Two-State Promoter with ``Active'' and ``Inactive''
 States}
 
-Inspired by~\cite{Razo-Mejia2020}, we revisit an analog of model 2, but as with
-the models considered in \ref{section_02_means}, the interpretation of the two
+Inspired by~\cite{Razo-Mejia2020}, we next revisit an analog of model 2 in
+Figure~\ref{fig2:constit_cartoons}(A), but as with
+the analogous models considered in Section~\ref{section_02_means},
+the interpretation of the two
 states is changed. Rather than explicitly viewing them as RNAP bound and
 unbound, we view them as ``active'' and ``inactive,'' which are able and unable
 to initiate transcripts, respectively. We are noncommittal as to the microscopic
@@ -201,7 +185,7 @@ physical meaning to the two states in this model.
 
 Intuitively one might expect that, since transcripts are produced as a Poisson
 process only when the promoter is in one of the two states in this model,
-transcription initiations should now be ``bunched,'' in contrast to the
+transcription initiations should now be ``bunched'' in time, in contrast to the
 ``anti-bunching'' of models 2 and 3 above. One might further guess that this
 bunching would lead to super-Poissonian noise in the mRNA distribution over a
 population of cells.  Indeed, as shown in Appendix~\ref{sec:non_bursty}, a
@@ -250,15 +234,16 @@ ratio $r/k^-$, could be directly inferred from the single-cell mRNA data
 from~\cite{Jones2014}. So let us take this seriously and imagine a model where
 these are the only two model parameters. What would this model look like?
 
-\marginpar{\it RP: best description I have ever seen of this.  Good job}
+% \marginpar{\it RP: best description I have ever seen of this.  Good job}
 To develop some intuition, consider model 4 in the limit $k^+ \ll k^- \lesssim
 r$, which is roughly satisfied by the parameters inferred
 in~\cite{Razo-Mejia2020}. In this limit, the system spends the majority of its
 time in the inactive state, occasionally becoming active and making a burst of
 transcripts. This should call to mind the well-known phenomenon of
 transcriptional bursting, as reported in,
-e.g.,~\cite{Golding2005,Chong2014,Sevier2016}\mmnote{should probably add some
-more cites here}. Let us make this correspondence more precise. The mean dwell
+e.g.,~\cite{Golding2005,Chong2014,Sevier2016}.
+%\mmnote{should probably add some more cites here}.
+Let us make this correspondence more precise. The mean dwell
 time in the active state is $1/k^-$. While in this state, transcripts are
 produced at a rate $r$ per unit time. So on average, $r/k^-$ transcripts are
 produced before the system switches to the inactive state. Once in the inactive
@@ -271,9 +256,9 @@ start of two successive burst events, but in the limit $k^+ \ll k^-$, $1/k^+ +
 1/k^- \approx 1/k^+$. Note that this limit ensures that the waiting time between
 bursts is approximately exponentially distributed, with mean set by the only
 timescale left in the problem, $1/k^+$.
-\footnote{If instead it were the case that $k^+ \sim k^-$, then the waiting time
-$1/k^+ + 1/k^-$ would have a peaked distribution, but this does not appear to be
-the case for any of datasets from~\cite{Jones2014}.}
+% \footnote{If instead it were the case that $k^+ \sim k^-$, then the waiting time
+% $1/k^+ + 1/k^-$ would have a peaked distribution, but this does not appear to be
+% the case for any of datasets from~\cite{Jones2014}.}
 
 Let us now verify this intuition with a precise derivation to check that $r/k^-$
 is in fact the mean burst size and to obtain the full burst size distribution.
@@ -388,8 +373,9 @@ was to examine a host of models from the literature and understand why they are
 insufficient, one way or another, for our purposes. Along the way we have
 learned that the detailed kinetics of RNAP binding and initiating transcription
 are probably irrelevant for setting the population distribution of mRNA. The
-timescales are simply too fast, and as we will see later
-in~\fig{fig:constit_post}, the noise seems to be governed by slower timescales.
+timescales are simply too fast, and as we will see later in
+Figures~\ref{fig:constit_post_full} and~\ref{fig4:repressed_post_full},
+the noise seems to be governed by slower timescales.
 Perhaps in hindsight this is not surprising: intuitively, the degradation rate
 $\gamma$ sets the fundamental timescale for mRNA dynamics, and any other
 processes that substantially modulate the mRNA distribution should not differ
