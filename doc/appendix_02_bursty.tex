@@ -9,7 +9,7 @@
 The objective of this section is to write down the steady-state mRNA
 distribution for model 5 in Figure~\ref{fig2:constit_cartoons}. Our claim is
 that this model is rich enough that it can capture the expression pattern of
-bacteria constitutive promoters. Figure~\ref{figS1:bursty_one_state} shows two
+bacterial constitutive promoters. Figure~\ref{figS1:bursty_one_state} shows two
 different schematic representations of the model.
 Figure~\ref{figS1:bursty_one_state}(A) shows the promoter cartoon model with
 burst initiation rate $k_i$, mRNA degradation rate $\gamma$, and mean burst size
@@ -102,7 +102,7 @@ The last term in Eq.~\ref{eq:si_master_ode} sums all burst sizes except for a
 burst of size zero. We can re-index the sum to include this term, obtaining
 \begin{equation}
 \lambda \sum_{m'=m + 1}^{\infty} G_{m'-m} p(m, \tau) = \lambda p(m, t) \left[
-\underbrace{\sum_{m'=\textcolor{red}{m}}^{\infty}G_{m'-m}}
+\underbrace{\sum_{m'={m}}^{\infty}G_{m'-m}}
 _{\text{re-index sum to include burst size zero}} -
 \underbrace{G_0}_{\text{subtract extra added term}}\right].
 \end{equation}
@@ -184,11 +184,14 @@ define $k \equiv m + 1$. This allows us to write
 
 \begin{figure}[h!]
 \centering
-\includegraphics{../figures/si/figS0X_reindex_sum.pdf}
-\caption{\textbf{Reindexing double sum.} Schematic for how to proceed with the
-reindexing of the sum $\sum_{m=0}^\infty \sum_{m'=0}^m$. The trick consists on
-noticing that this double sum adds up all of the $(m, m')$ pairs in the lower
-triangle part of the $m, m'$ plane.}
+\includegraphics[width=5cm]{../figures/si/figS0X_reindex_sum.pdf}
+\caption{\textbf{Reindexing double sum.} Schematic for reindexing the sum
+$\sum_{m=0}^\infty \sum_{m'=0}^m$. Blue circles depict the 2D grid of
+nonnegative integers restricted to the lower triangular part of the $m, m'$
+plane. The trick is that this double sum runs over all $(m, m')$ pairs with
+$m'\le m$. Summing $m$ first instead of $m'$ requires determining the
+boundary: the upper boundary of the $m'$-first double sum becomes the
+lower boundary of the $m$-first double sum.}
 \label{figS2:sum_reindex}
 \end{figure}
 

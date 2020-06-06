@@ -58,7 +58,7 @@ a population of cells and mean mRNA $\langle m\rangle$ is viewed as a function
 of repressor copy number $R$. What this means is that the fold-change in gene
 expression is a relative measurement of the effect of the transcriptional 
 repressor ($R > 0$) on the gene expression level compared to an unregulated
-promoter ($R = 0$). The second equality in~\ref{eq:fc_def} follows from assuming
+promoter ($R = 0$). The second equality in Eq.~\ref{eq:fc_def} follows from assuming
 that the translation efficiency, i.e., the number of proteins translated per
 mRNA, is the same in both conditions. In other words, we assume that mean
 protein level is proportional to mean mRNA level, and that the proportionality
@@ -129,7 +129,7 @@ as introduced in Eq.~\ref{eq:fc_def}. Invoking that definition results in
 \text{fold-change}
 = \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\varepsilon_R}\right)^{-1},
 \end{equation}
-which clearly matches the form of the master curve in
+which matches the form of the master curve in
 Figure~\ref{fig1:means_cartoons}(D) with $\rho=1$ and $\Delta F_R = 
 \beta\Delta\varepsilon_r - \log (R / N_{NS})$.
 
@@ -148,13 +148,16 @@ into two separate states: empty, and RNAP bound as shown in (2) in
 Figure~\ref{fig1:means_cartoons}(B). This picture was used in~\cite{Garcia2011a}
 as we use it here, and in~\cite{Razo-Mejia2018} and~\cite{Chure2019} it was
 generalized to incorporate small-molecule inducers that bind the repressor. 
-% Interestingly, the effect of this generalization is
-% simply to renormalize $R$ from the total number of repressors to a smaller
-% effective number, roughly (though not exactly) the number which are unbound by
-% inducers.
+The effect of this generalization is, roughly speaking,
+simply to rescale $R$ from the total number of repressors to a smaller
+effective number of available repressors which are unbound by inducers.
+We point out that the same generalization can be incorporated quite easily
+into any of our models in Figure~\ref{fig1:means_cartoons} by simply
+rescaling the repressor copy number $R$ in the equilibrium models, or
+equivalently $k_R^+$ in the nonequilibrium models.
 
-The mean mRNA, as derived in the appendix from a similar enumeration of states
-and weights as the previous model, is
+The mean mRNA copy number, as derived in Appendix~\ref{sec:non_bursty}
+from a similar enumeration of states and weights as the previous model, is
 \begin{equation}
 \langle m \rangle = \frac{r}{\gamma}
 \frac{\frac{P}{N_{NS}} e^{-\beta\Delta\varepsilon_P}}
@@ -386,7 +389,7 @@ namely
                 + \mathbf{R_A} \vec{p}(m-1,t) +
                 \gamma (m+1) \mathbf{I} \vec{p}(m+1,t),
 \end{equation}
-but obviously with a higher-dimensional state space and different matrices. The
+but with a higher-dimensional state space and different matrices. The
 state vector and promoter transition matrix are now
 \begin{equation}
 \vec{p}(m) = \begin{pmatrix} p_R(m) \\ p_E(m) \\
@@ -400,8 +403,10 @@ state vector and promoter transition matrix are now
 with the four promoter states, in order, being repressor bound ($R$), empty
 ($E$), RNAP closed complex ($C$), and RNAP open complex ($O$). Besides
 increasing dimension by one, the only new feature in $\mathbf{K}$ is the
-rate $k_O$, representing the (irreversible) rate of open complex formation from
-the closed complex. The initiation matrices are given by
+rate $k_O$, representing the rate of open complex formation from
+the closed complex, which we assume for simplicity to be irreversible
+in keeping with some~\cite{Mitarai2015} but not all~\cite{DeHaseth1998}
+past literature. The initiation matrices are given by
 \begin{equation}
 \mathbf{R_A} = \begin{pmatrix}
         0 & 0 & 0 & 0 \\ 
@@ -465,7 +470,7 @@ in~\cite{Razo-Mejia2020}. At a glance the cartoon for this model may appear very
 similar to model 2, and mathematically it is, but the interpretation is rather
 different. In model 2, we interpreted the third state literally as an RNAP-bound
 promoter and modeled initiation of a transcript as triggering a promoter state
-change, making the hopefully uncontroversial assumption that an RNAP can only
+change, making the assumption that an RNAP can only
 make one transcript at a time. In contrast, in the present model the promoter
 state does \textit{not} change when a transcript is initiated. So we no longer
 interpret these states as literally RNAP bound and unbound but instead as
@@ -515,7 +520,8 @@ the unbound state, single mRNA transcripts are produced as a Poisson process
 with some characteristic rate $r$. The current model by contrast produces, at
 some Poisson rate $k_i$, \textit{bursts} of mRNA transcripts.
 The burst sizes are assumed to be geometrically distributed with
-a mean burst size $b$.
+a mean burst size $b$, which we will motivate in Section~\ref{sec:beyond_means}
+when we derive this model as a certain limiting case of model 4.
 
 From this intuitive picture and by analogy to model 1, then, it should be
 plausible that the mean mRNA level is
@@ -531,12 +537,11 @@ note that just like model 1, the fold-change becomes
 with $\rho=1$ also like model 1.
 We will also see later how this model emerges as a natural limit of model 4.
 
-\subsubsection{Summary of Results across models for Fold-Changes in Mean
+\subsection{Discussion of Results Across Models for Fold-Changes in Mean
 Expression}
-What have we learned from our exploration of the models
-in~\fig{fig1:means_cartoons} and their predictions of fold-changes in mean
-expression levels? The key outcome of our analysis is the existence of a master
-curve shown in \fig{fig1:means_cartoons}(D) to which the fold-change predictions
+The key outcome of our analysis of the models in
+Figure~\ref{fig1:means_cartoons} is the existence of a master curve shown
+in Figure~\ref{fig1:means_cartoons}(D) to which the fold-change predictions
 of all the models collapse. This master curve is parametrized by only two
 effective parameters: $\Delta F_R$, which characterizes the number of repressors
 and their binding strength to the DNA, and $\rho$, which characterizes all other
@@ -548,7 +553,7 @@ instance, ``action-at-a-distance'' mediated by kinked DNA due to repressors
 bound tens or hundreds of nucleotides upstream of a promoter is plausible as
 well.
 
-Why does the master curve of~\fig{fig1:means_cartoons}(D) exist at all?
+Why does the master curve of Figure~\ref{fig1:means_cartoons}(D) exist at all?
 This brings to mind the deep questions posed in,
 e.g.,~\cite{Frank2013} and~\cite{Frank2014a}, suggesting we consider multiple
 plausible models of a system and search for their common patterns to tease
@@ -556,13 +561,13 @@ out which broad features are and are not important.
 In our case, the key feature seems to be the
 exclusive nature of repressor and RNAP binding, which allows the parameter
 describing the repressor, $\Delta F_R$, to cleanly separate from all other
-details of the promoter architecture, which are encapsulated in $\rho$. In the
-graph-theoretic language which was applied to similar problems
-in~\cite{Gunawardena2012} and~\cite{Ahsendorf2014}, the repressor-bound state is
-a leaf of the graph describing transitions between promoter states. Arbitrary
-nonequilibrium behavior can occur on the rest of the promoter state space, but
-it may all be swept up in the effective parameter $\rho$, to which the repressor
-makes no contribution.
+details of the promoter architecture, which are encapsulated in $\rho$.
+Arbitrary nonequilibrium behavior can occur on the rest of the
+promoter state space, but it may all be swept up in the effective
+parameter $\rho$, to which the repressor makes no contribution.
+We point the interested reader to~\cite{Gunawardena2012}
+and~\cite{Ahsendorf2014} for an interesting analysis of similar problems
+using a graph-theoretic language.
 
 As suggested in~\cite{Chure2019}, we believe this master curve should generalize
 to architectures with multiple repressor binding sites, as long as the
@@ -573,7 +578,7 @@ given by the log of the sum of Boltzmann weights of all repressor bound states,
 which looks like the log of a partition function of a subsystem. In a
 nonequilibrium picture, while we can still mathematically gather terms and give
 the resulting collection the label $\Delta F_R$, it is unclear if the physical
-interpretation as an effective free energy makes sense. As is well known, free
+interpretation as an effective free energy makes sense. The problem is that free
 energies cannot be assigned unambiguously to states out of equilibrium because
 the free energy change along a generic path traversing the state space is path
 dependent, unlike at equilibrium. A consequence of this is that, out of
@@ -610,7 +615,7 @@ function of $\Delta F_R + \log\rho$. Worse, there are many \textit{a priori}
 plausible microscopic mechanisms that could contribute to the value of $\rho$,
 such as RNAP binding and escape kinetics~\cite{DeHaseth1998, Mitarai2015},
 and/or supercoiling accumulation and release~\cite{Chong2014, Sevier2016},
-and/or, RNAP clusters analogous to those obvserved in
+and/or, RNAP clusters analogous to those observed in
 eukaryotes~\cite{Cisse2013, Cho2016} and recently also observed in
 bacteria~\cite{Ladouceur2020}. Even if $\Delta F_R$ is measured to high
 precision, inferring the potential microscopic contributions to $\rho$, buried
@@ -628,12 +633,12 @@ numbers, would massively perturb the entire cell's physiology and confound any
 determination of $\rho$.
 
 One might instead imagine a bottom-up modeling approach, where we mathematicize
-a model of what we hypothesize the important steps are and are not, use in vitro
+a model of what we hypothesize the important steps are and are not, use \textit{in vitro}
 data for the steps deemed important, and \textit{predict} what $\rho$ should be.
 But again, because of the one-parameter nature of the master curve, many
 different models will likely make indistinguishable predictions, and without any
-way to experimentally perturb in vivo, there is no clear way to test whether the
-modeling assumptions are correct.
+way to experimentally perturb \textit{in vivo}, there is no clear way
+to test whether the modeling assumptions are correct.
 
 In light of this, we prefer the view that parameters and rates are not directly
 comparable between cartoons in~\fig{fig1:means_cartoons}. Rather, parameters in
@@ -663,6 +668,12 @@ question: the authors of~\cite{Kinney2010} \textit{assumed} a particular model
 unclear how or if such methods can be turned around to \textit{compare}
 different models of promoter function.
 
+Another possible route to dissect transcription details without a global
+perturbation would be to use phage polymerase with phage-specific promoters.
+While such results would carry some caveats, e.g., whether the repression of
+the phage polymerase is a good analog to the repression of the native RNAP,
+it could nevertheless be worthy of consideration.
+
 We have already pointed out that the master curve of~\fig{fig1:means_cartoons}
 is essentially a one-parameter model, the one parameter being $\Delta F_R +
 \log\rho$. By now the reader may be alarmed as to how can we even determine
@@ -673,7 +684,8 @@ Garcia2011a, Razo-Mejia2018} of simple repression using the 3-state equilibrium
 model in~\fig{fig1:means_cartoons}(B). In that picture, the weak promoter
 approximation means $\frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P) \ll 1$,
 meaning therefore $\rho\approx1$.  This approximation can be well justified on
-the basis of the number of RNAP per cell and the strength of binding of RNAP to
+the basis of the number of RNAP and $\sigma$ factors per cell
+and the strength of binding of RNAP to
 DNA at weak promoters. This is suggestive, but how can we be sure that $\rho$ is
 not, for instance, actually $10^2$ and that $\Delta F_R$ hides a compensatory
 factor? A resolution is offered by an independent inference of $\rho$ in the
@@ -699,10 +711,12 @@ itself. Nevertheless it is perhaps surprising how effectively it does so:
 \textit{a priori}, one might not have expected $\rho$ to be quite so close to 1.
 
 We would also like to highlight the relevance of~\cite{Landman2019} here.
-Landman et.\ al.\ reanalyzed and compared in vivo and in vitro data on the lacI
-repressor's binding affinity to its various operator sequences. (The in vivo
+Landman et.\ al.\ reanalyzed and compared \textit{in vivo} and
+\textit{in vitro} data on the lacI repressor's binding affinity to its
+various operator sequences. (The \textit{in vivo}
 data was from, essentially, fitting our master curve to expression
-measurements.) They find broad agreement between the in vitro and in vivo
+measurements.) They find broad agreement between the
+\textit{in vitro} and \textit{in vivo}
 values. This reinforces the suspicion that the equilibrium $\Delta\varepsilon_R$
 repressor binding energies do in fact represent real physical free energies.
 Again, \textit{a priori} this did not have to be the case, even knowing that

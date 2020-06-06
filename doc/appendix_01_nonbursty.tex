@@ -3,12 +3,12 @@
 \label{sec:non_bursty}
 
 In this section we detail the calculation of mean mRNA levels, fold-changes in
-expression, and Fano factors for nonequilibrium promoter models one through four
+expression, and Fano factors for nonequilibrium promoter models 1 through 4
 in Figure~\ref{fig1:means_cartoons}. These are the results that were quoted but
 not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
 main text. In each of these four models, the natural mathematicization of their
 cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
-for model one. Before jumping into the derivations of the general computation of
+for model 1. Before jumping into the derivations of the general computation of
 the mean mRNA level and the Fano factor we will work through the derivation of
 an example master equation. In particular we will focus on model 1 from
 Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
@@ -165,7 +165,7 @@ Having derived an example chemical master equation we now focus on writing a
 general matrix form for the kinetic models 1-4 shown in
 Figure~\ref{fig1:means_cartoons}(C) in the main text. In each of these four
 models, the natural mathematicization of their cartoons is as a chemical master
-equation such as Eq.~\ref{eq:2state_rep_cme} for model one, which for
+equation such as Eq.~\ref{eq:2state_rep_cme} for model 1, which for
 completeness we reproduce here as
 \begin{align}
 \begin{split}
@@ -195,11 +195,11 @@ time that a bound repressor will unbind, while $k_R^+$ is the probability per
 unit time that an unbound operator will become bound by a repressor. Assuming
 mass action kinetics, $k_R^+$ is proportional to repressor copy number $R$.
 
-Next consider the cartoon for nonequilibrium model two in
+Next consider the cartoon for nonequilibrium model 2 in
 Figure~\ref{fig1:means_cartoons}(C). Now we must track probabilities $p_R$,
 $p_P$, and $p_E$ for the repressor bound, empty, and polymerase bound states,
-respectively. By analogy to eqn.~\ref{eq:poisson_promoter_cme_appdx}, the master
-equation for model two can be written
+respectively. By analogy to Eq.~\ref{eq:poisson_promoter_cme_appdx}, the master
+equation for model 2 can be written
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -284,25 +284,25 @@ can condense Eq.~\ref{eq:model2_cme_appdx} into the single equation
                 \gamma (m+1) \mathbf{I} \vec{p}(m+1,t),
 \label{eq:generic_cme_appdx}
 \end{equation}
-which is just Eq.~\ref{eq:3state_rep_cme} in the main text. Straightforward if
-tedious algebra verifies that Eqs.~\ref{eq:model2_cme_appdx}
+which is just Eq.~\ref{eq:3state_rep_cme} in the main text. Straightforward
+albeit tedious algebra verifies that Eqs.~\ref{eq:model2_cme_appdx}
 and~\ref{eq:generic_cme_appdx} are in fact equivalent.
 
 Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case of
-nonequilibrium model two in Figure~\ref{fig1:means_cartoons}, in fact the
+nonequilibrium model 2 in Figure~\ref{fig1:means_cartoons}, in fact the
 chemical master equations for all of the nonequilibrium models in
-Figure~\ref{fig1:means_cartoons} except for model five can be cast in this form.
-(We treat model five separately in Appendix~\ref{sec:gen_fcn_appdx}.) Model
-three introduces no new subtleties beyond model two and
+Figure~\ref{fig1:means_cartoons} except for model 5 can be cast in this form.
+(We treat model 5 separately in Appendix~\ref{sec:gen_fcn_appdx}.) Model
+3 introduces no new subtleties beyond model 2 and
 Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply with different
-matrices of dimension four instead of three. Models one and four are both
+matrices of dimension four instead of three. Models 1 and 4 are both
 handled by Eq.~\ref{eq:2state_rep_cme} in the main text, which is just
 Eq.~\ref{eq:generic_cme_appdx} except in the special case of $\mathbf{R_D} =
 \mathbf{R_A} \equiv \mathbf{R}$, since in these two models transcription
 initiation events do not change promoter state.
 
 Recalling that our goal in this section is to derive expressions for mean mRNA
-and Fano factor for nonequilibrium models one through four in
+and Fano factor for nonequilibrium models 1 through four in
 Figure~\ref{fig1:means_cartoons}, and since all four of these models are
 described by Eq.~\ref{eq:generic_cme_appdx}, we can save substantial effort by
 deriving general formulas for mean mRNA and Fano factor from
@@ -339,9 +339,9 @@ and
 \end{equation}
 which define the average values of $m$ and $m^2$ at steady state, where the
 averaging is over all possible mRNA copy numbers and promoter states $S$. For
-example, for model one in Figure~\ref{fig1:means_cartoons}(C), the sum on $S$
+example, for model 1 in Figure~\ref{fig1:means_cartoons}(C), the sum on $S$
 would cover repressor bound and unbound states ($R$ and $U$ respectively), for
-model two, the sum would cover repressor bound, polymerase bound, and empty
+model 2, the sum would cover repressor bound, polymerase bound, and empty
 states ($R$, $P$, and $E$), and so on for the other models.
 
 Along the way it will be convenient to define the following
@@ -356,7 +356,7 @@ and
 These objects are vectors of the same size as $\vect{p}(m)$, and each component
 can be thought of as the expected value of the mRNA copy number, or copy number
 squared, conditional on the promoter being in a certain state. For example, for
-model one in Figure~\ref{fig1:means_cartoons} which has repressor bound and
+model 1 in Figure~\ref{fig1:means_cartoons} which has repressor bound and
 unbound states labeled $R$ and $U$, $\langle\vec{m}^2\rangle$ would be
 \begin{equation}
 \langle\vec{m}^2\rangle
@@ -698,7 +698,7 @@ computing $\langle\vec{m}^0\rangle$.
 
 \subsection{Nonequilibrium Model One - Poisson Promoter}
 \subsubsection{Mean mRNA}
-For nonequilibrium model one in Figure~\ref{fig1:means_cartoons}, we have
+For nonequilibrium model 1 in Figure~\ref{fig1:means_cartoons}, we have
 already shown the full master equation in Eq.~\ref{eq:poisson_promoter_cme} and
 Eq.~\ref{eq:poisson_promoter_cme_appdx}, but for completeness we reprint it
 again as
@@ -767,7 +767,7 @@ into Eq.~\ref{eq:mean_m_appdx_ref}, we have
 as asserted in Eq.~\ref{eq:mean_m_model1} of the main text.
 
 \subsubsection{Fano factor}
-To verify that the Fano factor for model one in
+To verify that the Fano factor for model 1 in
 Figure~\ref{fig2:constit_cartoons}(A) is in fact 1 as claimed in the main text,
 note that in this limit $p_U = 1$ and $\langle{m}\rangle = r/\gamma$. All
 elements of $\mathbf{K}$ are zero, and $\mathbf{R_A}-\mathbf{R_D} = 0$, so
@@ -786,7 +786,7 @@ as claimed.
 
 \subsection{Nonequilibrium Model Two - RNAP Bound and Unbound States}
 \subsubsection{Mean mRNA}
-As shown earlier, the full master equation for model two in
+As shown earlier, the full master equation for model 2 in
 Figure~\ref{fig1:means_cartoons} is
 \begin{align}
 \begin{split}
@@ -835,7 +835,7 @@ matrices given by
                 \end{pmatrix}.
 \label{eq:model2_matrices_appdx}
 \end{equation}
-As for model one, we must first find $\mathbf{R_A} \langle\vect{m}^0\rangle$.
+As for model 1, we must first find $\mathbf{R_A} \langle\vect{m}^0\rangle$.
 Denote its components as $p_R$, $p_E$, $p_P$, the probabilities of being found
 in repressor bound, empty, or RNAP-bound states, respectively. Only $p_P$ is
 necessary to find since
@@ -978,7 +978,7 @@ exactly Eq.~\ref{eq:model2_fano} in the main text.
 Escape}
 
 \subsubsection{Mean mRNA}
-In close analogy to model two above, nonequilibrium model three from
+In close analogy to model 2 above, nonequilibrium model 3 from
 Figure~\ref{fig1:means_cartoons}(C) can be described by our generic master
 equation Eq.~\ref{eq:generic_cme_appdx} with promoter transition matrix given by
 \begin{equation}
@@ -1156,10 +1156,10 @@ kinetic cycles with sub-Poissonian noise to a ``theorem.''
 
 \subsection{Nonequilibrium Model Four - ``Active'' and ``Inactive'' States}
 \subsubsection{Mean mRNA}
-The mathematical specification of this model is almost identical to model two.
+The mathematical specification of this model is almost identical to model 2.
 The matrix $\mathbf{K}$ is identical, as is $\mathbf{R_D}$. The only difference
 is that now $\mathbf{R_A}=\mathbf{R_D}$, i.e., both are diagonal, in contrast to
-model two where $\mathbf{R_A}$ has an off-diagonal element, as in
+model 2 where $\mathbf{R_A}$ has an off-diagonal element, as in
 Eq.~\ref{eq:model2_matrices_appdx}. Then the analog of
 Eq.~\ref{eq:model2_K-R+R_for_m0} for finding $\langle{m}^0\rangle$ is
 \begin{equation}
@@ -1173,11 +1173,11 @@ Eq.~\ref{eq:model2_K-R+R_for_m0} for finding $\langle{m}^0\rangle$ is
 = 0.
 \end{equation}
 In fact we need not do this calculation explicitly and can instead recycle the
-calculation of mean mRNA $\langle{m}\rangle$ from model two. The matrices are
+calculation of mean mRNA $\langle{m}\rangle$ from model 2. The matrices are
 identical except for the relabeling $k^- \longleftrightarrow (k_P^- + r)$, and
-a careful look through the derivation of $\langle{m}\rangle$ for model two shows
+a careful look through the derivation of $\langle{m}\rangle$ for model 2 shows
 that the parameters $k_P^-$ and $r$ only ever appear as the sum $k_P^- + r$. So
-taking $\langle{m}\rangle$ from model two, Eq.~\ref{eq:model2_meanm_appdx}, and
+taking $\langle{m}\rangle$ from model 2, Eq.~\ref{eq:model2_meanm_appdx}, and
 relabeling $(k_P^- + r) \rightarrow k^-$ gives us our answer for model four,
 simply
 \begin{equation}
@@ -1192,7 +1192,7 @@ which we want to compute the Fano factor and compare it to nonequilibrium model
 one of simple repression in Figure~\ref{fig1:means_cartoons}. Mathematically
 these are exactly the same model, just with rates labeled differently and the
 meaning of the promoter states interpreted differently. Furthermore,
-nonequilibrium model one from Figure~\ref{fig1:means_cartoons} was the model
+nonequilibrium model 1 from Figure~\ref{fig1:means_cartoons} was the model
 considered by Jones et.\ al.~\cite{Jones2014}, where they derived the Fano
 factor for that model to be
 \begin{equation}

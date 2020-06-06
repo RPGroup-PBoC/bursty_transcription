@@ -60,7 +60,7 @@ study of gene expression noise over a series of promoters designed to have
 different strengths. This model insists that the ``true'' steady-state mRNA
 distribution is Poisson, implying the Fano factor $\nu$ must be 1.
 In~\cite{Jones2014}, the authors carefully attribute measured deviations from
-Fano = 1 to intensity variability in fluorescent spots, gene copy number
+Fano = 1 to intensity variability in fluorescence measurements, gene copy number
 variation, and copy number fluctuations of the transcription machinery, e.g.,
 RNAP itself. In this picture, the master equation makes no appearance, and all
 the corrections to Poisson behavior are derived as additive corrections to the
@@ -141,7 +141,8 @@ multistep cycle must necessarily have $\nu<1$. The intuitive argument compares
 the waiting time distribution to traverse the cycle with the waiting time for a
 Poisson promoter (model 1) with the same mean time. The latter is simply an
 exponential distribution. The former is a convolution of multiple exponentials,
-and intuitively should be more peaked with a smaller fractional width than an
+and intuitively the waiting time distribution for a multistep process
+should be more peaked with a smaller fractional width than a single
 exponential with the same mean.
 A less disperse waiting time distribution means transcription initations are
 more uniformly distributed in time relative to a Poisson process. Hence the
@@ -293,9 +294,8 @@ A standard integral table shows $\int_0^\infty x^n e^{-ax}\,dx = n!/a^{n+1}$, so
             \left(1 - \frac{k^-}{k^- + r}\right)^n,
 \end{equation}
 which is exactly the geometric distribution with standard parameter
-$\theta\equiv k^-/(k^- + r)$ and domain $n \in \{0, 1, 2, \dots\}$ (this is one
-of two common conventions for the geometric distribution). The mean of the
-geometric distribution, with this convention, is
+$\theta\equiv k^-/(k^- + r)$ and domain $n \in \{0, 1, 2, \dots\}$.
+The mean of the geometric distribution, with this convention, is
 \begin{align}
 \langle n\rangle = \frac{1 - \theta}{\theta}
         = \left(1 - \frac{k^-}{k^- + r}\right)

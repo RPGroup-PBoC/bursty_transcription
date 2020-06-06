@@ -12,9 +12,9 @@ outstanding challenges to have emerged in the genomic era is our continued
 inability to predict the regulatory consequences of different regulatory
 architectures, i.e. the arrangement and affinity of binding sites for
 transcription factors and RNA polymerases on the DNA. This challenge stems first
-and foremost from our ignorance about what those architectures even are with
+and foremost from our ignorance about what those architectures even are, with
 more than 60\% of the genes even in an ostensibly well understood organism such
-as {\it E. coli} with no regulatory insights at all~\cite{Rydenfelt2014-2,
+as {\it E. coli} having no regulatory insights at all~\cite{Rydenfelt2014-2,
 Belliveau2018, Ghatak2019, Santos_Zavaleta2019}. But even once we have
 established the identity of key transcription factors and their binding sites of
 a given promoter architecture, there remains the predictive challenge of
@@ -26,9 +26,11 @@ Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010}. One route to such
 predictive understanding is to focus on the simplest regulatory architecture and
 to push the theory-experiment dialogue as far and as hard as it can be
 pushed~\cite{Garcia2011, Phillips2019}. If we demonstrate that we can pass that
-test by successfully predicting both the means and variance in gene expression,
+test by successfully predicting both the means and variance in gene expression
+at the mRNA level,
 then that provides a more solid foundation upon which to launch into more
-complex problems.
+complex problems - for instance, some of the previously unknown architectures
+uncovered in~\cite{Belliveau2018} and~\cite{Ireland2020}.
 
 To that end, in this paper we examine a wide variety of distinct models for the
 simple repression regulatory architecture. This genetic architecture consists of
@@ -37,9 +39,9 @@ binding site as developed in pioneering early work on the quantitative
 dissection of transcription \cite{Oehler1994, Oehler1990}. All of the proposed
 models coarse-grain away some of the important microscopic features of
 this architecture that have been elucidated by generations of geneticists,
-molecular biologists and biochemists. Our aim is to understand the underlying
-principles of such coarse-graining in order to increase the predictive power of
-these models. In doing so, we hope future models of regulatory response will be
+molecular biologists and biochemists.
+One goal in exploring such coarse-grainings is to build towards the
+future models of regulatory response that will be
 able to serve the powerful predictive role needed to take synthetic biology from
 a brilliant exercise in enlightened empiricism to a rational design framework as
 in any other branch of engineering. More precisely, we want phenomenology in the
@@ -52,7 +54,7 @@ like~\cite{Razo-Mejia2018} have demonstrated that Hill functions are clearly
 insufficient since each new situation requires a completely new set of
 parameters. Such work requires a quantitative theory of how biophysical changes
 at the molecular level propagate to input-output functions at the genetic
-circuit level. We want concepts, not mere facts. In particular a key question
+circuit level. In particular a key question
 is: at this level of coarse-graining, what microscopic details do we need to
 explicitly model, and how do we figure that out? For example, do we need to
 worry about all or even any of the steps that individual RNA polymerases go

@@ -19,13 +19,13 @@ experimental observations? The language of probability, and more specifically of
 Bayesian statistics is -- we think -- the natural language to tackle this
 question.
 
-\subsubsection{Bayes theorem}
+\subsubsection{Bayes' theorem}
 
-Bayes theorem is a simple mathematical statement that can apply to \textit{any}
+Bayes' theorem is a simple mathematical statement that can apply to \textit{any}
 logical conjecture. For two particular events $A$ and $B$ that potentially 
-depend on each other Bayes theorem gives us a recipe for how to update our 
+depend on each other Bayes' theorem gives us a recipe for how to update our 
 beliefs about one, let us say $B$, given some state of knowledge, or lack thereof, about
-$A$. In its most classic form Bayes theorem is written as
+$A$. In its most classic form Bayes' theorem is written as
 \begin{equation}
 P(B \mid A) = {P(A \mid B) P(B) \over P(A)},
 \end{equation}
@@ -39,7 +39,7 @@ For a given model with a set of parameters $\vec{\theta} = (\theta_1, \theta_2,
 \ldots, \theta_n)$, the so-called \textit{posterior distribution} 
 $P(\vec{\theta} \mid D)$, where $D$ is the experimental data, quantifies the
 plausibility of a set of parameter values given our observation of some
-particular dataset. In other words, through the application of Bayes formula we
+particular dataset. In other words, through the application of Bayes' formula we
 update our beliefs on the possible values that parameters can take upon learning
 the outcome of a particular experiment. We specify the word ``update'' as we
 come to every inference problem with prior information about the plausibility of
@@ -58,12 +58,12 @@ given that our model is parametrized with the concrete values $\vec{\theta}$.
 Implicitly here we are also conditioning on the fact that our theoretical model
 is ``true,'' i.e. the model itself if evaluated or simulated in the computer is
 capable of generating equivalent datasets to the one we got to observe in an 
-experiment. In this way Bayesian inference consists of applying Bayes formula 
+experiment. In this way Bayesian inference consists of applying Bayes' formula 
 as 
 \begin{equation}
 P(\vec{\theta} \mid D) \propto P(D \mid \vec{\theta}) P(\vec{\theta}).
 \end{equation}
-Notice than rather than writing the full form of Bayes theorem, we limit 
+Notice than rather than writing the full form of Bayes' theorem, we limit 
 ourselves to the terms that depend on our quantity of interest -- that is the 
 parameter values themselves $\vec{\theta}$ -- as the denominator $P(D)$ only
 serves as a normalization constant.
@@ -104,31 +104,32 @@ in cell count.
 \subsubsection{Prior selection}
 The different models explored in this work embraced different levels of
 coarse-graining that resulted in a diverse number of parameters for different
-models. For each of these model configurations Bayes theorem demands from us to
+models. For each of these model configurations Bayes' theorem demands from us to
 represent our preconceptions on the possible parameter values in the form of the
 prior $P(\vec{\theta})$. Throughout this work for models with $> 1$ parameter we
 assign independent priors to each of the parameters; this is
 \begin{equation}
 P(\vec{\theta}) = \prod_{i=1}^n P(\theta_i).
 \end{equation}
-Although it is common practice to use non-informative, or maximally
+Although it is not uncommon practice to use non-informative, or maximally
 uninformative priors, we are of the mindset that this is a disservice to the
-philosophical and practical implications of Bayes theorem. It sounds almost
+philosophical and practical implications of Bayes' theorem. It sounds almost
 contradictory to claim that can we represent our thinking about a natural
-phenomena in the form of a mathematical model -- which itself is a bold claim of
-deeply understanding the features that matter in the object of study -- but we
-have absolutely no idea what the parameter values ought to be. We therefore make
+phenomenon in the form of a mathematical model -- in the context of Bayesian
+inference this means choosing a form for the likehihoods, and even making
+this choice presupposes prior understanding or assumptions as to the
+relevant features in the system under study -- but that we have absolutely
+no idea what the parameter values could or could not be. We therefore make
 use of our own expertise, many times in the form of order-of-magnitude
-estimates, to write down prior distributions for our parameters. In summary then
-we don’t want to be maximally uninformative because we aren’t completely
-uninformed.
+estimates, to write down weakly-informative prior distributions
+for our parameters.
 
 For our particular case all of the datasets from~\cite{Jones2014} used in this
 paper have $\mathcal{O}(10^3)$ data points. What this implies is that our
 particular choice of priors will not significantly affect our inference as long
 as they are broad enough. A way to see why this is the case is to simply look at
-Bayes theorem. For $N ~ 1000-3000$ datum all of the independent of each other
-and $n \ll 10^3$ parameters Bayes theorem reads as
+Bayes' theorem. For $N ~ 1000-3000$ datum all of the independent of each other
+and $n \ll 10^3$ parameters Bayes' theorem reads as
 \begin{equation}
 P(\vec{\theta} \mid D) \propto \prod_{k=1}^{N} P(d_k \mid \vec{\theta})
 \prod_{i=1}^n P(\theta_i),
@@ -138,43 +139,56 @@ wide range of parameter space, the posterior distribution would be dominated by
 the likelihood function.
 
 \subsubsection{Expectations and marginalizations}
-One of the great powers of Bayesian analysis is \textit{marginalization}.
-For models with more than one or two parameters, it is generally unwise
-to attempt to draw inferences directly from the full joint posterior
-distribution $P(\vec{\theta} \mid D)$...
+For models with more than one or two parameters, it is generally difficult
+to visualize or reason about the full joint posterior distribution
+$P(\vec{\theta} \mid D)$ directly.
+One of the great powers of Bayesian analysis is \textit{marginalization},
+allowing us to reduce the dimensionality to only the parameters of
+immediate interest by averaging over the other dimensions.
+Formally, for a three dimensional model with parameters
+$\theta_1$, $\theta_2$, and $\theta_3$, we can for instance
+marginalize away $\theta_3$ to produce a 2D posterior as
+\begin{equation}
+P(\theta_1, \theta_2 \mid D) \propto
+        \int_{\theta_3} d\theta_3 \,P(\theta_1, \theta_2, \theta_3 \mid D),
+\end{equation}
+or we can marginalize away $\theta_1$ and $\theta_3$ to produce the
+1D marginal posterior of $\theta_2$ alone, which would be
+\begin{equation}
+P(\theta_2 \mid D) \propto
+        \int_{\theta_1} d\theta_1 \int_{\theta_3} d\theta_3
+        \,P(\theta_1, \theta_2, \theta_3 \mid D).
+\end{equation}
+Conceptually, this is what we did in generating the 2D slices of the
+full 9D model in Figure~\ref{fig4:repressed_post_full}(A).
+In practice, this marginalization is even easier with Markov Chain Monte Carlo
+samples in hand. Since each point is simply a list of parameter values,
+we simply ignore the parameters which we want to marginalize
+away~\cite{Gelman2013}.
+        
+\subsubsection{Markov Chain Monte Carlo}
+The theory and practice of Bayesian inference with Markov Chain Monte Carlo
+(MCMC) is a rich subject with fascinating and deep analogies to statistical
+mechanics, even drawing on classical Hamiltonian mechanics and general
+relativity in its modern incarnations. We refer the interested reader
+to~\cite{Gelman2013} and~\cite{Betancourt2018} for excellent introductions.
+Here we merely give a brief summary of
+the MCMC computations carried out in this work.
 
-\mmnote{
-\begin{itemize}
-% \item Bayes theorem.
-% Elaborate on posterior as plausibility over
-% space of model parameters.
-% \item Choosing likelihoods.
-% Easy here, just the steady-state distributions of our master
-% equations, assuming iid single-cell measurements.
-% \item Choosing priors.
-% Not critical here because we are data-rich and nonhierarchical,
-% as long as we don't exclude ground truth. In other applications,
-% prior can matter a lot. This is a feature, not a bug: it's
-% revealing hidden structure that was implied by your modeling
-% assumptions and you just didn't realize it. Predictive checks to
-% verify you're not excluding any plausible values.
-\item Marginalization/expectations.
-Analytically hard, trivial with sampling.
-\item MCMC.
-Lot's of fun and deep analogies to stat mech and
-Hamiltonian mechanics we'll allude to but not explore here.
-The idea of MCMC: in a perfect world, you'd
-wave a magic wand and generate independent draws from target
-posterior. But we don't know how. Next best: generate a Markov
-chain of $N$ \textit{correlated} samples, estimate an
-autocorrelation time $\tau$, then you've got roughly $N/\tau$
-effective samples. Obviously with some assumptions.
-\item Posterior predictive checks.
-So the posterior is fine, but is the model actually not wrong?
-PPC is essential to verify that your model is
-not blatantly contradicted by the data.
-\end{itemize}
-}
+We used the Python package \texttt{emcee} for most of the MCMC sampling
+in this work. For the constitutive promoter inference, we also ran
+sampling with the excellent Stan modeling language as a check. We did not
+use Stan for the inference of the simple repression model because
+implementing the gradients of the hypergeometric function ${_2F_1}$
+appearing in Eq.~\ref{eq:p_m_bursty+rep_appdx}, the probability
+distribution for our bursty model with repression, would have been
+an immensely challenging task. \texttt{emcee} was more than adequate for
+our purposes, and we were perhaps lucky that the 9-D posterior model
+for the model of simple repression with bursty promoter was quite well
+behaved and did not require the extra power of the Hamiltonian Monte
+Carlo algorithm provided by Stan~\cite{Carpenter2017}.
+Source code for all statistical inference will be made available at
+\url{https://github.com/RPGroup-PBoC/bursty_transcription}.
 
 \subsection{Bayesian inference on constitutive promoters}
 \label{sec:si_bayes_unreg}
@@ -352,9 +366,9 @@ mRNA, where the arrival of bursts is a Poisson process with rate $k_i$ and the
 mean size of a burst is $b$.
 
 As for the Poisson promoter model, this expression for the steady-state mRNA
-distribution is exactly the likelihood we want to use in Bayes theorem. Again
+distribution is exactly the likelihood we want to use in Bayes' theorem. Again
 denoting the single-cell mRNA count data as $D=\{m_1, m_2,\dots, m_N\}$, here
-Bayes theorem takes the form
+Bayes' theorem takes the form
 \begin{equation}
 p(k_i, b \mid D) \propto p(D\mid k_i,b)p(k_i, b),
 \end{equation}
@@ -526,7 +540,7 @@ p(m \mid k_R^+, k_R^-, k_i, b) = & ~\frac{
 \\
 &\times {_2F_1}(\alpha+m, \beta+m, k_R^++k_R^-+m; -b).
 \end{split}
-\label{eq:p_m_bursty+rep}
+\label{eq:p_m_bursty+rep_infreprint}
 \end{equation}
 where $\alpha$ and $\beta$, defined for notational convenience, are
 \begin{align}
@@ -565,9 +579,9 @@ With priors and likelihood specified we may write down our complete generative m
 m &\sim \text{Likelihood}(k_R^+, k_R^-, k_i, b),
 \end{split}
 \end{equation}
-where the likelihood is specified by Eq.~\ref{eq:p_m_bursty+rep}. We ran MCMC
-sampling on the full nine dimensional posterior specified by this generative
-model.
+where the likelihood is specified by Eq.~\ref{eq:p_m_bursty+rep_infreprint}.
+We ran MCMC sampling on the full nine dimensional posterior specified
+by this generative model.
 
 We found that fitting a single operator/aTc concentration at a time with a
 single binding and unbinding rate did not yield a stable inference for most of
@@ -590,10 +604,3 @@ data, all with the repressor binding site O3, had an unbinding rate so fast that
 the sampler essentially sampled from the prior; the likelihood had negligible
 influence, meaning the data was not informing the sampler in any meaningful way,
 so no inference was possible.
-
-\mmnote{Outline:
-Perhaps urprising that so many model parameters can be inferred from just a few
-distributions that, by eye, don't have strong features! Does require some
-assumptions, e.g., about equivalence of rates across experiments, but that seems
-quite reasonable.
-}
