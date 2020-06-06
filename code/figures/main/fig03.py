@@ -74,8 +74,9 @@ ax_a1.get_xaxis().set_visible(False)
 ax_a1.get_yaxis().set_visible(False)
 ax_a3.get_xaxis().set_visible(False)
 ax_a3.get_yaxis().set_visible(False)
-
-
+# Set facecolor white
+ax_a1.set_facecolor("white")
+ax_a3.set_facecolor("white")
 
 # Set girdspec for UV5 posterior predictive checks
 gs_b = fig.add_gridspec(
@@ -119,20 +120,19 @@ plt.gcf().text(0.48, 0.48, "(D)", fontsize=14)
 # Set UV5 parameters samples
 alpha_samples = all_samples['UV5'].posterior.alpha.values.flatten()
 b_samples = all_samples['UV5'].posterior.b.values.flatten()
+log_prob = all_samples['UV5'].sample_stats.lp.values.flatten()
 
-ax_a2.plot(
+ax_a2.scatter(
     b_samples[::3],
     alpha_samples[::3],
-    'k.',
-    markersize=3,
-    alpha=0.2,
+    c=log_prob[::3],
+    cmap="gray_r",
+    marker="o",
+    s=5,
+    alpha=0.5,
     label='UV5 posterior samples')
 ax_a2.set_ylabel(r'$k_i$ (bursts per mRNA lifetime)')
 ax_a2.set_xlabel(r'$b$ (transcripts per burst)')
-
-# Add grid lines
-[ax_a1.axvline(x, color="white", linewidth=0.5) 
-for x in [3.25, 3.5, 3.75]]
 
 # Plot marginal distributions
 ax_a1.hist(b_samples,
@@ -190,7 +190,7 @@ srep.viz.predictive_ecdf(
     discrete=True,
     ax=ax_b,
     pred_label='Model 5 (N. Binom)',
-    data_label='UV5 data, Jones et. al.',
+    data_label='UV5 data,\n Jones et. al. 2014',
     data_color='black',
     data_size=1, #linewidth
     )
@@ -207,12 +207,15 @@ uv5 = ax_b.plot([], [], color="black")
 
 ax_b.legend(
     [(poisson_2[0], poisson_1[0]), (neg_binom_2[0], neg_binom_1[0]), (uv5[0],),], 
-    ["Model 1 (Poisson)", "Model 5 (N. Binom)", "UV5 data, Jones et. al."],
+    [
+        "Model 1 (Poisson)", 
+        "Model 5 (Neg. Binom)",
+        r"$lacUV5$ data," + "\n Jones et. al. 2014"
+    ],
     fontsize=8,
     loc="lower right",
 )
 
-# ax_b.legend(loc='lower right', fontsize='small')
 ax_b.set_xlabel('mRNA counts per cell')
 ax_b.set_ylabel('ECDF')
 ax_b.set_xlim(right=60)

@@ -331,7 +331,6 @@ for k, ax in enumerate([ax_3, ax_4, ax_5]):
     ax.set_xlabel('mRNA counts per cell')
     ax.set_xlim(-2.5, 55)
     srep.viz.titlebox(ax, title, bgcolor="#FFEDC0")
-    # ax.legend(loc='lower right', fontsize='small')
 # Set yaxis label for first plot
 ax_3.set_ylabel('ECDF')
 
@@ -350,8 +349,7 @@ for key, item in aTc_col_dict.items():
     p1 = ax_5.plot([], [], color=colors[-1])
     p2= ax_5.fill([], [], color=colors[0])
     # 6. Fix label name
-    label = expt.split("_")[1]
-    label = label.replace("ngmL", " ng/mL")
+    label = key.replace("ngmL", " ng/mL")
     label = label.replace("0p5", "0.5")
     # 7. Append to lists
     plot_list.append((p2[0], p1[0],))

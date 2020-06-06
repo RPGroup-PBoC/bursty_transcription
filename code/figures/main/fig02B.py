@@ -77,7 +77,7 @@ ax.text(
 # super-Poissonian
 ax.axhspan(1, 10, facecolor='#E8B19D', alpha=0.5, zorder=-100)
 ax.text(
-    5
+    5,
     2.5,
     "super-Poissonian",
     fontsize=10,
@@ -86,14 +86,6 @@ ax.text(
 )
 # Poissonian
 ax.axhline(1, color="black", linestyle=":", linewidth=3)
-ax.text(
-    5,
-    1,
-    "Poissonian",
-    fontsize=10,
-    horizontalalignment="center",
-    verticalalignment="bottom",
-)
 
 # Define colormap
 cmap = "magma"
