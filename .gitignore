@@ -79,3 +79,6 @@ __pycache__/
 
 # Ignore internal private folders
 doc/coverletter/
+doc/reviews/
+doc/arxiv_submission/
+doc/plos_submission/
