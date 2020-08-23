@@ -25,40 +25,40 @@ is required for the executing of the code in this repository.
 For convenience the repository is divided into several directories and
 subdirectories. Please see each directory for information regarding each file.
 
-### `*code*`
+### **`code`**
 This folder contains all the source code used for the project. From the
 parameter inference done on experimental data, to the generation of all figures.
 The directory is broken up into the following subdirectories:
-1. `*analysis*`: This folder contains the final analysis done over the
+1. **`analysis`**: This folder contains the final analysis done over the
    single-molecule mRNA FISH data to infer the kinetic parameters.
-2. `*exploratory*`: This folder contains folder that did not make it to the
+2. **`exploratory`**: This folder contains folder that did not make it to the
    final analysis. In oder to be transparent and leave a record of all the
    things attempted in this work we include every piece of code generated.
-3. `*figures*`: This folder contains individual scripts to generate all plots in
+3. **`figures`**: This folder contains individual scripts to generate all plots in
    the manuscript. The folder is further divided into two folders `main` and
    `si` that each contain the final versions of each of the figures presented
    both in the main text and in the supplementary material, respectively.
-4. `*stan*`: This folder contains all of the code generated for the statistical
+4. **`stan`**: This folder contains all of the code generated for the statistical
    software `Stan`. This software implements the state-of-the-art Hamiltonian
    Monte Carlo sampler that we used in part of our parameter inference over the
    experimental data.
 
-### `*data*`
+### **`data`**
 This directory contains the experimental data used in this manuscript.
 Specifically we make use of the single-molecule mRNA FISH first reported by
 [Jones et al. 2014](https://science.sciencemag.org/content/346/6216/1533). See
 the `README` file in this directory for further details.
 
-### `*figures*`
+### **`figures`**
 This folder contains the PDF version of all figures found both in the main text
 and in the supplemental material.
 
-### `*srep*`
+### **`srep`**
 This directory contains all the files necessary for the installation of the
 `srep` module utilized in this work. See `README` file inside directory for
 further details.
 
-### `*tests*`
+### **`tests`**
 This folder contains the software tests necessary to check the proper
 installation of the required packages. Specifically it contains a test for the
 proper installation of `Stan`, the statistical software used for part of the
