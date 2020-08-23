@@ -9,6 +9,9 @@ parameter inference in the main text. Specifically we have
   contributions of each of the base pairs to the total binding energy of the
   polymerase, mapping DNA sequences to binding energies in kʙT units.
 - **`jones_brewster_2014.csv`**: Tidy dataframe containing single molecule mRNA
-  counts obtained for a series of **unregulated promoters**.
+  counts obtained for a series of **unregulated promoters** as reported in
+  [Jones et al. 2014](https://science.sciencemag.org/content/346/6216/1533).
 - **`jones_brewster_regulated_2014.csv`**: Tidy dataframe containing single
-  molecule mRNA counts obtained for a series of **regulated promoters**. 
+  molecule mRNA counts obtained for a series of **regulated promoters** as
+  reported in [Jones et al.
+  2014](https://science.sciencemag.org/content/346/6216/1533). 
