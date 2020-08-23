@@ -1,7 +1,14 @@
 ## `data`
 
-This directory houses all small (< 50 MB) data sets that are a result of individual experiments and/or simulations. Depending on the type of data collected, you may want to split them up based on file type.
-
-If possible, data sets from individual experiments should be compiled in a long-form tidy format. This is important not only for your analysis, but for others who wish to reproduce your work. While you may have an intimate knowledge of your data and experimental structure, it may not be obvious to anyone else. It is much easier if you can combine the individual data sets into as few files as possible so only one or two files have to be read to perform the analysis and generate the figures. 
-
-This is **not** a place to store all of your large (> 50 MB) data files, such as images. For accessibility of these large data sets, there are myriad online data repositories such as [Zenodo](https://zenodo.org) which provide free storage and DOI generation. In addition, you should have all of your data backed up locally with redundancy.
+This folder contains tidy dataframes with the experimental data used for the 
+parameter inference in the main text. Specifically we have
+- **`brewster_jones_2012.csv`**: List of different RNA polymerase binding site
+  energies as inferred in [Jones, Brewster, and Phillips,
+  2012](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002811).
+  These energies were mapped from an energy matrix that assumes linear
+  contributions of each of the base pairs to the total binding energy of the
+  polymerase, mapping DNA sequences to binding energies in kʙT units.
+- **`jones_brewster_2014.csv`**: Tidy dataframe containing single molecule mRNA
+  counts obtained for a series of **unregulated promoters**.
+- **`jones_brewster_regulated_2014.csv`**: Tidy dataframe containing single
+  molecule mRNA counts obtained for a series of **regulated promoters**. 
