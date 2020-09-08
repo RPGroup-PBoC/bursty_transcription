@@ -1,0 +1,167 @@
+\documentclass[12pt]{article}%{amsart}
+\usepackage[top = 1.0in, bottom = 1.0in, left = 1.0in, right = 1.0in]{geometry}
+% See geometry.pdf to learn the layout options. There are lots.
+%\geometry{letterpaper}               % ... or a4paper or a5paper or ...
+%\geometry{landscape}             % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+%\usepackage{epstopdf}
+% \usepackage{caption}
+\usepackage{amsmath}
+% \usepackage{longtable}
+% \usepackage{tabu}
+% \usepackage{accents} %to get undertildes for vec & mat
+\usepackage{color} % for colored text
+% \usepackage[normalem]{ulem} % for editing: striking out text using 'sout' command
+
+% \newcommand\mytablefigwidth{0.35\textwidth}
+
+% Add numbered lines
+% \usepackage{lineno}
+% \linenumber
+
+% Add author affiliations
+\usepackage{authblk}
+% References
+\usepackage[
+	backend=bibtex,
+	style=ieee, 
+	sorting=none,				% Do not sort bibliography
+	url=false, 					% Do not show url in reference
+	doi=false, 					% Do not show doi in reference
+	isbn=false, 				% Do not show isbn link in reference
+	eprint=false, 			    % Do not show eprint link in reference
+	maxbibnames=9, 			    % Include up to 9 names in citation
+	firstinits=true,
+]{biblatex}
+% Add library
+\addbibresource{./simple_rep}
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption
+% with a period
+% Captions will be left justified
+\usepackage[
+	aboveskip=1pt,
+	labelfont=bf,
+	labelsep=period,
+	justification=raggedright,
+	singlelinecheck=off,
+	font=small
+]{caption}
+
+% Package to not have the full page figure at the end
+\usepackage{afterpage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Personalized functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% allows to use .ai files directly w/o resaving as pdf
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{}
+
+% Handy math macros!
+\newcommand{\vect}[1]{\vec{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\rate}[3]{{#1}_{#2}^{#3}}
+\newcommand{\mmnote}[1]{\textcolor{cyan}{(MM:~#1)}}
+\newcommand{\mrm}[1]{\textcolor{red}{(MRM:~#1)}}
+
+% derivative macros. these are sneaky. the [{}] is an empty default 1st arg
+% usage: provide 1 arg: \deriv{x} gives d/dx
+% provide 2 args like so: \deriv[f]{x} gives df/dx
+\newcommand{\deriv}[2][{}]{\frac{d #1}{d #2}}
+\newcommand{\pderiv}[2][{}]{\frac{\partial #1}{\partial #2}}
+\newcommand{\psecderiv}[2][{}]{\frac{\partial{^2} #1}{\partial #2{^2}}}
+
+%%%%% Referencing macros %%%%%
+\newcommand{\fig}[1]{Figure~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\eq}[1]{Eq.~(\ref{#1})}
+\newcommand{\eqrange}[2]{Eqs.~(\ref{#1}-\ref{#2})}
+
+% Define command to begin the supplementary section
+\newcommand{\beginsupplement}{
+				\setcounter{section}{0} % Restart section counter
+        \renewcommand{\thesection}{S\arabic{section}}%
+        \setcounter{table}{0} % Restart table counter
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0} % Restart figure counter
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+        \setcounter{equation}{0} % Restart equation counter
+        \renewcommand{\theequation}{S\arabic{equation}}%
+     }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Begin document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\title{Reconciling Kinetic and Equilibrium Models of Bacterial Transcription}
+
+% Authors
+\author[1]{Muir Morrison}
+\author[2]{Manuel Razo-Mejia}
+\author[1, 2, *]{Rob Phillips}
+
+% % Affiliations
+\affil[1]{Department of Physics, California Institute of Technology, Pasadena,
+CA 91125, USA}
+\affil[2]{Division of Biology and Biological Engineering, California Institute
+of Technology, Pasadena, CA 91125, USA}
+\affil[*]{Correspondence: phillips@pboc.caltech.edu}
+
+\setcounter{Maxaffil}{0}
+% Set affiliations in small font
+\renewcommand\Affilfont{\itshape\small}
+
+\begin{document}
+
+\maketitle % Set title for paper
+
+% Remove main text from the table of contents by specifying not to include
+% any section or subsection
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+
+	% Define reference segment for main text
+	\begin{refsegment}
+	% Generate filter to not include references from main text in the
+	% supplemental references
+    \defbibfilter{notother}{not segment=\therefsegment}
+		% \input{abstract.tex}
+		\input{section_01_introduction.tex}
+		% \input{section_02_means.tex}
+		% \input{section_03_beyond_means.tex}
+		% \input{section_04_bayesian_inference.tex}
+		% \input{section_05_discussion.tex}
+		% \input{section_06_methods.tex}
+		% \input{section_07_acknowledgments.tex}
+		% Print main text references
+		\printbibliography[segment=\therefsegment]
+		% Close reference segment
+	\end{refsegment}
+\clearpage
+
+% Set title for supplemental information
+\title{\textbf{Supplemental Information for:
+Reconciling Kinetic and Equilibrium Models of Bacterial Transcription}}
+
+\maketitle
+% SUPPLEMENTAL MATERIAL
+
+% Indicate that now all sections and subsections should be included in the
+% table of contents so that only the SI is included.
+\addtocontents{toc}{\protect\setcounter{tocdepth}{3}}
+
+	% Define reference section for the supplemental material
+    \begin{refsegment}
+		% Set equation, table and figure counters to begin with "S"
+		\beginsupplement
+		\tableofcontents
+        %  \input{appendix_01_nonbursty.tex}
+        %  \input{appendix_02_bursty.tex}
+        %  \input{appendix_03_bayesian_inference.tex}
+		% Print supplemental references changing the title
+		\printbibliography[title={Supplemental References},
+		segment=\therefsegment, filter=notother]
+	\end{refsegment}
+\end{document}
