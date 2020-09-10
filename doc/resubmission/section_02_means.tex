@@ -77,13 +77,13 @@ simple repression using both thermodynamic and kinetic models that have appeared
 in previous literature. For each cartoon, we calculate the fold-change in mean
 gene expression as predicted by that model, deferring some algebraic details to
 Appendix~\ref{sec:non_bursty}. What we will find is that all cartoons collapse
-to a single master curve, shown in \fig{fig1:means_cartoons}(D), which contains
-just two parameters. We label the parameters $\Delta F_R$, an effective free
-energy parametrizing the repressor-DNA interaction, and $\rho$, which subsumes
-all details of transcription in the absence of repressors. We will offer some
-intuition for why this master curve exists and discuss why at the level of the
-mean expression, we are unable to discriminate ``right'' from ``wrong'' cartoons
-given only measurements of fold-changes in expression.
+to a single master curve as shown in \fig{fig1:means_cartoons}(D), which
+contains just two parameters. We label the parameters $\Delta F_R$, an effective
+free energy parametrizing the repressor-DNA interaction, and $\rho$, which
+subsumes all details of transcription in the absence of repressors. We will
+offer some intuition for why this master curve exists and discuss why at the
+level of the mean expression, we are unable to discriminate ``right'' from
+``wrong'' cartoons given only measurements of fold-changes in expression.
 
 \subsubsection{Two- and Three-state Thermodynamic Models}
 We begin our analysis with models (1) and (2) in
@@ -136,10 +136,10 @@ state of both the promoter microstate, and the current mRNA count. Therefore, in
 order to compute the fold-change, we must compute the mean mRNA count on each of
 the promoter microstates, and add them all together~\cite{Sanchez2013}.
 
-Again, we spare all details of the derivation to Appendix~\ref{sec:non_bursty}.
+Again, we consign all details of the derivation to Appendix~\ref{sec:non_bursty}.
 Here we just highlight the general findings for all five kinetic models. As
 already shown in Figure~\ref{fig1:means_cartoons}(C) and (D), all the kinetic
-models explored can be collapsed into the master curve. Given that the
+models explored can be collapsed onto the master curve. Given that the
 repressor-bound state only connects to the rest of the promoter dynamics via its
 binding and unbinding rates, $k_R^+$ and $k_R^-$ respectively, all models can
 effectively be separated into two categories: a single repressor-bound state,
@@ -169,12 +169,12 @@ effective parameters: $\Delta F_R$, which characterizes the number of repressors
 and their binding strength to the DNA, and $\rho$, which characterizes all other
 features of the promoter architecture. The key assumption underpinning this
 result is that no transcription occurs when a repressor is bound to its
-operator. Given this outcome, a mean-based metric such as the fold-change that
-can be readily measured experimentally is insufficient to discern between these
+operator. Given this outcome, i.e., the degeneracy of the different models at
+the level of fold-change, a mean-based metric such as the fold-change that can
+be readily measured experimentally is insufficient to discern between these
 different levels of coarse-graining. In the next section we extend the analysis
-of the models to higher moments of the mRNA distribution as we continue to look
-for the ``right'' level of coarse graining.
-
+of the models to higher moments of the mRNA distribution as we continue to
+examine the discriminatory power of these different models.
 
 
 
