@@ -8,8 +8,9 @@ describe the distribution of gene expression levels, with special reference to
 the variance in these distributions. To that end, we repeat the same pattern as
 in the previous section by examining the models one by one. In particular
 we will focus on the Fano factor, defined as the variance/mean. This metric
-serves as a powerful discriminatory tool from the null model that the
-steady-state mRNA distribution must be Poisson, giving a Fano factor of one.
+serves as a powerful discriminatory tool to compare our different models to the
+null model that the steady-state mRNA distribution must be Poisson, resulting a
+Fano factor of one.
 
 \subsection{Kinetic models for unregulated promoter noise}
 
@@ -25,7 +26,7 @@ the suitability of each model for our purposes in turn.
 \caption{\textbf{Comparison of different models for noise in the constitutive promoter.}
 (A) The left column depicts various plausible models for the dynamics of
 constitutive promoters. In model (1), transcripts are produced in a Poisson
-process~\cite{Sanchez2013, Jones2014}. Model (2) features explicit modeling of
+process~\cite{Sanchez2013, Jones2014}. Model (2) features explicit treatment of
 RNAP binding/unbinding kinetics~\cite{Phillips2015a}. Model (3) is a more
 detailed generalization of model (2), treating transcription initiation as a
 multi-step process proceeding through closed and open
@@ -57,33 +58,22 @@ model 1 in Figure~\ref{fig2:constit_cartoons}(A) and assumes that transcripts
 are produced as a Poisson process from a single promoter state. This is the
 picture from Jones et.\ al.~\cite{Jones2014} that was used to interpret a
 systematic study of gene expression noise over a series of promoters designed to
-have different strengths. This model insists that the ``true'' steady-state mRNA
-distribution is Poisson, implying the Fano factor $\nu$ must be 1.
-In~\cite{Jones2014}, the authors carefully attribute measured deviations from
-Fano = 1 to intensity variability in fluorescence measurements, gene copy number
-variation, and copy number fluctuations of the transcription machinery, e.g.,
-RNAP itself. In this picture, the master equation makes no appearance, and all
-the corrections to Poisson behavior are derived as additive corrections to the
-Fano factor. For \mrm{challenging} the ``universal noise curve'' from So et.\
-al.~\cite{So2011}, this picture was excellent. It is appealing in its
-simplicity, with only two parameters, the initiation rate $r$ and degradation
-rate $\gamma$. Since $\gamma$ is independently known from other experiments, and
-the mean mRNA copy number is $r/\gamma$, $r$ is easily inferred from data. In
-other words, the model is not excessively complex for the data at hand. But for
-many interesting questions, for instance in the recent
-work~\cite{Razo-Mejia2020}, knowledge of means and variances alone is
-insufficient, and a description of the full distribution of molecular counts is
-necessary. For this we need a (slightly) more complex model than model 1 that
-would allow us to incorporate the non-Poissonian features of constitutive
-promoters directly into a master equation formulation.
-
-\mrm{I added the word challenging instead of disproving because of the 
-following comment from reviewer 1. But maybe more needs to be discussed about 
-this?}
-
-\mrm{
-    “disproving the universal noise curve from So et. al. [59]” (page 18). How was the universal noise curve disproved? Universal noise/mean relations, similar to those reported in ref \#59, were repeatedly observed, in both bacteria and eukaryotes (see, e.g., PMID: 24311680, PMID: 25858977). Moreover, later reports showed that the trend is observed even when accounting for gene dosage effects (PMID: 26965629). Thus, the statement above requires clarification.
-}
+have different strengths, but no regulation. This model insists that the
+``true'' steady-state mRNA distribution is Poisson, implying the Fano factor
+$\nu$ must be 1. In~\cite{Jones2014}, the authors carefully attribute measured
+deviations from Fano = 1 to intensity variability in fluorescence measurements,
+gene copy number variation, and copy number fluctuations of the transcription
+machinery, e.g., RNAP itself. In this picture, all the corrections to Poisson
+behavior are derived as additive corrections to the Fano factor. For challenging
+the ``universal noise curve'' from So et.\ al.~\cite{So2011}, this picture was
+excellent. It is appealing in its simplicity, with only two parameters, the
+initiation rate $r$ and degradation rate $\gamma$. In other words, the model is
+not excessively complex for the data at hand. But for many interesting
+questions, for instance in the recent work~\cite{Razo-Mejia2020}, attributing
+all deviations from the model to extrinsic noise sources, limits the kinds of
+predictions that can be done. To make progress then we need a (slightly) more
+complex model than model 1 that would allow us to incorporate the non-Poissonian
+features of constitutive promoters directly into a master equation formulation.
 
 \subsubsection{Sub-Poissoninan noise promoters with RNAP escape}
 A natural extension of the one-state promoter studied in the previous section is
@@ -104,7 +94,7 @@ Fano factor for both of them is strictly $< 1$ as shown in
 Figure~\ref{fig2:constit_cartoons}(A) (See Appendix~\ref{sec:non_bursty} for
 detailed derivations). This is in disagreement with the experimental data
 from~\cite{Jones2014}, reproduced in Figure~\ref{fig2:constit_cartoons}(B). All
-of these unregulated promoters --which only differ on the promoter sequence--
+of these unregulated promoters --which only differ in their promoter sequence--
 show strictly super-Poissonian noise (Fano factor $> 1$). In fact, we suspect
 \textit{any} model in which transcription proceeds through a multistep cycle
 must necessarily have $\nu<1$. The intuitive argument compares the waiting time
@@ -155,8 +145,6 @@ dissociation rate $k_{off}$ of order $10^2$~s$^{-1}$. As we will show below,
 however, there are some lingering puzzles with interpreting this supercoiling
 hypothesis, so we leave it as a speculation and refrain from assigning definite
 physical meaning to the two states in this model.
-\mrm{I like this paragraph's philosphy, but I don't know if it should be cut out 
-for the sake of shrinking the paper further.}
 
 Intuitively one might expect that, since transcripts are produced as a Poisson
 process only when the promoter is in one of the two states in this model,
@@ -336,7 +324,6 @@ transcription factor association rates and burst durations, but this assumption
 could very well break down, so we will have to keep it in mind when we infer
 repressor rates from the Jones et.\ al.\ single-cell mRNA counts data
 later~\cite{Jones2014}.
-\mrm{Another great paragraph that could potentially be removed.}
 
 In reflecting on these 5 models, the reader may feel that exploring a multitude
 of potential models just to return to a very minimal phenomenological model of

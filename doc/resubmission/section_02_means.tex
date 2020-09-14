@@ -6,7 +6,11 @@ for computing the input-output functions of regulatory architectures as shown in
 Figure~\ref{fig1:means_cartoons}. In both classes of model, the promoter is
 imagined to exist in a discrete set of states of occupancy, with each such state
 of occupancy accorded its own rate of transcription -- including no 
-transcription for many of these states. The models are probabilistic with each
+transcription for many of these states. This discretization of a potentially
+continuous number of promoter states (due to effects such as supercoiling of 
+DNA~\cite{Chong2014, Sevier2016}) is analogous to how the Monod-Wyman-Changeux
+model of allostery coarse-grains continuous molecule conformations into a finite
+number of states~\cite{Martins2011}. The models are probabilistic with each
 state assigned some probability and the overall rate of transcription given by 
 \begin{equation}
 \mbox{average rate of transcription} = \sum_i r_i p_i,
