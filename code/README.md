@@ -1,7 +1,33 @@
 # `code`
 
-It's important to keep the code that is executed separated from that which is called. The distinct difference here is that executed code should change from day-to-day or analysis to analysis. You're not necessarily making all measurements at the same time, or at the exact same concentration, or even on the same materials. As your experiments change, your code should also change to make sure you a transforming or interpreting the data correctly. 
 
-However, any code that is critical for an analysis, such as a function that computes some quantity from your data, should be written such that it is *modular* and is used the same way from day-to-day. This type of code should be referenced by your analysis or processing scripts such that if you change the way you perform something, it can be applied to all of your experiments simply by rerunning the processing scripts. You *don't* want to go back through each experiment and make that change by hand.
+## Computational environment
+```
+# Python Version
+CPython 3.7.4
+IPython 7.11.1
 
-This directory is broken into several subdirectories, each of which has a `README.md` file describing what should be there with some examples. 
+# Package versions
+scipy==1.3.1
+matplotlib==3.1.1
+seaborn==0.9.0
+pandas==0.25.3
+numpy==1.18.1
+GitPython==3.1.0
+mpmath==1.1.0
+emcee==3.0.2
+sympy==1.5.1
+statsmodels==0.10.1
+dill==0.3.1.1
+ccutils==0.1.5
+
+
+# System information
+compiler   : Clang 4.0.1 (tags/RELEASE_401/final)
+system     : Darwin
+release    : 18.7.0
+machine    : x86_64
+processor  : i386
+CPU cores  : 8
+interpreter: 64bit
+```
