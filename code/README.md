@@ -19,7 +19,7 @@ emcee==3.0.2
 sympy==1.5.1
 statsmodels==0.10.1
 dill==0.3.1.1
-ccutils==0.1.5
+bebi103==0.0.54
 
 
 # System information
