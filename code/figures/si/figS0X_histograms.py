@@ -175,6 +175,6 @@ plt.subplots_adjust(hspace=0.3, wspace=0.4)
 
 
 plt.savefig(
-    f"{repo_rootdir}/figures/si/fig0X_histograms.pdf", bbox_inches='tight'
+    f"{repo_rootdir}/figures/si/figS0X_histograms.pdf", bbox_inches='tight'
 )
 # %%
