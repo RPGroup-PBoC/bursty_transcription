@@ -20,7 +20,7 @@ srep.viz.plotting_style()
 pboc_colors = srep.viz.color_selector('pboc')
 
 # %%
-fig, ax = plt.subplots(4, 3, figsize=(7.5, 10), sharex=True, sharey=False)
+fig, ax = plt.subplots(4, 3, figsize=(8.5, 10), sharex=False, sharey=False)
 
 # # Modify tick font size
 # for a in ax:
@@ -103,16 +103,16 @@ for op_idx, op in enumerate(op_array):
             )
             # Remove residual ticks from the original left axis
             ax[aTc_idx, op_idx].tick_params(color="w", width=0)
-        # Add xlabel to bottom plots
-        if aTc_idx == 3:
-            ax[aTc_idx, op_idx].set_xlabel("mRNA / cell")
+        
         # Add ylabel to left plots
-        if op_idx == 0:
-            ax[aTc_idx, op_idx].set_ylabel("probability")
+        # if op_idx == 0:
+        #     ax[aTc_idx, op_idx].set_ylabel("probability")
 
         # Check if experiment exists, if not, skip experiment
         if expt not in op_exp:
             ax[aTc_idx, op_idx].set_facecolor("#D3D3D3")
+            ax[aTc_idx, op_idx].tick_params(axis='x', colors='white')
+            ax[aTc_idx, op_idx].tick_params(axis='y', colors='white')
             continue
 
         # Find experiment index
@@ -160,13 +160,18 @@ for op_idx, op in enumerate(op_array):
             hist_data,
             where="post",
             color="black",
-            linewidth=1
+            linewidth=1.25
         )
+        # Set x-label
+        ax[aTc_idx, op_idx].set_xlabel("mRNA / cell")
+        ax[aTc_idx, op_idx].set_ylabel("probability")
 
-        ax[aTc_idx, op_idx].set_xlim(-2.5, 55)
+        # Set axis limit
+        upper_limit = np.where(hist_data > 5E-3)[0][-1]
+        ax[aTc_idx, op_idx].set_xlim(0, upper_limit)
         
 # Adjust spacing between plots
-plt.subplots_adjust(hspace=0.08, wspace=0.3)
+plt.subplots_adjust(hspace=0.3, wspace=0.4)
 
 
 plt.savefig(
