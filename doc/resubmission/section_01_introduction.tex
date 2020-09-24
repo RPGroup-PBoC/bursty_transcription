@@ -21,16 +21,16 @@ a given promoter architecture, there remains the predictive challenge of
 understanding its input-output properties, an objective that can be met by a
 myriad of approaches using the tools of statistical physics~\cite{Ackers1982,
 Shea1985, Buchler2003, Vilar2003a, Vilar2003b, Bintu2005a, Bintu2005c,
-Gertz2009, Sherman2012, Saiz2013, Ko1991, Peccoud1995, Record1996, Kepler2001,
-Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010, Iyer-Biswas2009}. One
-route to such predictive understanding is to focus on the simplest regulatory
-architecture and to push the theory-experiment dialogue to increase the
-predictive power of our theoretical models~\cite{Garcia2011, Phillips2019}. If
-we demonstrate that we can pass that test by successfully predicting both the
-means and variance in gene expression at the mRNA level, then that provides a
-more solid foundation upon which to launch into more complex problems - for
-instance, some of the previously unknown architectures uncovered
-in~\cite{Belliveau2018} and~\cite{Ireland2020}.
+Kuhlman2007, Gertz2009, Sherman2012, Saiz2013, Ko1991, Peccoud1995, Record1996,
+Kepler2001, Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010,
+Iyer-Biswas2009}. One route to such predictive understanding is to focus on the
+simplest regulatory architecture and to push the theory-experiment dialogue to
+increase the predictive power of our theoretical models~\cite{Garcia2011,
+Phillips2019}. If we demonstrate that we can pass that test by successfully
+predicting both the means and variance in gene expression at the mRNA level,
+then that provides a more solid foundation upon which to launch into more
+complex problems - for instance, some of the previously unknown architectures
+uncovered in~\cite{Belliveau2018} and~\cite{Ireland2020}.
 
 To that end, in this paper we examine a wide variety of distinct models for the
 simple repression regulatory architecture. This genetic architecture consists of
@@ -42,30 +42,30 @@ related to the microstates in which the repressor is bound to the promoter can
 be separated from the microstates in which the RNA polymerase (RNAP) is bound.
 From a modeling perspective, this means that some of the models can be written
 as effective two-state models for which there is a rich
-literature~\cite{Peccoud1995,Bintu2005a,Shahrezaei2008,Iyer-Biswas2009,Sanchez2013,Jones2014}.
-Here, we systematically compare the predictions of several models with different
-levels of coarse graining written in terms of thermodynamic and kinetic
-parameters. One goal in exploring such coarse-grainings is to build towards the
-future models of regulatory response that will be able to serve the powerful
-predictive role needed to take synthetic biology from a brilliant exercise in
-enlightened empiricism to a rational design framework as in any other branch of
-engineering. More precisely, we want phenomenology in the sense of
-coarse-graining away atomistic detail, but still retaining biophysical meaning.
-In particular a key question is: at this level of coarse-graining, what
-microscopic details do we need to explicitly model, and how do we figure that
-out? For example, do we need to worry about all or even any of the steps that
-individual RNA polymerases go through each time they make a transcript? Turning
-the question around, can we see any imprint of those processes in the available
-data? If the answer is no, then those processes are irrelevant for our purposes.
-Forward modeling and inverse (statistical inferential) modeling are necessary to
-tackle such questions. We combine both approaches in order to discard models 
-that cannot empirically satisfy the main features of experimental data. First we
-apply forward modeling to demonstrate that none of the models are 
-distinguishable at the level of mean gene expression. We then extend the 
-modeling to look at higher moments of the distribution, eliminating models that
-do not empirically satisfy the observed cell-to-cell variability. Finally we 
-arrive at a minimal model on which we can apply inverse modeling in order to 
-infer the parameters that explain the data.
+literature~\cite{Peccoud1995, Shahrezaei2008, Iyer-Biswas2009, Tkacik2009,
+Sanchez2013, Jones2014, So2011, Munsky2012}. Here, we systematically compare the
+predictions of several models with different levels of coarse graining written
+in terms of thermodynamic and kinetic parameters. One goal in exploring such
+coarse-grainings is to build towards the future models of regulatory response
+that will be able to serve the powerful predictive role needed to take synthetic
+biology from a brilliant exercise in enlightened empiricism to a rational design
+framework as in any other branch of engineering. More precisely, we want
+phenomenology in the sense of coarse-graining away atomistic detail, but still
+retaining biophysical meaning. In particular a key question is: at this level of
+coarse-graining, what microscopic details do we need to explicitly model, and
+how do we figure that out? For example, do we need to worry about all or even
+any of the steps that individual RNA polymerases go through each time they make
+a transcript? Turning the question around, can we see any imprint of those
+processes in the available data? If the answer is no, then those processes are
+irrelevant for our purposes. Forward modeling and inverse (statistical
+inferential) modeling are necessary to tackle such questions. We combine both
+approaches in order to discard models that cannot empirically satisfy the main
+features of experimental data. First we apply forward modeling to demonstrate
+that none of the models are distinguishable at the level of mean gene
+expression. We then extend the modeling to look at higher moments of the
+distribution, eliminating models that do not empirically satisfy the observed
+cell-to-cell variability. Finally we arrive at a minimal model on which we can
+apply inverse modeling in order to infer the parameters that explain the data.
 
 Figure~\ref{fig1:means_cartoons}(A) shows the qualitative picture of simple
 repression that is implicit in the repressor-operator model. An operator, i.e.,
@@ -106,10 +106,12 @@ section~\ref{section_02_means}, we show how both thermodynamic models
 (Figure~\ref{fig1:means_cartoons}(B)) and kinetic models based upon the chemical
 master equation (Figure~\ref{fig1:means_cartoons}(C)) all culminate in the same
 underlying functional form for the fold-change in the average level of gene
-expression as shown in Figure~\ref{fig1:means_cartoons}(D).
-Section~\ref{sec:beyond_means} goes beyond an analysis of the mean gene
-expression by asking how the same models presented in
-Figure~\ref{fig1:means_cartoons}(C) can be used to explore noise in gene
+expression with an effective free energy $\Delta F_R$ capturing the regulation
+given by the transcription factor, and a term $\rho$ describing the level of
+coarse-graining of the transcriptional events as shown in
+Figure~\ref{fig1:means_cartoons}(D). Section~\ref{sec:beyond_means} goes beyond
+an analysis of the mean gene expression by asking how the same models presented
+in Figure~\ref{fig1:means_cartoons}(C) can be used to explore noise in gene
 expression. To make contact with experiment, all of these models must make a
 commitment to some numerical values for the key parameters found in each such
 model. Therefore in Section~\ref{section_04_bayesian_inference} we explore the

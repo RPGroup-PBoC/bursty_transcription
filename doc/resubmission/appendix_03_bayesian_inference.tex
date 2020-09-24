@@ -604,3 +604,22 @@ data, all with the repressor binding site O3, had an unbinding rate so fast that
 the sampler essentially sampled from the prior; the likelihood had negligible
 influence, meaning the data was not informing the sampler in any meaningful way,
 so no inference was possible.
+
+As suggested by one of our reviewers, in order for readers to judge the
+agreement between our predictions and the experimental data for the regulated
+case, we include Figure~\ref{figS:eg_histograms} that plot the same data as
+Figure~\ref{fig4:repressed_post_full}(C), but rather than showing ECDF, we show
+histograms of the individual distributions.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{../../figures/si/figS0X_histograms.pdf}
+\caption{\textbf{Theory-experiment comparision of mRNA distributions for
+regulated promoters.} Comparison of the inference (color shaded area
+encloses the 95\% of all posterior predictive check samples while the color
+solid line represents the median of all samples) vs the experimental
+measurements (black lines) for different regulated promoters with different
+operators (columns) and aTc concentrations (rows) from
+Ref.~\cite{Jones2014}.}
+\label{figS:reg_histograms}
+\end{figure}

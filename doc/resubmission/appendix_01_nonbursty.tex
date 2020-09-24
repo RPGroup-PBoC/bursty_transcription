@@ -3,18 +3,38 @@
 \label{sec:non_bursty}
 
 In this section we detail the calculation of mean mRNA levels, fold-changes in
-expression, and Fano factors for nonequilibrium promoter models 1 through 4
+expression, and Fano factors for both thermodynamic and kinetic promoter models
 in Figure~\ref{fig1:means_cartoons}. These are the results that were quoted but
 not derived in Sections~\ref{section_02_means} and \ref{sec:beyond_means} of the
-main text. In each of these four models, the natural mathematicization of their
-cartoons is as a chemical master equation such as Eq.~\ref{eq:2state_rep_cme}
-for model 1. Before jumping into the derivations of the general computation of
-the mean mRNA level and the Fano factor we will work through the derivation of
-an example master equation. In particular we will focus on model 1 from
-Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
-other chemical master equations in this work.
+main text. In each of these models, the natural mathematicization of their
+cartoons is either an equilibrium model based on statisticla mechanics, or a
+chemical master equation. These derivations will go through the specifics of the
+models in Figure~\ref{fig1:means_cartoons}. We point the readers to some other
+excellent reviews on the general
+frameworks~\cite{Bintu2005a,Sanchez2013,Phillips2015a}.
 
 \mrm{THIS NEEDS TO BE FIXED}
+\subsection{Thremodynamic models of gene regulation}
+The first class of models we will explore are the so-called thermodynamic models
+of gene regulation~\cite{Ackers1982}. The premise for these models is that we
+imagine the steps leading to transcription --binding and unbinding of
+transcription factors and of RNAP-- to occur in a timescale much faster than the
+downstream processes --open complex formation and RNAP
+escape~\cite{Browning2004}. What this allows us to do is to assume that the
+steps leading to transcription can be modeled as being in quasi-equilibrium.
+This is enormously advantageous since we can use the theoretical tools of 
+equilibrium statisticla mechanics to model such process.
+
+This means that we can enlist the possible microstates in which we can find the
+promoter in order to calculate their probabilities based on quantities such as
+molecular counts and interaction energies. We then assume that the gene
+expression level is proportional to the probability of finding the promoter in
+the transcriptionally active microstate. As mentioned in the main text, these
+models can only deal with the mean gene expression level. This is because the
+probability space we consider is that of the state of the repressor, rather than
+both the state of the repressor and the mRNA counts. Let's now work through
+models 1 and 2 from Figure~\ref{fig1:means_cartoons}(B).
+
 \subsubsection{The Two-State Equilibrium Model}
 In this simplest model, depicted as (1) in Figure~\ref{fig1:means_cartoons}(B),
 the promoter is idealized as existing in one of two states, either repressor
@@ -115,6 +135,13 @@ kinetic models fare when faced with computing the same observable.
 \mrm{ENDS HERE}
 
 \mrm{THIS NEEDS TO BE FIXED}
+
+Before jumping into the derivations of the general
+computation of the mean mRNA level and the Fano factor we will work through the
+derivation of an example master equation. In particular we will focus on model 1
+from Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to
+all other chemical master equations in this work.
+
 \subsubsection{The Poisson Promoter Nonequilibrium Model}
 For our first kinetic model, we  imitate the states considered in the Two-State
 Equilibrium Model and consider the simplest possible picture with only two

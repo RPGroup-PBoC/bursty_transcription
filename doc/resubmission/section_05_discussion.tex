@@ -38,30 +38,48 @@ additively in an effective free energy. Interestingly, as has been shown
 elsewhere in the context of the Monod-Wyman-Changeux model, these kinds of
 coarse-graining results are an exact mathematical result and do not constitute
 hopeful approximations or biological naivete \cite{Razo-Mejia2018, Chure2019}.
+The fact that thermodynamic and kinetic models for the simple repression motif
+can not only be reconciled, but are indistinguishable from each other at the
+level of mean mRNA count is a consequence of the possible transitions between
+promoter microstates. The promoter microstates in all models shown in
+Figure~\ref{figure1:means_cartoons} can explicitly be separated into two groups:
+1) promoters with repressor bound, and 2) all other promoters states. The single
+path between these two groups of states guarantees detailed-balance between the
+groups. We can therefore separate \textit{expression} related transitions, which
+by definition must be out of equilibrium, with \textit{regulation} transitions
+that can in principle be in equilibrium. This implies that the probability
+distribution of the promoter microstates not involving the repressor take the
+same functional form, allowing us to write the fold-change as an effective free
+energy involving a regulation term, $\Delta F_R$, and a promoter details term,
+$\rho$. We offer this argument as a conjecture, and we suspect that a careful
+argument using the graph-theoretic framework based on the Matrix-Tree
+Theorem~\cite{Gunawardena2012}, might furnish a ``proof'' not with some 
+challenges as this theoretical framework applies, at the present, to finite 
+graphs. 
+
 To further dissect the relative merits of the different models, we must appeal
 to higher moments of the gene expression probability distribution. To that end,
 our second set of insights focus on gene expression noise, where it is seen that
 a treatment of the constitutive promoter already reveals that some models have
 Fano factors (variance/mean) that are less than one, at odds with any and all
-experimental data that we are aware of~\cite{So2011, Jones2014}. This theoretical
-result allows us to directly discard a subset of the models (models 1-3 in
-Figure~\ref{fig2:constit_cartoons}(A)) since they cannot be reconciled with
-experimental observations. The two remaining models (models 4 and 5 in
+experimental data that we are aware of~\cite{So2011, Jones2014}. This
+theoretical result allows us to directly discard a subset of the models (models
+1-3 in Figure~\ref{fig2:constit_cartoons}(A)) since they cannot be reconciled
+with experimental observations. The two remaining models (models 4 and 5 in
 Figure~\ref{fig2:constit_cartoons}) appear to contain enough microscopic realism
 to be able to reproduce the data. A previous exploration of model 4 demonstrated
-the ``sloppy''~\cite{Transtrum2015} nature of the model
-in which data on single-cell mRNA counts alone
-cannot constrain the value of all parameters simultaneously
-\cite{Razo-Mejia2020}. Here we demonstrate that the proposed one-state bursty
-promoter model (model 5 in Figure~\ref{fig2:constit_cartoons}(A)) emerges as a
-limit of the commonly used two-state promoter model \cite{Peccoud1995,
-Shahrezaei2008, So2011, Sanchez2013, Jones2014}. We put the idea to the test
-that this level of coarse-graining is rich enough to reproduce previous
-experimental observations. In particular we perform Bayesian inference to
-determine the two parameters describing the full steady-state mRNA distribution,
-finding that the model is able to provide a quantitative description of a
-plethora of promoter sequences with different mean levels of expression and
-noise.
+the ``sloppy''~\cite{Transtrum2015} nature of the model in which data on
+single-cell mRNA counts alone cannot constrain the value of all parameters
+simultaneously \cite{Razo-Mejia2020}. Here we demonstrate that the proposed
+one-state bursty promoter model (model 5 in
+Figure~\ref{fig2:constit_cartoons}(A)) emerges as a limit of the commonly used
+two-state promoter model \cite{Peccoud1995, Shahrezaei2008, So2011, Sanchez2013,
+Jones2014}. We put the idea to the test that this level of coarse-graining is
+rich enough to reproduce previous experimental observations. In particular we
+perform Bayesian inference to determine the two parameters describing the full
+steady-state mRNA distribution, finding that the model is able to provide a
+quantitative description of a plethora of promoter sequences with different mean
+levels of expression and noise.
 
 With the results of the constitutive promoter in hand, we then fix the
 parameters associated with this class of promoters and use them as input for
@@ -69,19 +87,51 @@ evaluating the noise in gene expression for the simple repression motif itself.
 This allows us to provide a single overarching analysis of both the constitutive
 and simple repression architectures using one simple model and corresponding set
 of self-consistent parameters, demonstrating not only a predictive framework,
-but also reconciling the equilibrium and non-equilibrium views of the same
-simple repression constructs. More specifically, we obtained values for the
+but also reconciling the thermodynamic and kinetic views of the same simple
+repression constructs. More specifically, we obtained values for the
 transcription factor association and dissociation rates by performing Bayesian
 inference on the full mRNA distribution for data obtained from simple-repression
 promoters with varying number of transcription factors per cell and affinity of
 such transcription factors for the binding site. The free energy value obtained
-from these kinetic rates -- computed as the log ratio of the rates -- agrees
-with previous inferences performed only from mean gene expression measurements,
-that assumed an equilibrium rather than a kinetic
-framework~\cite{Garcia2011a, Razo-Mejia2018}.
+from these kinetic rates --computed as the log ratio of the rates-- agrees with
+previous inferences performed only from mean gene expression measurements, that
+assumed a thermodynamic rather than a kinetic
+framework~\cite{Garcia2011a,Razo-Mejia2018}. Interestingly, to constraint the
+binding and unbinding rates inferred for Figure~\ref{fig4:repressed_post_full},
+all of the rates need to be simultaneously fit. This is because a single
+combination of operator (repressor binding site) and aTc concentration
+(repressor copy number) cannot constraint both rates independently, but only
+their ratio (See Appendix~\ref{sec:bayesian} for further details).
 
-It is interesting to speculate what microscopic details are being coarse-grained
-by our burst rate and burst size in Figure~\ref{fig2:constit_cartoons}, model 5.
+It is important to mention the potential problems present in all models,
+including model 5 from Figure~\ref{fig2:constit_cartoons}(A). Irreversible
+reactions as the ones used in all transcription events lead to physical
+paradoxes such as infinite entropy production rates. These are mathematical
+conveniences rather than physical reality, leaving the inferred rates for the
+transcription burst rate and burst size as an effective rate with lots of
+(potentially) reversible processes. Also, the state of the art modeling imagines
+the promoter existing in a series of discrete states. This assumption might not
+be entirely true as effects such as DNA supercoiling~\cite{Chong2014,Sevier2016}
+or DNA looping~\cite{Boedicker2013a} can be considered continuous
+variables; although there are formal ways of integrating out such degrees of
+freedom. Furthermore, when computing the fold-change in gene expression
+(Section~\ref{section_02_means}) we assume that the translation efficiency of
+mRNA transcript is equal in cells with and without regulation. There might be
+some known biological effects that could limit the applicability of this
+assumption such as cooperation between the transcription and translation 
+machinery~\cite{Proshkin2010}, or coupling of mRNA transcription and 
+degradation~\cite{Chen2015} among other potential effects. Another implicit 
+assumption in all of the models discussed here is that the effects due to 
+changes in gene copy number during the cell cycle have no effects on the 
+expression profile. For moderate growth rates as the ones used 
+in~\cite{Jones2014} from where we obtained the data, there are at any point at
+most two copies of the gene. On a recent publication, we explored the effects
+that this change in gene dosage can have in gene expression, finding that the
+effects are much more drastic at the protein level~\cite{Razo-Mejia2020}.
+
+More specifically, for model 5 from Figure~\ref{fig2:constit_cartoons}(A), it is
+interesting to speculate what microscopic details are being coarse-grained by
+our burst rate and burst size in Figure~\ref{fig2:constit_cartoons}(A), model 5.
 Chromosomal locus is one possible influence we have not addressed in this work,
 as all the single-molecule mRNA data from~\cite{Jones2014} that we considered
 was from a construct integrated at the \textit{galK} locus. The results
@@ -95,37 +145,35 @@ integrated at different genomic loci. The authors of~\cite{Engl2020} attribute
 noise and burstiness in their single-molecule mRNA data to the influence of
 different sigma factors, which is a reasonable conclusion from their data. Could
 the difference also be due to the different chromosomal locations of the two
-operons?
-What features of different loci are and are not important?
-Could our preferred coarse-grained model capture the variability across
-different loci? If so, and we were to repeat the parameter inference
-as done in this work, is there a simple theoretical model we could build
-to understand the resulting parameters?
+operons? What features of different loci are and are not important? Could our
+preferred coarse-grained model capture the variability across different loci? If
+so, and we were to repeat the parameter inference as done in this work, is there
+a simple theoretical model we could build to understand the resulting
+parameters?
 
 In summary, this work took up the challenge of exploring the extent to which a
 single specific mechanistic model of the simple-repression regulatory
 architecture suffices to explain the broad sweep of experimental data for this
 system. Pioneering early experimental efforts from the M\"{u}ller-Hill lab
 established the simple-repression motif as an arena for the quantitative
-dissection of regulatory response in bacteria, with similar beautiful work
-emerging in examples such as the \textit{ara} and \textit{gal} operons as
+dissection of regulatory response in bacteria, with similar work emerging in
+examples such as the \textit{ara} and \textit{gal} operons as
 well~\cite{Dunn1984b, Oehler1990, Weickert1993, Oehler1994, Schleif2000,
 Semsey2002, SwintKruse2009}. In light of a new generation of precision
 measurements on these systems, the definition of what it means to understand
 them can now be formulated as a rigorous quantitative question. In particular,
-we believe understanding of the simple repression motif has 
-advanced sufficiently that the design of new
-versions of the architecture is now possible,
-based upon predictions about how repressor copy
-number and DNA binding site strength control expression. In our view, the next
-step in the progression is to first perform similar rigorous analyses of the
-fundamental ``basis set'' of regulatory architectures. Natural follow-ups to this
-work are explorations of motifs such as simple activation that is
-regulated by a single activator binding site, and the repressor-activator
-architecture, mediated by the binding of both a single activator and a single
-repressor, and beyond. With the individual input-output functions in hand,
-similar quantitative dissections including the rigorous analysis of their tuning
-parameters can be undertaken for the ``basis set'' of full gene-regulatory
-networks such as switches, feed-forward architectures and oscillators for
-example, building upon the recent impressive bonanza of efforts from systems
-biologists and synthetic biologists~\cite{Milo2002, Alon2007}.
+we believe understanding of the simple repression motif has advanced
+sufficiently that the design of new versions of the architecture is now
+possible, based upon predictions about how repressor copy number and DNA binding
+site strength control expression. In our view, the next step in the progression
+is to first perform similar rigorous analyses of the fundamental ``basis set''
+of regulatory architectures. Natural follow-ups to this work are explorations of
+motifs such as simple activation that is regulated by a single activator binding
+site, and the repressor-activator architecture, mediated by the binding of both
+a single activator and a single repressor, and beyond. With the individual
+input-output functions in hand, similar quantitative dissections including the
+rigorous analysis of their tuning parameters can be undertaken for the ``basis
+set'' of full gene-regulatory networks such as switches, feed-forward
+architectures and oscillators for example, building upon the recent impressive
+efforts from systems biologists and synthetic biologists~\cite{Milo2002,
+Alon2007}.

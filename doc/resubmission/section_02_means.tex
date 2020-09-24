@@ -5,21 +5,22 @@ As noted in the previous section, there are two broad classes of models in play
 for computing the input-output functions of regulatory architectures as shown in
 Figure~\ref{fig1:means_cartoons}. In both classes of model, the promoter is
 imagined to exist in a discrete set of states of occupancy, with each such state
-of occupancy accorded its own rate of transcription -- including no 
+of occupancy accorded its own rate of transcription -- including no
 transcription for many of these states. This discretization of a potentially
-continuous number of promoter states (due to effects such as supercoiling of 
-DNA~\cite{Chong2014, Sevier2016}) is analogous to how the Monod-Wyman-Changeux
-model of allostery coarse-grains continuous molecule conformations into a finite
-number of states~\cite{Martins2011}. The models are probabilistic with each
-state assigned some probability and the overall rate of transcription given by 
+continuous number of promoter states (due to effects such as supercoiling of
+DNA~\cite{Chong2014, Sevier2016}  or DNA looping~\cite{Boedicker2013a}) is
+analogous to how the Monod-Wyman-Changeux model of allostery coarse-grains
+continuous molecule conformations into a finite number of
+states~\cite{Martins2011}. The models are probabilistic with each state assigned
+some probability and the overall rate of transcription given by 
 \begin{equation}
 \mbox{average rate of transcription} = \sum_i r_i p_i,
 \label{eq:transcrip_prop_pbound}
 \end{equation}
 where $i$ labels the distinct states, $p_i$ is the probability of the
 $i^{\text{th}}$ state, and $r_i$ is the rate of transcription of that state.
-Ultimately, the different models differ along several key axes: what states to
-consider and how to compute the probabilities of those states.
+Ultimately, the different models differ along several key aspects: what states
+to consider and how to compute the probabilities of those states.
 
 The first class of models that are the focus of the present section on
 predicting the mean level of gene expression, sometimes known as thermodynamic
@@ -28,9 +29,17 @@ probabilities of the promoter microstates~\cite{Ackers1982, Shea1985,
 Buchler2003, Vilar2003a, Vilar2003b, Bintu2005a, Bintu2005c, Gertz2009,
 Sherman2012, Saiz2013}. As seen in Figure~\ref{fig1:means_cartoons}(B), even
 within the class of thermodynamic models, we can make different commitments
-about the underlying microscopic states of the promoter.  Indeed, the list of
-options considered here does not at all exhaust the suite of different
-microscopic states we can assign to the promoter.
+about the underlying microscopic states of the promoter. Model 1 considers only
+two states: a state in which a repressor (with copy number $R$) binds to an
+operator and a transcriptionally active state. The free energy difference
+between the repressor binding the operator, i.e. a specific binding site, and
+one of the $N_{NS}$ non-specific sites is given by $\Delta\varepsilon_R$ (given
+in $k_BT$ units as $\beta\equiv (k_BT)^{-1}$). Model 2 expands this model to
+include an empty promoter where no transcription happens, as well as a state on
+which one of the $P$ RNAPs binds to the promoter with binding energy
+$\Delta\varepsilon_P$. Indeed, the list of options considered here does not at
+all exhaust the suite of different microscopic states we can assign to the
+promoter.
 
 The second class of models that allow us to access the mean gene expression use
 chemical master equations to compute the probabilities of the different
@@ -61,21 +70,23 @@ expression~\cite{Garcia2011}. The fold-change is defined as
 = \frac{\langle \text{gene expression with repressor present} \rangle}
         {\langle \text{gene expression with repressor absent} \rangle}
 = \frac{\langle m (R > 0) \rangle}{\langle m (R = 0) \rangle}
+= \frac{\langle p (R > 0) \rangle}{\langle p (R = 0) \rangle}
 \label{eq:fc_def}
 \end{equation}
 where angle brackets $\left\langle \cdot \right\rangle$ denote the average over
-a population of cells and mean mRNA $\langle m\rangle$ is viewed as a function
-of repressor copy number $R$. What this means is that the fold-change in gene
-expression is a relative measurement of the effect of the transcriptional
-repressor ($R > 0$) on the gene expression level compared to an unregulated
-promoter ($R = 0$). The second equality in Eq.~\ref{eq:fc_def} follows from
-assuming that the translation efficiency, i.e., the number of proteins
-translated per mRNA, is the same in both conditions. In other words, we assume
-that mean protein level is proportional to mean mRNA level, and that the
-proportionality constant is the same in both conditions and therefore cancels
-out in the ratio. This is reasonable since the cells in the two conditions are
-identical except for the presence of the transcription factor, and the model
-assumes that the transcription factor has no direct effect on translation.
+a population of cells and mean mRNA $\langle m\rangle$ and mean protein $\langle
+p\rangle$ are viewed as a function of repressor copy number $R$. What this means
+is that the fold-change in gene expression is a relative measurement of the
+effect of the transcriptional repressor ($R > 0$) on the gene expression level
+compared to an unregulated promoter ($R = 0$). The third equality in
+Eq.~\ref{eq:fc_def} follows from assuming that the translation efficiency, i.e.,
+the number of proteins translated per mRNA, is the same in both conditions. In
+other words, we assume that mean protein level is proportional to mean mRNA
+level, and that the proportionality constant is the same in both conditions and
+therefore cancels out in the ratio. This is reasonable since the cells in the
+two conditions are identical except for the presence of the transcription
+factor, and the model assumes that the transcription factor has no direct effect
+on translation.
 
 Fold-change has proven a very convenient observable in past
 work~\cite{Garcia2011a, Brewster2014, Razo-Mejia2018, Chure2019}. Part of its
@@ -85,18 +96,30 @@ gene expression measurement. Also, by measuring otherwise identical cells with
 and without a transcription factor present, any biological noise common to both
 conditions can be made to cancel away.
 
-\fig{fig1:means_cartoons} depicts a smorgasbord of mathematicized cartoons for
-simple repression using both thermodynamic and kinetic models that have appeared
-in previous literature. For each cartoon, we calculate the fold-change in mean
-gene expression as predicted by that model, deferring some algebraic details to
-Appendix~\ref{sec:non_bursty}. What we will find is that all cartoons collapse
-to a single master curve as shown in \fig{fig1:means_cartoons}(D), which
-contains just two parameters. We label the parameters $\Delta F_R$, an effective
-free energy parametrizing the repressor-DNA interaction, and $\rho$, which
-subsumes all details of transcription in the absence of repressors. We will
-offer some intuition for why this master curve exists and discuss why at the
-level of the mean expression, we are unable to discriminate ``right'' from
-``wrong'' cartoons given only measurements of fold-changes in expression.
+Figure~\ref{fig1:means_cartoons}(B) and (C) depicts a smorgasbord of
+mathematicized cartoons for simple repression using both thermodynamic and
+kinetic models, respectively, that have appeared in previous literature. For
+each cartoon, we calculate the fold-change in mean gene expression as predicted
+by that model, deferring most algebraic details to
+Appendix~\ref{sec:non_bursty}. What we will find is that for all cartoons the
+fold-change can be written as a Fermi function 
+\begin{equation}
+ \text{fold-change} = \left( 1 + \exp(-\Delta F_R + \log(\rho))  \right)^{-1},
+ \label{eq:deltaFR_eq_noneq_equiv}
+\end{equation}
+where the effective free energy contains two terms: the parameters $\Delta F_R$,
+an effective free energy parametrizing the repressor-DNA interaction, and
+$\rho$, a term derived from the level of coarse-graining used to model all
+repressor-free states. In other words, the effective free energy of the Fermi
+function can be written as the additive effect of the regulation given by the
+repressor via $\Delta F_R$, and the kinetic scheme used to describe the steps
+that lead to a transcriptional event via $\log(\rho)$ (See
+Figure~\ref{fig1:means_cartoons}(D), left panel). This implies that all models
+collapse to a single master curve as shown in
+Figure~\ref{fig1:means_cartoons}(D). We will offer some intuition for why this
+master curve exists and discuss why at the level of the mean expression, we are
+unable to discriminate ``right'' from ``wrong'' cartoons given only measurements
+of fold-changes in expression.
 
 \subsubsection{Two- and Three-state Thermodynamic Models}
 We begin our analysis with models 1 and 2 in
@@ -149,30 +172,42 @@ state of both the promoter microstate, and the current mRNA count. Therefore, in
 order to compute the fold-change, we must compute the mean mRNA count on each of
 the promoter microstates, and add them all together~\cite{Sanchez2013}.
 
-Again, we consign all details of the derivation to Appendix~\ref{sec:non_bursty}.
-Here we just highlight the general findings for all five kinetic models. As
-already shown in Figure~\ref{fig1:means_cartoons}(C) and (D), all the kinetic
-models explored can be collapsed onto the master curve. Given that the
-repressor-bound state only connects to the rest of the promoter dynamics via its
-binding and unbinding rates, $k_R^+$ and $k_R^-$ respectively, all models can
-effectively be separated into two categories: a single repressor-bound state,
-and all other promoter states with different levels of coarse graining. This
-structure then guarantees that, at steady-state, detailed balance between these
-two groups is satisfied. What this implies is that the steady-state distribution
-of each of the non-repressor states has the same functional form with or without
-the repressor, allowing us to write the fold-change as a product of the ratio of
-the binding and unbinding rates of the promoter, and the promoter details. This
-is 
-\mrm{This is based in one of the comments from reviewer \# 2. It is empirically
-true for all models we explored, but I don't know how to prove that it is a 
-general statement for any unimaginable complex model.}
+Again, we consign all details of the derivation to
+Appendix~\ref{sec:non_bursty}. Here we just highlight the general findings for
+all five kinetic models. As already shown in Figure~\ref{fig1:means_cartoons}(C)
+and (D), all the kinetic models explored can be collapsed onto the master curve.
+Given that the repressor-bound state only connects to the rest of the promoter
+dynamics via its binding and unbinding rates, $k_R^+$ and $k_R^-$ respectively,
+all models can effectively be separated into two categories: a single
+repressor-bound state, and all other promoter states with different levels of
+coarse graining. This structure then guarantees that, at steady-state, detailed
+balance between these two groups is satisfied. What this implies is that the
+steady-state distribution of each of the non-repressor states has the same
+functional form with or without the repressor, allowing us to write the
+fold-change as a product of the ratio of the binding and unbinding rates of the
+promoter, and the promoter details. This is \mrm{This is based in one of the
+comments from reviewer \# 2. It is empirically true for all models we explored,
+but I don't know how to prove that it is a general statement for any
+unimaginable complex model.}
 \begin{align}
 \text{fold-change} &= \left( 1 + \frac{k_R^+}{k_R^-} \rho \right)^{-1},\\
 &= (1 + \exp(-\Delta F_R + \log(\rho) ))^{-1},
 \end{align}
 where $\Delta F_R \equiv -\log(k_R^+/k_R^-)$, and the functional forms of $\rho$
-for each model change as shown in Figure~\ref{fig1:means_cartoons}(C) (See
-Appendix~\ref{sec:non_bursty} for further details).
+for each model change as shown in Figure~\ref{fig1:means_cartoons}(C). Another
+intuitive way two think about these to terms is as follows: in all kinetic
+models shown in Figure~\ref{fig1:means_cartoons}(C) the repressor-bound state
+can only be reached from a single repressor-free state. The ratio of these two
+states --repressor-bound and adjacent repressor-free state-- must remain the
+same for all models, regardless of the details included in other promoter states
+if $\Delta F_R$ represents an effective free energy of the repressor binding the
+DNA operator. The presence of other states then draws probability density from
+the promoter being in either of these two states, making the ratio between the
+repressor-bound state and \textit{all} repressor-free states different. The log
+difference in this ratio is given by $\log(\rho)$. Since model 1 and model 5 of
+Figure~\ref{fig1:means_cartoons}(C) consist of a single repressor-free state,
+$\rho$ is then necessarily 1 (See Appendix~\ref{sec:non_bursty} for further
+details).
 
 The key outcome of our analysis of the models in
 Figure~\ref{fig1:means_cartoons} is the existence of a master curve shown

@@ -36,7 +36,7 @@
 	firstinits=true,
 ]{biblatex}
 % Add library
-\addbibresource{./simple_rep}
+\addbibresource{../simple_rep}
 
 % Bold the 'Figure #' in the caption and separate it from the title/caption
 % with a period
@@ -128,8 +128,8 @@ of Technology, Pasadena, CA 91125, USA}
 	% supplemental references
     \defbibfilter{notother}{not segment=\therefsegment}
 		% \input{abstract.tex}
-		\input{section_01_introduction.tex}
-		\input{section_02_means.tex}
+		% \input{section_01_introduction.tex}
+		% \input{section_02_means.tex}
 		% \input{section_03_beyond_means.tex}
 		% \input{section_04_bayesian_inference.tex}
 		% \input{section_05_discussion.tex}
@@ -157,7 +157,7 @@ Reconciling Kinetic and Equilibrium Models of Bacterial Transcription}}
 		% Set equation, table and figure counters to begin with "S"
 		\beginsupplement
 		\tableofcontents
-        %  \input{appendix_01_nonbursty.tex}
+         \input{appendix_01_nonbursty.tex}
         %  \input{appendix_02_bursty.tex}
         %  \input{appendix_03_bayesian_inference.tex}
 		% Print supplemental references changing the title

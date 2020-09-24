@@ -7,15 +7,15 @@ description of the entire broad sweep of studies that have been made in the
 context of the repressor-operator model, dating all the way back to the original
 work of Jacob and Monod and including the visionary quantitative work of
 M\"{u}ller-Hill and collaborators~\cite{Oehler1990} and up to more recent
-studies \cite{Garcia2011a}. In addition, the aim is to reconcile the equilibrium
-and non-equilibrium perspectives that have been brought to bear on this problem.
-From Section~\ref{section_02_means}, this reconciliation depends on a key
-quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}: does
-the free energy of repressor binding, as described in the equilibrium models and
-indirectly inferred from gene expression measurements, agree with the
-corresponding values of repressor binding and unbinding rates in the
-non-equilibrium picture, measured or inferred more directly? In this section we
-tackle the statistical inference problem of inferring these repressor rates from
+studies \cite{Garcia2011a}. In addition, the aim is to reconcile the
+thermodynamic and kinetic perspectives that have been brought to bear on this
+problem. From Section~\ref{section_02_means}, this reconciliation depends on a
+key quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}:
+does the free energy of repressor binding, as described in the thermodynamic
+models and indirectly inferred from gene expression measurements, agree with the
+corresponding values of repressor binding and unbinding rates in the kinetic
+picture, measured or inferred more directly? In this section we tackle the
+statistical inference problem of inferring these repressor rates from
 single-cell mRNA counts data. But before we can turn to the full case of simple
 repression, we must choose an appropriate model of the constitutive promoter and
 infer the parameter values in that model. This is the problem we address first.
@@ -28,7 +28,7 @@ model 5 in Figure~\ref{fig2:constit_cartoons}(A), a one-state bursty model of
 constitutive promoters, achieves the right balance of complexity and simplicity,
 by allowing both Fano factor $\nu>1$, but also by remedying, by design, the
 problems of parameter degeneracy that model 4 in
-Figure~\ref{fig2:constit_cartoons} suffered~\cite{Razo-Mejia2020}. Does this
+Figure~\ref{fig2:constit_cartoons}(A) suffered~\cite{Razo-Mejia2020}. Does this
 stand up to closer scrutiny, namely, comparison to full mRNA distributions
 rather than simply their moments? We will test this thoroughly on single-cell
 mRNA counts for different unregulated promoters from Jones et.\
@@ -62,17 +62,10 @@ Figure~\ref{fig2:constit_cartoons}(B).
 
 \subsubsection{Model 1: Poisson promoter}
 
-For this model the master equation of interest is
-Eq.~\ref{eq:poisson_promoter_cme} with repressor set to zero, i.e.,
-\begin{equation}
-{d\over dt}p_U(m)(t) = 
-        rp_U(m-1)(t) 
-        - rp_U(m)(t)
-        + (m+1)\gamma p_U(m+1)(t) 
-        - \gamma p_U(m)(t),
-\end{equation}
+Model 1 in Figure~\ref{fig2:constit_cartoons}(A) predicts a  mRNA distribution
 whose steady-state solution is given by a Poisson distribution with parameter
-$\lambda \equiv r / \gamma$~\cite{Sanchez2013}. The goal of our inference 
+$\lambda \equiv r / \gamma$, where $r$ is the mRNA production rate, and $\gamma$
+is the mRNA degradation rate~\cite{Sanchez2013}. The goal of our inference
 problem is then to find the probability distribution for the parameter value
 $\lambda$ given the experimental data. By Bayes' theorem this can be written as
 \begin{equation}
@@ -283,7 +276,7 @@ promoter sequence tunes.
 \subsubsection{Connecting inferred parameters to prior work}
 It is interesting to connect these inferences on $k_i$ and $b$ to the work
 of~\cite{Brewster2012}, where these same 18 promoters were considered through
-the lens of the three-state equilibrium model (model 2 in
+the lens of the three-state thermodynamic model (model 2 in
 Figure~\ref{fig1:means_cartoons}(B)) and binding energies $\Delta\varepsilon_P$
 were predicted from an energy matrix model derived from~\cite{Kinney2010}. As
 previously discussed the thermodynamic models of gene regulation can only make
@@ -297,7 +290,7 @@ connection between both frameworks by equating the mean mRNA $\left\langle m
                 {1+\frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P)}.
 \end{equation}
 By taking the weak promoter approximation for the equilibrium model ($P/N_{NS} 
-\exp(-\beta\Delta\varepsilon_r) \ll 1$) results in
+\exp(-\beta\Delta\varepsilon_r) \ll 1$) results in~\cite{Brewster2012}
 \begin{equation}
 \langle m \rangle = \frac{k_i b}{\gamma}
         = \frac{r}{\gamma} \frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P),
@@ -337,62 +330,60 @@ internally self-consistent framework that adequately describes the data, but
 attempting to translate between models reveals the dubious physical
 interpretation of their parameters.
 
-We mention one further comparison, between our inferred parameters and the
-work of Chong et.\ al.~\cite{Chong2014}, which is interesting and puzzling.
-Beautiful experiments in~\cite{Chong2014} convincingly argue that
-supercoiling accumulated from the production of mRNA transcripts is key
-in setting the burstiness of mRNA production.
-In their model, this supercoiling occurs on the scale of $\sim100$~kb
-domains of DNA. This suggests that all genes on a given domain should burst
-in synchrony, and that the difference between highly and lowly expressed
-genes is the \textit{size} of transcriptional bursts, not the
-\textit{time between} bursts.
-But here, all burst sizes we infer in Figure~\ref{fig:constit_post_full}(C)
-are comparable and burst rates vary wildly. It is not immediately clear
-how to square this circle. Furthermore, Figure~7E in~\cite{Chong2014}
-reports values of the quantity they label $\beta/\alpha$ and we label
-$k^+/k^-$ in model 4 from Figure~\ref{fig2:constit_cartoons}. In contrast
-to the findings of~\cite{Razo-Mejia2020}, Chong et.\ al.\ do not find
-$k^+/k^-\ll1$ for most of the genes they consider. This begs the question:
-is the \textit{galK} chromosomal locus used for the reporter constructs
-in~\cite{Razo-Mejia2020} and~\cite{Jones2014} merely an outlier,
-or is there a deeper puzzle here waiting to be resolved? Without more
-apples-to-apples data we can only speculate, and we leave it as an
-intriguing open question for the field.
+\mrm{ I would vote to remove this paragraph completely.}
+We mention one further comparison, between our inferred parameters and the work
+of Chong et.\ al.~\cite{Chong2014}, which is interesting and puzzling.
+Experiments in~\cite{Chong2014} convincingly argue that supercoiling accumulated
+from the production of mRNA transcripts is key in setting the burstiness of mRNA
+production. In their model, this supercoiling occurs on the scale of
+$\sim100$~kb domains of DNA. This suggests that all genes on a given domain
+should burst in synchrony, and that the difference between highly and lowly
+expressed genes is the \textit{size} of transcriptional bursts, not the
+\textit{time between} bursts. But here, all burst sizes we infer in
+Figure~\ref{fig:constit_post_full}(C) are comparable and burst rates vary
+wildly. It is not immediately clear how to square this circle. Furthermore,
+Figure~7E in~\cite{Chong2014} reports values of the quantity they label
+$\beta/\alpha$ and we label $k^+/k^-$ in model 4 from
+Figure~\ref{fig2:constit_cartoons}. In contrast to the findings
+of~\cite{Razo-Mejia2020}, Chong et.\ al.\ do not find $k^+/k^-\ll1$ for most of
+the genes they consider. This begs the question: is the \textit{galK}
+chromosomal locus used for the reporter constructs in~\cite{Razo-Mejia2020}
+and~\cite{Jones2014} merely an outlier, or is there a deeper puzzle here waiting
+to be resolved? Without more apples-to-apples data we can only speculate, and we
+leave it as an intriguing open question for the field.
 
-Despite such puzzles, our goal here is not to unravel the mysterious origins
-of burstiness in transcription. Our remaining task in this work is a
-determination of the physical reality of equilibrium binding energies in
-Figure~\ref{fig1:means_cartoons}, as codified by the equilibrium-nonequilibrium
-equivalence of Eq.~\ref{eq:deltaFR_eq_noneq_equiv}.
-For our phenomenological needs here model 5 in
-Figure~\ref{fig2:constit_cartoons} is more than adequate: the posterior
-distributions in Figure~\ref{fig:constit_post_full}(C) are cleanly
-identifiable and the predictive checks in Figure~\ref{figS:ppc_unreg}
-indicate no discrepancies between the model and the mRNA single-moleucle
-count data of~\cite{Jones2014}. Of the models we have considered it
-is unique in satisfying both these requirements. So we will happily use
-it as a foundation to build upon in the next section when we add regulation.
+Despite such puzzles, our goal here is not to unravel the mysterious origins of
+burstiness in transcription. Our remaining task in this work is a determination
+of the physical reality of thermodynamic binding energies in
+Figure~\ref{fig1:means_cartoons}, as codified by the thermodynamic-kinetic
+equivalence of Eq.~\ref{eq:deltaFR_eq_noneq_equiv}. For our phenomenological
+needs here model 5 in Figure~\ref{fig2:constit_cartoons}(A) is more than
+adequate: the posterior distributions in Figure~\ref{fig:constit_post_full}(C)
+are cleanly identifiable and the predictive checks in
+Figure~\ref{figS:ppc_unreg} indicate no discrepancies between the model and the
+mRNA single-molecule count data of~\cite{Jones2014}. Of the models we have
+considered it is unique in satisfying both these requirements. So we will
+happily use it as a foundation to build upon in the next section when we add
+regulation.
 
 \subsection{Transcription factor kinetics can be inferred from single-cell mRNA
 distribution measurements}\label{sec:rep_kinetics_inference}
 \subsubsection{Building the model and performing parameter inference}
 
 Now that we have a satisfactory model in hand for constitutive promoters, we
-would like to return to the main thread: can we reconcile the equilibrium and
-nonequilibrium models by putting to the test
-Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, the correspondence between indirectly
-inferred equilibrium binding energies and nonequilibrium kinetic rates? To make
-this comparison, is it possible to infer repressor binding and unbinding rates
-from mRNA distributions over a population of cells as measured by
-single-molecule Fluorescence \textit{in situ} Hybridization in~\cite{Jones2014}?
-If so, how do these inferred rates compare to direct single-molecule
-measurements such as from~\cite{Hammar2014} and to binding energies such as
-from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}, which were inferred under the
-assumptions of the equilibrium models in Figure~\ref{fig1:means_cartoons}(B)?
-And can this comparison shed light on the unreasonable effectiveness of the
-equilibrium models, for instance, in their application in~\cite{Chure2019,
-Chure2019a}?
+would like to return to the main thread: can we reconcile the thermodynamic and
+kinetic models by putting to the test Eq.~\ref{eq:deltaFR_eq_noneq_equiv}, the
+correspondence between indirectly inferred thermodynamic binding energies and
+kinetic rates? To make this comparison, is it possible to infer repressor
+binding and unbinding rates from mRNA distributions over a population of cells
+as measured by single-molecule Fluorescence \textit{in situ} Hybridization
+in~\cite{Jones2014}? If so, how do these inferred rates compare to direct
+single-molecule measurements such as from~\cite{Hammar2014} and to binding
+energies such as from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}, which were
+inferred under the assumptions of the thermodynamic models in
+Figure~\ref{fig1:means_cartoons}(B)? And can this comparison shed light on the
+unreasonable effectiveness of the equilibrium models, for instance, in their
+application in~\cite{Chure2019, Chure2019a}?
 
 \begin{figure}%[h!]
 \centering
@@ -438,19 +429,19 @@ Before showing the mathematical formulation of our statistical inference model,
 we would like to sketch the intuitive structure. The dataset
 from~\cite{Jones2014} we consider consists of single-cell mRNA counts data of
 nine different conditions, spanning several combinations of three unique
-repressor binding sites and four unique repressor copy numbers. We assume that
-the values of $k_i$ and $b$ are known, since we have already cleanly inferred
-them from constitutive promoter data, and further we assume that these values
-are the same across datasets with different repressor binding sites and copy
-numbers. In other words, we assume that the regulation of the transcription
-factor does not affect the mean burst size nor the burst initiation rate. The
-regulation occurs as the promoter is taken away from the transcriptionally
-active state when the promoter is bound by repressor. We assume that there is
-one unbinding rate parameter for each repressor binding site, and likewise one
-binding rate for each unique repressor copy number. This makes our model seven
-dimensional, or nine if one counts $k_i$ and $b$ as well. Note that we use only
-a subset of the datasets from Jones et.\ al.~\cite{Jones2014}, as discussed more
-in Appendix~\ref{sec:bayesian}.
+repressor binding sites (the so-called $Oid$, $O1$, and $O2$ operators) and four
+unique repressor copy numbers. We assume that the values of $k_i$ and $b$ are
+known, since we have already cleanly inferred them from constitutive promoter
+data, and further we assume that these values are the same across datasets with
+different repressor binding sites and copy numbers. In other words, we assume
+that the regulation of the transcription factor does not affect the mean burst
+size nor the burst initiation rate. The regulation occurs as the promoter is
+taken away from the transcriptionally active state when the promoter is bound by
+repressor. We assume that there is one unbinding rate parameter for each
+repressor binding site, and likewise one binding rate for each unique repressor
+copy number. This makes our model seven dimensional, or nine if one counts $k_i$
+and $b$ as well. Note that we use only a subset of the datasets from Jones et.\
+al.~\cite{Jones2014}, as discussed more in Appendix~\ref{sec:bayesian}.
 
 Formally now, denote the set of seven repressor rates to be inferred as
 \begin{equation}
@@ -466,10 +457,10 @@ assume that a given concentration of the inducer resulted in a specific mean
 repressor copy number~\cite{Chure2019a}. Also note that the authors
 of~\cite{Jones2014} report estimates of LacI copy number per cell rather than
 direct measurements. However, these estimates were made assuming the validity of
-the equilibrium models in Figure~\ref{fig1:means_cartoons}, and since testing
+the thermodynamic models in Figure~\ref{fig1:means_cartoons}, and since testing
 these models is our present goal, it would be circular logic if we were to make
 the same assumption. Therefore we will make no assumptions about the LacI copy
-number for a given inducer concentrations.
+number for a given inducer concentration.
 
 Having stated the problem, Bayes' theorem reads
 \begin{equation}
@@ -562,16 +553,16 @@ log units, or about a factor of two, with the exception of $k_{0.5}^+$, the
 association rate for the lowest repressor copy number which is somewhat larger.
 
 \subsubsection{Comparison with prior measurements of repressor binding energies}
-Our primary goal in this work is to reconcile the kinetic and equilibrium
+Our primary goal in this work is to reconcile the kinetic and thermodynamic
 pictures of simple repression. Towards this end we would like to compare the
 repressor kinetic rates we have inferred with the repressor binding energies
 inferred through multiple methods in~\cite{Garcia2011a}
 and~\cite{Razo-Mejia2018}. If the agreement is close, then it suggests that the
-equilibrium models are not wrong and the repressor binding energies they contain
-correspond to physically real free energies, not mere fit parameters.
+thermodynamic models are not wrong and the repressor binding energies they
+contain correspond to physically real free energies, not mere fit parameters.
 
 Figure~\ref{fig4:repressed_post_full}(B) shows both comparisons, with the top
-panel comparing to equilibrium binding energies and the bottom panel comparing
+panel comparing to thermodynamic binding energies and the bottom panel comparing
 to single-molecule measurements. First consider the top panel and its comparison
 between repressor kinetic rates and binding energies. As described in
 section~\ref{section_02_means}, if the equilibrium binding energies
@@ -721,14 +712,13 @@ biological effect is unclear. It is conceivable that there is some very slow
 timescale switching dynamics that could cause this bimodality, although it is
 unclear why it would only appear for specific repressor copy numbers. There is
 also a small offset between experiment and simulation for O2 at the higher
-repressor copy numbers, especially at 2 and 10~ng/mL.
-From the estimate of repressor copy numbers from~\cite{Jones2014}, it is
-possible that the repressor copy numbers here are becoming large enough to
-partially invalidate our assumption of a separation of timescales between
-burst duration and repressor association rate. Another possibility is that
-the very large number of zero mRNA counts for Oid, 2~ng/mL is skewing its partner
-datasets through the shared association rate.
-None of these fairly minor quibbles cause us to
+repressor copy numbers, especially at 2 and 10~ng/mL. From the estimate of
+repressor copy numbers from~\cite{Jones2014}, it is possible that the repressor
+copy numbers here are becoming large enough to partially invalidate our
+assumption of a separation of timescales between burst duration and repressor
+association rate. Another possibility is that the very large number of zero mRNA
+counts for Oid, 2~ng/mL is skewing its partner datasets through the shared
+association rate. None of these fairly minor potential caveats cause us to
 seriously doubt the overall correctness of our model, which further validates
 its use to compare the equilibrium models' binding energies to the
 nonequilibrium models' repressor kinetics, as we originally set out to do.
