@@ -13,7 +13,6 @@ models in Figure~\ref{fig1:means_cartoons}. We point the readers to some other
 excellent reviews on the general
 frameworks~\cite{Bintu2005a,Sanchez2013,Phillips2015a}.
 
-\mrm{THIS NEEDS TO BE FIXED}
 \subsection{Thremodynamic models of gene regulation}
 The first class of models we will explore are the so-called thermodynamic models
 of gene regulation~\cite{Ackers1982}. The premise for these models is that we
@@ -29,11 +28,17 @@ This means that we can enlist the possible microstates in which we can find the
 promoter in order to calculate their probabilities based on quantities such as
 molecular counts and interaction energies. We then assume that the gene
 expression level is proportional to the probability of finding the promoter in
-the transcriptionally active microstate. As mentioned in the main text, these
-models can only deal with the mean gene expression level. This is because the
-probability space we consider is that of the state of the repressor, rather than
-both the state of the repressor and the mRNA counts. Let's now work through
-models 1 and 2 from Figure~\ref{fig1:means_cartoons}(B).
+the transcriptionally active microstate, i.e.,
+\begin{equation}
+\text{average rate of transcription} = \sum_i r_i p_i,
+\label{eq:rate_transcription_si}
+\end{equation}
+where $i$ labels the distinct states, $p_i$ is the probability of the ith state,
+and $r_i$ is the rate of transcription of that state. As mentioned in the main
+text, these models can only deal with the mean gene expression level. This is
+because the probability space we consider is that of the state of the repressor,
+rather than both the state of the repressor and the mRNA counts. Let's now work
+through models 1 and 2 from Figure~\ref{fig1:means_cartoons}(B).
 
 \subsubsection{The Two-State Equilibrium Model}
 In this simplest model, depicted as (1) in Figure~\ref{fig1:means_cartoons}(B),
@@ -42,13 +47,13 @@ bound or repressor unbound. The rate of transcription
 is assumed to be proportional to the fraction of time spent
 in the repressor unbound state.
 From the relative statistical weights listed in
-Figure~\ref{fig1:means_cartoons}, the probability $p_U$ of being in the
+Figure~\ref{fig1:means_cartoons}(B), the probability $p_U$ of being in the
 unbound state is
 \begin{equation}
 p_U = \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\varepsilon_R}\right)^{-1}.
 \end{equation}
 The mean rate of transcription is then given by $r p_U$, as assumed by
-Eq.~\ref{eq:transcrip_prop_pbound}. The mean number of mRNA is
+Eq.~\ref{eq:rate_transcription_si}. The mean number of mRNA is
 set by the balance of average mRNA transcription and degradation rates,
 so it follows that the mean mRNA level is given by
 \begin{equation}
@@ -57,10 +62,10 @@ so it follows that the mean mRNA level is given by
 \end{equation}
 where $r$ is the transcription rate from the repressor unbound state, $\gamma$
 is the mRNA degradation rate, $R$ is repressor copy number, $N_{NS}$ is the
-number of nonspecific binding sites in the genome where repressors spend most
-of their time when not bound to the operator, $\beta \equiv 1/k_BT$, and
-$\Delta\varepsilon_R$ is the binding energy of a repressor to its operator site.
-The derivation of this result is deferred to Appendix~\ref{sec:non_bursty}.
+number of nonspecific binding sites in the genome where repressors spend most of
+their time when not bound to the operator (binding site), $\beta \equiv 1/k_BT$,
+and $\Delta\varepsilon_R$ is the binding energy of a repressor to its operator
+site. The derivation of this result can be found in~\cite{Phillips2015a}.
 
 The fold-change is  found as the ratio of mean mRNA with and without repressor
 as introduced in Eq.~\ref{eq:fc_def}. Invoking that definition results in
@@ -75,25 +80,23 @@ Figure~\ref{fig1:means_cartoons}(D) with $\rho=1$ and $\Delta F_R =
 In fact it was noted in~\cite{Chure2019} that this two-state model can be viewed
 as the coarse-graining of any equilibrium promoter model in which no
 transcriptionally active states have transcription factor bound, or put
-differently, when there is no overlap between
-transcription factor bound states and transcriptionally
-active states. We will see this explicitly in the 3-state equilibrium model
-below, but perhaps surprising is that an analogous result carries over even to
-the nonequilibrium models we consider later.
+differently, when there is no overlap between transcription factor bound states
+and transcriptionally active states. We will see this explicitly in the 3-state
+equilibrium model below, but perhaps surprising is that an analogous result
+carries over even to the nonequilibrium models we consider later.
 
 \subsubsection{The Three-State Equilibrium Model}
 Compared to the previous model, here we fine-grain the repressor unbound state
 into two separate states: empty, and RNAP bound as shown in (2) in
 Figure~\ref{fig1:means_cartoons}(B). This picture was used in~\cite{Garcia2011a}
 as we use it here, and in~\cite{Razo-Mejia2018} and~\cite{Chure2019} it was
-generalized to incorporate small-molecule inducers that bind the repressor. 
-The effect of this generalization is, roughly speaking,
-simply to rescale $R$ from the total number of repressors to a smaller
-effective number of available repressors which are unbound by inducers.
-We point out that the same generalization can be incorporated quite easily
-into any of our models in Figure~\ref{fig1:means_cartoons} by simply
-rescaling the repressor copy number $R$ in the equilibrium models, or
-equivalently $k_R^+$ in the nonequilibrium models.
+generalized to incorporate small-molecule inducers that bind the repressor. The
+effect of this generalization is, roughly speaking, simply to rescale $R$ from
+the total number of repressors to a smaller effective number of available
+repressors which are unbound by inducers. We point out that the same
+generalization can be incorporated quite easily into any of our models in
+Figure~\ref{fig1:means_cartoons} by simply rescaling the repressor copy number
+$R$ in the thermodynamic models, or equivalently $k_R^+$ in the kinetic models.
 
 The mean mRNA copy number, as derived in Appendix~\ref{sec:non_bursty}
 from a similar enumeration of states and weights as the previous model, is
@@ -132,7 +135,6 @@ in~\fig{fig1:means_cartoons}(B). Thus far, we see that the two thermodynamic
 models, despite making different coarse-graining commitments, result in the same
 functional form for the fold-change in mean gene expression.  We now explore how
 kinetic models fare when faced with computing the same observable.
-\mrm{ENDS HERE}
 
 \mrm{THIS NEEDS TO BE FIXED}
 
