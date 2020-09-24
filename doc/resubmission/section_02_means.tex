@@ -35,10 +35,19 @@ microscopic states we can assign to the promoter.
 The second class of models that allow us to access the mean gene expression use
 chemical master equations to compute the probabilities of the different
 microscopic states ~\cite{Ko1991, Peccoud1995, Record1996, Kepler2001,
-Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010}. As seen in
-Figure~\ref{fig1:means_cartoons}(C), we consider a host of different
-nonequilibrium models, each of which will have its own result for both the mean
-(this section) and noise (next section) in gene expression.
+Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010}. The main differences
+between both modeling approaches can be summarized as: 1) Although for both
+classes of models the steps involving transcriptional events are assumed to be
+strictly irreversible, thermodynamic models force the regulation, i.e., the
+control over the expression exerted by the repressor, to be in equilibrium. This
+does not need to be the case for kinetic models. 2) Thermodynamic models ignore
+the mRNA count from the state of the Markov process, while kinetic models keep
+track of both the promoter state and the mRNA count. 3) Finally, thermodynamic
+and kinetic models coarse-grain to different degrees the molecular mechanisms
+through which RNAP enters the transcriptional event. As seen in
+Figure~\ref{fig1:means_cartoons}(C), we consider a host of different kinetic
+models, each of which will have its own result for both the mean (this section)
+and noise (next section) in gene expression.
 
 \subsection{Fold-changes are indistinguishable across models}
 As a first stop on our search for the ``right'' model of simple repression, let
