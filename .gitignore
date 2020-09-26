@@ -65,6 +65,7 @@ __pycache__/
 **/__pycache__/
 .cache
 *.egg*
+*Icon*
 
 # Also zips & pickles. Add manually if you really want, since they won't diff well.
 *.zip
