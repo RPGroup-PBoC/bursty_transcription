@@ -2,17 +2,12 @@
 \section{Finding the ``right'' model: Bayesian parameter inference}
 \label{section_04_bayesian_inference}
 
-In this section of the paper, we continue our program of providing one complete
-description of the entire broad sweep of studies that have been made in the
-context of the repressor-operator model, dating all the way back to the original
-work of Jacob and Monod and including the visionary quantitative work of
-M\"{u}ller-Hill and collaborators~\cite{Oehler1990} and up to more recent
-studies \cite{Garcia2011a}. In addition, the aim is to reconcile the
-thermodynamic and kinetic perspectives that have been brought to bear on this
-problem. From Section~\ref{section_02_means}, this reconciliation depends on a
-key quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}:
-does the free energy of repressor binding, as described in the thermodynamic
-models and indirectly inferred from gene expression measurements, agree with the
+In this section we aim to reconcile the thermodynamic and kinetic perspectives
+that have been brought to bear on the repressor-operator model. From
+Section~\ref{section_02_means}, this reconciliation depends on a key
+quantitative question as codified by Eq.~\ref{eq:deltaFR_eq_noneq_equiv}: does
+the free energy of repressor binding, as described in the thermodynamic models
+and indirectly inferred from gene expression measurements, agree with the
 corresponding values of repressor binding and unbinding rates in the kinetic
 picture, measured or inferred more directly? In this section we tackle the
 statistical inference problem of inferring these repressor rates from
@@ -28,15 +23,12 @@ model 5 in Figure~\ref{fig2:constit_cartoons}(A), a one-state bursty model of
 constitutive promoters, achieves the right balance of complexity and simplicity,
 by allowing both Fano factor $\nu>1$, but also by remedying, by design, the
 problems of parameter degeneracy that model 4 in
-Figure~\ref{fig2:constit_cartoons}(A) suffered~\cite{Razo-Mejia2020}. Does this
-stand up to closer scrutiny, namely, comparison to full mRNA distributions
-rather than simply their moments? We will test this thoroughly on single-cell
-mRNA counts for different unregulated promoters from Jones et.\
-al.~\cite{Jones2014}.
-
-It will be instructive, however, to first consider the Poisson promoter, model 1
-in Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the
-Poisson distribution has a Fano factor $\nu$ strictly equal to 1, and all of the
+Figure~\ref{fig2:constit_cartoons}(A) suffered~\cite{Razo-Mejia2020}. We will
+test this thoroughly on single-cell mRNA counts for different unregulated
+promoters from Jones et.\ al.~\cite{Jones2014}, but first we consider It will be
+instructive, however, to first consider the Poisson promoter, model 1 in
+Figure~\ref{fig2:constit_cartoons}. As we alluded to earlier, since the Poisson
+distribution has a Fano factor $\nu$ strictly equal to 1, and all of the
 observed data in Figure~\ref{fig2:constit_cartoons}(B) has Fano factor $\nu>1$,
 we might already suspect that this model is incapable of fitting the data. We
 will verify that this is in fact the case. Using the same argument we can
@@ -47,6 +39,8 @@ relative to the Poisson distribution. We will also not explicitly consider model
 in~\cite{Razo-Mejia2020}, and since model 5 can be viewed as a special case of
 it.
 
+\mrm{Griffin also feels this paragraph should go. Too many times reminding the 
+reader what we are up to. I think he is right.}
 Our objective for this section will then be to assess whether or not model 5 is
 quantitatively able to reproduce experimental data. In other words, if our claim
 is that the level of coarse graining in this model is capable of capturing the

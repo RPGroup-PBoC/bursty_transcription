@@ -18,8 +18,8 @@ as {\it E. coli} having no regulatory insights at all~\cite{Rydenfelt2014-2,
 Belliveau2018, Ghatak2019, Santos_Zavaleta2019}. But even once we have
 established the identity of key transcription factors and their binding sites of
 a given promoter architecture, there remains the predictive challenge of
-understanding its input-output properties, an objective that can be met by a
-myriad of approaches using the tools of statistical physics~\cite{Ackers1982,
+understanding its input-output properties, an objective that can be met by
+myriad approaches using the tools of statistical physics~\cite{Ackers1982,
 Shea1985, Buchler2003, Vilar2003a, Vilar2003b, Bintu2005a, Bintu2005c,
 Kuhlman2007, Gertz2009, Sherman2012, Saiz2013, Ko1991, Peccoud1995, Record1996,
 Kepler2001, Sanchez2008, Shahrezaei2008, Sanchez2011, Michel2010,
@@ -32,7 +32,7 @@ then that provides a more solid foundation upon which to launch into more
 complex problems - for instance, some of the previously unknown architectures
 uncovered in~\cite{Belliveau2018} and~\cite{Ireland2020}.
 
-To that end, in this paper we examine a wide variety of distinct models for the
+To that end, in this work we examine a wide variety of distinct models for the
 simple repression regulatory architecture. This genetic architecture consists of
 a DNA promoter regulated by a transcriptional repressor that binds to a single
 binding site as developed in pioneering early work on the quantitative
@@ -56,16 +56,17 @@ coarse-graining, what microscopic details do we need to explicitly model, and
 how do we figure that out? For example, do we need to worry about all or even
 any of the steps that individual RNA polymerases go through each time they make
 a transcript? Turning the question around, can we see any imprint of those
-processes in the available data? If the answer is no, then those processes are
-irrelevant for our purposes. Forward modeling and inverse (statistical
-inferential) modeling are necessary to tackle such questions. We combine both
-approaches in order to discard models that cannot empirically satisfy the main
-features of experimental data. First we apply forward modeling to demonstrate
-that none of the models are distinguishable at the level of mean gene
-expression. We then extend the modeling to look at higher moments of the
-distribution, eliminating models that do not empirically satisfy the observed
-cell-to-cell variability. Finally we arrive at a minimal model on which we can
-apply inverse modeling in order to infer the parameters that explain the data.
+processes in the available data? If the answer is no, then those processes,
+though fascinating in their own right, are irrelevant for our purposes. Forward
+modeling and inverse (statistical inferential) modeling are necessary to tackle
+such questions. We combine both approaches in order to discard models that
+cannot empirically satisfy the main features of experimental data. First we
+apply forward modeling to demonstrate that none of the models are
+distinguishable at the level of mean gene expression. We then extend the
+modeling to look at higher moments of the distribution, eliminating models that
+do not empirically satisfy the observed cell-to-cell variability. Finally we
+arrive at a minimal model on which we can apply inverse modeling in order to
+infer the parameters that explain the data.
 
 Figure~\ref{fig1:means_cartoons}(A) shows the qualitative picture of simple
 repression that is implicit in the repressor-operator model. An operator, i.e.,
@@ -78,7 +79,7 @@ repressor and RNAP in the promoter region of interest is exclusive, meaning that
 one or the other may bind, but never may both be simultaneously bound. It is
 often imagined that when the repressor is bound to its operator, RNAP is
 sterically blocked from binding to its promoter sequence. Current evidence
-suggests this is sometimes, but not always the case, and it remains an
+suggests this is sometimes (but not always) the case and it remains an
 interesting open question precisely how a repressor bound far upstream is able
 to repress transcription~\cite{Rydenfelt2014-2}. Suggestions include
 ``action-at-a-distance'' mediated by kinks in the DNA, formed when the repressor
@@ -110,10 +111,10 @@ expression with an effective free energy $\Delta F_R$ capturing the regulation
 given by the transcription factor, and a term $\rho$ describing the level of
 coarse-graining of the transcriptional events as shown in
 Figure~\ref{fig1:means_cartoons}(D). Section~\ref{sec:beyond_means} goes beyond
-an analysis of the mean gene expression by asking how the same models presented
-in Figure~\ref{fig1:means_cartoons}(C) can be used to explore noise in gene
-expression. To make contact with experiment, all of these models must make a
-commitment to some numerical values for the key parameters found in each such
+an analysis of the mean level of gene expression by asking how the same models
+presented in Figure~\ref{fig1:means_cartoons}(C) can be used to explore noise in
+gene expression. To make contact with experiments, all of these models must make
+a commitment to some numerical values for the key parameters found in each such
 model. Therefore in Section~\ref{section_04_bayesian_inference} we explore the
 use of Bayesian inference to establish these parameters and to rigorously answer
 the question of how to discriminate between the different models.
