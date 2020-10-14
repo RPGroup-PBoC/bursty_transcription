@@ -8,7 +8,7 @@ imagined to exist in a discrete set of states of occupancy, with each such state
 of occupancy accorded its own rate of transcription -- including no
 transcription for many of these states. This discretization of a potentially
 continuous number of promoter states (due to effects such as supercoiling of
-DNA~\cite{Chong2014, Sevier2016}  or DNA looping~\cite{Boedicker2013a}) is
+DNA~\cite{Chong2014, Sevier2016} or DNA looping \cite{Boedicker2013a}) is
 analogous to how the Monod-Wyman-Changeux model of allostery coarse-grains
 continuous molecule conformations into a finite number of
 states~\cite{Martins2011}. The models are probabilistic with each state assigned
@@ -101,8 +101,8 @@ mathematicized cartoons for simple repression using both thermodynamic and
 kinetic models, respectively, that have appeared in previous literature. For
 each cartoon, we calculate the fold-change in mean gene expression as predicted
 by that model, deferring most algebraic details to
-Appendix~\ref{sec:non_bursty}. What we will find is that for all cartoons the
-fold-change can be written as a Fermi function 
+Appendix~\ref{sec:non_bursty}. What we will find is that
+for all cartoons the fold-change can be written as a Fermi function 
 \begin{equation}
  \text{fold-change} = \left( 1 + \exp(-\Delta F_R + \log(\rho))  \right)^{-1},
  \label{eq:deltaFR_eq_noneq_equiv}
@@ -114,7 +114,7 @@ repressor-free states. In other words, the effective free energy of the Fermi
 function can be written as the additive effect of the regulation given by the
 repressor via $\Delta F_R$, and the kinetic scheme used to describe the steps
 that lead to a transcriptional event via $\log(\rho)$ (See
-Figure~\ref{fig1:means_cartoons}(D), left panel). This implies that all models
+Figure~~\ref{fig1:means_cartoons}(D), left panel). This implies all models
 collapse to a single master curve as shown in
 Figure~\ref{fig1:means_cartoons}(D). We will offer some intuition for why this
 master curve exists and discuss why at the level of the mean expression, we are
@@ -195,19 +195,18 @@ unimaginable complex model.}
 \end{align}
 where $\Delta F_R \equiv -\log(k_R^+/k_R^-)$, and the functional forms of $\rho$
 for each model change as shown in Figure~\ref{fig1:means_cartoons}(C). Another
-intuitive way two think about these to terms is as follows: in all kinetic
-models shown in Figure~\ref{fig1:means_cartoons}(C) the repressor-bound state
-can only be reached from a single repressor-free state. The ratio of these two
-states --repressor-bound and adjacent repressor-free state-- must remain the
-same for all models, regardless of the details included in other promoter states
-if $\Delta F_R$ represents an effective free energy of the repressor binding the
-DNA operator. The presence of other states then draws probability density from
-the promoter being in either of these two states, making the ratio between the
-repressor-bound state and \textit{all} repressor-free states different. The log
-difference in this ratio is given by $\log(\rho)$. Since model 1 and model 5 of
-Figure~\ref{fig1:means_cartoons}(C) consist of a single repressor-free state,
-$\rho$ is then necessarily 1 (See Appendix~\ref{sec:non_bursty} for further
-details).
+intuitive way to think about these two terms is as follows: in all kinetic
+models shown in Figure~1(C) the repressor-bound state can only be reached from a
+single repressor-free state. The ratio of these two states --repressor-bound and
+adjacent repressor-free state-- must remain the same for all models, regardless
+of the details included in other promoter states if $\Delta F_R$ represents an
+effective free energy of the repressor binding the DNA operator. The presence of
+other states then draws probability density from the promoter being in either of
+these two states, making the ratio between the repressor-bound state and
+\textit{all} repressor-free states different. The log difference in this ratio
+is given by $\log(\rho)$. Since model 1 and model 5 of Figure~1(C) consist of a
+single repressor-free state, $\rho$ is then necessarily 1 (See
+Appendix~\ref{sec:non_bursty} for further details).
 
 The key outcome of our analysis of the models in
 Figure~\ref{fig1:means_cartoons} is the existence of a master curve shown

@@ -41,21 +41,21 @@ hopeful approximations or biological naivete \cite{Razo-Mejia2018, Chure2019}.
 The fact that thermodynamic and kinetic models for the simple repression motif
 can not only be reconciled, but are indistinguishable from each other at the
 level of mean mRNA count is a consequence of the possible transitions between
-promoter microstates. The promoter microstates in all models shown in
-Figure~\ref{figure1:means_cartoons} can explicitly be separated into two groups:
-1) promoters with repressor bound, and 2) all other promoters states. The single
-path between these two groups of states guarantees detailed-balance between the
-groups. We can therefore separate \textit{expression} related transitions, which
-by definition must be out of equilibrium, with \textit{regulation} transitions
-that can in principle be in equilibrium. This implies that the probability
-distribution of the promoter microstates not involving the repressor take the
-same functional form, allowing us to write the fold-change as an effective free
-energy involving a regulation term, $\Delta F_R$, and a promoter details term,
-$\rho$. We offer this argument as a conjecture, and we suspect that a careful
-argument using the graph-theoretic framework based on the Matrix-Tree
-Theorem~\cite{Gunawardena2012}, might furnish a ``proof'' not with some 
-challenges as this theoretical framework applies, at the present, to finite 
-graphs. 
+promoter microstates. The promoter microstates in all models shown in Figure~1
+can explicitly be separated into two groups: 1) promoters with repressor bound,
+and 2) all other promoters states. The single path between these two groups of
+states guarantees detailed-balance between the groups. We can therefore separate
+\textit{expression} related transitions, which by definition must be out of
+equilibrium, with \textit{regulation} transitions that can in principle be in
+equilibrium. This implies that the probability distribution of the promoter
+microstates not involving the repressor take the same functional form, allowing
+us to write the fold-change as an effective free energy involving a regulation
+term, $\Delta F_R$, and a promoter details term, $\rho$. We offer this argument
+as a conjecture, and we suspect that a careful argument using the
+graph-theoretic framework based on the Matrix-Tree
+Theorem~\cite{Gunawardena2012}, might furnish a ``proof'' not with some
+challenges as this theoretical framework applies, at the present, to finite
+graphs.
 
 To further dissect the relative merits of the different models, we must appeal
 to higher moments of the gene expression probability distribution. To that end,
@@ -103,31 +103,38 @@ combination of operator (repressor binding site) and aTc concentration
 (repressor copy number) cannot constraint both rates independently, but only
 their ratio (See Appendix~\ref{sec:bayesian} for further details).
 
-It is important to mention the potential problems present in all models,
-including model 5 from Figure~\ref{fig2:constit_cartoons}(A). Irreversible
-reactions as the ones used in all transcription events lead to physical
-paradoxes such as infinite entropy production rates. These are mathematical
-conveniences rather than physical reality, leaving the inferred rates for the
-transcription burst rate and burst size as an effective rate with lots of
-(potentially) reversible processes. Also, the state of the art modeling imagines
-the promoter existing in a series of discrete states. This assumption might not
-be entirely true as effects such as DNA supercoiling~\cite{Chong2014,Sevier2016}
-or DNA looping~\cite{Boedicker2013a} can be considered continuous
-variables; although there are formal ways of integrating out such degrees of
-freedom. Furthermore, when computing the fold-change in gene expression
-(Section~\ref{section_02_means}) we assume that the translation efficiency of
-mRNA transcript is equal in cells with and without regulation. There might be
-some known biological effects that could limit the applicability of this
-assumption such as cooperation between the transcription and translation 
-machinery~\cite{Proshkin2010}, or coupling of mRNA transcription and 
-degradation~\cite{Chen2015} among other potential effects. Another implicit 
-assumption in all of the models discussed here is that the effects due to 
-changes in gene copy number during the cell cycle have no effects on the 
-expression profile. For moderate growth rates as the ones used 
-in~\cite{Jones2014} from where we obtained the data, there are at any point at
-most two copies of the gene. On a recent publication, we explored the effects
-that this change in gene dosage can have in gene expression, finding that the
-effects are much more drastic at the protein level~\cite{Razo-Mejia2020}.
+It is important to be clear on the nature of the assumptions  present in all
+models, including model 5 from Figure~\ref{fig2:constit_cartoons}(A). First, as
+with many of the models used routinely in the analysis of transcription, the
+models considered here imagine the promoter as existing in a series of discrete
+states. This assumption is clearly an oversimplification due to effects such as
+DNA supercoiling~\cite{Chong2014,Sevier2016} or DNA
+looping~\cite{Boedicker2013a} which are both parameterized by  continuous
+variables describing DNA shape; although there are formal and very interesting
+ways of integrating out such degrees of freedom. Another facet of the models
+used here is that they can feature irreversible processes characterized by only
+a single rate process with no corresponding return pathway at odds with
+thermodynamics. These irreversible reactions lead to physical paradoxes such as
+infinite entropy production rates. Such models are mathematically convenient and
+serve only as an approximation to the more realistic situation in which the
+forward rates are much larger than the backward rates. One consequence is that
+the inferred rates for the transcription burst rate and burst size  can only be
+thought of as effective rate constants. Another idealization of the models
+considered here is that when computing the fold-change in gene expression
+(Section 2) we assume that the translation efficiency of an mRNA transcript is
+the same in cells with and without regulation. There might be some known
+biological effects that could limit the applicability of this assumption such as
+cooperation between the transcription and translation
+machinery~\cite{Proshkin2010}, or coupling of mRNA transcription and
+degradation~\cite{Chen2015} among other potential effects. Another implicit
+assumption in all of the models discussed here is that the effects due to
+changes in gene copy number during the cell cycle have no effects on the
+expression profile. For moderate growth rates such as those used
+in~\cite{Jones2014} from which we obtained the data, at all points during the
+cell cycle there are at most two copies of the gene of interest. In a recent
+publication, we explored the effects that this change in gene dosage can have in
+gene expression, finding that the effects are much more drastic at the protein
+level~\cite{Razo-Mejia2020}.
 
 More specifically, for model 5 from Figure~\ref{fig2:constit_cartoons}(A), it is
 interesting to speculate what microscopic details are being coarse-grained by
