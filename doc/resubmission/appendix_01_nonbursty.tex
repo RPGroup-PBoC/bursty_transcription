@@ -22,23 +22,17 @@ downstream processes --open complex formation and RNAP
 escape~\cite{Browning2004}. What this allows us to do is to assume that the
 steps leading to transcription can be modeled as being in quasi-equilibrium.
 This is enormously advantageous since we can use the theoretical tools of 
-equilibrium statisticla mechanics to model such process.
+equilibrium statistical mechanics to model such process.
 
 This means that we can enlist the possible microstates in which we can find the
 promoter in order to calculate their probabilities based on quantities such as
 molecular counts and interaction energies. We then assume that the gene
 expression level is proportional to the probability of finding the promoter in
-the transcriptionally active microstate, i.e.,
-\begin{equation}
-\text{average rate of transcription} = \sum_i r_i p_i,
-\label{eq:rate_transcription_si}
-\end{equation}
-where $i$ labels the distinct states, $p_i$ is the probability of the ith state,
-and $r_i$ is the rate of transcription of that state. As mentioned in the main
-text, these models can only deal with the mean gene expression level. This is
-because the probability space we consider is that of the state of the repressor,
-rather than both the state of the repressor and the mRNA counts. Let's now work
-through models 1 and 2 from Figure~\ref{fig1:means_cartoons}(B).
+the transcriptionally active microstate. As mentioned in the main text, these
+models can only deal with the mean gene expression level. This is because the
+probability space we consider is that of the state of the repressor, rather than
+both the state of the repressor and the mRNA counts. Let's now work through
+models 1 and 2 from Figure~\ref{fig1:means_cartoons}(B).
 
 \subsubsection{The Two-State Equilibrium Model}
 In this simplest model, depicted as (1) in Figure~\ref{fig1:means_cartoons}(B),
@@ -47,13 +41,13 @@ bound or repressor unbound. The rate of transcription
 is assumed to be proportional to the fraction of time spent
 in the repressor unbound state.
 From the relative statistical weights listed in
-Figure~\ref{fig1:means_cartoons}(B), the probability $p_U$ of being in the
+Figure~\ref{fig1:means_cartoons}, the probability $p_U$ of being in the
 unbound state is
 \begin{equation}
 p_U = \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\varepsilon_R}\right)^{-1}.
 \end{equation}
 The mean rate of transcription is then given by $r p_U$, as assumed by
-Eq.~\ref{eq:rate_transcription_si}. The mean number of mRNA is
+Eq.~\ref{eq:transcrip_prop_pbound}. The mean number of mRNA is
 set by the balance of average mRNA transcription and degradation rates,
 so it follows that the mean mRNA level is given by
 \begin{equation}
@@ -62,10 +56,11 @@ so it follows that the mean mRNA level is given by
 \end{equation}
 where $r$ is the transcription rate from the repressor unbound state, $\gamma$
 is the mRNA degradation rate, $R$ is repressor copy number, $N_{NS}$ is the
-number of nonspecific binding sites in the genome where repressors spend most of
-their time when not bound to the operator (binding site), $\beta \equiv 1/k_BT$,
-and $\Delta\varepsilon_R$ is the binding energy of a repressor to its operator
-site. The derivation of this result can be found in~\cite{Phillips2015a}.
+number of nonspecific binding sites in the genome where repressors spend most
+of their time when not bound to the operator, $\beta \equiv 1/k_BT$, and
+$\Delta\varepsilon_R$ is the binding energy of a repressor to its operator site.
+
+\paragraph{Fold-change}
 
 The fold-change is  found as the ratio of mean mRNA with and without repressor
 as introduced in Eq.~\ref{eq:fc_def}. Invoking that definition results in
@@ -80,23 +75,25 @@ Figure~\ref{fig1:means_cartoons}(D) with $\rho=1$ and $\Delta F_R =
 In fact it was noted in~\cite{Chure2019} that this two-state model can be viewed
 as the coarse-graining of any equilibrium promoter model in which no
 transcriptionally active states have transcription factor bound, or put
-differently, when there is no overlap between transcription factor bound states
-and transcriptionally active states. We will see this explicitly in the 3-state
-equilibrium model below, but perhaps surprising is that an analogous result
-carries over even to the nonequilibrium models we consider later.
+differently, when there is no overlap between
+transcription factor bound states and transcriptionally
+active states. We will see this explicitly in the 3-state equilibrium model
+below, but perhaps surprising is that an analogous result carries over even to
+the kinetic models we consider later.
 
 \subsubsection{The Three-State Equilibrium Model}
 Compared to the previous model, here we fine-grain the repressor unbound state
 into two separate states: empty, and RNAP bound as shown in (2) in
 Figure~\ref{fig1:means_cartoons}(B). This picture was used in~\cite{Garcia2011a}
 as we use it here, and in~\cite{Razo-Mejia2018} and~\cite{Chure2019} it was
-generalized to incorporate small-molecule inducers that bind the repressor. The
-effect of this generalization is, roughly speaking, simply to rescale $R$ from
-the total number of repressors to a smaller effective number of available
-repressors which are unbound by inducers. We point out that the same
-generalization can be incorporated quite easily into any of our models in
-Figure~\ref{fig1:means_cartoons} by simply rescaling the repressor copy number
-$R$ in the thermodynamic models, or equivalently $k_R^+$ in the kinetic models.
+generalized to incorporate small-molecule inducers that bind the repressor. 
+The effect of this generalization is, roughly speaking,
+simply to rescale $R$ from the total number of repressors to a smaller
+effective number of available repressors which are unbound by inducers.
+We point out that the same generalization can be incorporated quite easily
+into any of our models in Figure~\ref{fig1:means_cartoons} by simply
+rescaling the repressor copy number $R$ in the equilibrium models, or
+equivalently $k_R^+$ in the kinetic models.
 
 The mean mRNA copy number, as derived in Appendix~\ref{sec:non_bursty}
 from a similar enumeration of states and weights as the previous model, is
@@ -110,8 +107,10 @@ from a similar enumeration of states and weights as the previous model, is
 \end{equation}
 where the new variables are $\Delta\varepsilon_P$, the difference in RNAP
 binding energy to its specific site (the promoter) relative to an average
-nonspecific background site, and the RNAP copy number, $P$. The fold-change
-again follows immediately as
+nonspecific background site, and the RNAP copy number, $P$. 
+
+\paragraph{Fold-change}
+The fold-change again follows immediately as
 \begin{align}
 \text{fold-change}
 &= \frac{\frac{P}{N_{NS}} e^{-\beta\Delta\varepsilon_P}}
@@ -136,14 +135,121 @@ models, despite making different coarse-graining commitments, result in the same
 functional form for the fold-change in mean gene expression.  We now explore how
 kinetic models fare when faced with computing the same observable.
 
-\subsection{Derivation of chemical master equation}
-\label{sec:cme_from_cartoon}
 
 Before jumping into the derivations of the general computation of the mean mRNA
 level and the Fano factor we will work through the derivation of an example
 master equation. In particular we will focus on model 1 from
 Figure~\ref{fig1:means_cartoons}(C). The general steps are applicable to all
 other chemical master equations in this work.
+
+% \subsubsection{Nonequilibrium Model Five - Bursty Promoter}
+% The final model we consider shown in Figure~\ref{fig1:means_cartoons}(C) is an
+% intuitive analog to model 1, with just two states, repressor bound or unbound,
+% and transition rates between them of $k_R^+$ and $k_R^-$. In model 1, when in
+% the unbound state, single mRNA transcripts are produced as a Poisson process
+% with some characteristic rate $r$. The current model by contrast produces, at
+% some Poisson rate $k_i$, \textit{bursts} of mRNA transcripts.
+% The burst sizes are assumed to be geometrically distributed with
+% a mean burst size $b$, which we will motivate in Section~\ref{sec:beyond_means}
+% when we derive this model as a certain limiting case of model 4.
+
+% From this intuitive picture and by analogy to model 1, then, it should be
+% plausible that the mean mRNA level is
+% \begin{equation}
+% \langle m\rangle = \frac{k_i b}{\gamma}
+%         \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
+% \end{equation}
+% which will turn out to be correct from a careful calculation. For now, we simply
+% note that just like model 1, the fold-change becomes
+% \begin{equation}
+% \text{fold-change} = \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1}
+% \end{equation}
+% with $\rho=1$ also like model 1.
+% We will also see later how this model emerges as a natural limit of model 4.
+% \mrm{ENDS HERE}
+
+% \mrm{THIS NEEDS TO BE FIXED}
+% \subsubsection{Noise in the Two-State Promoter, RNAP Bound or Unbound.}
+
+% Our second model of constitutive transcription posits an architecture in which
+% the promoter is either empty or bound by RNAP ~\cite{Phillips2015a,
+% Phillips2019}. Here,  as shown in model 2 of Figure~\ref{fig2:constit_cartoons}(A),
+% transcription initiation results in a state transition from the bound to the
+% unbound state, reflecting the microscopic reality that an RNAP that has begun to
+% elongate a transcript is no longer available at the start site to begin another.
+% As shown in Appendix~\ref{sec:non_bursty}, the Fano factor in this model is
+% given by
+% \begin{align}
+%     \nu = 1 -
+%         \frac{r\rate{k}{P}{+}}
+%             {\left(\rate{k}{P}{+} + \rate{k}{P}{-} + r\right)
+%              \left(\gamma + \rate{k}{P}{+} + \rate{k}{P}{-} + r\right)}.
+% \label{eq:model2_fano}
+% \end{align}
+% The problem with this picture is that the Fano factor is always $<1$. To make
+%  contact with the experimental reality of $\nu>1$ as shown in
+%  Figure~\ref{fig2:constit_cartoons}(B), clearly some corrections will be needed.
+%  While this model adds an appealing element of microscopic reality, we are
+%  forced to reject it as the additional complexity is unable to capture the
+%  phenomenology of interest. Obviously the promoter state does in fact proceed
+%  through cycles of RNAP binding, initiating, and elongating, but it seems that
+%  the super-Poissonian noise in mRNA copy number we want to model must be
+%  governed by other features of the system.
+
+% \subsubsection{Noise in the Three-State Promoter, Multistep Transcription
+% Initiation and Escape.} 
+
+% How might we remedy the deficits of model 2? It is known~\cite{DeHaseth1998}
+% that once RNAP initially binds the promoter region, a multitude of distinct
+% steps occur sequentially before RNAP finally escapes into the elongation phase.
+% Perhaps adding some of this mechanistic detail as shown in model 3 of
+% Figure~\ref{fig2:constit_cartoons}(A) might rescue the previous model. The next
+% simplest refinement of that model could consider open complex formation and
+% promoter escape as separate steps rather than as a single effective step. In
+% other words, we construct model 3 by adding a single extra state to model 2, and
+% we will label the two RNAP-bound states as the closed and open complexes,
+% despite the true biochemical details certainly being more complex. For example,
+% earlier work extended this model by adding an additional repressor bound state
+% and did not explicitly consider the limit with no repressor that we analyze
+% here~\cite{Mitarai2015}. Again, our goal here is not a complete accounting of
+% all the relevant biochemical detail; this is an exploratory search for the
+% important features that a model needs to include to square with the known
+% experimental reality of constitutive expression.
+
+% Unfortunately, as hinted at in earlier work~\cite{Mitarai2015}, this model too
+% has Fano factor $\nu<1$. We again leave the algebraic details for
+% Appendix~\ref{sec:non_bursty} and merely state the result that
+% \begin{align}
+% \nu = 1 - \frac{r k_P^+ k_O}{\mathcal{Z}}
+% \frac{k_P^+ + k_P^- + k_O + r + \gamma}
+%     {\mathcal{Z} + \gamma(k_P^+ + k_P^- + k_O + r) + \gamma^2},
+% \label{eq:model3_fano}
+% \end{align}
+% where we defined $\mathcal{Z} = r(k_O + k_P^-) + k_P^+(k_O + r)$ for notational
+% tidiness. This is necessarily less than 1 for arbitrary rate constants.
+
+% In fact, we suspect \textit{any} model in which transcription proceeds through a
+% multistep cycle must necessarily have $\nu<1$. The intuitive argument compares
+% the waiting time distribution to traverse the cycle with the waiting time for a
+% Poisson promoter (model 1) with the same mean time. The latter is simply an
+% exponential distribution. The former is a convolution of multiple exponentials,
+% and intuitively the waiting time distribution for a multistep process
+% should be more peaked with a smaller fractional width than a single
+% exponential with the same mean.
+% A less disperse waiting time distribution means transcription initations are
+% more uniformly distributed in time relative to a Poisson process. Hence the
+% distribution of mRNA over a population of cells should be less variable compared
+% to Poisson, giving $\nu<1$.
+% (In Appendix~\ref{sec:non_bursty} we present a more precise version
+% of the intuitive arguments in this paragraph.)
+% Regardless of the merits of this model in describing the noise properties of
+% constitutive transcription initiation, it ultimately fails the simplest
+% quantitative feature of the data, namely that the Fano factor $> 1$ and hence
+% we must discard this mechanistic picture and search elsewhere.
+% \mrm{ENDS HERE}
+
+\subsection{Derivation of chemical master equation}
+\label{sec:cme_from_cartoon}
 
 \begin{figure}[h!]
 \centering
@@ -287,20 +393,14 @@ form
 In the next section we will write these coupled ODEs in a more compact form using
 matrix notation.
 
-
-
-
-
-
-
 \subsection{Matrix form of the multi-state chemical master equation}
 
 Having derived an example chemical master equation we now focus on writing a
 general matrix form for the kinetic models 1-4 shown in
 Figure~\ref{fig1:means_cartoons}(C) in the main text. In each of these four
 models, the natural mathematicization of their cartoons is as a chemical master
-equation such as the coupled chemical master equations we derived for model 1,
-which for completeness we reproduce here as
+equation such as Eq.~\ref{eq:2state_rep_cme} for model 1, which for
+completeness we reproduce here as
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -329,7 +429,7 @@ time that a bound repressor will unbind, while $k_R^+$ is the probability per
 unit time that an unbound operator will become bound by a repressor. Assuming
 mass action kinetics, $k_R^+$ is proportional to repressor copy number $R$.
 
-Next consider the cartoon for nonequilibrium model 2 in
+Next consider the cartoon for kinetic model 2 in
 Figure~\ref{fig1:means_cartoons}(C). Now we must track probabilities $p_R$,
 $p_P$, and $p_E$ for the repressor bound, empty, and polymerase bound states,
 respectively. By analogy to Eq.~\ref{eq:poisson_promoter_cme_appdx}, the master
@@ -423,18 +523,20 @@ Eqs.~\ref{eq:model2_cme_appdx} and~\ref{eq:generic_cme_appdx} are in fact
 equivalent.
 
 Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case of
-kinetic model 2 in Figure~\ref{fig1:means_cartoons}, in fact the chemical master
-equations for all of the kinetic models in Figure~\ref{fig1:means_cartoons}
-except for model 5 can be cast in this form. (We treat model 5 separately in
-Appendix~\ref{sec:gen_fcn_appdx}.) Model 3 introduces no new subtleties beyond
-model 2 and Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply
-with different matrices of dimension four instead of three. Models 1 and 4 are
-both handled by a special case of Eq.~\ref{eq:generic_cme_appdx} where
-$\mathbf{R_D} = \mathbf{R_A} \equiv \mathbf{R}$, since in these two models
-transcription initiation events do not change promoter state.
+kinetic model 2 in Figure~\ref{fig1:means_cartoons}, in fact the
+chemical master equations for all of the kinetic models in
+Figure~\ref{fig1:means_cartoons} except for model 5 can be cast in this form.
+(We treat model 5 separately in Appendix~\ref{sec:gen_fcn_appdx}.) Model
+3 introduces no new subtleties beyond model 2 and
+Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply with different
+matrices of dimension four instead of three. Models 1 and 4 are both
+handled by Eq.~\ref{eq:2state_rep_cme} in the main text, which is just
+Eq.~\ref{eq:generic_cme_appdx} except in the special case of $\mathbf{R_D} =
+\mathbf{R_A} \equiv \mathbf{R}$, since in these two models transcription
+initiation events do not change promoter state.
 
 Recalling that our goal in this section is to derive expressions for mean mRNA
-and Fano factor for nonequilibrium models 1 through four in
+and Fano factor for kinetic models 1 through four in
 Figure~\ref{fig1:means_cartoons}, and since all four of these models are
 described by Eq.~\ref{eq:generic_cme_appdx}, we can save substantial effort by
 deriving general formulas for mean mRNA and Fano factor from
@@ -829,10 +931,11 @@ introduce the extra conceptual burden of the diagram methods simply for
 computing $\langle\vec{m}^0\rangle$.
 
 \subsection{Kinetic Model One - Poisson Promoter}
-\subsubsection{Mean mRNA}
-For kinetic model 1 in Figure~\ref{fig1:means_cartoons}, we have already shown
-the full master equation in Eq.~\ref{eq:poisson_promoter_cme_appdx}, but for
-completeness we reprint it again as
+
+This first model (model 1 in Figure~\ref{fig1:means_cartoons}) is the one that
+we used in the previous section to motivate the derivation of the chemical
+master equation. Eq.~\ref{eq:poisson_promoter_cme_appdx} shows the two coupled
+master equations, but for completeness we reprint it again as
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -850,10 +953,10 @@ completeness we reprint it again as
 &+ \overbrace{(m+1)\gamma p_U(m+1,t)}^{m + 1 \rightarrow m}
 - \overbrace{\gamma mp_U(m,t)}^{m \rightarrow m - 1}.
 \end{split}
-\label{eq:2state_rep_cme}
+\label{eq:model1_kinetic_cme}
 \end{align}
 This is a direct transcription of the states and rates in
-Figure~\ref{fig1:means_cartoons}(C). This may be converted to the matrix form of
+Figure~\ref{fig1:means_cartoons}. This may be converted to the matrix form of
 the master equation shown in Eq.~\ref{eq:generic_cme_appdx} with matrices
 \begin{equation}
 \vec{p}(m) = \begin{pmatrix} p_R(m) \\ p_U(m) \end{pmatrix},\
@@ -864,9 +967,10 @@ where $\mathbf{R_A}$ and $\mathbf{R_D}$ are equal, so we drop the subscript and
 denote both simply by $\mathbf{R}$. Since our interest is only in steady-state
 we dropped the time dependence as well.
 
-First we need $\langle\vec{m}^0\rangle$. Label its components as $p_R$ and
-$p_U$, the probabilities of finding the system in either promoter state, and
-note that only $p_U$ survives multiplication by $\mathbf{R}$, since
+\subsubsection{Mean mRNA}
+To compute the mean mRNA we need $\langle\vec{m}^0\rangle$. Label its components
+as $p_R$ and $p_U$, the probabilities of finding the system in either promoter
+state, and note that only $p_U$ survives multiplication by $\mathbf{R}$, since
 \begin{equation}
 \mathbf{R} \langle\vec{m}^0\rangle
 = \begin{pmatrix} 0 & 0 \\ 0 & r \end{pmatrix}
@@ -897,14 +1001,18 @@ into Eq.~\ref{eq:mean_m_appdx_ref}, we have
 \langle{m}\rangle = \frac{r}{\gamma} \frac{k_R^-}{k_R^- + k_R^+}.
 \end{equation}
 
-\subsubsection{Fold-Change}
-$k_R^+$ is proportional to the repressor copy number, so in computing
-fold-change, absence of repressor corresponds to $k_R^+\rightarrow0$. Therefore
-fold-change in this model is simply
+\subsubsection{Fold-change}
+The fold-change for this model is easily computed since the unregulated promoter
+has a mean mRNA $\langle m \rangle = r / \gamma$, resulting in a fold-change of
+the form
 \begin{equation}
-\text{fold-change} = \left(1 + \frac{k_R^+}{k_R^-}\right)^{-1},
+\text{fold-change} = \frac{k_R^-}{k_R^- + k_R^+}.
 \end{equation}
-matching the master curve of~\fig{fig1:means_cartoons}(D) with $\rho=1$.
+This can be rewritten as a Fermi function of the form
+\begin{equation}
+\text{fold-change} = \frac{1}{1 + \exp[\log(k_R^+ / k_R^-)]},
+\end{equation}
+giving $\rho = 1$ as indicated in Figure~\ref{fig1:means_cartoons}.
 
 \subsubsection{Fano factor}
 To verify that the Fano factor for model 1 in
@@ -924,29 +1032,23 @@ $\langle\vec{m}\rangle = \langle{m}\rangle$. Then it follows that
 \end{equation}
 as claimed.
 
-\subsection{Kinetic Model Two - RNAP Bound and Unbound States}
+\subsection{Kinetic Model Two - RNAP Bound and Unbound States with RNAP escape}
 
 Our second kinetic model depicted in Figure~\ref{fig1:means_cartoons}(C) mirrors
-the second thermodynamic model of Figure~\ref{fig1:means_cartoons}(B) by
-fine-graining  the repressor unbound state of nonequilibrium model 1, resolving
-it into an empty promoter state and an RNAP-bound state. Note in this picture,
-in contrast with model 4 below, transcription initiation is accompanied by a
+the second equilibrium model of Figure~\ref{fig1:means_cartoons}(B) by
+fine-graining  the repressor unbound state of kinetic model 1, resolving it into
+an empty promoter state and an RNAP-bound state. Note in this picture, in
+contrast with model 4, transcription initiation is accompanied by a
 promoter state change, in keeping with the interpretation as RNAP-bound and
 empty states: if an RNAP successfully escapes the promoter and proceeds to
 elongation of a transcript, clearly it is no longer bound at the promoter.
 Therefore another RNAP must bind before another transcript can be initiated.
 
 The master equation governing this model is analogous to
-Eq.~\ref{eq:2state_rep_cme} for model 1 above. The main subtlety arises since
-transcription initiation accompanies a promoter state change. This can be
-understood by analogy to $\mathbf{K}$. The off-diagonal and diagonal elements of
-$\mathbf{K}$ correspond to transitions arriving at or departing from,
-respectively, the promoter state of interest. If transcription initiation is
-accompanied by promoter state changes, we must have separate matrices for
-arriving and departing transcription events since the arriving and departing
-transitions have different initial copy numbers of mRNA, unlike for $\mathbf{K}$
-where they are the same. The master equation for this model is given by three
-coupled differential equations of the form
+Eq.~\ref{eq:model1_kinetic_cme} for model 1 above. The main subtlety arises
+since transcription initiation accompanies a promoter state change. The full
+master equation for model 2 in Figure~\ref{fig1:means_cartoons} is then of the
+form
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -959,23 +1061,31 @@ coupled differential equations of the form
     \overbrace{k_R^- p_R(m,t)}^{R \rightarrow U}
 - \overbrace{k_R^+ p_E(m,t)}^{U \rightarrow R}
 + \overbrace{(m+1)\gamma p_E(m+1,t)}^{m + 1 \rightarrow m}
-- \overbrace{\gamma mp_E(m,t)}^{m \rightarrow m - 1}.
+- \overbrace{\gamma mp_E(m,t)}^{m \rightarrow m - 1}
 \\
 &
 + \overbrace{k_P^- p_P(m,t)}^{A \rightarrow U}
 - \overbrace{k_P^+ p_E(m,t)}^{U \rightarrow A}
-+ \overbrace{rp_P(m-1,t)}^{m-1 \rightarrow m,\;A \rightarrow U}
++ \overbrace{rp_P(m-1,t)}^{m-1 \rightarrow m,\;A \rightarrow U},
 \\
 \deriv{t}p_P(m,t) =&\; 
 - \overbrace{k_P^- p_P(m,t)}^{A \rightarrow U}
 + \overbrace{k_P^+ p_E(m,t)}^{U \rightarrow A}
 + \overbrace{(m+1)\gamma p_P(m+1,t)}^{m + 1 \rightarrow m}
-- \overbrace{\gamma mp_P(m,t)}^{m \rightarrow m - 1}.
+- \overbrace{\gamma mp_P(m,t)}^{m \rightarrow m - 1}
 \\
 &- \overbrace{rp_P(m,t)}^{m \rightarrow m + 1,\;A \rightarrow U}.
 \end{split}
 \end{align}
-We can rewrite this equation using the matrix format as
+
+To write down this in matrix notation one needs to be careful on how we define
+the matrices involving a transcriptional event. The off-diagonal and diagonal
+elements of $\mathbf{K}$ correspond to transitions arriving at or departing
+from, respectively, the promoter state of interest. If transcription initiation
+is accompanied by promoter state changes, we must have separate matrices for
+arriving and departing transcription events since the arriving and departing
+transitions have different initial copy numbers of mRNA, unlike for $\mathbf{K}$
+where they are the same. The master equation for this model is
 \begin{equation}
 \deriv{t}\vec{p}(m,t) =
 \left( \mathbf{K} - \mathbf{R_D} - \gamma m \mathbf{I} \right) \vec{p}(m,t)
@@ -1013,7 +1123,6 @@ having RNAP bound ($P$), respectively. $\mathbf{R_A}$ describes probability flux
 namely $\vec{p}(m-1)$, and $\mathbf{R_D}$ describes probability flux
 \textit{departing} from the state $\vec{p}(m)$ for a state with one more mRNA,
 namely $\vec{p}(m+1)$. $\mathbf{K}$ is closely analogous to model 1.
-
 
 \subsubsection{Mean mRNA}
 As for model 1, we must first find $\mathbf{R_A} \langle\vect{m}^0\rangle$.
@@ -1070,9 +1179,9 @@ from which $\langle{m}\rangle$ follows readily,
 \label{eq:model2_meanm_appdx}
 \end{equation}
 
-\subsubsection{Fold-Change}
-Fold-change is again found from the ratio prescribed by Eq.~\ref{eq:fc_def},
-from which we have
+\subsubsection{Fold-change}
+Fold-change is again found from the ratio prescribed by Eq.~\ref{eq:fc_def} in
+the main text, from which we have
 \begin{align}
 \text{fold-change}
 &=      \frac{k_R^- k_P^+}
@@ -1170,13 +1279,13 @@ This simplifies to
 \end{equation}
 which further simplifies to
 \begin{equation}
-\nu = 1 - \frac{r k_P^+ } {(k_P^+ + k_P^- + r)(k_P^+ + k_P^- + r + \gamma)}.
+\nu = 1 - \frac{r k_P^+ } {(k_P^+ + k_P^- + r)(k_P^+ + k_P^- + r + \gamma)},
 \end{equation}
+exactly Eq.~\ref{eq:model2_fano} in the main text.
     
 \subsection{Kinetic Model Three - Multistep Transcription Initiation and
 Escape}
-
-One might reasonably complain that the first two ``nonequilibrium'' models we
+One might reasonably complain that the first two ``kinetic'' models we
 have considered are straw men. Their steady states necessarily satisfy detailed
 balance which is equivalent to thermodynamic equilibrium. Why is this the case?
 At steady state there is by definition no net probability flux in or out of each
@@ -1192,9 +1301,8 @@ states. We point out that this model was considered previously
 in~\cite{Mitarai2015} where a comparison was made with model 1 as used
 in~\cite{Jones2014}. The authors of~\cite{Mitarai2015} argued that the
 additional complexity is essential to properly account for the noise in the mRNA
-distribution. As mentioned in the main text, we weigh on this conclusion based
-on the fact that this model cannot reproduce the observable cell-to-cell 
-variability in mRNA copy number.
+distribution. We will weigh in on both models later when we consider observables
+beyond fold-change.
 
 The master equation governing this model is identical in form to model 2 above,
 namely
@@ -1236,11 +1344,12 @@ past literature. The initiation matrices are given by
         0 & 0 & 0 & r
                 \end{pmatrix},
 \end{equation}
-again closely analogous to nonequilibrium model 2.
+again closely analogous to kinetic model 2.
 
 \subsubsection{Mean mRNA}
-In close analogy to model 2 above, $\langle\vec{m}^0\rangle$ is again given by
-Eq.~\ref{eq:vecm0_appdx_ref}, which in this case takes the form
+The expression for mean mRNA is substantially more complicated now.
+$\langle\vec{m}^0\rangle$ is again given by Eq.~\ref{eq:vecm0_appdx_ref}, which
+in this case takes the form
 \begin{equation}
 (\mathbf{K} - \mathbf{R_D} + \mathbf{R_A}) \langle\vec{m}^0\rangle =
 \begin{pmatrix} -k_R^- & k_R^+ & 0 & 0\\
@@ -1287,13 +1396,19 @@ $\mathbf{R_A}\langle\vec{m}^0\rangle = r p_O$. So
     \frac{1}{\gamma}\vec{1}^\dagger\cdot\mathbf{R_A}\langle\vec{m}^0\rangle
 = \frac{r}{\gamma}
     \frac{k_P^+ k_R^- k_O}{k_P^+ k_R^- k_O + r k_P^+ k_R^- +
-                            r (k_P^- + k_O) (k_R^+ + k_R^-)},
+                            r (k_P^- + k_O) (k_R^+ + k_R^-)}.
 \end{equation}
-which equals Eq.~\ref{eq:model3_mean_m} in the main text.
+which can be simplified to
+\begin{equation}
+\langle m\rangle
+= \frac{r}{\gamma}
+\frac{\frac{k_P^+ k_O}{r(k_O + k_P^-)}}
+        {1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)} + \frac{k_R^+}{k_R^-}}.
+\end{equation}
 
-\subsubsection{Fold-Change}
-The mean mRNA is much messier than for the other models. The strategy to compute
-the fold-change is to isolate the terms involving the repressor, so that now the
+\subsubsection{Fold-change}
+
+The strategy is to isolate the terms involving the repressor, so that now the
 fold-change is seen to be simply
 \begin{align}
 \text{fold-change}
@@ -1309,16 +1424,6 @@ fold-change is seen to be simply
 \end{align}
 surprisingly reducing to the master curve of~\fig{fig1:means_cartoons}(D) once
 again, with $\rho = 1 + \frac{k_P^+ (k_O + r)}{r(k_O + k_P^-)}$.
-
-This example hints that an arbitrarily fine-grained model of downstream
-transcription steps may still be collapsed to the form of the master curve for
-the means given in Figure~\ref{fig1:means_cartoons}(D), so long as the repressor
-binding is exclusive with transcriptionally active states. We offer this
-argument as a conjecture, and we suspect that a careful argument using the
-graph-theoretic framework based on the Matrix-Tree
-Theorem~\cite{Gunawardena2012}, might furnish a ``proof'' not with some
-challenges as this theoretical framework applies, at the present, to finite
-graphs.
 
 \subsubsection{Fano factor}
 To compute the Fano factor of the analogous constitutive promoter, we first
@@ -1388,34 +1493,33 @@ and after simplifying, we obtain
 \end{equation}
 
 \subsubsection{Generalizing $\nu<1$ to more fine-grained models}
-In the main text we argued that the convolution of multiple
-exponential distributions should be a distribution with a smaller
-fractional width than the corresponding exponential distribution
-with the same mean.
-This can be made more precise with a result from~\cite{Stewart2007},
-who showed that the convolution of multiple gamma distributions (of which the
-exponential distribution is a special case) is, to a very good approximation,
-also gamma distributed. Using their Eq.~2 for the distribution of the
-convolution, with shape parameters set to 1 to give exponential distributions,
-the total waiting time distribution has a ratio of variance to squared mean
-$\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i k_i\right)^2$, where the $k_i$ are
-the rates of the individual steps. Clearly this is less than 1 and therefore the
-total waiting time distribution is narrower than the corresponding exponential.
+In the main text we argued that the convolution of multiple exponential
+distributions should be a distribution with a smaller fractional width than the
+corresponding exponential distribution with the same mean. This can be made more
+precise with a result from~\cite{Stewart2007}, who showed that the convolution
+of multiple gamma distributions (of which the exponential distribution is a
+special case) is, to a very good approximation, also gamma distributed. Using
+their Eq.~2 for the distribution of the convolution, with shape parameters set
+to 1 to give exponential distributions, the total waiting time distribution has
+a ratio of variance to squared mean $\sigma^2/\mu^2 = \sum_i k_i^2/\left(\sum_i
+k_i\right)^2$, where the $k_i$ are the rates of the individual steps. Clearly
+this is less than 1 and therefore the total waiting time distribution is
+narrower than the corresponding exponential.
 
 We also claimed in the main text that for a process whose waiting time
-distribution is narrower than exponential, i.e., has $\sigma^2/\mu^2<1$,
-the distribution of counts should be less variable than a Poisson
-distribution, leading to a Fano factor $\nu<1$.
-This we argue by analogy to photon statistics where it is known that
-``antibunched'' arrivals, in other words more uniformly distributed in
-time relative to uncorrelated arrivals, generally gives rise to
-sub-Poissonian noise~\cite{Paul1982, Zou1990}. Although loopholes to this
-result are known to exist, to our knowledge they appear to arise from
-uniquely quantum effects so we do not expect they apply for our problem.
-Nevertheless we refrain from elevating this equivalence of
-kinetic cycles with sub-Poissonian noise to a ``theorem.''
+distribution is narrower than exponential, i.e., has $\sigma^2/\mu^2<1$, the
+distribution of counts should be less variable than a Poisson distribution,
+leading to a Fano factor $\nu<1$. This we argue by analogy to photon statistics
+where it is known that ``antibunched'' arrivals, in other words more uniformly
+distributed in time relative to uncorrelated arrivals, generally gives rise to
+sub-Poissonian noise~\cite{Paul1982, Zou1990}. Although loopholes to this result
+are known to exist, to our knowledge they appear to arise from uniquely quantum
+effects so we do not expect they apply for our problem. Nevertheless we refrain
+from elevating this equivalence of kinetic cycles with sub-Poissonian noise to a
+``theorem.''
 
 \subsection{Kinetic Model Four - ``Active'' and ``Inactive'' States}
+
 Model 4 in Figure~\ref{fig1:means_cartoons}(C) is at the core of the theory
 in~\cite{Razo-Mejia2020}. At a glance the cartoon for this model may appear very
 similar to model 2, and mathematically it is, but the interpretation is rather
@@ -1439,18 +1543,24 @@ matrix $R$ describing transcription initiation is diagonal, namely
         \end{pmatrix}.
 \end{equation}
 The master equation takes verbatim the same form as it did for model 1,
-Eq.~\ref{eq:2state_rep_cme}. Meanwhile the promoter transition
-matrix $\mathbf{K}$ is the same as Eq.~\ref{eq:3state_cme_matrices_pt1}
-from model 2, although we relabel the
-rate constants from $k_P^\pm$ to $k^\pm$ to reiterate that these are not simply
-RNAP binding and unbinding rates.
+Eq.~\ref{eq:2state_rep_cme}. Meanwhile the promoter transition matrix
+$\mathbf{K}$ is the same as Eq.~\ref{eq:3state_cme_matrices_pt1} from model 2,
+although we relabel the rate constants from $k_P^\pm$ to $k^\pm$ to reiterate
+that these are not simply RNAP binding and unbinding rates.
+
+% Carrying out the algebra, the mean mRNA can be found to be
+% \begin{equation}
+% \langle m\rangle = \frac{r}{\gamma}
+% \frac{k_R^- k^+}
+% {k_R^- k^+ + k_R^- k^- + k_R^+ k^-},
+% \end{equation}
+% and 
 
 \subsubsection{Mean mRNA}
 The mathematical specification of this model is almost identical to model 2.
 The matrix $\mathbf{K}$ is identical, as is $\mathbf{R_D}$. The only difference
 is that now $\mathbf{R_A}=\mathbf{R_D}$, i.e., both are diagonal, in contrast to
-model 2 where $\mathbf{R_A}$ has an off-diagonal element, as in
-Eq.~\ref{eq:model2_matrices_appdx}. Then the analog of
+model 2 where $\mathbf{R_A}$ has an off-diagonal element. Then the analog of
 Eq.~\ref{eq:model2_K-R+R_for_m0} for finding $\langle{m}^0\rangle$ is
 \begin{equation}
 \begin{pmatrix} -k_R^- & k_R^+ & 0 \\
@@ -1475,8 +1585,7 @@ simply
         \frac{k^+ k_R^-} {k^+ k_R^- + k^- (k_R^+ + k_R^-)}.
 \end{equation}
 
-\subsubsection{Fold-Change}
-
+\subsubsection{Fold-change}
 The fold-change readily follows,
 \begin{align}
 \text{fold-change}
@@ -1492,11 +1601,11 @@ from which we see $\rho = 1 + k^+/k^-$ as shown in~\fig{fig1:means_cartoons}(C).
 \subsubsection{Fano factor}
 Likewise, for computing the Fano factor of this model we may take a shortcut.
 Consider the constitutive model four from Figure~\ref{fig2:constit_cartoons} for
-which we want to compute the Fano factor and compare it to nonequilibrium model
+which we want to compute the Fano factor and compare it to kinetic model
 one of simple repression in Figure~\ref{fig1:means_cartoons}. Mathematically
 these are exactly the same model, just with rates labeled differently and the
 meaning of the promoter states interpreted differently. Furthermore,
-nonequilibrium model 1 from Figure~\ref{fig1:means_cartoons} was the model
+kinetic model 1 from Figure~\ref{fig1:means_cartoons} was the model
 considered by Jones et.\ al.~\cite{Jones2014}, where they derived the Fano
 factor for that model to be
 \begin{equation}
@@ -1507,5 +1616,6 @@ $k_R^- \rightarrow k^+$ will translate this result to our model four from
 Figure~\ref{fig2:constit_cartoons}, we can immediately write down our Fano
 factor as
 \begin{equation}
-\nu = 1 + \frac{r k^-}{(k^- + k^+)(k^- + k^+ + \gamma)}.
+\nu = 1 + \frac{r k^-}{(k^- + k^+)(k^- + k^+ + \gamma)},
 \end{equation}
+as quoted in Eq.~\ref{eq:model4_fano} and in Figure~\ref{fig2:constit_cartoons}.
