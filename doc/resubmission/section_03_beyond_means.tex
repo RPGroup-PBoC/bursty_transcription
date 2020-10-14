@@ -153,10 +153,10 @@ transcription initiations should now be ``bunched'' in time, in contrast to the
 bunching would lead to super-Poissonian noise in the mRNA distribution over a
 population of cells.  Indeed, as shown in Appendix~\ref{sec:non_bursty}, a
 calculation of the Fano factor produces
-\begin{equation}
-\nu = 1 + \frac{r k^-}{(k^+ + k^- + \gamma)(k^+ + k^-)},
+\begin{align}
+\nu &= 1 + \frac{r k^-}{(k^+ + k^- + \gamma)(k^+ + k^-)},
 \label{eq:model4_fano}
-\end{equation}
+\end{align}
 which is strictly greater than 1, verifying the above intuition. Note we have
 dropped the $P$ label on the promoter switching rates to emphasize that these
 very likely do not represent kinetics of RNAP itself. This calculation can also
@@ -255,12 +255,12 @@ A standard integral table shows $\int_0^\infty x^n e^{-ax}\,dx = n!/a^{n+1}$, so
 which is exactly the geometric distribution with standard parameter
 $\theta\equiv k^-/(k^- + r)$ and domain $n \in \{0, 1, 2, \dots\}$.
 The mean of the geometric distribution, with this convention, is
-\begin{equation}
+\begin{align}
 \langle n\rangle = \frac{1 - \theta}{\theta}
         = \left(1 - \frac{k^-}{k^- + r}\right)
                     \frac{k^- + r}{k^-}
         = \frac{r}{k^-},
-\end{equation}
+\end{align}
 exactly as we guessed intuitively above.
 
 So in taking the limit $r,k^-\rightarrow\infty$, $r/k^-\equiv b$, we obtain a
@@ -268,13 +268,13 @@ model which effectively has only a single promoter state, which initiates bursts
 at rate $k^+$ (transitions to the active state, in the model 4 picture). The
 master equation for mRNA copy number $m$ as derived in
 Appendix~\ref{sec:non_bursty} takes the form
-\begin{eqnarray}
+\begin{align}
 \begin{split}
 {d \over dt}p(m,t) = & (m+1)\gamma p(m+1,t) - m\gamma p(m,t) \\
         &+ \sum_{m'=0}^{m-1} k_i p(m',t) \text{Geom}(m-m';b)
          - \sum_{m'=m+1}^\infty k_i p(m,t) \text{Geom}(m'-m;b),
 \end{split}
-\end{eqnarray}
+\end{align}
 where we use $k_i$ to denote the burst initiation rate, $\text{Geom}(n;b)$ is
 the geometric distribution with mean~$b$, i.e., $\text{Geom}(n;b) =
 \frac{1}{1+b}\left(\frac{b}{1+b}\right)^n$ (with domain over nonnegative
@@ -325,7 +325,6 @@ could very well break down, so we will have to keep it in mind when we infer
 repressor rates from the Jones et.\ al.\ single-cell mRNA counts data
 later~\cite{Jones2014}.
 
-\mrm{Griffin suggests removing this paragraph}
 In reflecting on these 5 models, the reader may feel that exploring a multitude
 of potential models just to return to a very minimal phenomenological model of
 bursty transcription may seem highly pedantic. But the purpose of the exercise
