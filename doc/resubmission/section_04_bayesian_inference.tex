@@ -330,41 +330,17 @@ internally self-consistent framework that adequately describes the data, but
 attempting to translate between models reveals the dubious physical
 interpretation of their parameters.
 
-\mrm{ I would vote to remove this paragraph completely.}
-We mention one further comparison, between our inferred parameters and the work
-of Chong et.\ al.~\cite{Chong2014}, which is interesting and puzzling.
-Experiments in~\cite{Chong2014} convincingly argue that supercoiling accumulated
-from the production of mRNA transcripts is key in setting the burstiness of mRNA
-production. In their model, this supercoiling occurs on the scale of
-$\sim100$~kb domains of DNA. This suggests that all genes on a given domain
-should burst in synchrony, and that the difference between highly and lowly
-expressed genes is the \textit{size} of transcriptional bursts, not the
-\textit{time between} bursts. But here, all burst sizes we infer in
-Figure~\ref{fig:constit_post_full}(C) are comparable and burst rates vary
-wildly. It is not immediately clear how to square this circle. Furthermore,
-Figure~7E in~\cite{Chong2014} reports values of the quantity they label
-$\beta/\alpha$ and we label $k^+/k^-$ in model 4 from
-Figure~\ref{fig2:constit_cartoons}. In contrast to the findings
-of~\cite{Razo-Mejia2020}, Chong et.\ al.\ do not find $k^+/k^-\ll1$ for most of
-the genes they consider. This begs the question: is the \textit{galK}
-chromosomal locus used for the reporter constructs in~\cite{Razo-Mejia2020}
-and~\cite{Jones2014} merely an outlier, or is there a deeper puzzle here waiting
-to be resolved? Without more apples-to-apples data we can only speculate, and we
-leave it as an intriguing open question for the field.
-
-Despite such puzzles, our goal here is not to unravel the mysterious origins of
-burstiness in transcription. Our remaining task in this work is a determination
-of the physical reality of thermodynamic binding energies in
-Figure~\ref{fig1:means_cartoons}, as codified by the thermodynamic-kinetic
-equivalence of Eq.~\ref{eq:deltaFR_eq_noneq_equiv}. For our phenomenological
-needs here model 5 in Figure~\ref{fig2:constit_cartoons}(A) is more than
-adequate: the posterior distributions in Figure~\ref{fig:constit_post_full}(C)
-are cleanly identifiable and the predictive checks in
-Figure~\ref{figS:ppc_unreg} indicate no discrepancies between the model and the
-mRNA single-molecule count data of~\cite{Jones2014}. Of the models we have
-considered it is unique in satisfying both these requirements. So we will
-happily use it as a foundation to build upon in the next section when we add
-regulation.
+Our remaining task in this work is a determination of the physical reality of
+thermodynamic binding energies in Figure~\ref{fig1:means_cartoons}, as codified
+by the thermodynamic-kinetic equivalence of Eq.~\ref{eq:deltaFR_eq_noneq_equiv}.
+For our phenomenological needs here model 5 in
+Figure~\ref{fig2:constit_cartoons}(A) is more than adequate: the posterior
+distributions in Figure~\ref{fig:constit_post_full}(C) are cleanly identifiable
+and the predictive checks in Figure~\ref{figS:ppc_unreg} indicate no
+discrepancies between the model and the mRNA single-molecule count data
+of~\cite{Jones2014}. Of the models we have considered it is unique in satisfying
+both these requirements. As a result we will use it as a foundation to build
+upon in the next section when we add regulation.
 
 \subsection{Transcription factor kinetics can be inferred from single-cell mRNA
 distribution measurements}\label{sec:rep_kinetics_inference}
@@ -509,23 +485,22 @@ $\alpha$ and $\beta$, defined for notational convenience, are
 \end{align}
 
 This likelihood is rather inscrutable. We did not find any of the known
-analytical approximations for ${_2F_1}$ terribly useful in gaining intuition, so
-we instead resorted to numerics. One insight we found
-was that for very strong or very weak repression, the distribution in
-Eq.~\ref{eq:p_m_bursty+rep} is well approximated by a negative binomial with
-burst size $b$ and burst rate $k_i$ equal to their constitutive \textit{lacUV5}
-values, except with $k_i$ multiplied by the fold-change
-$\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again only the ratio
-$k_R^+/k_R^-$ was detectable. But for intermediate repression, the distribution
-was visibly broadened with Fano factor greater than $1+b$, the value for the
-corresponding constitutive case. This indicates that the repressor rates had
-left an imprint on the distribution, and perhaps intuitively, this intermediate
-regime occurs for values of $k_R^\pm$ comparable to the burst rate $k_i$. Put
-another way, if the repressor rates are much faster or much slower than $k_i$,
-then there is a timescale separation and effectively only one timescale remains,
-$k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three rates in the problem
-are comparable does the mRNA distribution retain detectable information about
-them.
+analytical approximations for ${_2F_1}$ useful in gaining intuition, so we
+instead resorted to numerics. One insight we found was that for very strong or
+very weak repression, the distribution in Eq.~\ref{eq:p_m_bursty+rep} is well
+approximated by a negative binomial with burst size $b$ and burst rate $k_i$
+equal to their constitutive \textit{lacUV5} values, except with $k_i$ multiplied
+by the fold-change $\left(1+k_R^+/k_R^-\right)^{-1}$. In other words, once again
+only the ratio $k_R^+/k_R^-$ was detectable. But for intermediate repression,
+the distribution was visibly broadened with Fano factor greater than $1+b$, the
+value for the corresponding constitutive case. This indicates that the repressor
+rates had left an imprint on the distribution, and perhaps intuitively, this
+intermediate regime occurs for values of $k_R^\pm$ comparable to the burst rate
+$k_i$. Put another way, if the repressor rates are much faster or much slower
+than $k_i$, then there is a timescale separation and effectively only one
+timescale remains, $k_i\left(1+k_R^+/k_R^-\right)^{-1}$. Only when all three
+rates in the problem are comparable does the mRNA distribution retain detectable
+information about them.
 
 Next we specify priors. As for the constitutive model, weakly informative
 log-normal priors are a natural choice for all our rates. We found that if the

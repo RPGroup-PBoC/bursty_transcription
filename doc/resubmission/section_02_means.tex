@@ -22,24 +22,26 @@ $i^{\text{th}}$ state, and $r_i$ is the rate of transcription of that state.
 Ultimately, the different models differ along several key aspects: what states
 to consider and how to compute the probabilities of those states.
 
-The first class of models that are the focus of the present section on
-predicting the mean level of gene expression, sometimes known as thermodynamic
-models, invoke the tools of equilibrium statistical mechanics to compute the
-probabilities of the promoter microstates~\cite{Ackers1982, Shea1985,
-Buchler2003, Vilar2003a, Vilar2003b, Bintu2005a, Bintu2005c, Gertz2009,
-Sherman2012, Saiz2013}. As seen in Figure~\ref{fig1:means_cartoons}(B), even
-within the class of thermodynamic models, we can make different commitments
-about the underlying microscopic states of the promoter. Model 1 considers only
-two states: a state in which a repressor (with copy number $R$) binds to an
-operator and a transcriptionally active state. The free energy difference
-between the repressor binding the operator, i.e. a specific binding site, and
-one of the $N_{NS}$ non-specific sites is given by $\Delta\varepsilon_R$ (given
-in $k_BT$ units as $\beta\equiv (k_BT)^{-1}$). Model 2 expands this model to
-include an empty promoter where no transcription happens, as well as a state on
-which one of the $P$ RNAPs binds to the promoter with binding energy
-$\Delta\varepsilon_P$. Indeed, the list of options considered here does not at
-all exhaust the suite of different microscopic states we can assign to the
-promoter.
+The first class of models that are the subject of the present section focus on
+predicting the mean level of gene expression. These models, sometimes known as
+thermodynamic models, invoke the tools of equilibrium statistical mechanics to
+compute the probabilities of the promoter microstates~\cite{Ackers1982,
+Shea1985, Buchler2003, Vilar2003a, Vilar2003b, Bintu2005a, Bintu2005c,
+Gertz2009, Sherman2012, Saiz2013}. As seen in
+Figure~\ref{fig1:means_cartoons}(B), even within the class of thermodynamic
+models, we can make different commitments about the underlying microscopic
+states of the promoter. Model 1 considers only two states: a state in which a
+repressor (with copy number $R$) binds to an operator and a transcriptionally
+active state. The free energy difference between the repressor binding the
+operator, i.e. a specific binding site, and one of the $N_{NS}$ non-specific
+sites is given by $\Delta\varepsilon_R$ (given in $k_BT$ units with $\beta\equiv
+(k_BT)^{-1}$). Model 2 expands this model to include an empty promoter where no
+transcription occurs, as well as a state in which one of the $P$ RNAPs binds to
+the promoter with binding energy $\Delta\varepsilon_P$. Indeed, the list of
+options considered here does not at all exhaust the suite of different
+microscopic states we can assign to the promoter. The essence of thermodynamic 
+models is to assign a discrete set of states and to use equilibrium statistical 
+mechanics to compute the probabilities of occupancy of those states.
 
 The second class of models that allow us to access the mean gene expression use
 chemical master equations to compute the probabilities of the different
@@ -94,15 +96,15 @@ utility in dissecting transcriptional regulation is its ratiometric nature,
 which removes many secondary effects that are present when making an absolute
 gene expression measurement. Also, by measuring otherwise identical cells with
 and without a transcription factor present, any biological noise common to both
-conditions can be made to cancel away.
+conditions can be made to cancel out.
 
 Figure~\ref{fig1:means_cartoons}(B) and (C) depicts a smorgasbord of
 mathematicized cartoons for simple repression using both thermodynamic and
 kinetic models, respectively, that have appeared in previous literature. For
 each cartoon, we calculate the fold-change in mean gene expression as predicted
 by that model, deferring most algebraic details to
-Appendix~\ref{sec:non_bursty}. What we will find is that
-for all cartoons the fold-change can be written as a Fermi function 
+Appendix~\ref{sec:non_bursty}. What we will find is that for all cartoons the
+fold-change can be written as a Fermi function of the form
 \begin{equation}
  \text{fold-change} = \left( 1 + \exp(-\Delta F_R + \log(\rho))  \right)^{-1},
  \label{eq:deltaFR_eq_noneq_equiv}
@@ -162,8 +164,8 @@ the same observable.
 
 \subsubsection{Kinetic models}
 One of the main difference between models shown in
-Figure~\ref{fig1:means_cartoons}(C), casted in the language of chemical master
-equations, compared with the thermodynamic models discussed in the previous 
+Figure~\ref{fig1:means_cartoons}(C), cast in the language of chemical master
+equations, compared with the thermodynamic models discussed in the previous
 section is the probability space over which they are built. Rather than keeping
 track only of the microstate of the promoter, and assuming that gene expression
 is proportional to the probability of the promoter being in a certain
@@ -185,10 +187,7 @@ balance between these two groups is satisfied. What this implies is that the
 steady-state distribution of each of the non-repressor states has the same
 functional form with or without the repressor, allowing us to write the
 fold-change as a product of the ratio of the binding and unbinding rates of the
-promoter, and the promoter details. This is \mrm{This is based in one of the
-comments from reviewer \# 2. It is empirically true for all models we explored,
-but I don't know how to prove that it is a general statement for any
-unimaginable complex model.}
+promoter, and the promoter details. This results in a fold-change of the form
 \begin{align}
 \text{fold-change} &= \left( 1 + \frac{k_R^+}{k_R^-} \rho \right)^{-1},\\
 &= (1 + \exp(-\Delta F_R + \log(\rho) ))^{-1},
