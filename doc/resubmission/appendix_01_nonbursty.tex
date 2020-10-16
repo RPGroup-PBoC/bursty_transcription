@@ -399,8 +399,7 @@ Having derived an example chemical master equation we now focus on writing a
 general matrix form for the kinetic models 1-4 shown in
 Figure~\ref{fig1:means_cartoons}(C) in the main text. In each of these four
 models, the natural mathematicization of their cartoons is as a chemical master
-equation such as Eq.~\ref{eq:2state_rep_cme} for model 1, which for
-completeness we reproduce here as
+equation. For model 1 we have the master equation
 \begin{align}
 \begin{split}
 \deriv{t}p_R(m,t) =& 
@@ -523,17 +522,15 @@ Eqs.~\ref{eq:model2_cme_appdx} and~\ref{eq:generic_cme_appdx} are in fact
 equivalent.
 
 Although we derived Eq.~\ref{eq:generic_cme_appdx} for the particular case of
-kinetic model 2 in Figure~\ref{fig1:means_cartoons}, in fact the
-chemical master equations for all of the kinetic models in
-Figure~\ref{fig1:means_cartoons} except for model 5 can be cast in this form.
-(We treat model 5 separately in Appendix~\ref{sec:gen_fcn_appdx}.) Model
-3 introduces no new subtleties beyond model 2 and
-Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply with different
-matrices of dimension four instead of three. Models 1 and 4 are both
-handled by Eq.~\ref{eq:2state_rep_cme} in the main text, which is just
-Eq.~\ref{eq:generic_cme_appdx} except in the special case of $\mathbf{R_D} =
-\mathbf{R_A} \equiv \mathbf{R}$, since in these two models transcription
-initiation events do not change promoter state.
+kinetic model 2 in Figure~\ref{fig1:means_cartoons}, in fact the chemical master
+equations for all of the kinetic models in Figure~\ref{fig1:means_cartoons}
+except for model 5 can be cast in this form. (We treat model 5 separately in
+Appendix~\ref{sec:gen_fcn_appdx}.) Model 3 introduces no new subtleties beyond
+model 2 and Eq.~\ref{eq:generic_cme_appdx} applies equally well to it, simply
+with different matrices of dimension four instead of three. Models 1 and 4 are
+both Eq.~\ref{eq:generic_cme_appdx} except that $\mathbf{R_D} = \mathbf{R_A}
+\equiv \mathbf{R}$, since in these two models transcription initiation events do
+not change promoter state.
 
 Recalling that our goal in this section is to derive expressions for mean mRNA
 and Fano factor for kinetic models 1 through four in
@@ -1279,10 +1276,9 @@ This simplifies to
 \end{equation}
 which further simplifies to
 \begin{equation}
-\nu = 1 - \frac{r k_P^+ } {(k_P^+ + k_P^- + r)(k_P^+ + k_P^- + r + \gamma)},
+\nu = 1 - \frac{r k_P^+ } {(k_P^+ + k_P^- + r)(k_P^+ + k_P^- + r + \gamma)}.
 \end{equation}
-exactly Eq.~\ref{eq:model2_fano} in the main text.
-    
+
 \subsection{Kinetic Model Three - Multistep Transcription Initiation and
 Escape}
 One might reasonably complain that the first two ``kinetic'' models we
@@ -1542,11 +1538,11 @@ matrix $R$ describing transcription initiation is diagonal, namely
                 0 & 0 & r
         \end{pmatrix}.
 \end{equation}
-The master equation takes verbatim the same form as it did for model 1,
-Eq.~\ref{eq:2state_rep_cme}. Meanwhile the promoter transition matrix
-$\mathbf{K}$ is the same as Eq.~\ref{eq:3state_cme_matrices_pt1} from model 2,
-although we relabel the rate constants from $k_P^\pm$ to $k^\pm$ to reiterate
-that these are not simply RNAP binding and unbinding rates.
+The master equation takes verbatim the same form as it did for model 1.
+Meanwhile the promoter transition matrix $\mathbf{K}$ is the same as
+Eq.~\ref{eq:3state_cme_matrices_pt1} from model 2, although we relabel the rate
+constants from $k_P^\pm$ to $k^\pm$ to reiterate that these are not simply RNAP
+binding and unbinding rates.
 
 % Carrying out the algebra, the mean mRNA can be found to be
 % \begin{equation}
