@@ -103,7 +103,7 @@ im = ax.scatter(
 # Add colorbar
 cbar = fig.colorbar(im, ax=ax, pad=0.01)
 # Set colorbar legend
-cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
+cbar.set_label(r"$\Delta\epsilon_P \; (k_BT)$")
 
 # Annotate points
 for i, (row, data) in enumerate(df_summary.iterrows()):
