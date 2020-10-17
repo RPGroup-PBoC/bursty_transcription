@@ -54,89 +54,12 @@ relevant features of the data, then we should be able to find values for the
 model parameters that can match theoretical predictions with single-molecule
 mRNA count distributions. A natural language for this parameter inference
 problem is that of Bayesian probability. We will then build a Bayesian inference
-pipeline to fit the model parameters to data. To gain intuition on how this
-analysis is done we will begin with the ``wrong'' model 1 in
-Figure~\ref{fig2:constit_cartoons}(A). We will use the full dataset of
+pipeline to fit the model parameters to data. We will use the full dataset of
 single-cell mRNA counts from~\cite{Jones2014} used in
-Figure~\ref{fig2:constit_cartoons}(B).
-
-\subsubsection{Model 1: Poisson promoter}
-
-Model 1 in Figure~\ref{fig2:constit_cartoons}(A) predicts a  mRNA distribution
-whose steady-state solution is given by a Poisson distribution with parameter
-$\lambda \equiv r / \gamma$, where $r$ is the mRNA production rate, and $\gamma$
-is the mRNA degradation rate~\cite{Sanchez2013}. The goal of our inference
-problem is then to find the probability distribution for the parameter value
-$\lambda$ given the experimental data. By Bayes' theorem this can be written as
-\begin{equation}
-p(\lambda \mid D) = {p(D \mid \lambda) p(\lambda) \over p(D)},
-\end{equation}
-where $D = \{m_1, m_2, \ldots, m_N \}$ are the single-cell mRNA experimental
-counts. As is standard we will neglect the denominator $p(D)$ on the right
-hand side since it is independent of $\lambda$ and serves only as a
-normalization factor.
-
-The steady-state solution for the master equation defines the likelihood term
-for a single cell $p(m \mid \lambda)$. What this means is that for a given
-choice of parameter $\lambda$, under model 1 of
-Figure~\ref{fig2:constit_cartoons}(A), we expect to observe $m$ mRNAs in a
-single cell with probability
-\begin{equation}
-p(m\mid\lambda) = \frac{\lambda^m e^{-\lambda}}{m!}.
-\label{eq:poisson_inference010}
-\end{equation}
-Assuming each cell's mRNA count in our dataset is independent of others, the
-likelihood of the full inference problem $p(D\mid\lambda)$ is simply a product
-of the single cell likelihoods given by Eq.~\ref{eq:poisson_inference010} above, so
-\begin{equation}
-p(D\mid\lambda) = \prod_{k=1}^N \frac{\lambda^{m_k}e^{-\lambda}}{m_k!}.
-\end{equation}
-
-To proceed we need to specify a prior distribution $p(\lambda)$. In this case we
-are extremely data-rich, as the dataset from Jones et.\ al~\cite{Jones2014} has
-of order 1000-3000 single-cell measurements for each promoter, so our choice of
-prior matters little here, as long as it is sufficiently broad. For details on
-the prior selection we refer the reader to Appendix~\ref{sec:bayesian}. For our
-purpose here it suffices to specify that we use as prior a Gamma distribution.
-This particular choice of prior introduces two new parameters, $\alpha$ and
-$\beta$, which parametrize the gamma distribution itself, which we use to encode
-the range of $\lambda$ values we view as reasonable. Recall $\lambda$ is the
-mean steady-state mRNA count per cell, which \textit{a priori} could plausibly
-be anywhere from 0 to a few hundred. $\alpha=1$ and $\beta=1/50$ achieve this,
-since the gamma distribution is strictly positive with mean $\alpha/\beta$ and
-standard deviation $\sqrt{\alpha}/\beta$.
-
-As detailed in Appendix~\ref{sec:bayesian} this particular choice of prior is
-known as the \textit{conjugate} prior for a Poisson likelihood.
-Conjugate priors have the convenient properties that a closed form exists for the posterior distribution $p(\lambda \mid D)$ - unusual in Bayesian inference problems - and the closed form posterior takes the same form as the prior. For
-our case of a Poisson distribution likelihood with its
-Gamma distribution conjugate prior, the posterior distribution is also a Gamma
-distribution~\cite{Gelman2013}. Specifically the two parameters $\alpha'$ and
-$\beta'$ for this posterior distribution take the form $\alpha' = \alpha +
-\bar{m} N$ and $\beta' = \beta + N$, where we defined the sample mean $\bar{m} =
-\frac{1}{N}\sum_{k=1}^N m_k$ for notational convenience, and $N$ is the number
-of cells in our dataset. Furthermore, given that $N$ is $\mathcal{O}(10^3)$ and
-$\langle m\rangle \gtrsim 0.1$ for all promoters measured in~\cite{Jones2014}
-our data easily overwhelms the choice of prior, and allows us to approximate the
-Gamma distribution with a Gaussian distribution with mean $\bar{m}$ and variance
-$\bar{m} / N$ with marginal errors. As an example with real numbers, for the
-\textit{lacUV5} promoter, Jones et.\ al~\cite{Jones2014} measured 2648 cells
-with an average mRNA count per cell of $\bar{m} \approx 18.7$. For this case our
-posterior distribution $P(\lambda \mid D)$ would be a Gaussian distribution with
-mean $\mu = 18.7$, and a standard deviation $\sigma \approx 0.08$. This suggests
-we have inferred our model's one parameter to a precision of order 1\%.
-
-We remind the reader that we began this section claiming that the Poisson model
-was ``wrong'' since it could not reproduce features of the data such as a Fano
-factor $> 1$. The fact that we obtain such a narrow posterior distribution for our
-parameter $P(\lambda \mid D)$ does not equate to the model being adequate to
-describe the data. What this means is that given the data $D$, only values
-in a narrow range are remotely plausible for the parameter $\lambda$,
-but a narrow posterior distribution does not necessarily
-mean the model accurately depicts reality.
-As we will see later in Figure~\ref{fig:constit_post_full} after
-exploring the bursty promoter model, indeed the correspondence
-when contrasting the Poisson model with the experimental data is quite poor.
+Figure~\ref{fig2:constit_cartoons}(B). To gain intuition on how this analysis is
+done we analyzed the ``wrong'' model 1 in Figure~\ref{fig2:constit_cartoons}(A).
+For this analysis, we direct the reader to Appendix~\ref{sec:bayesian} as an
+intuitive introduction to the Bayesian framework with a simpler model.
 
 \subsubsection{Model 5 - Bursty promoter}
 
@@ -181,8 +104,8 @@ We carried out Markov-Chain Monte Carlo (MCMC) sampling on the posterior of this
 model, starting with the constitutive \textit{lacUV5} dataset
 from~\cite{Jones2014}. The resulting MCMC samples are shown in
 Figure~\ref{fig:constit_post_full}(A). In contrast to the active/inactive
-constitutive model considered in~\cite{Razo-Mejia2020} (nonequilibrium model 4
-in Figure~\ref{fig2:constit_cartoons}(A)), this model is well-identified with both
+constitutive model considered in~\cite{Razo-Mejia2020} (kinetic model 4 in
+Figure~\ref{fig2:constit_cartoons}(A)), this model is well-identified with both
 parameters determined to a fractional uncertainty of 5-10\%. The strong
 correlation reflects the fact that their product sets the mean of the mRNA
 distribution, which is tightly constrained by the data, but there is weak
@@ -190,12 +113,12 @@ distribution, which is tightly constrained by the data, but there is weak
 product.
 
 Having found the model's posterior to be well-identified as with the Poisson
-promoter, the next step is to compare both models with experimental data. To do
-this for the case of the bursty promoter, for each of the parameter samples
-shown in Figure~\ref{fig:constit_post_full}(A) we generated negative
-bionomial-distributed mRNA counts. As MCMC samples parameter space
-proportionally to the posterior distribution, this set of random samples span
-the range of possible values that we would expect given the correspondence
+promoter (Appendix~\ref{sec:bayesian}), the next step is to compare both models
+with experimental data. To do this for the case of the bursty promoter, for each
+of the parameter samples shown in Figure~\ref{fig:constit_post_full}(A) we
+generated negative bionomial-distributed mRNA counts. As MCMC samples parameter
+space proportionally to the posterior distribution, this set of random samples
+span the range of possible values that we would expect given the correspondence
 between our theoretical model and the experimental data. A similar procedure can
 be applied to the Poisson promoter. To compare so many samples with the actual
 observed data, we can use empirical cumulative distribution functions (ECDF) of
@@ -212,8 +135,8 @@ promoter model is shown in blue. Again the darker tone shows the median, while
 the lighter color encompasses 95\% of the randomly generated samples. Unlike the
 Poisson promoter model, the experimental ECDF closely tracks the posterior
 predictive ECDF, indicating this model is actually able to generate the observed
-data and increasing our confidence that this model
-is sufficient to parametrize the physical reality of the system.
+data and increasing our confidence that this model is sufficient to parametrize
+the physical reality of the system.
 
 The commonly used promoter sequence \textit{lacUV5} is our primary
 target here, since it forms the core of all the

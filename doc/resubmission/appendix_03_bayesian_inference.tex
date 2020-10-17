@@ -198,16 +198,44 @@ theoretical machinery to our non-equilibrium models. In particular in this
 section we will focus on model 1 and model 5 in
 Figure~\ref{fig2:constit_cartoons}(A). Model 1, the Poisson promoter, will help
 us build practical intuition into the implementation of the Bayesian inference
-pipeline as we noted in Section~\ref{sec:beyond_means} of the main text that
-this model cannot be reconciled with experimental data from observables such as
-the Fano factor. In other words, we acknowledge that this model is ``wrong,''
-but we still see value in going through the analysis since the simple nature of
-the model translates into a neat statistical analysis.
+pipeline. As we noted in Section~\ref{sec:beyond_means} of the main text, this
+model cannot be reconciled with experimental data from observables such as the
+Fano factor. In other words, we acknowledge that this model is ``wrong,'' but we
+still see value in going through the analysis since the simple nature of the
+model translates into a neat statistical analysis.
 
 \subsubsection{Model 1 - Poisson promoter}
 
-As specified in the main test, the mRNA steady-state distribution for model 1 in
-Figure~\ref{fig2:constit_cartoons}(A) is Poisson with parameter $\lambda$.
+Model 1 in Figure~\ref{fig2:constit_cartoons}(A) predicts a  mRNA distribution
+whose steady-state solution is given by a Poisson distribution with parameter
+$\lambda \equiv r / \gamma$, where $r$ is the mRNA production rate, and $\gamma$
+is the mRNA degradation rate~\cite{Sanchez2013}. The goal of our inference
+problem is then to find the probability distribution for the parameter value
+$\lambda$ given the experimental data. By Bayes' theorem this can be written as
+\begin{equation}
+p(\lambda \mid D) = {p(D \mid \lambda) p(\lambda) \over p(D)},
+\end{equation}
+where $D = \{m_1, m_2, \ldots, m_N \}$ are the single-cell mRNA experimental
+counts. As is standard we will neglect the denominator $p(D)$ on the right
+hand side since it is independent of $\lambda$ and serves only as a
+normalization factor.
+
+The steady-state solution for the master equation defines the likelihood term
+for a single cell $p(m \mid \lambda)$. What this means is that for a given
+choice of parameter $\lambda$, under model 1 of
+Figure~\ref{fig2:constit_cartoons}(A), we expect to observe $m$ mRNAs in a
+single cell with probability
+\begin{equation}
+p(m\mid\lambda) = \frac{\lambda^m e^{-\lambda}}{m!}.
+\label{eq:poisson_inference010}
+\end{equation}
+Assuming each cell's mRNA count in our dataset is independent of others, the
+likelihood of the full inference problem $p(D\mid\lambda)$ is simply a product
+of the single cell likelihoods given by Eq.~\ref{eq:poisson_inference010} above, so
+\begin{equation}
+p(D\mid\lambda) = \prod_{k=1}^N \frac{\lambda^{m_k}e^{-\lambda}}{m_k!}.
+\end{equation}
+
 Throughout this Appendix we will appeal to the convenient notation for
 probability distributions of the form
 \begin{equation}
