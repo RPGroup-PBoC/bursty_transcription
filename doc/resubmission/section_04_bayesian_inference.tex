@@ -82,14 +82,14 @@ geometrically-distributed size with mean size $b$.
 
 As for the Poisson promoter model, this expression for the steady-state mRNA
 distribution is exactly the likelihood we want to use when stating Bayes
-theorem. Again denoting the single-cell mRNA count data as $D=\{m_1, m_2,\dots,
-m_N\}$, here Bayes' theorem takes the form
+theorem. Denoting the single-cell mRNA count data as $D=\{m_1, m_2,\dots,
+m_N\}$, Bayes' theorem takes the form
 \begin{equation}
 p(k_i, b \mid D) \propto p(D\mid k_i,b)p(k_i, b).
 \end{equation}
-We already have our likelihood -- the product of $N$ negative binomials as
-Eq.~\ref{eq:neg_bionom} -- so we only need to choose priors on $k_i$ and $b$.
-For the datasets from~\cite{Jones2014} that we are analyzing, as for the Poisson
+We already have our likelihood --the product of $N$ negative binomials as
+Eq.~\ref{eq:neg_bionom}-- so we only need to choose priors on $k_i$ and $b$. For
+the datasets from~\cite{Jones2014} that we are analyzing, as for the Poisson
 promoter model above we are still data-rich so the prior's influence remains
 weak, but not nearly as weak because the dimensionality of our model has
 increased from one parameter to two. Details on the arguments behind our prior
@@ -158,10 +158,10 @@ comparison.} (A) The joint posterior density of model 5, the bursty promoter
 with negative binomially-distributed steady state, is plotted with MCMC samples.
 1D marginal probability densities are plotted as flanking histograms. The model
 was fit on \textit{lacUV5} data from~\cite{Jones2014}. (B) The empirical
-distribution function (ECDF) of the observed population distribution of mRNA
-transcripts under the control of a constitutive \textit{lacUV5} promoter is
-shown in black. The median posterior predictive ECDFs for models (1), Poisson,
-and (5), negative binomial, are plotted in dark green and dark blue,
+cumulative distribution function (ECDF) of the observed population distribution
+of mRNA transcripts under the control of a constitutive \textit{lacUV5} promoter
+is shown in black. The median posterior predictive ECDFs for models (1),
+Poisson, and (5), negative binomial, are plotted in dark green and dark blue,
 respectively. Lighter green and blue regions enclose 95\% of all posterior
 predictive samples from their respective models. Model (1) is in obvious
 contradiction with the data while model (5) is not. Single-cell mRNA count data
@@ -173,7 +173,7 @@ axis is shared with (D). (D) Plots of the burst rate $k_i$ vs.\ the binding
 energy for each promoter as predicted in~\cite{Brewster2012}. The dotted line
 shows the predicted slope according to Eq.~\ref{eq:bursty_equil_corresp1},
 described in text. Each individual promoter is labeled with a unique number in
-both (C) and (D) for cross comparison and for comparison with 
+both (C) and (D) for cross comparison and for comparison with
 Figure~\ref{fig2:constit_cartoons}(B).}
 \label{fig:constit_post_full}
 \end{figure}
@@ -212,7 +212,7 @@ connection between both frameworks by equating the mean mRNA $\left\langle m
         \frac{\frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P)}
                 {1+\frac{P}{N_{NS}}\exp(-\beta\Delta\varepsilon_P)}.
 \end{equation}
-By taking the weak promoter approximation for the equilibrium model ($P/N_{NS} 
+By taking the weak promoter approximation for the thermodynamic model ($P/N_{NS}
 \exp(-\beta\Delta\varepsilon_r) \ll 1$) results in~\cite{Brewster2012}
 \begin{equation}
 \langle m \rangle = \frac{k_i b}{\gamma}
@@ -281,7 +281,7 @@ single-molecule measurements such as from~\cite{Hammar2014} and to binding
 energies such as from~\cite{Garcia2011a} and~\cite{Razo-Mejia2018}, which were
 inferred under the assumptions of the thermodynamic models in
 Figure~\ref{fig1:means_cartoons}(B)? And can this comparison shed light on the
-unreasonable effectiveness of the equilibrium models, for instance, in their
+unreasonable effectiveness of the thermodynamic models, for instance, in their
 application in~\cite{Chure2019, Chure2019a}?
 
 \begin{figure}%[h!]
@@ -292,25 +292,22 @@ application in~\cite{Chure2019, Chure2019a}?
 shown for each of several 2D slices of the 9D posterior distribution. The model
 assumes one unbinding rate for each operator (Oid, O1, O2) and one binding rate
 for each aTc induction concentration (corresponding to an unknown mean repressor
-copy number).
-(B, upper) Ratios of our inferred unbinding rates are
-compared with operator binding energy differences measured by Garcia and
+copy number). (B, upper) Ratios of our inferred unbinding rates are compared
+with operator binding energy differences measured by Garcia and
 Phillips~\cite{Garcia2011a} (triangles) and Razo-Mejia et.\
 al.~\cite{Razo-Mejia2018} (circles). Blue glyphs compare O2-O1, while orange
-compare O1-Oid. Points with perfect agreement would lie on the dotted line.
-(B, lower) Unbinding rates for O1 (cyan) and Oid (red)
-inferred in this work are compared with single-molecule measurements
-from Hammar et.\ al.~\cite{Hammar2014}. We plot the comparison assuming illustrative mRNA
-lifetimes of $\gamma^{-1}=3$~min (triangles) or $\gamma^{-1}=5$~min
-(squares). Dotted line is as in upper panel.
-(C) Theory-experiment comparison are shown for each of the datasets
-used in the inference of the model in (A). Observed single-molecule mRNA counts
-data from~\cite{Jones2014} are plotted as black lines. The median of the randomly
-generated samples for each condition is plotted as a dark colored line. Lighter
-colored bands enclose 95\% of all samples for a given operator/repressor copy
-number pair.
-%Samples are sorted by operator and plotted separately for visual clarity.
-The unregulated promoter, \textit{lacUV5}, is shown with each as a reference.}
+compare O1-Oid. Points with perfect agreement would lie on the dotted line. (B,
+lower) Unbinding rates for O1 (green) and Oid (red) inferred in this work are
+compared with single-molecule measurements from Hammar et.\
+al.~\cite{Hammar2014}. We plot the comparison assuming illustrative mRNA
+lifetimes of $\gamma^{-1}=3$~min (triangles) or $\gamma^{-1}=5$~min (squares).
+Dotted line is as in upper panel. (C) Theory-experiment comparison are shown for
+each of the datasets used in the inference of the model in (A). Observed
+single-molecule mRNA counts data from~\cite{Jones2014} are plotted as black
+lines. The median of the randomly generated samples for each condition is
+plotted as a dark colored line. Lighter colored bands enclose 95\% of all
+samples for a given operator/repressor copy number pair. The unregulated
+promoter, \textit{lacUV5}, is shown with each as a reference.}
 \label{fig4:repressed_post_full}
 \end{figure}
 
@@ -328,7 +325,7 @@ Before showing the mathematical formulation of our statistical inference model,
 we would like to sketch the intuitive structure. The dataset
 from~\cite{Jones2014} we consider consists of single-cell mRNA counts data of
 nine different conditions, spanning several combinations of three unique
-repressor binding sites (the so-called $Oid$, $O1$, and $O2$ operators) and four
+repressor binding sites (the so-called Oid, O1, and O2 operators) and four
 unique repressor copy numbers. We assume that the values of $k_i$ and $b$ are
 known, since we have already cleanly inferred them from constitutive promoter
 data, and further we assume that these values are the same across datasets with
@@ -519,12 +516,11 @@ the failure of this point to fall near the diagonal as a testament to the
 difficulty of the measurement and not as a failure of our theory.
 
 On the whole then, we regard this as striking confirmation of the validity of
-the equilibrium models. Their lynchpin parameter is a phenomenological free
+the thermodynamic models. Their lynchpin parameter is a phenomenological free
 energy of repressor binding that has previously only been inferred indirectly.
 Our result shows that the microscopic interpretation of this free energy, as the
 log of a ratio of transition rates, does indeed hold true to within the inherent
 uncertainties that remain in the entire theory-experiment dialogue.
-%\mmnote{Does this deserve qualifiers, like ``to a good approximation,'' or ``as a first order model'' or something? I like the simple finality without, but I worry it's too brazen or subtlely misleading.}
 
 \subsubsection{Comparison with prior measurements of repressor kinetics}
 In the previous section we established the equivalence between the equilibrium
@@ -618,5 +614,5 @@ association rate. Another possibility is that the very large number of zero mRNA
 counts for Oid, 2~ng/mL is skewing its partner datasets through the shared
 association rate. None of these fairly minor potential caveats cause us to
 seriously doubt the overall correctness of our model, which further validates
-its use to compare the equilibrium models' binding energies to the
-nonequilibrium models' repressor kinetics, as we originally set out to do.
+its use to compare the thermodynamic models' binding energies to the kinetic
+models' repressor binding and unbinding rates, as we originally set out to do.
