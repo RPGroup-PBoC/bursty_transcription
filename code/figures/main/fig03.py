@@ -312,7 +312,7 @@ im = ax_d.scatter(
 
 im.set_visible(False)
 cbar = fig.colorbar(im, ax=ax_d, pad=0.01)
-cbar.set_label(r"$\Delta\epsilon_r \; (k_BT)$")
+cbar.set_label(r"$\Delta\epsilon_P \; (k_BT)$")
 
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
 guide_x = np.linspace(-7,-3.5)
