@@ -116,7 +116,7 @@ uninformative priors, we are of the mindset that this is a disservice to the
 philosophical and practical implications of Bayes' theorem. It sounds almost
 contradictory to claim that can we represent our thinking about a natural
 phenomenon in the form of a mathematical model --in the context of Bayesian
-inference this means choosing a form for the likehihoods, and even making
+inference this means choosing a form for the likelihoods, and even making
 this choice presupposes prior understanding or assumptions as to the
 relevant features in the system under study-- but that we have absolutely
 no idea what the parameter values could or could not be. We therefore make
@@ -241,7 +241,7 @@ probability distributions of the form
 \begin{equation}
 m \sim \text{Poisson}(\lambda),
 \end{equation}
-where the simbol ``$\sim$'' can be read as \textit{is distributed according to}.
+where the symbol ``$\sim$'' can be read as \textit{is distributed according to}.
 So the previous equation can be read as: the mRNA copy number $m$ is distributed
 according to a Poisson distribution with parameter $\lambda$. Our objective then
 is to compute the posterior probability distribution $P(\lambda \mid D)$, where,
@@ -491,7 +491,7 @@ the repressor-DNA binding affinity.
 The structure of the data in~\cite{Jones2014} for regulated promoters tuned
 these two parameters independently. In their work the production of the LacI
 repressor was under the control of an inducible promoter regulated by the TetR
-repressor as schematized in Figre~\ref{figS:aTc_circuit}. When TetR binds to the
+repressor as schematized in Figure~\ref{figS:aTc_circuit}. When TetR binds to the
 small molecule anhydrotetracycline (aTc), it shifts to an inactive conformation
 unable to bind to the DNA. This translates into an increase in gene expression
 level. In other words, the higher the concentration of aTc added to the media,
@@ -571,7 +571,7 @@ p(m \mid k_R^+, k_R^-, k_i, b) = & ~\frac{
 \label{eq:p_m_bursty+rep_infreprint}
 \end{equation}
 where $\alpha$ and $\beta$, defined for notational convenience, are
-\begin{align}
+\begin{equation}
 \begin{split}
 \alpha &= \frac{1}{2}
 \left(k_i+k_R^-+k_R^+ + \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right)
@@ -579,7 +579,7 @@ where $\alpha$ and $\beta$, defined for notational convenience, are
 \beta &= \frac{1}{2}
 \left(k_i+k_R^-+k_R^+ - \sqrt{(k_i+k_R^-+k_R^+)^2 - 4k_i k_R^-}\right).
 \end{split}
-\end{align}
+\end{equation}
 
 Next we specify priors. As for the constitutive model, weakly informative
 lognormal priors are a natural choice for all our rates. We found that if the
@@ -642,7 +642,7 @@ histograms of the individual distributions.
 \begin{figure}[p]
 \centering
 \includegraphics[width=\textwidth]{../../figures/si/figS0X_histograms.pdf}
-\caption{\textbf{Theory-experiment comparision of mRNA distributions for
+\caption{\textbf{Theory-experiment comparison of mRNA distributions for
 regulated promoters.} Comparison of the inference (color shaded area
 encloses the 95\% of all posterior predictive check samples while the color
 solid line represents the median of all samples) vs the experimental
