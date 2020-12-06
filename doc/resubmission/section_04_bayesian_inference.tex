@@ -66,7 +66,7 @@ intuitive introduction to the Bayesian framework with a simpler model.
 Let us now consider the problem of parameter inference for model five
 from~\fig{fig1:means_cartoons}(C). As derived in
 Appendix~\ref{sec:gen_fcn_appdx}, the steady-state mRNA distribution in this
-model is a negative binomial distribution, given by
+model is a negative binomial distribution~\cite{Kumar2015}, given by
 \begin{equation}
 p(m) = \frac{\Gamma(m+k_i)}{\Gamma(m+1)\Gamma(k_i)}
         \left(\frac{1}{1+b}\right)^{k_i}
@@ -515,12 +515,21 @@ background since Oid represses so strongly. We are therefore inclined to regard
 the failure of this point to fall near the diagonal as a testament to the
 difficulty of the measurement and not as a failure of our theory.
 
-On the whole then, we regard this as striking confirmation of the validity of
-the thermodynamic models. Their lynchpin parameter is a phenomenological free
-energy of repressor binding that has previously only been inferred indirectly.
-Our result shows that the microscopic interpretation of this free energy, as the
-log of a ratio of transition rates, does indeed hold true to within the inherent
-uncertainties that remain in the entire theory-experiment dialogue.
+On the whole then, we find these to be results very suggestive. Although not
+conclusively, our results point at the possible interpretation of the
+phenomenological free energy of transcription factor binding as the log of a
+ratio of transition rates. This did not need to be the case; the free energy was
+inferred from bulk measurements of mean gene expression relative to an
+unregulated strain --the fold-change-- while the rates were extracted from
+fitting single-molecule counts to the full mRNA steady state distribution.
+Further single molecule experiments along the lines of~\cite{Hammar2014} could
+shed further light into this idea.
+% On the whole then, we regard this as striking confirmation of the validity of
+% the thermodynamic models. Their lynchpin parameter is a phenomenological free
+% energy of repressor binding that has previously only been inferred indirectly.
+% Our result shows that the microscopic interpretation of this free energy, as the
+% log of a ratio of transition rates, does indeed hold true to within the inherent
+% uncertainties that remain in the entire theory-experiment dialogue.
 
 \subsubsection{Comparison with prior measurements of repressor kinetics}
 In the previous section we established the equivalence between the equilibrium

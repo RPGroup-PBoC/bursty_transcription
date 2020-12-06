@@ -42,30 +42,31 @@ to the microstates in which the repressor is bound to the promoter can be
 separated from the microstates in which the RNA polymerase (RNAP) is bound. From
 a modeling perspective, this means that some of the models can be written as
 effective two-state models for which there is a rich
-literature~\cite{Peccoud1995, Shahrezaei2008, Iyer-Biswas2009, Tkacik2009,
-Sanchez2013, Jones2014, So2011, Munsky2012}. Here, we systematically compare the
-predictions of several models with different levels of coarse graining written
-in terms of thermodynamic and kinetic parameters. One goal in exploring such
-coarse-grainings is to build towards the future models of regulatory response
-that will be able to serve the powerful predictive role needed to take synthetic
-biology from a brilliant exercise in enlightened empiricism to a rational design
-framework as in any other branch of engineering. More precisely, we want
-phenomenology in the sense of coarse-graining away atomistic detail, but still
-retaining biophysical meaning. In particular a key question is: at this level of
-coarse-graining, what microscopic details do we need to explicitly model, and
-how do we figure that out? For example, do we need to worry about all or even
-any of the steps that individual RNA polymerases go through each time they make
-a transcript? Turning the question around, can we see any imprint of those
-processes in the available data? If the answer is no, then those processes are
-irrelevant for our purposes. Forward modeling and inverse (statistical
-inferential) modeling are necessary to tackle such questions. We combine both
-approaches in order to discard models that cannot empirically satisfy the main
-features of experimental data. First we apply forward modeling to demonstrate
-that none of the models are distinguishable at the level of mean gene
-expression. We then extend the modeling to look at higher moments of the
-distribution, eliminating models that do not empirically satisfy the observed
-cell-to-cell variability. Finally we arrive at a minimal model on which we can
-apply inverse modeling in order to infer the parameters that explain the data.
+literature~\cite{Peccoud1995, Raj2006, Shahrezaei2008, Iyer-Biswas2009,
+Tkacik2009, Sanchez2013, Jones2014, So2011, Munsky2012, Kumar2015}. Here, we
+systematically compare the predictions of several models with different levels
+of coarse graining written in terms of thermodynamic and kinetic parameters. One
+goal in exploring such coarse-grainings is to build towards the future models of
+regulatory response that will be able to serve the powerful predictive role
+needed to take synthetic biology from a brilliant exercise in enlightened
+empiricism to a rational design framework as in any other branch of engineering.
+More precisely, we want phenomenology in the sense of coarse-graining away
+atomistic detail, but still retaining biophysical meaning. In particular a key
+question is: at this level of coarse-graining, what microscopic details do we
+need to explicitly model, and how do we figure that out? For example, do we need
+to worry about all or even any of the steps that individual RNA polymerases go
+through each time they make a transcript? Turning the question around, can we
+see any imprint of those processes in the available data? If the answer is no,
+then those processes are irrelevant for our purposes. Forward modeling and
+inverse (statistical inferential) modeling are necessary to tackle such
+questions. We combine both approaches in order to discard models that cannot
+empirically satisfy the main features of experimental data. First we apply
+forward modeling to demonstrate that none of the models are distinguishable at
+the level of mean gene expression. We then extend the modeling to look at higher
+moments of the distribution, eliminating models that do not empirically satisfy
+the observed cell-to-cell variability. Finally we arrive at a minimal model on
+which we can apply inverse modeling in order to infer the parameters that
+explain the data.
 
 Figure~\ref{fig1:means_cartoons}(A) shows the qualitative picture of simple
 repression that is implicit in the repressor-operator model. An operator, i.e.,

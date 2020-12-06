@@ -66,13 +66,13 @@ us consider what we can learn from theory and experimental measurements on the
 average level of gene expression in a population of cells. One experimental
 strategy that has been particularly useful (if incomplete since it misses out on
 gene expression dynamics) is to measure the fold-change in mean
-expression~\cite{Garcia2011}. The fold-change is defined as
+expression~\cite{Garcia2011}. The fold-change $FC$ is defined as
 \begin{equation}
-\text{fold-change}
-= \frac{\langle \text{gene expression with repressor present} \rangle}
-        {\langle \text{gene expression with repressor absent} \rangle}
-= \frac{\langle m (R > 0) \rangle}{\langle m (R = 0) \rangle}
-= \frac{\langle p (R > 0) \rangle}{\langle p (R = 0) \rangle}
+FC(R)
+= \frac{\langle \text{gene expression with }R > 0 \rangle}
+        {\langle \text{gene expression with }R = 0 \rangle}
+= \frac{\langle m (R) \rangle}{\langle m (0) \rangle}
+= \frac{\langle p (R) \rangle}{\langle p (0) \rangle},
 \label{eq:fc_def}
 \end{equation}
 where angle brackets $\left\langle \cdot \right\rangle$ denote the average over
@@ -104,7 +104,7 @@ expression as predicted by that model, deferring most algebraic details to
 Appendix~\ref{sec:non_bursty}. What we will find is that for all cartoons the
 fold-change can be written as a Fermi function of the form
 \begin{equation}
- \text{fold-change} = \left( 1 + \exp(-\Delta F_R + \log(\rho))  \right)^{-1},
+FC(R) = \left( 1 + \exp(-\Delta F_R(R) + \log(\rho))  \right)^{-1},
  \label{eq:deltaFR_eq_noneq_equiv}
 \end{equation}
 where the effective free energy contains two terms: the parameters $\Delta F_R$,
@@ -132,7 +132,7 @@ reader to Appendix~\ref{sec:non_bursty} for details on the derivation of the
 fold-change. For our purposes here, it suffices to state that the functional
 form of the fold-change for model 1 is
 \begin{equation}
-\text{fold-change}
+FC(R)
 = \left(1 + \frac{R}{N_{NS}} e^{-\beta\Delta\varepsilon_R}\right)^{-1},
 \end{equation}
 where $R$ is the number of repressors per cell, $N_{NS}$ is the number of
@@ -143,7 +143,7 @@ Figure~\ref{fig1:means_cartoons}(D) with $\rho=1$ and $\Delta F_R =
 \beta\Delta\varepsilon_r - \log (R / N_{NS})$. For model 2 we have a similar
 situation. The fold-change takes the form
 \begin{eqnarray}
-\text{fold-change}
+FC(R)
 &=& \left(
 1 + \frac{\frac{R}{N_{NS}} e^{-\beta\Delta\varepsilon_R}}
         {1 + \frac{P}{N_{NS}} e^{-\beta\Delta\varepsilon_P}}
@@ -187,7 +187,7 @@ functional form with or without the repressor, allowing us to write the
 fold-change as a product of the ratio of the binding and unbinding rates of the
 promoter, and the promoter details. This results in a fold-change of the form
 \begin{eqnarray}
- \text{fold-change} &=& \left( 1 + \frac{k_R^+}{k_R^-} \rho \right)^{-1},\\
+FC &=& \left( 1 + \frac{k_R^+}{k_R^-} \rho \right)^{-1},\\
 &=& (1 + \exp(-\Delta F_R + \log(\rho) ))^{-1},
 \end{eqnarray}
 where $\Delta F_R \equiv -\log(k_R^+/k_R^-)$, and the functional forms of $\rho$
@@ -206,16 +206,20 @@ single repressor-free state, $\rho$ is then necessarily 1 (See
 Appendix~\ref{sec:non_bursty} for further details).
 
 The key outcome of our analysis of the models in
-Figure~\ref{fig1:means_cartoons} is the existence of a master curve shown
-in Figure~\ref{fig1:means_cartoons}(D) to which the fold-change predictions
-of all the models collapse. This master curve is parametrized by only two
-effective parameters: $\Delta F_R$, which characterizes the number of repressors
-and their binding strength to the DNA, and $\rho$, which characterizes all other
-features of the promoter architecture. The key assumption underpinning this
-result is that no transcription occurs when a repressor is bound to its
-operator. Given this outcome, i.e., the degeneracy of the different models at
-the level of fold-change, a mean-based metric such as the fold-change that can
-be readily measured experimentally is insufficient to discern between these
-different levels of coarse-graining. In the next section we extend the analysis
-of the models to higher moments of the mRNA distribution as we continue to
-examine the discriminatory power of these different models.
+Figure~\ref{fig1:means_cartoons} is the existence of a master curve shown in
+Figure~\ref{fig1:means_cartoons}(D) to which the fold-change predictions of all
+the models collapse. This master curve is parametrized by only two effective
+parameters: $\Delta F_R$, which characterizes the number of repressors and their
+binding strength to the DNA, and $\rho$, which characterizes all other features
+of the promoter architecture. The key assumption underpinning this result is
+that no transcription occurs when a repressor is bound to its operator. Given
+this outcome, i.e., the degeneracy of the different models at the level of
+fold-change, a mean-based metric such as the fold-change that can be readily
+measured experimentally is insufficient to discern between these different
+levels of coarse-graining. The natural extension that the field has followed for
+the most part is to explore higher moments of the gene expression distribution
+in order to establish if those contain the key insights into the mechanistic
+nature of the gene transcription process~\cite{Iyer-Biswas2009,Munsky2012}.
+Following a similar trend, in the next section we extend the analysis of the
+models to higher moments of the mRNA distribution as we continue to examine the
+discriminatory power of these different models.
