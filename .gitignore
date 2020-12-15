@@ -63,6 +63,7 @@ data/images/
 **/.ipynb_checkpoints/
 __pycache__/
 **/__pycache__/
+**/.vscode/
 .cache
 *.egg*
 *Icon*
