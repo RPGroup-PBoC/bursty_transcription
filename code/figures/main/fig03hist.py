@@ -341,7 +341,7 @@ ax_b.legend(
 )
 
 ax_b.set_xlabel('mRNA counts per cell')
-ax_b.set_ylabel('Density')
+ax_b.set_ylabel('Probability')
 ax_b.set_xlim(right=60)
 
 
