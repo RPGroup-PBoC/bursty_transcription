@@ -91,10 +91,24 @@ def predictive_histogram(
     histograms = []
     for i in range(n_samples):
         counts, _ = np.histogram(samples[i], bins=bins, density=density)
+        # Normalize each histogram so its maximum is 1
+        max_val = counts.max()
+        if max_val > 0:
+            counts = counts / max_val
         histograms.append(counts)
 
     histograms = np.array(histograms)  # shape: (n_samples, n_bins)
     bin_edges = bins
+
+    # Compute data histogram if provided
+    if data is not None:
+        data_counts, _ = np.histogram(data, bins=bins, density=density)
+        # Normalize data histogram so its maximum is 1
+        max_val = data_counts.max()
+        if max_val > 0:
+            data_counts = data_counts / max_val
+    else:
+        data_counts = None
 
     # Compute percentiles across samples for each bin
     percentiles = np.sort(percentiles)[::-1]
@@ -129,8 +143,7 @@ def predictive_histogram(
     )
 
     # Plot data histogram outline
-    if data is not None:
-        data_counts, _ = np.histogram(data, bins=bins, density=density)
+    if data_counts is not None:
         ax.step(
             bin_edges[:-1], data_counts,
             where='pre',
@@ -472,7 +485,7 @@ for k, ax in enumerate([ax_3, ax_4, ax_5]):
         percentiles=ptiles,
         ax=ax,
         pred_label='UV5',
-        data_label='data'
+        data_label='data',
     )
 
     # finishing touches
@@ -480,7 +493,7 @@ for k, ax in enumerate([ax_3, ax_4, ax_5]):
     ax.set_xlim(-2.5, 55)
     srep.viz.titlebox(ax, title, bgcolor="#FFEDC0")
 # Set yaxis label for first plot
-ax_3.set_ylabel('Density')
+ax_3.set_ylabel(r'$\propto$ Probability')
 
 # Add UV5 to dictionary
 aTc_col_dict["UV5"] = "purple"
