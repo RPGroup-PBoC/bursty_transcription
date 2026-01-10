@@ -12,7 +12,7 @@ generated quantities {
   real beta = 1.0 / b;
 
   // Generated data
-  real mRNA_counts[N];
+  array[N] real mRNA_counts;
 
   // Draw samples
   for (i in 1:N) {

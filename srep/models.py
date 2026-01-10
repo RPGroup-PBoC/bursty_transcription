@@ -30,7 +30,7 @@ def log_prob_m_bursty_rep(max_m, k_burst, mean_burst, kR_on, kR_off):
     # in terms of alpha, beta, gamma, & mean_burst
     a = alpha
     b = gamma - beta
-    c = 1.0 + alpha - beta 
+    c = 1.0 + alpha - beta
     z = (1.0 + mean_burst)**(-1)
 
     # next set up recursive calculation of 2F1
@@ -38,10 +38,10 @@ def log_prob_m_bursty_rep(max_m, k_burst, mean_burst, kR_on, kR_off):
     # note 1+a-c is strictly > 0 so we needn't worry about signs in gammafcn
     lgamma_numer = gammaln(1+a-c+m)
     lgamma_denom = gammaln(1+a+b-c+m)
-    twoFone = np.zeros_like(np.asfarray(m))
+    twoFone = np.zeros_like(np.asarray(m, dtype=np.float64))
     # initialize recursion with starting values...
-    twoFone[-1] = hyp2f1(a+m[-1],b,1+a+b-c+m[-1],1-z)
-    twoFone[-2] = hyp2f1(a+m[-2],b,1+a+b-c+m[-2],1-z)
+    twoFone[-1] = hyp2f1(a+m[-1], b, 1+a+b-c+m[-1], 1-z)
+    twoFone[-2] = hyp2f1(a+m[-2], b, 1+a+b-c+m[-2], 1-z)
     # ...adjusted by gamma prefactors
     twoFone[-2:] *= np.exp(lgamma_numer[-2:] - lgamma_denom[-2:])
     # now run the recursion backwards (i.e., decreasing n)
@@ -53,18 +53,19 @@ def log_prob_m_bursty_rep(max_m, k_burst, mean_burst, kR_on, kR_off):
         prefac_kplus1 = apk*(z-1)
         denom = c - apk
         twoFone[-(3+i)] = - (prefac_k * twoFone[-(2+i)]
-                         + prefac_kplus1 * twoFone[-(1+i)]) / denom
+                             + prefac_kplus1 * twoFone[-(1+i)]) / denom
     # when recursion is finished, cancel off prefactor of gammas
     logtwoFone = np.log(twoFone) + lgamma_denom - lgamma_numer
 
     # now compute prefactors in P(m), combine, done
     gamma_prefac = (gammaln(alpha+m) - gammaln(alpha)
-                  + gammaln(beta+m) - gammaln(beta)
-                  - gammaln(gamma+m) + gammaln(gamma)
-                  - gammaln(1+m))
+                    + gammaln(beta+m) - gammaln(beta)
+                    - gammaln(gamma+m) + gammaln(gamma)
+                    - gammaln(1+m))
     bern_p = mean_burst / (1 + mean_burst)
     burst_prefac = m * np.log(bern_p) + alpha * np.log(1 - bern_p)
     return gamma_prefac + burst_prefac + logtwoFone
+
 
 def bursty_rep_rng(params, n_samp, max_m=100):
     """
@@ -96,12 +97,13 @@ def bursty_rep_rng(params, n_samp, max_m=100):
         if max_m > 3e2:
             warnings.warn(
                 "mRNA count limit hit, treat generated rngs with caution"
-                )
+            )
             break
     # now draw the rngs by "inverting" the CDF
     samples = np.searchsorted(cdf, np.random.rand(n_samp))
     # and condense the data before returning
     return np.unique(samples, return_counts=True)
+
 
 def draw_nbinom_dataset(draw, n_samples):
     """
@@ -113,13 +115,14 @@ def draw_nbinom_dataset(draw, n_samples):
     pp_samples = neg_binom.rvs(draw[0], (1+draw[1])**(-1), size=n_samples)
     return np.unique(pp_samples, return_counts=True)
 
+
 def post_pred_bursty_rep(
     sampler,
     n_pred,
     n_post=None,
     kon_idx=None,
     koff_idx=None
-    ):
+):
     """
     def post_pred_bursty_rep(
         sampler,
@@ -130,7 +133,7 @@ def post_pred_bursty_rep(
     )
     Takes as input an emcee EnsembleSampler instance (that has already
     sampled a posterior) and generates posterior predictive samples from it.
-    
+
     - n_post is how many of the posterior draws to generate
     datasets for (chosen evenly spaced along the posterior flatchain)
     - n_pred is how many predictive samples to draw for
@@ -143,7 +146,7 @@ def post_pred_bursty_rep(
     """
     if (kon_idx == None) or (koff_idx == None):
         raise ValueError("Must specify which chain indices have kR rates!")
-    
+
     # get posterior draws...
     draws = sampler.get_chain(flat=True)
     # ...but thin if requested
@@ -161,8 +164,9 @@ def post_pred_bursty_rep(
         # first slice out only the rates for this expt
         # remember 0 is k_burst and 1 is mean_burst
         var_slice = [0, 1, kon_idx, koff_idx]
-        draws = draws[:,var_slice]
+        draws = draws[:, var_slice]
         return [bursty_rep_rng(draw, n_pred) for draw in draws]
+
 
 class pooledInferenceModel:
     """
@@ -183,21 +187,21 @@ class pooledInferenceModel:
         var_labels=None,
         expt_rates=None,
         prior_mu_sig=None
-        ):
+    ):
 
         self.expts = expts
         self.var_labels = var_labels
         self.expt_rates = expt_rates
 
         # set up prior
-        if prior_mu_sig is not None: # leave door open for other prior choices
+        if prior_mu_sig is not None:  # leave door open for other prior choices
             self.mu_prior = np.zeros(len(var_labels))
             sig_prior = np.zeros_like(self.mu_prior)
             for i, label in enumerate(var_labels):
                 self.mu_prior[i], sig_prior[i] = prior_mu_sig[label]
             self.cov_prior = sig_prior**2
         return None
-    
+
     def expt_idx_to_rate_idx(self, idx):
         """
         Find & return the numerical indices (not the numerical values
@@ -207,9 +211,10 @@ class pooledInferenceModel:
         # look up kR rate labels for this expt...
         label_kRon, label_kRoff = self.expt_rates[self.expts[idx]]
         # ...and convert those labels to indices...
-        kRon_idx  = self.var_labels.index(label_kRon)
+        kRon_idx = self.var_labels.index(label_kRon)
         kRoff_idx = self.var_labels.index(label_kRoff)
         return kRon_idx, kRoff_idx
+
 
 def log_prior(params, model):
     return multinormal.logpdf(params, model.mu_prior, np.diag(model.cov_prior))
@@ -222,16 +227,18 @@ def log_prior(params, model):
     #     return 0.0
     # return -np.inf
 
+
 def log_like_constitutive(params, data_constit):
     k_burst, mean_burst = params[:2]
     # change vars for scipy's goofy parametrization
     p = (1 + mean_burst)**(-1)
     return np.sum(data_constit[1] * neg_binom._logpmf(data_constit[0], k_burst, p))
 
+
 def log_like_repressed(params, data_rep, pooled_model=None):
     """Conv wrapper for log likelihood for 2-state promoter w/
     transcription bursts and repression.
-    
+
     data_rep: a list of arrays, each of which is n x 2, of form
         data[:, 0] = SORTED unique mRNA counts
         data[:, 1] = frequency of each mRNA count
@@ -253,7 +260,7 @@ def log_like_repressed(params, data_rep, pooled_model=None):
             # look up kR rate indices for this expt...
             kRon_idx, kRoff_idx = pooled_model.expt_idx_to_rate_idx(i)
             # ...and look up the corresponding numerical values
-            kRon  = params[kRon_idx]
+            kRon = params[kRon_idx]
             kRoff = params[kRoff_idx]
             # finally, assemble the rates for this particular op/aTc pair
             params_local = np.array([k_burst, mean_burst, kRon, kRoff])
@@ -266,6 +273,7 @@ def log_like_repressed(params, data_rep, pooled_model=None):
         # ...so extract just the ones we want & * by their occurence
         target += np.sum(expt[1] * log_probs[expt[0]])
     return target
+
 
 def log_posterior(params, data_constit, data_rep, pooled_model=None):
     """check prior and then farm out data to the respective likelihoods."""

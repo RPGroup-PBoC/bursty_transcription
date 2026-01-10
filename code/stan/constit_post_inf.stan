@@ -1,7 +1,7 @@
 data {
   // data set
   int<lower=1> N;
-  int mRNA_counts[N];
+  array[N] int mRNA_counts;
 
   // Do posterior predictive checks?
   int ppc;
@@ -28,7 +28,7 @@ model {
 
 generated quantities {
   // Post pred check
-  int mRNA_counts_ppc[N*ppc];
+  array[N*ppc] int mRNA_counts_ppc;
 
   if(ppc) {
     for (i in 1:N) {

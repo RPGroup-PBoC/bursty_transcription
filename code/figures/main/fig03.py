@@ -1,6 +1,6 @@
-#%%
+# %%
 import pickle
-from git import Repo #for directory convenience
+from git import Repo  # for directory convenience
 
 import numpy as np
 import scipy.stats as st
@@ -16,14 +16,14 @@ import bebi103.viz
 import srep.viz
 from srep.utils import load_FISH_by_promoter
 
-#%%
+# %%
 repo = Repo("./", search_parent_directories=True)
 # repo_rootdir holds the absolute path to the top-level of our repo
 repo_rootdir = repo.working_tree_dir
 
 colors = srep.viz.color_selector('constit')
 srep.viz.plotting_style()
-#%%
+# %%
 
 # Import necessary data
 
@@ -42,10 +42,9 @@ df_unreg, df_energies, = load_FISH_by_promoter(("unreg", "energies"))
 df_energies.sort_values('Energy (kT)', inplace=True)
 
 
-
 # %%
 
-# Generate composition figure to put all plot sections in a 
+# Generate composition figure to put all plot sections in a
 # single mpl file
 
 # Initialize figure
@@ -53,11 +52,11 @@ fig = plt.figure(constrained_layout=False, figsize=(6, 6))
 
 # Set gridspec for UV5 samples corner plot
 gs_a = fig.add_gridspec(
-    nrows=5, 
-    ncols=5, 
-    left=0.05, 
+    nrows=5,
+    ncols=5,
+    left=0.05,
     right=0.45,
-    top=1, 
+    top=1,
     bottom=0.55,
     wspace=0,
     hspace=0
@@ -67,8 +66,8 @@ ax_a1 = fig.add_subplot(gs_a[0, :-1])
 ax_a2 = fig.add_subplot(gs_a[1:, :-1])
 ax_a3 = fig.add_subplot(gs_a[1:, -1])
 # Set shared axes
-ax_a1.get_shared_x_axes().join(ax_a2, ax_a1)
-ax_a3.get_shared_y_axes().join(ax_a2, ax_a3)
+ax_a2.sharex(ax_a1)
+ax_a3.sharey(ax_a2)
 # turn axis off for marginal plots
 ax_a1.get_xaxis().set_visible(False)
 ax_a1.get_yaxis().set_visible(False)
@@ -87,7 +86,7 @@ gs_b = fig.add_gridspec(
     top=1,
     bottom=0.55,
 )
-# Add axis 
+# Add axis
 ax_b = fig.add_subplot(gs_b[0, 0])
 
 # Set girdspec for unregulated promotres analysis
@@ -100,11 +99,11 @@ gs_cd = fig.add_gridspec(
     bottom=0.05,
     wspace=0.08
 )
-# Add axis 
+# Add axis
 ax_c = fig.add_subplot(gs_cd[0, 0])
 ax_d = fig.add_subplot(gs_cd[0, 1])
 # Set shared axes
-ax_d.get_shared_y_axes().join(ax_c, ax_d)
+ax_d.sharey(ax_c)
 # Turn off axis
 ax_d.get_yaxis().set_visible(False)
 
@@ -136,30 +135,30 @@ ax_a2.set_xlabel(r'$b$ (transcripts per burst)')
 
 # Plot marginal distributions
 ax_a1.hist(b_samples,
-          50,
-          density=1,
-          histtype="step",
-          color="black",
-)
+           50,
+           density=1,
+           histtype="step",
+           color="black",
+           )
 # Add gridlines
-[ax_a3.axhline(x, color="white", linewidth=0.5) 
-for x in [4.75, 5, 5.25, 5.5, 5.75, 6]]
+[ax_a3.axhline(x, color="white", linewidth=0.5)
+ for x in [4.75, 5, 5.25, 5.5, 5.75, 6]]
 
 ax_a3.hist(alpha_samples,
-          50,
-          density=1,
-          histtype="step",
-          color="black",
-          orientation="horizontal",
-)
+           50,
+           density=1,
+           histtype="step",
+           color="black",
+           orientation="horizontal",
+           )
 
 # (B)
 df_UV5 = df_unreg[df_unreg["experiment"] == "UV5"]
 n_samples = (
     all_samples["UV5"].posterior_predictive.dims["chain"]
     * all_samples["UV5"].posterior_predictive.dims["draw"]
-    )
-ptiles = (95,)#, 75, 50, 25)
+)
+ptiles = (95,)  # , 75, 50, 25)
 
 # first compute params in analytical gamma-Poisson posterior.
 # ignore prior b/c data completely(!) overwhelms it.
@@ -169,7 +168,7 @@ beta = len(df_UV5)
 poiss_post_draws = st.norm.rvs(alpha/beta, np.sqrt(alpha)/beta, size=n_samples)
 poiss_ppc_draws = np.empty((len(poiss_post_draws), len(df_UV5)))
 for i, draw in enumerate(poiss_post_draws):
-    poiss_ppc_draws[i,:] = st.poisson.rvs(draw, size=len(df_UV5))
+    poiss_ppc_draws[i, :] = st.poisson.rvs(draw, size=len(df_UV5))
 # now plot PPC from Poisson samples
 srep.viz.predictive_ecdf(
     poiss_ppc_draws,
@@ -178,7 +177,7 @@ srep.viz.predictive_ecdf(
     discrete=True,
     ax=ax_b,
     pred_label='Model 1 (Poisson)',
-    )
+)
 
 # next neg binom model + data overlaid
 srep.viz.predictive_ecdf(
@@ -192,23 +191,23 @@ srep.viz.predictive_ecdf(
     pred_label='Model 5 (N. Binom)',
     data_label='UV5 data,\n Jones et. al. 2014',
     data_color='black',
-    data_size=1, #linewidth
-    )
+    data_size=1,  # linewidth
+)
 # Add plots for composite legend
 # 1. Extract colors
 blues = srep.viz.bebi103_colors()["blue"]
 greens = srep.viz.bebi103_colors()["green"]
 # 2. Declarre plots
 poisson_1 = ax_b.plot([], [], color=greens[-1])
-poisson_2= ax_b.fill([], [], color=greens[0])
+poisson_2 = ax_b.fill([], [], color=greens[0])
 neg_binom_1 = ax_b.plot([], [], color=blues[-1])
-neg_binom_2= ax_b.fill([], [], color=blues[0])
+neg_binom_2 = ax_b.fill([], [], color=blues[0])
 uv5 = ax_b.plot([], [], color="black")
 
 ax_b.legend(
-    [(poisson_2[0], poisson_1[0]), (neg_binom_2[0], neg_binom_1[0]), (uv5[0],),], 
+    [(poisson_2[0], poisson_1[0]), (neg_binom_2[0], neg_binom_1[0]), (uv5[0],),],
     [
-        "Model 1 (Poisson)", 
+        "Model 1 (Poisson)",
         "Model 5 (Neg. Binom)",
         r"$lacUV5$ data," + "\n Jones et. al. 2014"
     ],
@@ -243,12 +242,13 @@ for i, promoter in enumerate(df_energies.Name):
         y_contour[0],
         label=promoter,
         linewidth=1.0,
-        c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
+        c=cmap(
+            col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
     )
     text = ax_c.annotate(
         f"{i + 1}",
         (np.mean(x_contour[0]),
-        np.mean(y_contour),),
+         np.mean(y_contour),),
         fontsize=7,
         color="white"
     )
@@ -264,8 +264,8 @@ ax_c.set_xlabel(r'$b$ (transcripts per burst)')
 
 # (D)
 # Add gridlines
-[ax_d.axhline(x, color="white", linewidth=0.5) 
-for x in [0.1, 1]]
+[ax_d.axhline(x, color="white", linewidth=0.5)
+ for x in [0.1, 1]]
 
 # initialize lsit to save y position
 y_pos = list()
@@ -277,19 +277,20 @@ for i, promoter in enumerate(df_energies.Name):
     ax_d.errorbar(
         df_energies[df_energies.Name == promoter]["Energy (kT)"],
         ptile_med,
-        yerr=np.array((err_lower, err_upper)).reshape((2,1)),
+        yerr=np.array((err_lower, err_upper)).reshape((2, 1)),
         fmt="o",
         markersize=4.0,
         # label=promoter,
-        c=cmap(col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
+        c=cmap(
+            col_norm(df_energies[df_energies.Name == promoter]["Energy (kT)"].values[0])),
     )
     # Append y position
     y_pos.append(ptile_med)
-    
+
     text = ax_d.annotate(
         f"{i + 1}",
         (df_energies[df_energies.Name == promoter]["Energy (kT)"],
-        ptile_med,),
+         ptile_med,),
         fontsize=7,
         color="white"
     )
@@ -302,7 +303,7 @@ for i, promoter in enumerate(df_energies.Name):
 im = ax_d.scatter(
     df_energies["Energy (kT)"].values,
     y_pos,
-    c=df_energies["Energy (kT)"].values, 
+    c=df_energies["Energy (kT)"].values,
     vmin=df_energies["Energy (kT)"].min() - 2,
     vmax=df_energies["Energy (kT)"].max() + 2,
     s=35,
@@ -315,13 +316,13 @@ cbar = fig.colorbar(im, ax=ax_d, pad=0.01)
 cbar.set_label(r"$\Delta\epsilon_P \; (k_BT)$")
 
 # add a guideline for the eye for the predicted log(k_i) ~ - binding E
-guide_x = np.linspace(-7,-3.5)
+guide_x = np.linspace(-7, -3.5)
 guide_y = np.exp(-guide_x)/9e2
 ax_d.plot(guide_x, guide_y, 'k--', label='predicted \n scaling')
 
 ax_d.text(
-    0.29, 
-    0.25, 
+    0.29,
+    0.25,
     r"$\log k_i \sim - \Delta\epsilon_P$",
     transform=ax_d.transAxes,
     rotation=-45,

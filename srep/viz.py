@@ -1,7 +1,3 @@
-import bokeh.io
-import bokeh.plotting
-import bokeh.layouts
-import bokeh.palettes
 import seaborn as sns
 import numpy as np
 import pandas as pd
@@ -15,6 +11,7 @@ from matplotlib.patches import BoxStyle
 from matplotlib.offsetbox import AnchoredText
 
 import bebi103
+
 
 def plotting_style(grid=True):
     """
@@ -31,8 +28,8 @@ def plotting_style(grid=True):
           'xtick.direction': 'in',
           'xtick.gridOn': True,
           'ytick.gridOn': True,
-          'ytick.major.width':5,
-          'xtick.major.width':5,
+          'ytick.major.width': 5,
+          'xtick.major.width': 5,
           'ytick.major.size': 5,
           'xtick.major.size': 5,
           'mathtext.fontset': 'stixsans',
@@ -40,14 +37,15 @@ def plotting_style(grid=True):
           'legend.frameon': True,
           'legend.facecolor': '#FFEDCE',
           'figure.dpi': 150,
-           'xtick.color': 'k',
-           'ytick.color': 'k'}
+          'xtick.color': 'k',
+          'ytick.color': 'k'}
     plt.rc('text.latex', preamble=r'\usepackage{sfmath}')
     plt.rc('mathtext', fontset='stixsans', sf='sansserif')
     plt.rc('legend', title_fontsize='8', frameon=True,
-            facecolor='#E3DCD0', framealpha=1)
+           facecolor='#E3DCD0', framealpha=1)
     sns.set_style('darkgrid', rc=rc)
     sns.set_palette("colorblind", color_codes=True)
+
 
 def color_selector(style):
     """
@@ -67,15 +65,15 @@ def color_selector(style):
 
     """
     # Ensure the provided style name makes sense.
-    if  style.lower() not in ['srep', 'pboc', 'constit']:
+    if style.lower() not in ['srep', 'pboc', 'constit']:
         raise ValueError(
             "Style {} provided. I only know \
             'srep', 'pboc', and 'constit'.".format(style))
 
     # Set the color styles and return.
-    if  style.lower() == 'srep':
+    if style.lower() == 'srep':
         colors = {'O3': '#7AA974', 'O2': '#2d98da',
-                'Oid': '#EE5A24', 'O1': '#1289A7'} 
+                  'Oid': '#EE5A24', 'O1': '#1289A7'}
 
     elif style.lower() == 'pboc':
         colors = {
@@ -93,9 +91,9 @@ def color_selector(style):
             'pale_red': '#F1D4C9',
             'purple': '#AB85AC',
             'light_purple': '#D4C2D9',
-            'dark_green':'#7E9D90',
-            'dark_brown':'#905426',
-            'black':'#060606'}
+            'dark_green': '#7E9D90',
+            'dark_brown': '#905426',
+            'black': '#060606'}
 
     elif style.lower() == 'constit':
         colors = [
@@ -231,7 +229,8 @@ def predictive_ecdf(
             samples.min() - 0.05 * data_range, samples.max() + 0.05 * data_range, 400
         )
 
-    ecdfs = np.array([bebi103.viz._ecdf_arbitrary_points(sample, x) for sample in samples])
+    ecdfs = np.array([bebi103.viz._ecdf_arbitrary_points(sample, x)
+                     for sample in samples])
 
     df_ecdf = pd.DataFrame()
     for ptile in ptiles:
@@ -243,9 +242,11 @@ def predictive_ecdf(
 
     if data is not None and diff:
         ecdfs = np.array(
-            [bebi103.viz._ecdf_arbitrary_points(sample, np.sort(data)) for sample in samples]
+            [bebi103.viz._ecdf_arbitrary_points(
+                sample, np.sort(data)) for sample in samples]
         )
-        ecdf_data_median = np.percentile(ecdfs, 50, axis=0, interpolation="higher")
+        ecdf_data_median = np.percentile(
+            ecdfs, 50, axis=0, interpolation="higher")
 
     if diff:
         for ptile in filter(lambda item: item != "50", ptiles_str):
@@ -267,7 +268,8 @@ def predictive_ecdf(
 
     for i, ptile in enumerate(ptiles_str[: len(ptiles_str) // 2]):
         if discrete:
-            x, y1 = bebi103.viz.cdf_to_staircase(df_ecdf["x"].values, df_ecdf[ptile].values)
+            x, y1 = bebi103.viz.cdf_to_staircase(
+                df_ecdf["x"].values, df_ecdf[ptile].values)
             _, y2 = bebi103.viz.cdf_to_staircase(
                 df_ecdf["x"].values, df_ecdf[ptiles_str[-i - 1]].values
             )
@@ -282,7 +284,8 @@ def predictive_ecdf(
         x, y = bebi103.viz.cdf_to_staircase(df_ecdf["x"], df_ecdf["50"])
     else:
         x, y = df_ecdf["x"], df_ecdf["50"]
-    ax.plot(x, y, linewidth=median_lw, color=colors[color][-1], label=pred_label)
+    ax.plot(x, y, linewidth=median_lw,
+            color=colors[color][-1], label=pred_label)
 
     # Overlay data set
     if data is not None:
@@ -299,9 +302,11 @@ def predictive_ecdf(
             x_data = unique_x
         if data_staircase:
             x_data, y_data = bebi103.viz.cdf_to_staircase(x_data, y_data)
-            ax.plot(x_data, y_data, color=data_color, linewidth=data_size, label=data_label)
+            ax.plot(x_data, y_data, color=data_color,
+                    linewidth=data_size, label=data_label)
         else:
-            ax.scatter(x_data, y_data, color=data_color, s=data_size, label=data_label)
+            ax.scatter(x_data, y_data, color=data_color,
+                       s=data_size, label=data_label)
 
     return ax
 
@@ -340,8 +345,9 @@ def ppc_ecdf_pair(posterior_samples, ppc_var, df, percentiles=(95, 75, 50, 25), 
         **kwargs
     )
     # p1.x_range = p2.x_range
-    
+
     return ax
+
 
 def ecdf(data):
     """
@@ -351,7 +357,7 @@ def ecdf(data):
     Logic is credit to Justin Bois in the bebi103 module,
     bebi103.viz.bebi103.viz.cdf_to_staircase.
     """
-    yvals = np.asfarray(np.cumsum(data[1]))
+    yvals = np.asarray(np.cumsum(data[1]), dtype=np.float64)
     yvals *= 1.0 / yvals[-1]
 
     x_staircase = np.empty(2 * len(yvals))
@@ -366,6 +372,7 @@ def ecdf(data):
 
     return x_staircase, y_staircase
 
+
 def traceplot(sampler, labels=None):
     samples = sampler.get_chain()
     n_dim = np.shape(sampler.get_chain())[-1]
@@ -378,8 +385,9 @@ def traceplot(sampler, labels=None):
         ax.set_xlim(0, len(samples))
         ax.set_ylabel(labels[i])
         ax.yaxis.set_label_coords(-0.1, 0.5)
-    axes[-1].set_xlabel("step number");
+    axes[-1].set_xlabel("step number")
     return fig, axes
+
 
 def titlebox(
     ax, text, color='black', bgcolor=None, size=8, boxsize=0.1, pad=0.05, loc=10, **kwargs
@@ -387,7 +395,7 @@ def titlebox(
     """Sets a colored box about the title with the width of the plot.
    To use, simply call `titlebox(ax, 'plot title', bgcolor='blue')
    """
-    boxsize=str(boxsize * 100)  + '%'
+    boxsize = str(boxsize * 100) + '%'
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("top", size=boxsize, pad=pad)
     cax.get_xaxis().set_visible(False)
@@ -401,8 +409,10 @@ def titlebox(
         cax.set_facecolor(bgcolor)
     else:
         cax.set_facecolor("white")
-    at = AnchoredText(text, loc=loc, frameon=False, prop=dict(size=size, color=color))
+    at = AnchoredText(text, loc=loc, frameon=False,
+                      prop=dict(size=size, color=color))
     cax.add_artist(at)
+
 
 def bebi103_colors():
     """
