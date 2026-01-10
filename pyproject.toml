@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "srep"
+version = "0.0.1"
+description = "Utilities for work on models of simple repression"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "BSD"}
+authors = [
+    {name = "Muir Morrison", email = "muir@caltech.edu"}
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "bokeh",
+    "mpmath",
+    "emcee",
+    "cmdstanpy",
+    "arviz",
+    "bebi103",
+    "numba",
+    "gitpython",
+    "dill",
+    "xarray",
+]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.hatchling.build.targets.wheel]
+packages = ["srep"]

@@ -6,20 +6,28 @@ Kinetic and Equilibrium Models of Bacterial Transcription"
 ## Installation
 The intend of this repository is to make every step of the publication
 completely transparent and reproducible. The project involved a significant
-amount of home-grown Python code that we wrapped as a module `srep`. To
-install the package first you need to make sure that you have all of the
-required dependencies. To check for this you can use 
-[`pip`](pypi.org/project/pip) by executing the following command:
+amount of home-grown Python code that we wrapped as a module `srep`. 
 
-``` pip install -r requirements.txt ```
+This project uses [UV](https://github.com/astral-sh/uv) for modern Python package
+management. To set up the environment:
 
-Once you have all of the packages installed locally, you can install our custom
-module by running the following command:
+1. **Install UV** (if not already installed):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+   Or see the [UV installation guide](https://github.com/astral-sh/uv#installation)
+   for other methods.
 
-``` pip install -e ./ ```
+2. **Create a virtual environment and install dependencies**:
+   ```bash
+   uv venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   uv pip install -e .
+   ```
 
-When installed, a new folder `srep.egg-info` will be installed. This folder
-is required for the executing of the code in this repository.
+This will automatically install all required dependencies (numpy, scipy, pandas,
+matplotlib, seaborn, bokeh, emcee, cmdstanpy, arviz, bebi103, and others) and
+install the `srep` module in editable mode.
 
 ## Repository Architecture
 For convenience the repository is divided into several directories and

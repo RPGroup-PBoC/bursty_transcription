@@ -85,3 +85,7 @@ doc/reviews/
 doc/arxiv_submission/
 doc/plos_submission/
 data/mcmc_samples/
+
+# Ignore UV virtual environment and lock files
+.venv/
+uv.lock
