@@ -23,7 +23,7 @@ pboc_colors = srep.viz.color_selector('pboc')
 def predictive_histogram(
     samples,
     data=None,
-    percentiles=[95, 75, 50, 25],
+    percentiles=[95],
     color="blue",
     data_color="black",
     data_size=1,
@@ -128,7 +128,7 @@ def predictive_histogram(
         ax.fill_between(
             x_fill, lower_fill, upper_fill,
             color=color_palette[0],
-            alpha=alpha * (i + 1),
+            alpha=0.75,  # alpha * (i + 1),
             label=pred_label if i == 0 else None
         )
 
@@ -136,7 +136,7 @@ def predictive_histogram(
     median_hist = np.percentile(histograms, 50, axis=0)
     ax.step(
         bin_edges[:-1], median_hist,
-        where='pre',
+        where='post',
         color=color_palette[-1],
         linewidth=1,
         label=pred_label if len(ptiles) == 1 else None
@@ -146,7 +146,7 @@ def predictive_histogram(
     if data_counts is not None:
         ax.step(
             bin_edges[:-1], data_counts,
-            where='pre',
+            where='post',
             color=data_color,
             linewidth=data_size,
             label=data_label
@@ -191,8 +191,8 @@ ax_4 = fig.add_subplot(gs_bottom[1])
 ax_5 = fig.add_subplot(gs_bottom[2])
 
 # Set shared axes
-ax_4.sharey(ax_3)
-ax_5.sharey(ax_3)
+# ax_4.sharey(ax_3)
+# ax_5.sharey(ax_3)
 
 # Turn off axis
 ax_4.yaxis.set_ticklabels([])
@@ -218,7 +218,6 @@ colors = srep.viz.color_selector('pboc')
 srep.viz.plotting_style()
 
 pklfile = open(
-    # f"{repo_rootdir}/data/mcmc_samples/many_pooled_test.pkl", 'rb'
     f"{repo_rootdir}/data/mcmc_samples/repression_pooled_expts.pkl", 'rb'
 )
 model, sampler, _, _ = dill.load(pklfile)
@@ -227,7 +226,8 @@ pklfile.close()
 chain = sampler.get_chain()  # shape: (n_steps, n_walkers, n_dim)
 n_steps, n_walkers, n_dim = chain.shape
 # Reshape to (chain, draw, var) format for ArviZ
-# ArviZ expects (chain, draw) dimensions, so transpose from (n_steps, n_walkers) to (n_walkers, n_steps)
+# ArviZ expects (chain, draw) dimensions, so transpose from
+# (n_steps, n_walkers) to (n_walkers, n_steps)
 posterior_dict = {}
 for i, var_name in enumerate(model.var_labels):
     posterior_dict[var_name] = (["chain", "draw"], chain[:, :, i].T)
@@ -311,7 +311,7 @@ ax[0].set_xlabel(r'$log_{10}(k_R^-/\gamma)$', fontsize=8)
 # ##########################################################################
 # COMPARING k_off RATIOS TO BINDING E DIFFERENCES
 # ##########################################################################
-# Define colors for markesr
+# Define colors for markers
 col_markers = sns.color_palette("colorblind", n_colors=4)
 
 hg_rp_ep = (-17., -15.3, -13.9)  # Oid, O1, O2
@@ -448,6 +448,13 @@ data_lw = 0.6
 ptiles = (95,)
 # then (nearly?) all the rest below will not need changing
 
+# Define x-axis limits for each panel
+ax_lims = {
+    ax_3: (-0.5, 10),
+    ax_4: (-0.5, 20),
+    ax_5: (-0.5, 55),
+}
+
 for k, ax in enumerate([ax_3, ax_4, ax_5]):
     #     continue # upper left panel is handled separately
     ppc_labels = all_expts[k]
@@ -474,29 +481,17 @@ for k, ax in enumerate([ax_3, ax_4, ax_5]):
             ax=ax,
             pred_label=label,
         )
-
-    # finally add UV5
-    predictive_histogram(
-        srep.utils.uncondense_ppc(ppc_uv5),
-        data=srep.utils.uncondense_valuescounts(data_uv5),
-        color='purple',
-        data_color='black',
-        data_size=1,
-        percentiles=ptiles,
-        ax=ax,
-        pred_label='UV5',
-        data_label='data',
-    )
+        # Set x-axis limits for each panel
+        ax.set_xlim(ax_lims[ax])
 
     # finishing touches
     ax.set_xlabel('mRNA counts per cell')
-    ax.set_xlim(-2.5, 55)
     srep.viz.titlebox(ax, title, bgcolor="#FFEDC0")
 # Set yaxis label for first plot
 ax_3.set_ylabel(r'$\propto$ Probability')
 
 # Add UV5 to dictionary
-aTc_col_dict["UV5"] = "purple"
+# aTc_col_dict["UV5"] = "purple"
 # Generate legend with shaded region symbols
 # 1. Initialize list to save plots
 plot_list = list()
