@@ -20,7 +20,7 @@ from srep.utils import load_FISH_by_promoter
 def predictive_histogram(
     samples,
     data=None,
-    percentiles=[95, 75, 50, 25],
+    percentiles=[95],
     color="blue",
     data_color="black",
     data_size=1,
@@ -111,7 +111,7 @@ def predictive_histogram(
         ax.fill_between(
             x_fill, lower_fill, upper_fill,
             color=color_palette[0],
-            alpha=alpha * (i + 1),
+            alpha=0.75,  # alpha * (i + 1),
             label=pred_label if i == 0 else None
         )
 
@@ -119,7 +119,7 @@ def predictive_histogram(
     median_hist = np.percentile(histograms, 50, axis=0)
     ax.step(
         bin_edges[:-1], median_hist,
-        where='pre',
+        where='post',
         color=color_palette[-1],
         linewidth=1,
         label=pred_label if len(ptiles) == 1 else None
@@ -130,7 +130,7 @@ def predictive_histogram(
         data_counts, _ = np.histogram(data, bins=bins, density=density)
         ax.step(
             bin_edges[:-1], data_counts,
-            where='pre',
+            where='post',
             color=data_color,
             linewidth=data_size,
             label=data_label
